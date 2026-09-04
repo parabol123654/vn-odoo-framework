@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Sổ chi tiết bán hàng (S35-DN): doanh thu theo sản phẩm từ chính các
+        dòng 511, khoản giảm trừ từ 521. Kết chuyển 511 → 911 cuối kỳ không
+        phải doanh số nên không vào sổ. Dòng doanh thu không gắn sản phẩm
+        (bút toán tay) được gom vào khối cuối thay vì bị giấu — sổ vẫn phải
+        cộng ra đúng phát sinh TK 511.
+
+        Cột thuế GTGT của mẫu giấy không có ở đây: thuế thuộc về hoá đơn chứ
+        không thuộc về dòng 511, và Bảng kê 01/GTGT đã báo cáo nó từ chính
+        các dòng thuế. Chép thuế về từng dòng doanh thu là bịa một phép phân
+        bổ.
+    -->
+    <template id="sales_ledger_table">
+        <table class="table table-sm o_vn_table o_vn_table_ledger">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_date">Ngày<br/>ghi sổ</th>
+                    <th class="o_vn_col_ref">Số hiệu<br/>chứng từ</th>
+                    <th class="o_vn_col_label">Diễn giải</th>
+                    <th class="o_vn_col_counterpart">TK<br/>đối ứng</th>
+                    <th class="o_vn_col_qty">Số lượng</th>
+                    <th class="o_vn_col_amount">Đơn giá</th>
+                    <th class="o_vn_col_amount">Doanh thu</th>
+                    <th class="o_vn_col_amount">Các khoản<br/>giảm trừ</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="group">
+
+                    <tr t-att-data-group="'g%s' % group_index"
+                        t-att-data-group-key="group.product.id if group.product else 0"
+                        t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
+                        <td colspan="6">
+                            <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
+                            <strong t-if="group.product" t-esc="group.display_name"/>
+                            <strong t-if="not group.product">Doanh thu không gắn sản phẩm</strong>
+                            <span t-if="group.product" class="o_vn_muted">
+                                — <t t-esc="group.product.uom_name"/>
+                            </span>
+                        </td>
+                        <td class="o_vn_col_amount" t-esc="group.revenue_total"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_amount">
+                            <span t-if="group.deduction_total"
+                                  t-esc="group.deduction_total"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                    </tr>
+
+                    <tr t-foreach="group.lines" t-as="line" class="o_vn_line"
+                        t-att-data-group-child="'g%s' % group_index"
+                        t-att-data-search="line.move_name + ' ' + line.label"
+                        t-att-data-move-id="line.source.source.move_id if interactive else None">
+                        <td class="o_vn_col_date" t-esc="line.date"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_ref" t-esc="line.move_name"/>
+                        <td class="o_vn_col_label" t-esc="line.label"/>
+                        <td class="o_vn_col_counterpart" t-esc="line.counterpart_label"/>
+                        <td class="o_vn_col_qty">
+                            <span t-if="line.quantity" t-esc="line.quantity"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.unit_price" t-esc="line.unit_price"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.revenue" t-esc="line.revenue"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.deduction" t-esc="line.deduction"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                    </tr>
+
+                    <tr class="o_vn_subtotal_row"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="4">Cộng — doanh thu thuần</td>
+                        <td class="o_vn_col_qty" t-esc="group.quantity_total"/>
+                        <td class="o_vn_col_amount"/>
+                        <td class="o_vn_col_amount" t-esc="group.net_revenue"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_amount"/>
+                    </tr>
+                </t>
+            </tbody>
+            <tfoot t-if="report.groups">
+                <tr class="o_vn_total_row">
+                    <td colspan="6">Tổng cộng — doanh thu / giảm trừ / thuần</td>
+                    <td class="o_vn_col_amount">
+                        <div t-esc="report.total_revenue"
+                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <div t-esc="report.total_net_revenue"
+                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount" t-esc="report.total_deduction"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có phát sinh bán hàng nào trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="sales_ledger_screen">
+        <div class="o_vn_report o_vn_report_ledger">
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.sales_ledger_table"/>
+        </div>
+    </template>
+
+    <template id="report_sales_ledger">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_vas_reports.sales_ledger_table"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

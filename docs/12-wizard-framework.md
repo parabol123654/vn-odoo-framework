@@ -1,7 +1,7 @@
 
 # Part 12 — Wizard Framework Design
 
-> **Khác tên gọi — xem Part 17 §8.5.** Module là `l10n_vn_reports` chứ không
+> **Khác tên gọi — xem Part 17 §8.5.** Module là `l10n_vn_vas_reports` chứ không
 > phải `vn_reports` (Part 16 §3: nó chứa biểu mẫu đặc thù Việt Nam). Lớp cơ
 > sở là AbstractModel `vn.report.wizard.mixin` chứ không phải lớp Python
 > `BaseReportWizard`, để mỗi wizard `_inherit` và kế thừa trường theo đúng cơ

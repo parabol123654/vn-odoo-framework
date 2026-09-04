@@ -53,7 +53,7 @@ scripts/update.sh TÊN_DATABASE         # cập nhật đủ 5 module
 ```
 
 **Luôn dùng `scripts/update.sh`, đừng gõ tay danh sách module.** Dữ liệu ánh xạ
-TT200 nằm trong `l10n_vn_reports` nhưng ghi vào trường khai trên model của
+TT200 nằm trong `l10n_vn_vas_reports` nhưng ghi vào trường khai trên model của
 `vn_core`; update thiếu một module thì lỗi báo ở file XML chứ không báo ở chỗ
 thật sự thiếu. Đã có guard chặn việc này trong tài liệu, nhưng script vẫn an toàn
 hơn.

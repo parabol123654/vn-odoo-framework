@@ -224,7 +224,7 @@
 
     <template id="cost_card_screen">
         <div class="o_vn_report o_vn_report_mrp">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_mrp_reports.cost_card_table"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
         </div>
@@ -232,7 +232,7 @@
 
     <template id="production_cost_product_screen">
         <div class="o_vn_report o_vn_report_mrp">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_product_table"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
@@ -241,7 +241,7 @@
 
     <template id="production_cost_order_screen">
         <div class="o_vn_report o_vn_report_mrp">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_order_table"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
             <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
@@ -249,9 +249,9 @@
     </template>
 
     <template id="report_production_cost">
-        <t t-call="l10n_vn_reports.vn_print_layout">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
             <div class="page o_vn_report o_vn_report_print">
-                <t t-call="l10n_vn_reports.vn_form_header"/>
+                <t t-call="l10n_vn_vas_reports.vn_form_header"/>
                 <t t-if="docs and docs[0].layout == 'cost_card'">
                     <t t-call="l10n_vn_mrp_reports.cost_card_table"/>
                 </t>
@@ -264,7 +264,7 @@
                     <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
                 </t>
                 <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
-                <t t-call="l10n_vn_reports.vn_form_signature"/>
+                <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
             </div>
         </t>
     </template>

@@ -40,7 +40,7 @@ odoo-vn-framework/
 │
 ├── addons/
 │   ├── l10n_vn/
-│   ├── l10n_vn_reports/
+│   ├── l10n_vn_vas_reports/
 │   ├── l10n_vn_tax/
 │   ├── l10n_vn_inventory/
 │   ├── l10n_vn_costing/
@@ -479,7 +479,7 @@ Odoo Module chỉ là Adapter.
 Ví dụ:
 
 ```text
-l10n_vn_reports/
+l10n_vn_vas_reports/
 
 wizard/
 

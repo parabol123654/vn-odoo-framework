@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <template id="trial_balance_table">
+        <div t-if="not report.is_balanced" class="alert alert-warning o_vn_imbalance">
+            <strong>Tổng dư Nợ không bằng tổng dư Có.</strong>
+            Thường là do kỳ trước chưa kết chuyển lãi lỗ sang TK 421, hoặc báo cáo
+            đang bao gồm bút toán chưa vào sổ.
+        </div>
+
+        <table class="table table-sm o_vn_table o_vn_table_trial">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="o_vn_col_code">Số hiệu<br/>TK</th>
+                    <th rowspan="2" class="o_vn_col_label">Tên tài khoản</th>
+                    <th colspan="2" class="text-center">Số dư đầu kỳ</th>
+                    <th colspan="2" class="text-center">Số phát sinh trong kỳ</th>
+                    <th colspan="2" class="text-center">Số dư cuối kỳ</th>
+                </tr>
+                <tr>
+                    <th class="o_vn_col_amount">Nợ</th>
+                    <th class="o_vn_col_amount">Có</th>
+                    <th class="o_vn_col_amount">Nợ</th>
+                    <th class="o_vn_col_amount">Có</th>
+                    <th class="o_vn_col_amount">Nợ</th>
+                    <th class="o_vn_col_amount">Có</th>
+                </tr>
+            </thead>
+
+            <tbody t-if="report.rows">
+                <tr t-foreach="report.rows" t-as="row" class="o_vn_line">
+                    <td class="o_vn_col_code" t-esc="row.code"/>
+                    <td class="o_vn_col_label" t-esc="row.name"/>
+                    <td class="o_vn_col_amount">
+                        <span t-if="row.opening.debit_balance"
+                              t-esc="row.opening.debit_balance"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount">
+                        <span t-if="row.opening.credit_balance"
+                              t-esc="row.opening.credit_balance"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount">
+                        <span t-if="row.movement.debit" t-esc="row.movement.debit"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount">
+                        <span t-if="row.movement.credit" t-esc="row.movement.credit"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount">
+                        <span t-if="row.closing.debit_balance"
+                              t-esc="row.closing.debit_balance"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount">
+                        <span t-if="row.closing.credit_balance"
+                              t-esc="row.closing.credit_balance"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot t-if="report.rows">
+                <tr class="o_vn_total_row">
+                    <td colspan="2">Tổng cộng</td>
+                    <td class="o_vn_col_amount" t-esc="report.total_opening.debit_balance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_opening.credit_balance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_movement.debit"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_movement.credit"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_closing.debit_balance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_closing.credit_balance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.rows" class="o_vn_empty">
+            Không có tài khoản nào phát sinh trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="trial_balance_screen">
+        <div class="o_vn_report o_vn_report_trial">
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.trial_balance_table"/>
+        </div>
+    </template>
+
+    <template id="report_trial_balance">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_vas_reports.trial_balance_table"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

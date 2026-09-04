@@ -271,29 +271,29 @@
     <!-- ==================== Screens and print ==================== -->
     <template id="asset_register_screen">
         <div class="o_vn_report o_vn_report_asset">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_asset_reports.asset_register_table"/>
         </div>
     </template>
 
     <template id="asset_card_screen">
         <div class="o_vn_report o_vn_report_asset">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_asset_reports.asset_card_blocks"/>
         </div>
     </template>
 
     <template id="asset_allocation_screen">
         <div class="o_vn_report o_vn_report_asset">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_asset_reports.asset_allocation_table"/>
         </div>
     </template>
 
     <template id="report_vn_asset">
-        <t t-call="l10n_vn_reports.vn_print_layout">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
                 <div class="page o_vn_report o_vn_report_print">
-                    <t t-call="l10n_vn_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
                     <t t-if="docs and docs[0].layout == 'card'">
                         <t t-call="l10n_vn_asset_reports.asset_card_blocks"/>
                     </t>
@@ -303,7 +303,7 @@
                     <t t-else="">
                         <t t-call="l10n_vn_asset_reports.asset_register_table"/>
                     </t>
-                    <t t-call="l10n_vn_reports.vn_form_signature"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
                 </div>
         </t>
     </template>

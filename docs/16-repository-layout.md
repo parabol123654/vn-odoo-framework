@@ -30,7 +30,7 @@ odoo-vn-framework/
 │   └── run_domain_tests.py       # Test Domain, KHÔNG cần Odoo
 │
 ├── vn_core/                      # Các module Odoo nằm ngay gốc repo
-└── l10n_vn_reports/              # (layout Odoo Apps store yêu cầu)
+└── l10n_vn_vas_reports/              # (layout Odoo Apps store yêu cầu)
 ```
 
 Các module nằm **ngay gốc repo** — apps.odoo.com quét manifest ở đúng một cấp
@@ -70,7 +70,7 @@ Part 14 §5 dùng lẫn cả `vn_*` và `l10n_vn_*`. Chốt một quy tắc:
 | Tiền tố      | Chứa gì                                                        | Ví dụ |
 | ------------ | -------------------------------------------------------------- | ----- |
 | `vn_*`       | Framework: DTO, Engine, Repository, Service. Không dữ liệu VN. | `vn_core` |
-| `l10n_vn_*`  | Đặc thù Việt Nam: mapping TT200/TT133, biểu mẫu, bản dịch.     | `l10n_vn_reports` |
+| `l10n_vn_*`  | Đặc thù Việt Nam: mapping TT200/TT133, biểu mẫu, bản dịch.     | `l10n_vn_vas_reports` |
 
 Phép thử: **nếu xoá hết nội dung tiếng Việt mà module vẫn có ích cho một nước
 khác, nó là `vn_*`.** Ledger Engine không biết gì về Việt Nam — nó tính số dư đầu
@@ -87,7 +87,7 @@ khi có người thực sự muốn cài nó mà không cài cái kia.
 Lộ trình đề xuất:
 
 ```text
-Hiện tại        vn_core, l10n_vn_reports
+Hiện tại        vn_core, l10n_vn_vas_reports
 Khi làm thuế    + l10n_vn_tax
 Khi làm kho     + l10n_vn_inventory
 Khi làm giá thành + l10n_vn_costing
@@ -168,7 +168,7 @@ account  (Odoo CE)
    ↓
 vn_core
    ↓
-l10n_vn_reports ── l10n_vn_tax ── l10n_vn_inventory ── l10n_vn_costing
+l10n_vn_vas_reports ── l10n_vn_tax ── l10n_vn_inventory ── l10n_vn_costing
    ↓
 <module của khách hàng>
 ```

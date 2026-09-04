@@ -260,29 +260,29 @@
 
     <template id="inventory_summary_screen">
         <div class="o_vn_report o_vn_report_stock">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_stock_reports.inventory_summary_table"/>
         </div>
     </template>
 
     <template id="stock_card_screen">
         <div class="o_vn_report o_vn_report_stock">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_stock_reports.stock_card_table"/>
         </div>
     </template>
 
     <template id="stock_ledger_screen">
         <div class="o_vn_report o_vn_report_stock">
-            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
             <t t-call="l10n_vn_stock_reports.stock_ledger_table"/>
         </div>
     </template>
 
     <template id="report_stock_card">
-        <t t-call="l10n_vn_reports.vn_print_layout">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
                 <div class="page o_vn_report o_vn_report_print">
-                    <t t-call="l10n_vn_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
                     <t t-if="docs and docs[0].layout == 'card'">
                         <t t-call="l10n_vn_stock_reports.stock_card_table"/>
                     </t>
@@ -292,7 +292,7 @@
                     <t t-else="">
                         <t t-call="l10n_vn_stock_reports.inventory_summary_table"/>
                     </t>
-                    <t t-call="l10n_vn_reports.vn_form_signature"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
                 </div>
         </t>
     </template>

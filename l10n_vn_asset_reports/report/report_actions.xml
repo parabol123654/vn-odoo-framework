@@ -9,7 +9,7 @@
         <field name="report_name">l10n_vn_asset_reports.report_vn_asset</field>
         <field name="report_file">l10n_vn_asset_reports.report_vn_asset</field>
         <field name="print_report_name">'Bao-cao-TSCD-%s' % (object.date_to)</field>
-        <field name="paperformat_id" ref="l10n_vn_reports.paperformat_vn_book"/>
+        <field name="paperformat_id" ref="l10n_vn_vas_reports.paperformat_vn_book"/>
     </record>
 
 </odoo>

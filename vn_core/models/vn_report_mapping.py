@@ -9,7 +9,7 @@ account code appears anywhere in the framework's source.
 They live in ``vn_core`` rather than in a localisation module because nothing
 about them is Vietnamese: a mapping from account codes to statement lines is
 what every jurisdiction needs. The TT200 rows themselves ship in
-``l10n_vn_reports``.
+``l10n_vn_vas_reports``.
 """
 
 from odoo import _, api, fields, models

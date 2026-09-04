@@ -4,7 +4,7 @@
 
     <!-- Odoo 14 has no manifest 'assets' key; backend assets are registered by
          inheriting web.assets_backend. The viewer JS itself lives in
-         l10n_vn_reports and needs no change to serve these reports. -->
+         l10n_vn_vas_reports and needs no change to serve these reports. -->
     <template id="assets_backend" name="l10n_vn_stock_reports assets"
               inherit_id="web.assets_backend">
         <xpath expr="." position="inside">

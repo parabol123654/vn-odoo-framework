@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Sổ Nhật ký chung is the one book that is *not* grouped: entries appear in
+        the order they were recorded, and the items of a single voucher must stay
+        adjacent. The engine returns a single group for it, so this table walks
+        the lines directly and prints the account on every row.
+    -->
+    <template id="general_journal_table">
+        <table class="table table-sm o_vn_table o_vn_table_journal">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_date">Ngày<br/>ghi sổ</th>
+                    <th class="o_vn_col_ref">Số hiệu<br/>chứng từ</th>
+                    <th class="o_vn_col_date">Ngày<br/>chứng từ</th>
+                    <th class="o_vn_col_label">Diễn giải</th>
+                    <th class="o_vn_col_counterpart">Số hiệu<br/>TK</th>
+                    <th class="o_vn_col_counterpart">TK<br/>đối ứng</th>
+                    <th class="o_vn_col_amount">Số phát sinh Nợ</th>
+                    <th class="o_vn_col_amount">Số phát sinh Có</th>
+                </tr>
+            </thead>
+
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="group">
+                    <tr t-foreach="group.lines" t-as="line"
+                        class="o_vn_line"
+                        t-att-data-move-id="line.source.move_id if interactive else None">
+                        <td class="o_vn_col_date" t-esc="line.date"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_ref" t-esc="line.move_name"/>
+                        <td class="o_vn_col_date" t-esc="line.date"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_label" t-esc="line.label"/>
+                        <td class="o_vn_col_counterpart" t-esc="line.account_code"/>
+                        <td class="o_vn_col_counterpart" t-esc="line.counterpart_label"/>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.debit" t-esc="line.debit"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.credit" t-esc="line.credit"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+
+            <tfoot t-if="report.groups">
+                <tr class="o_vn_total_row">
+                    <td colspan="6">Cộng số phát sinh</td>
+                    <td class="o_vn_col_amount" t-esc="report.totals.debit"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.totals.credit"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có phát sinh nào trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="general_journal_screen">
+        <div class="o_vn_report o_vn_report_journal">
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.general_journal_table"/>
+        </div>
+    </template>
+
+    <template id="report_general_journal">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_vas_reports.general_journal_table"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

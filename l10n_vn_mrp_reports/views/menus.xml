@@ -4,7 +4,7 @@
 
     <menuitem id="menu_vn_reports_manufacturing"
               name="Manufacturing"
-              parent="l10n_vn_reports.menu_vn_reports_root"
+              parent="l10n_vn_vas_reports.menu_vn_reports_root"
               sequence="50"/>
 
     <menuitem id="menu_vn_report_production_cost"

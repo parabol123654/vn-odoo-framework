@@ -2,7 +2,7 @@
 # Target: Odoo 14.0 Community Edition
 """Thẻ kho và Bảng tổng hợp Nhập - Xuất - Tồn.
 
-Reuses ``vn.report.wizard.mixin`` from ``l10n_vn_reports`` so the viewer, the
+Reuses ``vn.report.wizard.mixin`` from ``l10n_vn_vas_reports`` so the viewer, the
 PDF handoff and the form header all behave identically to the accounting books.
 Only the filter differs — products and categories instead of accounts and
 journals — so the ledger-shaped fields inherited from the mixin are left unused.

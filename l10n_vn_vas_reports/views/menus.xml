@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Menu labels are English in source and Vietnamese through i18n/vi.po,
+        which is the Odoo convention. Writing a Vietnamese source string here
+        would leave an English user staring at "Sổ kế toán" next to "General
+        Ledger" — and scripts/check_repo.py now refuses non-ASCII menu names
+        for exactly that reason.
+
+        The statutory headings printed *inside* the reports are a different
+        matter: those are fixed by Thông tư 200 and are hardcoded in Vietnamese
+        on purpose.
+
+        Form numbers appear in the menu label because accountants look a report
+        up by its number far more readily than by its name. Only reports that
+        genuinely carry a number get one: the aged balances and the VAT listings
+        are management reports and an annex respectively, and inventing a number
+        for them would be worse than leaving it out. The numbers are checked
+        against what each wizard declares, so the two cannot drift apart.
+    -->
+
+    <menuitem id="menu_vn_reports_root"
+              name="Vietnam (VAS)"
+              parent="account.menu_finance_reports"
+              groups="l10n_vn_vas_reports.group_vn_report_user"
+              sequence="90"/>
+
+    <!-- Sổ kế toán tổng hợp -->
+    <menuitem id="menu_vn_reports_books"
+              name="Accounting Books"
+              parent="menu_vn_reports_root"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_general_journal"
+              name="General Journal (S03a-DN)"
+              parent="menu_vn_reports_books"
+              action="action_vn_general_journal_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_general_journal"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_general_ledger"
+              name="General Ledger (S03b-DN)"
+              parent="menu_vn_reports_books"
+              action="action_vn_general_ledger_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_general_ledger"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_report_trial_balance"
+              name="Trial Balance (S06-DN)"
+              parent="menu_vn_reports_books"
+              action="action_vn_trial_balance_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_trial_balance"
+              sequence="30"/>
+
+    <!-- Sổ chi tiết -->
+    <menuitem id="menu_vn_reports_detail"
+              name="Subsidiary Ledgers"
+              parent="menu_vn_reports_root"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_report_partner_ledger"
+              name="Partner Ledger (S31-DN)"
+              parent="menu_vn_reports_detail"
+              action="action_vn_partner_ledger_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_partner_ledger"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_cash_book"
+              name="Cash / Bank Book (S07-DN / S08-DN)"
+              parent="menu_vn_reports_detail"
+              action="action_vn_cash_book_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_cash_book"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_report_sales_ledger"
+              name="Sales Ledger (S35-DN)"
+              parent="menu_vn_reports_detail"
+              action="action_vn_sales_ledger_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_sales_ledger"
+              sequence="15"/>
+
+    <menuitem id="menu_vn_report_expense_ledger"
+              name="Expense Ledger (S36-DN)"
+              parent="menu_vn_reports_detail"
+              action="action_vn_expense_ledger_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_expense_ledger"
+              sequence="25"/>
+
+    <menuitem id="menu_vn_report_material_allocation"
+              name="Material Allocation (07-VT)"
+              parent="menu_vn_reports_detail"
+              action="action_vn_material_allocation_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_expense_ledger"
+              sequence="26"/>
+
+    <menuitem id="menu_vn_report_aged_receivable"
+              name="Aged Receivable"
+              parent="menu_vn_reports_detail"
+              action="action_vn_aged_receivable_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_aging"
+              sequence="30"/>
+
+    <menuitem id="menu_vn_report_aged_payable"
+              name="Aged Payable"
+              parent="menu_vn_reports_detail"
+              action="action_vn_aged_payable_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_aging"
+              sequence="40"/>
+
+    <menuitem id="menu_vn_reports_statements"
+              name="Financial Statements"
+              parent="menu_vn_reports_root"
+              sequence="5"/>
+
+    <menuitem id="menu_vn_report_balance_sheet"
+              name="Balance Sheet (B01-DN)"
+              parent="menu_vn_reports_statements"
+              action="action_vn_balance_sheet_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_financial_statement"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_cash_flow"
+              name="Cash Flow Statement (B03-DN)"
+              parent="menu_vn_reports_statements"
+              action="action_vn_cash_flow_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_financial_statement"
+              sequence="30"/>
+
+    <menuitem id="menu_vn_report_income_statement"
+              name="Income Statement (B02-DN)"
+              parent="menu_vn_reports_statements"
+              action="action_vn_income_statement_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_financial_statement"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_reports_tax"
+              name="Tax"
+              parent="menu_vn_reports_root"
+              sequence="30"/>
+
+    <menuitem id="menu_vn_report_vat_sales"
+              name="VAT Sales Listing"
+              parent="menu_vn_reports_tax"
+              action="action_vn_vat_sales_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_tax"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_vat_purchase"
+              name="VAT Purchase Listing"
+              parent="menu_vn_reports_tax"
+              action="action_vn_vat_purchase_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_tax"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_report_vat_declaration"
+              name="VAT Declaration (01/GTGT)"
+              parent="menu_vn_reports_tax"
+              action="action_vn_vat_declaration_wizard"
+              groups="l10n_vn_vas_reports.group_vn_report_tax"
+              sequence="30"/>
+
+</odoo>

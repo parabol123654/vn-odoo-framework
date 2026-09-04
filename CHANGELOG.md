@@ -84,7 +84,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
   không thể mâu thuẫn; dòng có nhiều gốc đối ứng nằm nguyên trong cột "Khác"
   chứ không bị chẻ tiền theo phỏng đoán, vì counterpart calculator vốn không
   phân bổ số tiền. Bên Có in một dòng "Ghi Có TK" như mẫu quy định.
-- Nằm ở `l10n_vn_reports`, menu Sổ chi tiết — không phải cạnh các báo cáo sản
+- Nằm ở `l10n_vn_vas_reports`, menu Sổ chi tiết — không phải cạnh các báo cáo sản
   xuất. Mẫu này dùng cho cả 641, 642, 242, 335, và nó chỉ đọc sổ cái: bắt một
   công ty thương mại cài `mrp` để xem sổ chi phí quản lý là thêm phụ thuộc cho
   một báo cáo không cần nó (Part 16 §4).
@@ -376,7 +376,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
 
 ### Fixed — Updating one module at a time broke the load
 
-- The TT200 mapping data lives in `l10n_vn_reports` but writes to fields
+- The TT200 mapping data lives in `l10n_vn_vas_reports` but writes to fields
   declared on `vn_core` models. Updating only the downstream module leaves the
   column missing and the load fails pointing at the XML file rather than at the
   module that was skipped.
@@ -415,7 +415,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
 
 - `vn_core`: **Cash Flow Domain** — `CashFlowEngine` and an allocator, the
   fifth bounded context. Completes the B01/B02/B03 set.
-- `l10n_vn_reports`: **Cash Flow Statement (B03-DN)**, direct method, 30 items
+- `l10n_vn_vas_reports`: **Cash Flow Statement (B03-DN)**, direct method, 30 items
   shipped as data.
 - Part 17 §4.3 recorded the multi-line allocation as an unsolved problem needing
   an arbitrary proportional rule. That was wrong: an entry balances, so in any
@@ -470,7 +470,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
   install Inventory. First time Part 16 §4's test for splitting is met.
 - The new module adds a whole bounded context by inheriting one AbstractModel,
   `vn.ledger.provider`, without a line changing in `vn_core` or
-  `l10n_vn_reports`.
+  `l10n_vn_vas_reports`.
 - Quantity and value both come from `stock.valuation.layer`, so the closing
   value agrees with accounts 152/155/156 by construction. Recomputing value from
   quantity times a current cost is what makes a stock report drift from the
@@ -501,7 +501,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
 
 ### Added — Balance Sheet
 
-- `l10n_vn_reports`: **Balance Sheet (B01-DN)**, 72 items with the full
+- `l10n_vn_vas_reports`: **Balance Sheet (B01-DN)**, 72 items with the full
   hierarchy and totalling formulas, shipped as data.
 - Account expressions are filled in for the items a manufacturing SME actually
   uses; twelve uncommon items are left blank **on purpose** rather than guessed.
@@ -529,7 +529,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
   credit on 3331 and input VAT a debit on 133, and both must print positive. A
   credit note then comes out negative with no special case, which is what the
   filing expects.
-- `l10n_vn_reports`: **VAT Sales Listing** and **VAT Purchase Listing**, grouped
+- `l10n_vn_vas_reports`: **VAT Sales Listing** and **VAT Purchase Listing**, grouped
   by rate, with partner tax codes and a distinct treatment for credit notes.
 - The statutory invoice number is read from `ref` with a fallback to the move
   name, and the column is overridable — e-invoice providers do not agree on
@@ -549,7 +549,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
   both omitted. Without them a Vietnamese balance sheet cannot be produced:
   account 131 splits into a receivable and a customer prepayment, computed per
   partner before summing. See Part 17 §3.
-- `l10n_vn_reports`: **Income Statement (B02-DN)**, 20 statutory items shipped
+- `l10n_vn_vas_reports`: **Income Statement (B02-DN)**, 20 statutory items shipped
   as data, with a prior-year comparative column.
 
 ### Added — Aged balances
@@ -559,12 +559,12 @@ Versioning follows Semantic Versioning (Part 15 §21).
 - Aging reconstructs the residual **as at the reporting date**: every partial
   reconciliation dated after it is added back, so an invoice collected in July
   still shows as outstanding on a June report.
-- `l10n_vn_reports`: Aged Receivable and Aged Payable, aged from either the due
+- `l10n_vn_vas_reports`: Aged Receivable and Aged Payable, aged from either the due
   date or the document date.
 
 ### Added — Books
 
-- `l10n_vn_reports`: General Journal (S03a-DN), Partner Ledger (S31-DN), Cash
+- `l10n_vn_vas_reports`: General Journal (S03a-DN), Partner Ledger (S31-DN), Cash
   Book (S07-DN) and Bank Book (S08-DN). Cash and partner accounts are resolved
   by code prefix and account type, never by hardcoded ids.
 - `vn_core`: `LedgerLineDTO` now carries `account_code` / `account_name`,
@@ -586,7 +586,7 @@ Versioning follows Semantic Versioning (Part 15 §21).
 - `vn.ledger.provider` extension point, resolved per database rather than
   through an import-time Python registry (Part 17 §4.1).
 - Composite indexes on `account_move_line`.
-- `l10n_vn_reports`: General Ledger (S03b-DN), Trial Balance, per-report
+- `l10n_vn_vas_reports`: General Ledger (S03b-DN), Trial Balance, per-report
   security groups, Vietnamese translations, and an interactive viewer sharing
   one QWeb template with the PDF.
 - Demo data generator: 22 entries across two fiscal years, reachable from both

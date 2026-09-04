@@ -12,7 +12,7 @@
     # Split out for the same reason as the inventory reports: this needs mrp,
     # and a trading or services company running the accounting books has no
     # reason to install Manufacturing to get them (Part 16 §4).
-    'depends': ['vn_core', 'l10n_vn_reports', 'mrp', 'stock_account'],
+    'depends': ['vn_core', 'l10n_vn_vas_reports', 'mrp', 'stock_account'],
     'data': [
         'security/vn_mrp_report_groups.xml',
         'security/ir.model.access.csv',

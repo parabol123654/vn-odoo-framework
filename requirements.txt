@@ -1,6 +1,6 @@
 # Odoo 14 CE itself is installed separately; see the upstream install guide.
 #
-# vn_core and l10n_vn_reports currently need no Python package beyond what
+# vn_core and l10n_vn_vas_reports currently need no Python package beyond what
 # Odoo 14 already requires. The Domain layer deliberately depends on nothing
 # outside the standard library.
 #

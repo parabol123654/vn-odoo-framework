@@ -2,7 +2,7 @@
 #
 # Update every module of this repository, in one command.
 #
-# Why this exists: the TT200 mapping data lives in l10n_vn_reports but writes to
+# Why this exists: the TT200 mapping data lives in l10n_vn_vas_reports but writes to
 # fields declared on models in vn_core. That split is deliberate — the framework
 # owns the model, the localisation owns the data — but it means the two must be
 # updated together. Updating only the downstream module leaves the column

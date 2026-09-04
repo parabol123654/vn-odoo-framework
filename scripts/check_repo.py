@@ -294,7 +294,7 @@ def check_menu_form_codes():
 def check_update_commands_are_complete():
     """Every -i / -u command in the docs must name all modules of this repo.
 
-    The mapping data in l10n_vn_reports writes to fields declared on vn_core
+    The mapping data in l10n_vn_vas_reports writes to fields declared on vn_core
     models. Odoo sorts the dependency graph itself, so updating them together
     always works — but it does not update a dependency you did not ask for, and
     a command missing one module fails with an undefined column. People copy
@@ -408,7 +408,7 @@ def check_xlsx_layouts_exist():
     accountant clicks Export at the end of a quarter.
     """
     registry = os.path.join(ROOT,
-                            'l10n_vn_reports/report/xlsx_layouts.py')
+                            'l10n_vn_vas_reports/report/xlsx_layouts.py')
     if not os.path.exists(registry):
         return
     content = io.open(registry, encoding='utf-8').read()

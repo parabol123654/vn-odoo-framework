@@ -16,7 +16,7 @@ nguy hiểm hơn không có tài liệu, vì người đọc tin nó.
 | Module | Vai trò |
 | ------ | ------- |
 | `vn_core` | Framework: Domain, DTO, Repository, Service, model ánh xạ |
-| `l10n_vn_reports` | Biểu mẫu VAS, ánh xạ TT200, wizard, bản dịch |
+| `l10n_vn_vas_reports` | Biểu mẫu VAS, ánh xạ TT200, wizard, bản dịch |
 | `l10n_vn_stock_reports` | Thẻ kho (S12-DN), Sổ chi tiết vật liệu (S10-DN), Bảng tổng hợp N-X-T. Tách riêng vì cần `stock_account` |
 | `l10n_vn_mrp_reports` | Báo cáo chi phí sản xuất, Thẻ tính giá thành (S37-DN). Tách riêng vì cần `mrp` |
 | `l10n_vn_asset_reports` | Sổ TSCĐ (S21-DN), Thẻ TSCĐ (S23-DN), Bảng phân bổ khấu hao (06-TSCĐ). Tách riêng vì cần OCA `account_asset_management` |
@@ -82,7 +82,7 @@ thương mại hay dịch vụ dùng sổ sách kế toán không có lý do gì
 
 Đáng chú ý: module mới thêm nguyên một bounded context **chỉ bằng cách
 `_inherit` một AbstractModel** (`vn.ledger.provider`), không sửa một dòng nào
-trong `vn_core` hay `l10n_vn_reports`. Đó chính là điểm mở rộng đã dựng từ đợt
+trong `vn_core` hay `l10n_vn_vas_reports`. Đó chính là điểm mở rộng đã dựng từ đợt
 đầu, và giờ có bằng chứng nó hoạt động.
 
 ### Ngày của valuation layer
@@ -406,7 +406,7 @@ Muốn hạch toán theo bình quân cuối kỳ thì cần một bút toán đ�
 tháng, không phải sửa báo cáo.
 
 **Dữ liệu ánh xạ vượt ranh giới module.** 18 trường trong `tt200_*.xml` của
-`l10n_vn_reports` ghi vào model khai ở `vn_core`. Phân chia này đúng theo
+`l10n_vn_vas_reports` ghi vào model khai ở `vn_core`. Phân chia này đúng theo
 Part 16 §3, nhưng nó tạo một cái bẫy vận hành: update thiếu `vn_core` thì cột
 chưa tồn tại mà dữ liệu đã ghi vào, và lỗi báo ở file XML chứ không báo ở chỗ
 thật sự thiếu. Đã xử lý bằng `scripts/update.sh` (đọc danh sách module từ
@@ -473,7 +473,7 @@ Trạng thái từng Part so với mã nguồn hiện có.
 | 09 Mapping Engine | Đã bổ sung | Xem §3 |
 | 10 DTO | Đã làm rõ | Xem §4.2 |
 | 11 Service Layer | **Khác một phần** | Service gộp một file, chưa tách theo domain — xem §8.4 |
-| 12 Wizard Framework | **Khác tên gọi** | Module là `l10n_vn_reports`; base wizard là AbstractModel `vn.report.wizard.mixin` — xem §8.5 |
+| 12 Wizard Framework | **Khác tên gọi** | Module là `l10n_vn_vas_reports`; base wizard là AbstractModel `vn.report.wizard.mixin` — xem §8.5 |
 | 13 Security | Còn đúng | Hiện thực đúng như mô tả |
 | 14 Module Architecture | **Khác một phần** | Chỉ có 2 trong 14 module đề xuất — xem §8.6 |
 | 15 Coding Standard | Còn đúng | Tên `LedgerRepository` ở §4 nay là `ILedgerRepository` + `OdooLedgerRepository` theo đúng Part 6 §6–7 |
@@ -542,7 +542,7 @@ Tên file giờ đã hẹp hơn nội dung (nó chứa cả `TrialBalanceService
 
 ### §8.5 Part 12 — Tên module và base wizard
 
-Part 12 gọi module là `vn_reports`; thực tế là `l10n_vn_reports`, đúng theo quy
+Part 12 gọi module là `vn_reports`; thực tế là `l10n_vn_vas_reports`, đúng theo quy
 tắc đặt tên ở Part 16 §3 vì nó chứa biểu mẫu đặc thù Việt Nam.
 
 Part 12 §5 gọi lớp cơ sở là `BaseReportWizard`; thực tế là AbstractModel
@@ -554,9 +554,9 @@ kế thừa trường theo đúng cơ chế của Odoo, thay vì kế thừa Pyt
 Part 14 §5 đề xuất `vn_core`, `vn_report_engine`, `vn_report_catalog`,
 `vn_account_engine`, `vn_financial_statement`, `vn_tax`, `vn_inventory`,
 `vn_manufacturing`, `vn_assets`, `vn_cashflow`, `vn_report_xlsx`,
-`vn_report_pdf`, `vn_report_api`, `l10n_vn_reports`.
+`vn_report_pdf`, `vn_report_api`, `l10n_vn_vas_reports`.
 
-Hiện có `vn_core` và `l10n_vn_reports`. Đây là chủ ý theo Part 16 §4: chỉ tách
+Hiện có `vn_core` và `l10n_vn_vas_reports`. Đây là chủ ý theo Part 16 §4: chỉ tách
 module khi có người thật sự muốn cài riêng. `vn_financial_statement` nằm trong
 `vn_core/domain/financial_statement/` — cùng ranh giới, khác cách đóng gói.
 

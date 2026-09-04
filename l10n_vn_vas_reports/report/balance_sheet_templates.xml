@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        B01-DN. Cấu trúc chỉ tiêu dùng chung với B02-DN qua statement_table;
+        phần riêng của bảng cân đối là hai khối chẩn đoán bên dưới.
+
+        Hai khối đó không phải trang trí. Một ánh xạ 72 chỉ tiêu thì ai điền
+        cũng sót, và bảng cân đối thiếu một tài khoản vẫn in ra bình thường.
+        Nên báo cáo tự nói ra nó lệch bao nhiêu và tài khoản nào chưa ai nhặt.
+    -->
+    <template id="balance_sheet_diagnostics">
+        <div t-if="report.balance_check and not report.balance_check.is_balanced"
+             class="o_vn_alert o_vn_alert_error">
+            <strong>Bảng cân đối chưa cân.</strong>
+            Chỉ tiêu <t t-esc="report.balance_check.left_code"/> =
+            <span t-esc="report.balance_check.left_amount"
+                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>,
+            chỉ tiêu <t t-esc="report.balance_check.right_code"/> =
+            <span t-esc="report.balance_check.right_amount"
+                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>,
+            lệch
+            <strong><span t-esc="report.balance_check.difference"
+                          t-options="{'widget': 'monetary', 'display_currency': currency}"/></strong>.
+            Thường do chưa kết chuyển lãi lỗ sang TK 421, hoặc do còn tài khoản
+            chưa được ánh xạ ở khối dưới.
+        </div>
+
+        <div t-if="report.balance_check and report.balance_check.is_balanced"
+             class="o_vn_alert o_vn_alert_ok">
+            Đã cân: chỉ tiêu <t t-esc="report.balance_check.left_code"/> bằng
+            chỉ tiêu <t t-esc="report.balance_check.right_code"/>.
+        </div>
+
+        <div t-if="report.unmapped" class="o_vn_unmapped">
+            <h5>Tài khoản có số dư nhưng chưa được ánh xạ
+                (<t t-esc="len(report.unmapped)"/>)</h5>
+            <p class="o_vn_note">
+                Những tài khoản này không nằm trong chỉ tiêu nào nên không xuất
+                hiện trên bảng cân đối. Bổ sung tại Kế toán → Cấu hình →
+                Statement Mappings, không cần sửa mã nguồn.
+            </p>
+            <table class="table table-sm o_vn_table">
+                <thead>
+                    <tr>
+                        <th class="o_vn_col_code">Số hiệu TK</th>
+                        <th class="o_vn_col_label">Tên tài khoản</th>
+                        <th class="o_vn_col_amount">Số dư</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="report.unmapped" t-as="account">
+                        <td class="o_vn_col_code"><strong t-esc="account.code"/></td>
+                        <td class="o_vn_col_label" t-esc="account.name"/>
+                        <td class="o_vn_col_amount" t-esc="account.balance"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+    <template id="balance_sheet_screen">
+        <div class="o_vn_report o_vn_report_statement">
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+            <t t-set="current_label" t-value="'Số cuối kỳ'"/>
+            <t t-set="previous_label" t-value="'Số đầu năm'"/>
+            <t t-set="drillable" t-value="True"/>
+            <t t-call="l10n_vn_vas_reports.statement_table"/>
+            <t t-call="l10n_vn_vas_reports.balance_sheet_diagnostics"/>
+        </div>
+    </template>
+
+    <template id="report_balance_sheet">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+                    <t t-set="current_label" t-value="'Số cuối kỳ'"/>
+                    <t t-set="previous_label" t-value="'Số đầu năm'"/>
+                    <!-- Bản in không có gì để bấm. -->
+                    <t t-set="drillable" t-value="False"/>
+                    <t t-call="l10n_vn_vas_reports.statement_table"/>
+                    <t t-call="l10n_vn_vas_reports.balance_sheet_diagnostics"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

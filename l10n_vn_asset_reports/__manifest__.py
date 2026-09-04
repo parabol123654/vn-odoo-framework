@@ -15,7 +15,7 @@
     # account_asset_management (repo OCA/account-financial-tools, branch
     # 14.0). A company keeping ordinary books without asset accounting has no
     # reason to install that stack.
-    'depends': ['vn_core', 'l10n_vn_reports', 'account_asset_management'],
+    'depends': ['vn_core', 'l10n_vn_vas_reports', 'account_asset_management'],
     'data': [
         'security/vn_asset_report_groups.xml',
         'security/ir.model.access.csv',

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Bảng phân bổ NVL, CCDC (07-VT): bảng chéo một kỳ. Cột là các TK ghi Có
+        (152, 153, 242), dòng là đối tượng sử dụng — gốc TK ghi Nợ. Mẫu gốc có
+        cặp cột "giá hạch toán / giá thực tế"; Odoo chỉ có một giá trị (giá
+        thực tế từ sổ), nên mỗi TK một cột và điều đó được nói rõ ở ghi chú.
+
+        Bút toán mà bên Nợ trải trên nhiều gốc TK nằm nguyên ở dòng "Khác" —
+        cùng luật không-chẻ-tiền-theo-phỏng-đoán với Sổ chi phí S36-DN.
+    -->
+    <template id="material_allocation_table">
+        <table class="table table-sm o_vn_table o_vn_table_ledger">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_stt">STT</th>
+                    <th class="o_vn_col_label">Đối tượng sử dụng<br/>(Ghi Nợ các TK)</th>
+                    <th t-foreach="report.columns" t-as="column"
+                        class="o_vn_col_amount">Ghi Có TK <t t-esc="column"/></th>
+                    <th class="o_vn_col_amount">Cộng</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.rows">
+                <tr t-foreach="report.rows" t-as="row" class="o_vn_line"
+                    t-att-data-search="row.code">
+                    <td class="o_vn_col_stt" t-esc="row_index + 1"/>
+                    <td class="o_vn_col_label">
+                        <t t-if="row.code">TK <t t-esc="row.code"/></t>
+                        <t t-else="">Khác (bút toán nhiều TK ghi Nợ)</t>
+                    </td>
+                    <td t-foreach="row.amounts" t-as="amount"
+                        class="o_vn_col_amount">
+                        <span t-if="amount" t-esc="amount"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount" t-esc="row.total"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+            <tfoot t-if="report.rows">
+                <tr class="o_vn_total_row">
+                    <td colspan="2">Cộng</td>
+                    <td t-foreach="report.column_totals" t-as="total"
+                        class="o_vn_col_amount">
+                        <span t-if="total" t-esc="total"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount" t-esc="report.grand_total"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.rows" class="o_vn_empty">
+            Không có phát sinh ghi Có nào trên các tài khoản đã chọn trong kỳ.
+            Lưu ý: nếu kho định giá thủ công (không hạch toán tự động), phiếu
+            xuất kho không sinh bút toán và bảng này không có gì để phân bổ.
+        </div>
+
+        <div class="o_vn_note">
+            Giá trị theo <strong>giá thực tế</strong> đã ghi sổ — Odoo không
+            dùng giá hạch toán, nên cặp cột hạch toán / thực tế của mẫu gốc
+            rút về một cột. Mỗi cột "Ghi Có TK" đối chiếu được với tổng phát
+            sinh Có của chính tài khoản đó trên Sổ Cái.
+        </div>
+    </template>
+
+    <template id="material_allocation_screen">
+        <div class="o_vn_report o_vn_report_ledger">
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.material_allocation_table"/>
+        </div>
+    </template>
+
+    <template id="report_material_allocation">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_vas_reports.material_allocation_table"/>
+                    <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

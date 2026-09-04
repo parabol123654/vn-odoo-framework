@@ -9,7 +9,7 @@ set -euo pipefail
 DB="${1:-vn_test}"
 ODOO_BIN="${ODOO_BIN:-odoo}"
 CONF="${ODOO_CONF:-scripts/odoo.conf}"
-MODULES="${MODULES:-vn_core,l10n_vn_reports}"
+MODULES="${MODULES:-vn_core,l10n_vn_vas_reports}"
 
 # Structural checks run first: they are fast, they need neither Odoo nor a
 # database, and they catch whole classes of failure that produce no error at

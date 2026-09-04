@@ -4,7 +4,7 @@
 
 Same extension point the inventory and manufacturing modules used: a whole
 bounded context arrives by inheriting one AbstractModel, with no change to
-``vn_core`` or ``l10n_vn_reports``.
+``vn_core`` or ``l10n_vn_vas_reports``.
 """
 
 from odoo import models

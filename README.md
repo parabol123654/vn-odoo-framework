@@ -79,7 +79,7 @@ cd ~/odoo-vn-framework
 python3 scripts/run_domain_tests.py        # 268 test, không cần Odoo
 
 ./odoo-bin -c odoo.conf -d YOURDB \
-    -i l10n_vn,vn_core,l10n_vn_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,l10n_vn_asset_reports \
+    -i l10n_vn,vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,l10n_vn_asset_reports \
     --stop-after-init
 ```
 
@@ -95,7 +95,7 @@ Cập nhật về sau thì dùng script, đừng gõ tay danh sách module:
 scripts/update.sh YOURDB
 ```
 
-Dữ liệu ánh xạ TT200 nằm trong `l10n_vn_reports` nhưng ghi vào các trường khai
+Dữ liệu ánh xạ TT200 nằm trong `l10n_vn_vas_reports` nhưng ghi vào các trường khai
 trên model của `vn_core`. Đó là phân chia có chủ ý — framework giữ model,
 localisation giữ dữ liệu — nhưng hệ quả là **hai module phải update cùng nhau**.
 Update thiếu một cái sẽ hỏng ở chỗ khó đoán:
@@ -157,7 +157,7 @@ vn_core/
 Hai module:
 
 * **`vn_core`** — framework, không chứa gì đặc thù Việt Nam.
-* **`l10n_vn_reports`** — biểu mẫu, ánh xạ TT200, bản dịch.
+* **`l10n_vn_vas_reports`** — biểu mẫu, ánh xạ TT200, bản dịch.
 * **`l10n_vn_stock_reports`** — báo cáo kho. Tách riêng vì cần `stock_account`,
   mà doanh nghiệp thương mại hay dịch vụ không có lý do phải cài Inventory.
 * **`l10n_vn_mrp_reports`** — báo cáo giá thành. Tách riêng vì cần `mrp`.

@@ -2,7 +2,7 @@
 # Part 14 — Module Architecture & Packaging
 
 > **Sửa đổi bởi Part 17 §8.6.** Mới có 2 trong 14 module đề xuất ở §5:
-> `vn_core` và `l10n_vn_reports`. Đây là chủ ý theo Part 16 §4 — chỉ tách
+> `vn_core` và `l10n_vn_vas_reports`. Đây là chủ ý theo Part 16 §4 — chỉ tách
 > module khi thật sự có người muốn cài riêng. `vn_financial_statement` nằm
 > trong `vn_core/domain/financial_statement/`: cùng ranh giới, khác cách
 > đóng gói.
@@ -131,7 +131,7 @@ vn_report_pdf
 
 vn_report_api
 
-l10n_vn_reports
+l10n_vn_vas_reports
 ```
 
 Mỗi Module có trách nhiệm rõ ràng.
@@ -294,7 +294,7 @@ Có thể phụ thuộc OCA nếu cần.
 # 15. Localization Module
 
 ```text id="czxkg4"
-l10n_vn_reports
+l10n_vn_vas_reports
 ```
 
 Bao gồm.
@@ -413,7 +413,7 @@ vn_financial_statement
 
 ↓
 
-l10n_vn_reports
+l10n_vn_vas_reports
 ```
 
 Không import ngược.
@@ -523,7 +523,7 @@ vn_account_engine/
 
 vn_financial_statement/
 
-l10n_vn_reports/
+l10n_vn_vas_reports/
 ```
 
 Người dùng chỉ cần thêm `addons_path` và cài Module theo nhu cầu.
