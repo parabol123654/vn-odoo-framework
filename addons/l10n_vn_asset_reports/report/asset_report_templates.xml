@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Ba báo cáo TSCĐ trên cùng một subledger (OCA account_asset_management).
+
+        Cột "Nước sản xuất" của mẫu S21-DN in trống có chủ đích: subledger
+        không có dữ liệu đó, và in trống trung thực hơn là bịa. Ai cần thì
+        thêm trường vào account.asset rồi override template.
+
+        Mặc định chỉ tính khấu hao ĐÃ GHI SỔ (bút toán đã vào sổ + số dư đầu
+        khai báo). Phần kế hoạch chưa ghi sổ chỉ vào báo cáo khi người dùng
+        bật rõ ràng — một quyển sổ trộn số kế hoạch vào số đã ghi sẽ lệch với
+        TK 214 mà không nói tại sao.
+    -->
+
+    <!-- ==================== Sổ TSCĐ (S21-DN) ==================== -->
+    <template id="asset_register_table">
+        <table class="table table-sm o_vn_table o_vn_table_asset">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_stt">STT</th>
+                    <th class="o_vn_col_label">Tên, đặc điểm, ký hiệu TSCĐ</th>
+                    <th class="o_vn_col_ref">Số hiệu<br/>TSCĐ</th>
+                    <th class="o_vn_col_ref">Chứng từ<br/>ghi tăng</th>
+                    <th class="o_vn_col_date">Tháng, năm<br/>đưa vào SD</th>
+                    <th class="o_vn_col_ref">Nước<br/>sản xuất</th>
+                    <th class="o_vn_col_amount">Nguyên giá</th>
+                    <th class="o_vn_col_qty">Tỷ lệ KH<br/>năm (%)</th>
+                    <th class="o_vn_col_amount">Khấu hao<br/>luỹ kế</th>
+                    <th class="o_vn_col_amount">Giá trị<br/>còn lại</th>
+                    <th class="o_vn_col_date">Ngày<br/>ghi giảm</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="group">
+
+                    <tr t-att-data-group="'g%s' % group_index"
+                        t-att-data-group-key="group.profile.id"
+                        t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
+                        <td colspan="6">
+                            <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
+                            <strong t-esc="group.profile.name"/>
+                            <span t-if="group.profile.asset_account_code" class="o_vn_muted">
+                                — TK <t t-esc="group.profile.asset_account_code"/> /
+                                <t t-esc="group.profile.depreciation_account_code"/>
+                            </span>
+                        </td>
+                        <td class="o_vn_col_amount" t-esc="group.total_purchase"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_qty"/>
+                        <td class="o_vn_col_amount" t-esc="group.total_accumulated"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_amount" t-esc="group.total_residual"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_date"/>
+                    </tr>
+
+                    <tr t-foreach="group.rows" t-as="row" class="o_vn_line"
+                        t-att-data-group-child="'g%s' % group_index"
+                        t-att-data-search="row.asset.code + ' ' + row.asset.name">
+                        <td class="o_vn_col_stt" t-esc="row_index + 1"/>
+                        <td class="o_vn_col_label" t-esc="row.asset.name"/>
+                        <td class="o_vn_col_ref" t-esc="row.asset.code"/>
+                        <td class="o_vn_col_ref" t-esc="row.asset.acquisition_ref"/>
+                        <td class="o_vn_col_date" t-esc="row.asset.date_start"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_ref"/>
+                        <td class="o_vn_col_amount" t-esc="row.asset.purchase_value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_qty">
+                            <span t-if="row.asset.annual_rate"
+                                  t-esc="'%.1f' % row.asset.annual_rate"/>
+                        </td>
+                        <td class="o_vn_col_amount" t-esc="row.accumulated"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_amount" t-esc="row.residual"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_date">
+                            <span t-if="row.asset.date_remove"
+                                  t-esc="row.asset.date_remove"
+                                  t-options="{'widget': 'date'}"/>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+            <tfoot t-if="report.groups">
+                <tr class="o_vn_total_row">
+                    <td colspan="6">Tổng cộng</td>
+                    <td class="o_vn_col_amount" t-esc="report.total_purchase"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_qty"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_accumulated"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_residual"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_date"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có tài sản cố định nào trong phạm vi đã chọn.
+        </div>
+    </template>
+
+    <!-- ==================== Thẻ TSCĐ (S23-DN) ==================== -->
+    <template id="asset_card_blocks">
+        <t t-foreach="report.cards" t-as="card">
+            <div class="o_vn_asset_card"
+                 t-att-data-search="card.asset.code + ' ' + card.asset.name">
+                <h4 class="o_vn_group_heading">
+                    <strong t-esc="card.asset.name"/>
+                    <span t-if="card.asset.code" class="o_vn_muted">
+                        — số hiệu <t t-esc="card.asset.code"/>
+                    </span>
+                </h4>
+                <table class="table table-sm o_vn_table o_vn_table_asset">
+                    <tbody>
+                        <tr class="o_vn_line">
+                            <td class="o_vn_col_label">Nhóm TSCĐ</td>
+                            <td t-esc="card.profile and card.profile.name or ''"/>
+                            <td class="o_vn_col_label">TK nguyên giá / hao mòn</td>
+                            <td>
+                                <t t-if="card.profile"
+                                   t-esc="'%s / %s' % (card.profile.asset_account_code, card.profile.depreciation_account_code)"/>
+                            </td>
+                        </tr>
+                        <tr class="o_vn_line">
+                            <td class="o_vn_col_label">Chứng từ ghi tăng</td>
+                            <td t-esc="card.asset.acquisition_ref"/>
+                            <td class="o_vn_col_label">Ngày đưa vào sử dụng</td>
+                            <td>
+                                <span t-if="card.asset.date_start"
+                                      t-esc="card.asset.date_start"
+                                      t-options="{'widget': 'date'}"/>
+                            </td>
+                        </tr>
+                        <tr class="o_vn_line">
+                            <td class="o_vn_col_label">Nguyên giá</td>
+                            <td class="o_vn_col_amount"
+                                t-esc="card.asset.purchase_value"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            <td class="o_vn_col_label">Ngày ghi giảm</td>
+                            <td>
+                                <span t-if="card.asset.date_remove"
+                                      t-esc="card.asset.date_remove"
+                                      t-options="{'widget': 'date'}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-sm o_vn_table o_vn_table_asset">
+                    <thead>
+                        <tr>
+                            <th class="o_vn_col_qty">Năm</th>
+                            <th class="o_vn_col_amount">Giá trị hao mòn trong năm</th>
+                            <th class="o_vn_col_amount">Hao mòn cộng dồn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="card.years" t-as="year_row" class="o_vn_line">
+                            <td class="o_vn_col_qty" t-esc="year_row.year"/>
+                            <td class="o_vn_col_amount" t-esc="year_row.amount"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            <td class="o_vn_col_amount" t-esc="year_row.cumulative"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </tr>
+                        <tr t-if="not card.years" class="o_vn_line">
+                            <td colspan="3">Chưa có khấu hao nào được ghi sổ.</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="o_vn_total_row">
+                            <td>Giá trị còn lại</td>
+                            <td class="o_vn_col_amount"/>
+                            <td class="o_vn_col_amount" t-esc="card.residual"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </t>
+
+        <div t-if="not report.cards" class="o_vn_empty">
+            Không có tài sản cố định nào trong phạm vi đã chọn.
+        </div>
+    </template>
+
+    <!-- ============ Bảng tính và phân bổ khấu hao (06-TSCĐ) ============ -->
+    <template id="asset_allocation_table">
+        <table class="table table-sm o_vn_table o_vn_table_asset">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_stt">STT</th>
+                    <th class="o_vn_col_label">Nhóm tài sản cố định</th>
+                    <th t-foreach="report.columns" t-as="column"
+                        class="o_vn_col_amount">Ghi Nợ TK <t t-esc="column"/></th>
+                    <th class="o_vn_col_amount">Cộng</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.rows">
+                <tr t-foreach="report.rows" t-as="row" class="o_vn_line"
+                    t-att-data-search="row.profile.name">
+                    <td class="o_vn_col_stt" t-esc="row_index + 1"/>
+                    <td class="o_vn_col_label" t-esc="row.profile.name"/>
+                    <td t-foreach="row.amounts" t-as="amount"
+                        class="o_vn_col_amount">
+                        <span t-if="amount" t-esc="amount"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount" t-esc="row.total"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+            <tfoot t-if="report.rows">
+                <tr class="o_vn_total_row">
+                    <td colspan="2">IV. Số khấu hao phải trích kỳ này</td>
+                    <td t-foreach="report.column_totals" t-as="total"
+                        class="o_vn_col_amount">
+                        <span t-if="total" t-esc="total"
+                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </td>
+                    <td class="o_vn_col_amount" t-esc="report.grand_total"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <table class="table table-sm o_vn_table o_vn_table_asset o_vn_allocation_summary">
+            <tbody>
+                <tr class="o_vn_line">
+                    <td class="o_vn_col_label">I. Số khấu hao đã trích kỳ trước</td>
+                    <td class="o_vn_col_amount" t-esc="report.summary.previous_total"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+                <tr class="o_vn_line">
+                    <td class="o_vn_col_label">II. Số khấu hao của TSCĐ tăng trong kỳ</td>
+                    <td class="o_vn_col_amount" t-esc="report.summary.increase"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+                <tr class="o_vn_line">
+                    <td class="o_vn_col_label">III. Số khấu hao của TSCĐ giảm trong kỳ</td>
+                    <td class="o_vn_col_amount" t-esc="report.summary.decrease"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+                <tr class="o_vn_total_row">
+                    <td class="o_vn_col_label">IV. Số khấu hao phải trích kỳ này</td>
+                    <td class="o_vn_col_amount" t-esc="report.summary.current_total"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+                <tr t-if="report.summary.imbalance" class="o_vn_line">
+                    <td class="o_vn_col_label">
+                        Chênh lệch (I + II − III − IV) — thường do tính lại
+                        bảng khấu hao hoặc điều chỉnh giữa kỳ
+                    </td>
+                    <td class="o_vn_col_amount o_vn_credit"
+                        t-esc="report.summary.imbalance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+        </table>
+
+        <div t-if="not report.rows" class="o_vn_empty">
+            Không có khấu hao nào được ghi sổ trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <!-- ==================== Screens and print ==================== -->
+    <template id="asset_register_screen">
+        <div class="o_vn_report o_vn_report_asset">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_asset_reports.asset_register_table"/>
+        </div>
+    </template>
+
+    <template id="asset_card_screen">
+        <div class="o_vn_report o_vn_report_asset">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_asset_reports.asset_card_blocks"/>
+        </div>
+    </template>
+
+    <template id="asset_allocation_screen">
+        <div class="o_vn_report o_vn_report_asset">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_asset_reports.asset_allocation_table"/>
+        </div>
+    </template>
+
+    <template id="report_vn_asset">
+        <t t-call="l10n_vn_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_reports.vn_form_header"/>
+                    <t t-if="docs and docs[0].layout == 'card'">
+                        <t t-call="l10n_vn_asset_reports.asset_card_blocks"/>
+                    </t>
+                    <t t-elif="docs and docs[0].layout == 'allocation'">
+                        <t t-call="l10n_vn_asset_reports.asset_allocation_table"/>
+                    </t>
+                    <t t-else="">
+                        <t t-call="l10n_vn_asset_reports.asset_register_table"/>
+                    </t>
+                    <t t-call="l10n_vn_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

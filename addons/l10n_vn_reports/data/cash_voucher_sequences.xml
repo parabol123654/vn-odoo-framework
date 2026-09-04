@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+    <!--
+        Hai dãy số riêng cho Phiếu thu và Phiếu chi, tách khỏi số bút toán của
+        Odoo. Luật yêu cầu phiếu thu và phiếu chi mỗi loại một dãy liên tục;
+        dùng chung số bút toán thì hai loại xen kẽ nhau và dãy nào cũng đứt quãng.
+
+        noupdate="1" để việc khách đổi tiền tố hay số hiện tại không bị nâng cấp
+        module ghi đè.
+    -->
+    <data noupdate="1">
+
+        <record id="seq_cash_receipt" model="ir.sequence">
+            <field name="name">Phiếu thu</field>
+            <field name="code">l10n_vn.cash.receipt</field>
+            <field name="prefix">PT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_cash_payment" model="ir.sequence">
+            <field name="name">Phiếu chi</field>
+            <field name="code">l10n_vn.cash.payment</field>
+            <field name="prefix">PC/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vn_report_mapping_user,vn.report.mapping.read,model_vn_report_mapping,base.group_user,1,0,0,0
+access_vn_report_mapping_manager,vn.report.mapping.manage,model_vn_report_mapping,account.group_account_manager,1,1,1,1
+access_vn_report_mapping_line_user,vn.report.mapping.line.read,model_vn_report_mapping_line,base.group_user,1,0,0,0
+access_vn_report_mapping_line_manager,vn.report.mapping.line.manage,model_vn_report_mapping_line,account.group_account_manager,1,1,1,1

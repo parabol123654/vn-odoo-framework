@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Hai bố cục trên cùng một DTO: tổng hợp theo sản phẩm (cách VAS trình bày
+        giá thành) và chi tiết theo từng lệnh sản xuất.
+
+        Ghi chú ở cuối không phải để trang trí. Báo cáo này **không có** chi phí
+        nhân công trực tiếp và sản xuất chung, vì Odoo 14 CE không hạch toán
+        chúng vào sổ. In một con số thống kê cạnh một con số đã vào sổ mà không
+        nói rõ cái nào là cái nào thì tệ hơn là không in.
+    -->
+    <template id="production_cost_note">
+        <div class="o_vn_note o_vn_scope_note">
+            <strong>Phạm vi báo cáo:</strong>
+            chỉ gồm <strong>chi phí nguyên vật liệu trực tiếp</strong>, lấy từ
+            valuation layer của vật tư đã xuất cho lệnh sản xuất, nên khớp với
+            các TK 152 và 155.
+            Chi phí nhân công trực tiếp (622) và chi phí sản xuất chung (627)
+            <strong>không có trong báo cáo này</strong>: Odoo 14 Community không
+            hạch toán chúng vào sổ kế toán, nên mọi con số về chúng sẽ là số liệu
+            quản trị chứ không phải số liệu sổ sách.
+        </div>
+    </template>
+
+    <template id="production_cost_wip">
+        <div t-if="report.open_order_count" class="o_vn_alert o_vn_alert_ok">
+            <strong>Chi phí sản xuất dở dang cuối kỳ:</strong>
+            <span t-esc="report.work_in_progress"
+                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+            — vật tư đã xuất cho <t t-esc="report.open_order_count"/> lệnh sản
+            xuất chưa hoàn thành tại ngày báo cáo. Odoo 14 Community không có tài
+            khoản sản phẩm dở dang, nên con số này không nằm ở đâu trong sổ; nó
+            được suy ra từ chính các lệnh đó để đối chiếu với số dư TK 154.
+        </div>
+    </template>
+
+    <!-- ===================== Tổng hợp theo sản phẩm ===================== -->
+    <template id="production_cost_product_table">
+        <table class="table table-sm o_vn_table o_vn_table_mrp">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_code">Mã sản phẩm</th>
+                    <th class="o_vn_col_label">Tên sản phẩm</th>
+                    <th class="o_vn_col_uom">ĐVT</th>
+                    <th class="o_vn_col_qty">Số lệnh</th>
+                    <th class="o_vn_col_qty">Số lượng<br/>hoàn thành</th>
+                    <th class="o_vn_col_amount">Chi phí NVL<br/>trực tiếp</th>
+                    <th class="o_vn_col_amount">Giá trị nhập kho</th>
+                    <th class="o_vn_col_amount">Giá thành<br/>đơn vị</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.products">
+                <tr t-foreach="report.products" t-as="row" class="o_vn_line"
+                    t-att-data-search="row.product.code + ' ' + row.product.name">
+                    <td class="o_vn_col_code" t-esc="row.product.code"/>
+                    <td class="o_vn_col_label" t-esc="row.product.name"/>
+                    <td class="o_vn_col_uom" t-esc="row.product.uom_name"/>
+                    <td class="o_vn_col_qty" t-esc="row.order_count"/>
+                    <td class="o_vn_col_qty" t-esc="row.output_quantity"/>
+                    <td class="o_vn_col_amount" t-esc="row.material_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.output_value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.unit_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+            <tfoot t-if="report.products">
+                <tr class="o_vn_total_row">
+                    <td colspan="5">Tổng cộng</td>
+                    <td class="o_vn_col_amount" t-esc="report.material_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.output_value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.products" class="o_vn_empty">
+            Không có lệnh sản xuất nào hoàn thành trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <!-- ================== Chi tiết theo lệnh sản xuất ================== -->
+    <template id="production_cost_order_table">
+        <table class="table table-sm o_vn_table o_vn_table_mrp">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_ref">Lệnh sản xuất</th>
+                    <th class="o_vn_col_date">Ngày hoàn thành</th>
+                    <th class="o_vn_col_label">Sản phẩm</th>
+                    <th class="o_vn_col_qty">Số lượng</th>
+                    <th class="o_vn_col_amount">Chi phí NVL<br/>trực tiếp</th>
+                    <th class="o_vn_col_amount">Giá trị nhập kho</th>
+                    <th class="o_vn_col_amount">Chênh lệch</th>
+                    <th class="o_vn_col_amount">Giá thành<br/>đơn vị</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.orders">
+                <tr t-foreach="report.orders" t-as="row" class="o_vn_line"
+                    t-att-data-search="row.production.name + ' ' + row.production.product.name">
+                    <td class="o_vn_col_ref" t-esc="row.production.name"/>
+                    <td class="o_vn_col_date" t-esc="row.production.date_finished"
+                        t-options="{'widget': 'date'}"/>
+                    <td class="o_vn_col_label"
+                        t-esc="row.production.product.display_name"/>
+                    <td class="o_vn_col_qty" t-esc="row.output_quantity"/>
+                    <td class="o_vn_col_amount" t-esc="row.material_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.output_value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <!-- Bằng 0 với bình quân gia quyền và FIFO; khác 0 khi tính
+                         theo giá thành định mức, hoặc khi có chi phí thu mua
+                         phân bổ thêm sau. -->
+                    <td t-att-class="'o_vn_col_amount o_vn_credit' if row.variance else 'o_vn_col_amount'"
+                        t-esc="row.variance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.unit_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+            <tfoot t-if="report.orders">
+                <tr class="o_vn_total_row">
+                    <td colspan="4">Tổng cộng</td>
+                    <td class="o_vn_col_amount" t-esc="report.material_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.output_value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount"/>
+                    <td class="o_vn_col_amount"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.orders" class="o_vn_empty">
+            Không có lệnh sản xuất nào hoàn thành trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <!-- ============ Thẻ tính giá thành sản phẩm, dịch vụ (S37-DN) ============ -->
+    <!--
+        Mẫu S37-DN chia mỗi chỉ tiêu theo ba khoản mục: NVL trực tiếp, nhân
+        công trực tiếp, sản xuất chung. Ở đây chỉ có cột NVL trực tiếp — hai
+        khoản mục kia Odoo 14 CE không hạch toán vào sổ (xem ghi chú phạm vi),
+        nên in số 0 cho chúng sẽ là khẳng định sai, còn in số thống kê sẽ là
+        trộn số ngoài sổ vào một tờ thẻ đối chiếu được với TK 154 và 155.
+
+        Bốn cột số được đo trực tiếp từ valuation layer, không suy ra lẫn nhau,
+        nên thẻ không tự cân: lệch = biến động giá thành định mức hoặc phát
+        sinh ghi ngoài kỳ, và cột chênh lệch tồn tại để chỉ ra điều đó.
+    -->
+    <template id="cost_card_table">
+        <table class="table table-sm o_vn_table o_vn_table_mrp">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_code">Mã SP</th>
+                    <th class="o_vn_col_label">Tên sản phẩm, dịch vụ</th>
+                    <th class="o_vn_col_uom">ĐVT</th>
+                    <th class="o_vn_col_amount">Chi phí SXKD<br/>dở dang đầu kỳ</th>
+                    <th class="o_vn_col_amount">Chi phí SXKD<br/>phát sinh trong kỳ</th>
+                    <th class="o_vn_col_amount">Giá thành SP, DV<br/>trong kỳ</th>
+                    <th class="o_vn_col_amount">Chi phí SXKD<br/>dở dang cuối kỳ</th>
+                    <th class="o_vn_col_qty">SL hoàn thành</th>
+                    <th class="o_vn_col_amount">Giá thành<br/>đơn vị</th>
+                    <th class="o_vn_col_amount">Chênh lệch</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.rows">
+                <tr t-foreach="report.rows" t-as="row" class="o_vn_line"
+                    t-att-data-search="row.product.code + ' ' + row.product.name">
+                    <td class="o_vn_col_code" t-esc="row.product.code"/>
+                    <td class="o_vn_col_label" t-esc="row.product.name"/>
+                    <td class="o_vn_col_uom" t-esc="row.product.uom_name"/>
+                    <td class="o_vn_col_amount" t-esc="row.opening_wip"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.period_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.finished_value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="row.closing_wip"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_qty" t-esc="row.finished_quantity"/>
+                    <td class="o_vn_col_amount" t-esc="row.unit_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td t-att-class="'o_vn_col_amount o_vn_credit' if row.imbalance else 'o_vn_col_amount'"
+                        t-esc="row.imbalance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+            <tfoot t-if="report.rows">
+                <tr class="o_vn_total_row">
+                    <td colspan="3">Tổng cộng</td>
+                    <td class="o_vn_col_amount" t-esc="report.total_opening_wip"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_period_cost"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_finished_value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.total_closing_wip"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_qty"/>
+                    <td class="o_vn_col_amount"/>
+                    <td class="o_vn_col_amount" t-esc="report.imbalance"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.rows" class="o_vn_empty">
+            Không có lệnh sản xuất nào hoàn thành hoặc dở dang trong kỳ đã chọn.
+        </div>
+
+        <div class="o_vn_note">
+            Dở dang đầu kỳ + phát sinh trong kỳ − giá thành nhập kho = dở dang
+            cuối kỳ. Cột <strong>chênh lệch</strong> là phần đẳng thức đó không
+            cân: bằng 0 với bình quân gia quyền và FIFO; khác 0 khi tính theo
+            giá thành định mức (biến động giá) hoặc khi có phát sinh ghi nhận
+            ngoài kỳ báo cáo.
+        </div>
+    </template>
+
+    <template id="cost_card_screen">
+        <div class="o_vn_report o_vn_report_mrp">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_mrp_reports.cost_card_table"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
+        </div>
+    </template>
+
+    <template id="production_cost_product_screen">
+        <div class="o_vn_report o_vn_report_mrp">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_product_table"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
+        </div>
+    </template>
+
+    <template id="production_cost_order_screen">
+        <div class="o_vn_report o_vn_report_mrp">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_order_table"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
+            <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
+        </div>
+    </template>
+
+    <template id="report_production_cost">
+        <t t-call="l10n_vn_reports.vn_print_layout">
+            <div class="page o_vn_report o_vn_report_print">
+                <t t-call="l10n_vn_reports.vn_form_header"/>
+                <t t-if="docs and docs[0].layout == 'cost_card'">
+                    <t t-call="l10n_vn_mrp_reports.cost_card_table"/>
+                </t>
+                <t t-elif="docs and docs[0].layout == 'order'">
+                    <t t-call="l10n_vn_mrp_reports.production_cost_order_table"/>
+                    <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
+                </t>
+                <t t-else="">
+                    <t t-call="l10n_vn_mrp_reports.production_cost_product_table"/>
+                    <t t-call="l10n_vn_mrp_reports.production_cost_wip"/>
+                </t>
+                <t t-call="l10n_vn_mrp_reports.production_cost_note"/>
+                <t t-call="l10n_vn_reports.vn_form_signature"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>

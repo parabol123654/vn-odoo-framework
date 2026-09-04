@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <menuitem id="menu_vn_reports_assets"
+              name="Fixed Assets"
+              parent="l10n_vn_reports.menu_vn_reports_root"
+              sequence="60"/>
+
+    <menuitem id="menu_vn_report_asset_register"
+              name="Asset Register (S21-DN)"
+              parent="menu_vn_reports_assets"
+              action="action_vn_asset_register_wizard"
+              groups="l10n_vn_asset_reports.group_vn_report_asset"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_asset_card"
+              name="Asset Cards (S23-DN)"
+              parent="menu_vn_reports_assets"
+              action="action_vn_asset_card_wizard"
+              groups="l10n_vn_asset_reports.group_vn_report_asset"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_report_asset_allocation"
+              name="Depreciation Allocation (06-TSCD)"
+              parent="menu_vn_reports_assets"
+              action="action_vn_asset_allocation_wizard"
+              groups="l10n_vn_asset_reports.group_vn_report_asset"
+              sequence="30"/>
+
+</odoo>

@@ -1,0 +1,47 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Vietnam VAS Reporting Framework (Core)</h2>
+            <h3 class="oe_slogan">Domain engines, DTO và điểm mở rộng cho bộ báo cáo VAS — module kỹ thuật, cài làm nền cho l10n_vn_reports</h3>
+        </div>
+        <div class="oe_span12">
+            <img class="oe_picture oe_screenshot" src="banner.png"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+<ul>
+<li><b>Technical module</b> — install as a dependency of
+    <code>l10n_vn_reports</code>; it adds no menu of its own.</li>
+<li>Pure-Python domain engines: general ledger, trial balance, aged balance,
+    financial statement mapping &amp; formula engine, VAT listing and
+    declaration, inventory, manufacturing cost, fixed assets.</li>
+<li>Every engine talks to a repository <i>interface</i>; the Odoo ORM/SQL
+    implementation lives in one folder. Hundreds of unit tests run without
+    Odoo or PostgreSQL.</li>
+<li>Extension point <code>vn.ledger.provider</code>: a custom module can swap
+    any engine or repository per database with one <code>_inherit</code>.</li>
+<li>Statement mappings are data, edited in the UI, evaluated by a purpose-built
+    parser — <b>never</b> by <code>eval</code>.</li>
+</ul>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3>Vietnam VAS Reports suite</h3>
+            <p>Part of the <b>Vietnam VAS Reports</b> suite for Odoo 14
+                Community: accounting books and financial statements
+                (<code>l10n_vn_reports</code>), inventory
+                (<code>l10n_vn_stock_reports</code>), manufacturing
+                (<code>l10n_vn_mrp_reports</code>) and fixed assets
+                (<code>l10n_vn_asset_reports</code>) on the shared framework
+                <code>vn_core</code>. Free and open source, AGPL-3.</p>
+        </div>
+    </div>
+</section>

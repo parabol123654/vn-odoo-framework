@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Sổ quỹ tiền mặt / Sổ tiền gửi. Same LedgerDTO as Sổ Cái, but the columns
+        carry the cash-book vocabulary: a debit on 111 is "Thu", a credit is
+        "Chi", and the running balance is "Tồn". Nothing is recomputed — only the
+        headings change.
+    -->
+    <template id="cash_book_table">
+        <table class="table table-sm o_vn_table o_vn_table_cashbook">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_date">Ngày<br/>ghi sổ</th>
+                    <th class="o_vn_col_ref">Số hiệu<br/>chứng từ</th>
+                    <th class="o_vn_col_label">Diễn giải</th>
+                    <th class="o_vn_col_counterpart">TK<br/>đối ứng</th>
+                    <th class="o_vn_col_amount">Thu</th>
+                    <th class="o_vn_col_amount">Chi</th>
+                    <th class="o_vn_col_amount">Tồn</th>
+                </tr>
+            </thead>
+
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="group">
+
+                    <!--
+                        The group key is rendered as a string ("g0", "g1", ...)
+                        rather than the bare index. QWeb only emits a t-att-*
+                        attribute when the value is truthy or already a string,
+                        so a bare group_index of 0 produced no attribute at all
+                        and the first group on every report refused to collapse.
+                    -->
+                    <tr t-att-data-group="'g%s' % group_index"
+                        t-att-data-group-key="group.code or group.name"
+                        t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
+                        <td colspan="4">
+                            <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
+                            <strong t-esc="group.display_name"/>
+                        </td>
+                        <!-- Thu / Chi / Tồn của cả nhóm, chỉ hiện trên màn hình. -->
+                        <td class="o_vn_col_amount">
+                            <span t-if="interactive and group.movement.debit"
+                                  t-esc="group.movement.debit"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="interactive and group.movement.credit"
+                                  t-esc="group.movement.credit"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="interactive" t-esc="group.closing.debit_balance"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                    </tr>
+
+                    <tr class="o_vn_opening_row" t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="4">Số dư đầu kỳ</td>
+                        <td class="o_vn_col_amount"/>
+                        <td class="o_vn_col_amount"/>
+                        <td class="o_vn_col_amount" t-esc="group.opening.debit_balance"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr t-foreach="group.lines" t-as="line"
+                        class="o_vn_line"
+                        t-att-data-group-child="'g%s' % group_index"
+                        t-att-data-move-id="line.source.move_id if interactive else None">
+                        <td class="o_vn_col_date" t-esc="line.date"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_ref" t-esc="line.move_name"/>
+                        <td class="o_vn_col_label" t-esc="line.label"/>
+                        <td class="o_vn_col_counterpart" t-esc="line.counterpart_label"/>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.debit" t-esc="line.debit"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.credit" t-esc="line.credit"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_amount" t-esc="line.running_balance"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr class="o_vn_subtotal_row" t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="4">Cộng phát sinh trong kỳ</td>
+                        <td class="o_vn_col_amount" t-esc="group.movement.debit"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_amount" t-esc="group.movement.credit"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_amount"/>
+                    </tr>
+
+                    <tr class="o_vn_closing_row" t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="4">Số dư cuối kỳ (tồn quỹ)</td>
+                        <td class="o_vn_col_amount"/>
+                        <td class="o_vn_col_amount"/>
+                        <td class="o_vn_col_amount">
+                            <span t-esc="group.closing.debit_balance"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            <!-- A cash account should never end in credit; if it
+                                 does, show it rather than hide the problem. -->
+                            <span t-if="group.closing.credit_balance" class="o_vn_credit">
+                                (âm <span t-esc="group.closing.credit_balance"
+                                          t-options="{'widget': 'monetary', 'display_currency': currency}"/>)
+                            </span>
+                        </td>
+                    </tr>
+                </t>
+            </tbody>
+
+            <tfoot t-if="report.groups">
+                <tr class="o_vn_total_row">
+                    <td colspan="4">Tổng cộng</td>
+                    <td class="o_vn_col_amount" t-esc="report.totals.debit"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount" t-esc="report.totals.credit"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_amount"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có phát sinh nào trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="cash_book_screen">
+        <div class="o_vn_report o_vn_report_cashbook">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_reports.cash_book_table"/>
+        </div>
+    </template>
+
+    <template id="report_cash_book">
+        <t t-call="l10n_vn_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_reports.vn_form_header"/>
+                    <t t-call="l10n_vn_reports.cash_book_table"/>
+                    <t t-call="l10n_vn_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

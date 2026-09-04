@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Mẫu 01-TT (Phiếu thu) và 02-TT (Phiếu chi).
+
+        Một template cho cả hai: hai mẫu chỉ khác tiêu đề, nhãn "Họ tên người
+        nộp tiền" hay "người nhận tiền", và mấy dòng ký. Tách làm hai file thì
+        sửa một chỗ phải nhớ sửa chỗ kia.
+
+        In một liên cho mỗi chứng từ; ai cần hai liên thì in hai lần — chèn sẵn
+        liên thứ hai vào template sẽ tốn giấy của mọi người còn lại.
+    -->
+    <template id="cash_voucher_document">
+        <t t-set="is_receipt" t-value="doc.vn_voucher_type == 'receipt'"/>
+        <div class="page o_vn_report o_vn_voucher">
+
+            <div class="row">
+                <div class="col-7">
+                    <div><strong t-field="doc.company_id.name"/></div>
+                    <div t-if="doc.company_id.partner_id.contact_address"
+                         class="o_vn_muted">
+                        <span t-esc="doc.company_id.partner_id.contact_address
+                                     .replace('\n', ' ').strip()"/>
+                    </div>
+                </div>
+                <div class="col-5 text-right o_vn_form_code">
+                    <div>Mẫu số:
+                        <strong t-esc="'01 - TT' if is_receipt else '02 - TT'"/>
+                    </div>
+                    <div class="o_vn_form_legal">
+                        (Ban hành theo Thông tư số 200/2014/TT-BTC<br/>
+                        ngày 22/12/2014 của Bộ Tài chính)
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-center o_vn_form_title">
+                <t t-esc="'PHIẾU THU' if is_receipt else 'PHIẾU CHI'"/>
+            </h3>
+            <div class="text-center o_vn_form_period">
+                Ngày <span t-esc="doc.date.day"/>
+                tháng <span t-esc="doc.date.month"/>
+                năm <span t-esc="doc.date.year"/>
+            </div>
+            <div class="text-center o_vn_form_unit">
+                Số: <strong t-esc="doc.vn_voucher_number or doc.name"/>
+            </div>
+
+            <table class="table table-sm o_vn_table o_vn_voucher_head">
+                <tr>
+                    <td style="width:35%">
+                        <t t-esc="'Họ và tên người nộp tiền'
+                                  if is_receipt else 'Họ và tên người nhận tiền'"/>
+                    </td>
+                    <td><strong t-field="doc.partner_id.name"/></td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ</td>
+                    <td t-esc="doc.partner_id.contact_address
+                               and doc.partner_id.contact_address
+                                   .replace('\n', ' ').strip() or ''"/>
+                </tr>
+                <tr>
+                    <td>Lý do
+                        <t t-esc="'nộp' if is_receipt else 'chi'"/>
+                    </td>
+                    <td t-esc="doc.ref or doc.narration or ''"/>
+                </tr>
+                <tr>
+                    <td>Số tiền</td>
+                    <td>
+                        <strong t-esc="doc._vn_voucher_amount()"
+                                t-options="{'widget': 'monetary',
+                                            'display_currency': doc.company_id.currency_id}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bằng chữ</td>
+                    <td>
+                        <em t-esc="doc.company_id.currency_id
+                                   .amount_to_text(doc._vn_voucher_amount())"/>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table table-sm o_vn_table">
+                <thead>
+                    <tr>
+                        <th style="width:15%">Tài khoản</th>
+                        <th>Diễn giải</th>
+                        <th class="o_vn_col_amount">Số tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="doc._vn_voucher_counterparts()" t-as="line">
+                        <td t-field="line.account_id.code"/>
+                        <td t-field="line.name"/>
+                        <td class="o_vn_col_amount"
+                            t-esc="abs(line.balance)"
+                            t-options="{'widget': 'monetary',
+                                        'display_currency': doc.company_id.currency_id}"/>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row mt32 text-center o_vn_signature">
+                <div class="col-3">
+                    <div>Giám đốc</div>
+                    <div class="o_vn_muted">(Ký, họ tên, đóng dấu)</div>
+                </div>
+                <div class="col-3">
+                    <div>Kế toán trưởng</div>
+                    <div class="o_vn_muted">(Ký, họ tên)</div>
+                </div>
+                <div class="col-3">
+                    <div><t t-esc="'Người nộp tiền' if is_receipt
+                                   else 'Người nhận tiền'"/></div>
+                    <div class="o_vn_muted">(Ký, họ tên)</div>
+                </div>
+                <div class="col-3">
+                    <div>Thủ quỹ</div>
+                    <div class="o_vn_muted">(Ký, họ tên)</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_cash_voucher">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="l10n_vn_reports.cash_voucher_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>

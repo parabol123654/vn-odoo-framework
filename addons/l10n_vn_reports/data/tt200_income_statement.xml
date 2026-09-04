@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+    <!--
+        Mẫu B02-DN — Báo cáo kết quả hoạt động kinh doanh (Thông tư 200/2014).
+
+        noupdate="1" on purpose: once a client has adapted a line to their own
+        chart, a module upgrade must not silently overwrite it. Shipping a
+        corrected mapping therefore means shipping a migration, which is the
+        honest cost of treating statutory data as data.
+
+        Signs: accounts that carry a credit balance (revenue, other income) map
+        with sign -1 so the statement prints a positive figure. No account code
+        appears anywhere in Python.
+    -->
+    <data noupdate="1">
+
+        <record id="mapping_tt200_b02dn" model="vn.report.mapping">
+            <field name="code">tt200_b02dn</field>
+            <field name="name">Báo cáo kết quả hoạt động kinh doanh</field>
+            <field name="report_type">income_statement</field>
+            <field name="basis">movement</field>
+            <field name="version">TT200</field>
+        </record>
+
+        <record id="b02dn_01" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">10</field>
+            <field name="code">01</field>
+            <field name="name">Doanh thu bán hàng và cung cấp dịch vụ</field>
+            <field name="expression">511*</field>
+            <field name="sign">-1</field>
+        </record>
+
+        <record id="b02dn_02" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">20</field>
+            <field name="code">02</field>
+            <field name="name">Các khoản giảm trừ doanh thu</field>
+            <field name="expression">521*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_10" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">30</field>
+            <field name="code">10</field>
+            <field name="name">Doanh thu thuần về bán hàng và cung cấp dịch vụ</field>
+            <field name="formula">01 - 02</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b02dn_11" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">40</field>
+            <field name="code">11</field>
+            <field name="name">Giá vốn hàng bán</field>
+            <field name="expression">632*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_20" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">50</field>
+            <field name="code">20</field>
+            <field name="name">Lợi nhuận gộp về bán hàng và cung cấp dịch vụ</field>
+            <field name="formula">10 - 11</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b02dn_21" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">60</field>
+            <field name="code">21</field>
+            <field name="name">Doanh thu hoạt động tài chính</field>
+            <field name="expression">515*</field>
+            <field name="sign">-1</field>
+        </record>
+
+        <record id="b02dn_22" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">70</field>
+            <field name="code">22</field>
+            <field name="name">Chi phí tài chính</field>
+            <field name="expression">635*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <!-- "Trong đó" is a disclosure of part of line 22, so it is deliberately
+             absent from the formula for line 30. -->
+        <record id="b02dn_23" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">80</field>
+            <field name="code">23</field>
+            <field name="name">Trong đó: Chi phí lãi vay</field>
+            <field name="expression">6351*</field>
+            <field name="sign">1</field>
+            <field name="level">1</field>
+        </record>
+
+        <record id="b02dn_25" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">90</field>
+            <field name="code">25</field>
+            <field name="name">Chi phí bán hàng</field>
+            <field name="expression">641*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_26" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">100</field>
+            <field name="code">26</field>
+            <field name="name">Chi phí quản lý doanh nghiệp</field>
+            <field name="expression">642*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_30" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">110</field>
+            <field name="code">30</field>
+            <field name="name">Lợi nhuận thuần từ hoạt động kinh doanh</field>
+            <field name="formula">20 + 21 - 22 - 25 - 26</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b02dn_31" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">120</field>
+            <field name="code">31</field>
+            <field name="name">Thu nhập khác</field>
+            <field name="expression">711*</field>
+            <field name="sign">-1</field>
+        </record>
+
+        <record id="b02dn_32" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">130</field>
+            <field name="code">32</field>
+            <field name="name">Chi phí khác</field>
+            <field name="expression">811*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_40" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">140</field>
+            <field name="code">40</field>
+            <field name="name">Lợi nhuận khác</field>
+            <field name="formula">31 - 32</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b02dn_50" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">150</field>
+            <field name="code">50</field>
+            <field name="name">Tổng lợi nhuận kế toán trước thuế</field>
+            <field name="formula">30 + 40</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b02dn_51" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">160</field>
+            <field name="code">51</field>
+            <field name="name">Chi phí thuế TNDN hiện hành</field>
+            <field name="expression">8211*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_52" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">170</field>
+            <field name="code">52</field>
+            <field name="name">Chi phí thuế TNDN hoãn lại</field>
+            <field name="expression">8212*</field>
+            <field name="sign">1</field>
+        </record>
+
+        <record id="b02dn_60" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">180</field>
+            <field name="code">60</field>
+            <field name="name">Lợi nhuận sau thuế thu nhập doanh nghiệp</field>
+            <field name="formula">50 - 51 - 52</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <!-- Lines 70 and 71 are entered by hand on the filed form: they need a
+             share count the ledger does not hold. Kept visible so the printed
+             statement matches B02-DN row for row. -->
+        <record id="b02dn_70" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">190</field>
+            <field name="code">70</field>
+            <field name="name">Lãi cơ bản trên cổ phiếu</field>
+        </record>
+
+        <record id="b02dn_71" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b02dn"/>
+            <field name="sequence">200</field>
+            <field name="code">71</field>
+            <field name="name">Lãi suy giảm trên cổ phiếu</field>
+        </record>
+
+    </data>
+</odoo>

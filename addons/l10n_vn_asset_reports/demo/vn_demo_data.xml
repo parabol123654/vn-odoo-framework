@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Demo data is generated in Python, same reasoning as l10n_vn_reports:
+        the records must reference whatever chart of accounts the database
+        runs, so accounts are resolved by code prefix at generation time.
+        The generator is reachable from scripts/load_demo_data.py for
+        databases created without demo data.
+    -->
+    <function model="vn.demo.asset.generator" name="generate"/>
+
+</odoo>

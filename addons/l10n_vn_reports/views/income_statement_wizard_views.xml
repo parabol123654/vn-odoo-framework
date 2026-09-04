@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_income_statement_wizard_form" model="ir.ui.view">
+        <field name="name">vn.income.statement.wizard.form</field>
+        <field name="model">vn.income.statement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Income Statement">
+                <group>
+                    <group name="period" string="Period">
+                        <field name="company_id"
+                               groups="base.group_multi_company"
+                               options="{'no_create': True}"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="target_move" widget="radio"/>
+                    </group>
+                    <group name="layout" string="Layout">
+                        <field name="comparative"/>
+                        <field name="mapping_id" options="{'no_create': True}"
+                               groups="account.group_account_manager"/>
+                        <field name="journal_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_view" type="object" string="View"
+                            class="btn-primary"/>
+                    <button name="action_print_pdf" type="object" string="Print PDF"
+                            class="btn-secondary"/>
+                    <button name="action_export_xlsx" type="object" string="Export Excel"
+                            class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vn_income_statement_wizard" model="ir.actions.act_window">
+        <field name="name">Income Statement</field>
+        <field name="res_model">vn.income.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_income_statement_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

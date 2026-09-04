@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_report_mapping_form" model="ir.ui.view">
+        <field name="name">vn.report.mapping.form</field>
+        <field name="model">vn.report.mapping</field>
+        <field name="arch" type="xml">
+            <form string="Statement Mapping">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Báo cáo kết quả hoạt động kinh doanh"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="report_type"/>
+                            <field name="version"/>
+                        </group>
+                        <group>
+                            <field name="basis"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   options="{'no_create': True}"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="note_ref" optional="hide"/>
+                                    <field name="expression"/>
+                                    <field name="formula"/>
+                                    <field name="sign"/>
+                                    <field name="side"/>
+                                    <field name="split_by_partner"/>
+                                    <field name="level" optional="hide"/>
+                                    <field name="parent_id" optional="hide"/>
+                                    <field name="bold" optional="hide"/>
+                                    <field name="visible" optional="hide"/>
+                                </tree>
+                            </field>
+                            <div class="text-muted mt8">
+                                Biểu thức tài khoản chọn theo mã, ví dụ
+                                <code>511*</code> hoặc <code>111*,112*,-1113</code>.
+                                Công thức chỉ tham chiếu mã chỉ tiêu khác, ví dụ
+                                <code>10 - 11</code>. Một dòng chỉ dùng một
+                                trong hai.
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vn_report_mapping_tree" model="ir.ui.view">
+        <field name="name">vn.report.mapping.tree</field>
+        <field name="model">vn.report.mapping</field>
+        <field name="arch" type="xml">
+            <tree string="Statement Mappings">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="report_type"/>
+                <field name="basis"/>
+                <field name="version"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_vn_report_mapping" model="ir.actions.act_window">
+        <field name="name">Statement Mappings</field>
+        <field name="res_model">vn.report.mapping</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có ánh xạ báo cáo nào</p>
+            <p>
+                Ánh xạ quyết định mỗi chỉ tiêu trên báo cáo tài chính lấy số
+                liệu từ những tài khoản nào. Sửa ánh xạ là đủ để cập nhật theo
+                thông tư mới, không cần sửa mã nguồn.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_vn_report_mapping"
+              name="Statement Mappings"
+              parent="account.menu_finance_configuration"
+              action="action_vn_report_mapping"
+              groups="account.group_account_manager"
+              sequence="90"/>
+
+</odoo>

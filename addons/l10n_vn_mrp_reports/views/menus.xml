@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <menuitem id="menu_vn_reports_manufacturing"
+              name="Manufacturing"
+              parent="l10n_vn_reports.menu_vn_reports_root"
+              sequence="50"/>
+
+    <menuitem id="menu_vn_report_production_cost"
+              name="Production Cost"
+              parent="menu_vn_reports_manufacturing"
+              action="action_vn_production_cost_wizard"
+              groups="l10n_vn_mrp_reports.group_vn_report_manufacturing"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_cost_card"
+              name="Cost Card (S37-DN)"
+              parent="menu_vn_reports_manufacturing"
+              action="action_vn_cost_card_wizard"
+              groups="l10n_vn_mrp_reports.group_vn_report_manufacturing"
+              sequence="20"/>
+
+</odoo>

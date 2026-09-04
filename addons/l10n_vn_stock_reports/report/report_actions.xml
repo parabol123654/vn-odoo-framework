@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="action_report_stock_card" model="ir.actions.report">
+        <field name="name">Stock Card</field>
+        <field name="model">vn.stock.card.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_stock_reports.report_stock_card</field>
+        <field name="report_file">l10n_vn_stock_reports.report_stock_card</field>
+        <field name="print_report_name">'The-kho-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="l10n_vn_reports.paperformat_vn_book"/>
+    </record>
+
+</odoo>

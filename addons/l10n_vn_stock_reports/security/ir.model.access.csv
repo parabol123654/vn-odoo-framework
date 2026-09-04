@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vn_stock_card_wizard,vn.stock.card.wizard,model_vn_stock_card_wizard,l10n_vn_stock_reports.group_vn_report_inventory,1,1,1,1

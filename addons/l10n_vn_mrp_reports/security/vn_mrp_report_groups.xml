@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="group_vn_report_manufacturing" model="res.groups">
+        <field name="name">Vietnam Reports / Manufacturing</field>
+        <field name="implied_ids"
+               eval="[(4, ref('l10n_vn_reports.group_vn_report_user'))]"/>
+    </record>
+
+    <record id="l10n_vn_reports.group_vn_report_manager" model="res.groups">
+        <field name="implied_ids"
+               eval="[(4, ref('group_vn_report_manufacturing'))]"/>
+    </record>
+
+</odoo>

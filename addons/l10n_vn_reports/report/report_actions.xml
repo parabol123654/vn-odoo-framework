@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!-- Accounting books are wide; landscape with tight margins. -->
+    <record id="paperformat_vn_book" model="report.paperformat">
+        <field name="name">Vietnam Accounting Book (A4 landscape)</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">14</field>
+        <!-- Chừa chỗ cho khối chân trang có số trang. -->
+        <field name="margin_bottom">18</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_expense_ledger" model="ir.actions.report">
+        <field name="name">Expense Ledger</field>
+        <field name="model">vn.expense.ledger.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_expense_ledger</field>
+        <field name="report_file">l10n_vn_reports.report_expense_ledger</field>
+        <field name="print_report_name">'So-chi-phi-SXKD-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_sales_ledger" model="ir.actions.report">
+        <field name="name">Sales Ledger</field>
+        <field name="model">vn.sales.ledger.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_sales_ledger</field>
+        <field name="report_file">l10n_vn_reports.report_sales_ledger</field>
+        <field name="print_report_name">'So-chi-tiet-ban-hang-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_material_allocation" model="ir.actions.report">
+        <field name="name">Material Allocation</field>
+        <field name="model">vn.material.allocation.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_material_allocation</field>
+        <field name="report_file">l10n_vn_reports.report_material_allocation</field>
+        <field name="print_report_name">'Bang-phan-bo-NVL-CCDC-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_general_ledger" model="ir.actions.report">
+        <field name="name">General Ledger</field>
+        <field name="model">vn.general.ledger.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_general_ledger</field>
+        <field name="report_file">l10n_vn_reports.report_general_ledger</field>
+        <field name="print_report_name">'So-Cai-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_trial_balance" model="ir.actions.report">
+        <field name="name">Trial Balance</field>
+        <field name="model">vn.trial.balance.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_trial_balance</field>
+        <field name="report_file">l10n_vn_reports.report_trial_balance</field>
+        <field name="print_report_name">'Bang-can-doi-phat-sinh-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_general_journal" model="ir.actions.report">
+        <field name="name">General Journal</field>
+        <field name="model">vn.general.journal.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_general_journal</field>
+        <field name="report_file">l10n_vn_reports.report_general_journal</field>
+        <field name="print_report_name">'So-Nhat-ky-chung-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_partner_ledger" model="ir.actions.report">
+        <field name="name">Partner Ledger</field>
+        <field name="model">vn.partner.ledger.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_partner_ledger</field>
+        <field name="report_file">l10n_vn_reports.report_partner_ledger</field>
+        <field name="print_report_name">'So-chi-tiet-cong-no-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_cash_book" model="ir.actions.report">
+        <field name="name">Cash / Bank Book</field>
+        <field name="model">vn.cash.book.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_cash_book</field>
+        <field name="report_file">l10n_vn_reports.report_cash_book</field>
+        <field name="print_report_name">'So-quy-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_aging" model="ir.actions.report">
+        <field name="name">Aged Balance</field>
+        <field name="model">vn.aging.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_aging</field>
+        <field name="report_file">l10n_vn_reports.report_aging</field>
+        <field name="print_report_name">'Cong-no-theo-tuoi-no-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_income_statement" model="ir.actions.report">
+        <field name="name">Income Statement</field>
+        <field name="model">vn.income.statement.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_income_statement</field>
+        <field name="report_file">l10n_vn_reports.report_income_statement</field>
+        <field name="print_report_name">'Ket-qua-kinh-doanh-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_vat_listing" model="ir.actions.report">
+        <field name="name">VAT Invoice Listing</field>
+        <field name="model">vn.vat.listing.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_vat_listing</field>
+        <field name="report_file">l10n_vn_reports.report_vat_listing</field>
+        <field name="print_report_name">'Bang-ke-GTGT-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_balance_sheet" model="ir.actions.report">
+        <field name="name">Balance Sheet</field>
+        <field name="model">vn.balance.sheet.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_balance_sheet</field>
+        <field name="report_file">l10n_vn_reports.report_balance_sheet</field>
+        <field name="print_report_name">'Bang-can-doi-ke-toan-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_cash_flow" model="ir.actions.report">
+        <field name="name">Cash Flow Statement</field>
+        <field name="model">vn.cash.flow.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_cash_flow</field>
+        <field name="report_file">l10n_vn_reports.report_cash_flow</field>
+        <field name="print_report_name">'Luu-chuyen-tien-te-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <record id="action_report_vat_declaration" model="ir.actions.report">
+        <field name="name">VAT Declaration</field>
+        <field name="model">vn.vat.declaration.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_vat_declaration</field>
+        <field name="report_file">l10n_vn_reports.report_vat_declaration</field>
+        <field name="print_report_name">'To-khai-GTGT-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
+    <!--
+        In từ chính bút toán, nên nó là báo cáo duy nhất ở đây có
+        binding_model_id: kế toán mở phiếu quỹ ra và in ngay, không phải đi qua
+        một wizard chọn kỳ.
+    -->
+    <record id="action_report_cash_voucher" model="ir.actions.report">
+        <field name="name">Cash Voucher</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_reports.report_cash_voucher</field>
+        <field name="report_file">l10n_vn_reports.report_cash_voucher</field>
+        <field name="print_report_name">
+            (object.vn_voucher_number or object.name).replace('/', '-')
+        </field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

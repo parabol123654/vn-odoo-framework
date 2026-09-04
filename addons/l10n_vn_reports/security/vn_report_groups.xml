@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo noupdate="0">
+
+    <!--
+        Per-report groups, per Part 13 §7. Kept independent of the Odoo
+        accounting groups so a client can grant a bookkeeper the ledger without
+        also handing over the full accounting menu.
+    -->
+    <!--
+        No category_id on purpose: the correct xmlid differs between Odoo
+        releases (base.module_category_accounting vs
+        base.module_category_accounting_accounting) and a wrong reference aborts
+        the install. Without one the groups appear under "Extra Rights", which is
+        harmless. Set it once verified against your build.
+    -->
+    <record id="group_vn_report_user" model="res.groups">
+        <field name="name">Vietnam Reports</field>
+    </record>
+
+    <record id="group_vn_report_general_ledger" model="res.groups">
+        <field name="name">Vietnam Reports / General Ledger</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_trial_balance" model="res.groups">
+        <field name="name">Vietnam Reports / Trial Balance</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_general_journal" model="res.groups">
+        <field name="name">Vietnam Reports / General Journal</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_partner_ledger" model="res.groups">
+        <field name="name">Vietnam Reports / Partner Ledger</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_expense_ledger" model="res.groups">
+        <field name="name">Vietnam Reports / Expense Ledger</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_sales_ledger" model="res.groups">
+        <field name="name">Vietnam Reports / Sales Ledger</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_cash_book" model="res.groups">
+        <field name="name">Vietnam Reports / Cash and Bank Book</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_aging" model="res.groups">
+        <field name="name">Vietnam Reports / Aged Balance</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_financial_statement" model="res.groups">
+        <field name="name">Vietnam Reports / Financial Statements</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_tax" model="res.groups">
+        <field name="name">Vietnam Reports / VAT Listings</field>
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_user'))]"/>
+    </record>
+
+    <record id="group_vn_report_manager" model="res.groups">
+        <field name="name">Vietnam Reports / All reports</field>
+        <field name="implied_ids" eval="[
+            (4, ref('group_vn_report_general_ledger')),
+            (4, ref('group_vn_report_trial_balance')),
+            (4, ref('group_vn_report_general_journal')),
+            (4, ref('group_vn_report_partner_ledger')),
+            (4, ref('group_vn_report_expense_ledger')),
+            (4, ref('group_vn_report_sales_ledger')),
+            (4, ref('group_vn_report_cash_book')),
+            (4, ref('group_vn_report_aging')),
+            (4, ref('group_vn_report_financial_statement')),
+            (4, ref('group_vn_report_tax')),
+        ]"/>
+    </record>
+
+    <!-- Anyone who already administers accounting gets every report. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_vn_report_manager'))]"/>
+    </record>
+
+</odoo>

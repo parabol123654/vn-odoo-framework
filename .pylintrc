@@ -1,0 +1,19 @@
+[MASTER]
+load-plugins=pylint_odoo
+
+[ODOOLINT]
+valid_odoo_versions=14.0
+license_allowed=AGPL-3,LGPL-3,OPL-1
+manifest_required_keys=license,version,author
+manifest_deprecated_keys=description,active
+
+[MESSAGES CONTROL]
+disable=
+    missing-module-docstring,
+    too-few-public-methods,
+    too-many-arguments,
+    too-many-locals,
+    duplicate-code
+
+[FORMAT]
+max-line-length=88

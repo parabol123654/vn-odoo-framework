@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!--
+        Hai bố cục trên cùng một DTO: Bảng tổng hợp N-X-T chỉ in dòng tổng,
+        Thẻ kho in thêm chi tiết từng lần nhập xuất. Engine tính một lần, khác
+        nhau ở chỗ có nạp dòng chi tiết hay không.
+
+        Số lượng và giá trị luôn đi cùng nhau. Giá trị lấy thẳng từ valuation
+        layer chứ không nhân lại số lượng với đơn giá hiện hành — nhân lại là
+        cách chắc chắn làm báo cáo kho lệch với TK 152/155/156.
+    -->
+
+    <template id="inventory_summary_table">
+        <table class="table table-sm o_vn_table o_vn_table_stock">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="o_vn_col_code">Mã vật tư</th>
+                    <th rowspan="2" class="o_vn_col_label">Tên vật tư, hàng hoá</th>
+                    <th rowspan="2" class="o_vn_col_uom">ĐVT</th>
+                    <th colspan="2" class="text-center">Tồn đầu kỳ</th>
+                    <th colspan="2" class="text-center">Nhập trong kỳ</th>
+                    <th colspan="2" class="text-center">Xuất trong kỳ</th>
+                    <th colspan="2" class="text-center">Tồn cuối kỳ</th>
+                </tr>
+                <tr>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Giá trị</th>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Giá trị</th>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Giá trị</th>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Giá trị</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.groups">
+                <tr t-foreach="report.groups" t-as="group" class="o_vn_line"
+                    t-att-data-search="group.product.code + ' ' + group.product.name">
+                    <td class="o_vn_col_code" t-esc="group.product.code"/>
+                    <td class="o_vn_col_label" t-esc="group.product.name"/>
+                    <td class="o_vn_col_uom" t-esc="group.product.uom_name"/>
+                    <td class="o_vn_col_qty" t-esc="group.opening.quantity"/>
+                    <td class="o_vn_col_amount" t-esc="group.opening.value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_qty" t-esc="group.incoming.quantity"/>
+                    <td class="o_vn_col_amount" t-esc="group.incoming.value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_qty" t-esc="group.outgoing.quantity"/>
+                    <td class="o_vn_col_amount" t-esc="group.outgoing.value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
+                    <td class="o_vn_col_amount" t-esc="group.closing.value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tbody>
+            <tfoot t-if="report.groups">
+                <tr class="o_vn_total_row">
+                    <td colspan="10">Tổng giá trị tồn cuối kỳ</td>
+                    <td class="o_vn_col_amount" t-esc="report.totals.value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có vật tư nào phát sinh hoặc còn tồn trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="stock_card_table">
+        <table class="table table-sm o_vn_table o_vn_table_stock">
+            <thead>
+                <tr>
+                    <th class="o_vn_col_date">Ngày</th>
+                    <th class="o_vn_col_ref">Chứng từ</th>
+                    <th class="o_vn_col_label">Diễn giải</th>
+                    <th class="o_vn_col_amount">Đơn giá</th>
+                    <th class="o_vn_col_qty">Nhập</th>
+                    <th class="o_vn_col_qty">Xuất</th>
+                    <th class="o_vn_col_qty">Tồn</th>
+                    <th class="o_vn_col_amount">Giá trị tồn</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="group">
+
+                    <tr t-att-data-group="'g%s' % group_index"
+                        t-att-data-group-key="group.product.id"
+                        t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
+                        <td colspan="6">
+                            <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
+                            <strong t-esc="group.product.display_name"/>
+                            <span class="o_vn_muted"> — <t t-esc="group.product.uom_name"/></span>
+                        </td>
+                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr class="o_vn_opening_row"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="6">Tồn đầu kỳ</td>
+                        <td class="o_vn_col_qty" t-esc="group.opening.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.opening.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr t-foreach="group.lines" t-as="line" class="o_vn_line"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td class="o_vn_col_date" t-esc="line.date"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_ref" t-esc="line.reference"/>
+                        <td class="o_vn_col_label" t-esc="line.description"/>
+                        <td class="o_vn_col_amount" t-esc="line.unit_cost"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_qty">
+                            <span t-if="line.incoming.quantity"
+                                  t-esc="line.incoming.quantity"/>
+                        </td>
+                        <td class="o_vn_col_qty">
+                            <span t-if="line.outgoing.quantity"
+                                  t-esc="line.outgoing.quantity"/>
+                        </td>
+                        <td class="o_vn_col_qty" t-esc="line.running.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="line.running.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr class="o_vn_closing_row"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="4">Cộng phát sinh / Tồn cuối kỳ</td>
+                        <td class="o_vn_col_qty" t-esc="group.incoming.quantity"/>
+                        <td class="o_vn_col_qty" t-esc="group.outgoing.quantity"/>
+                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có vật tư nào phát sinh hoặc còn tồn trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <!--
+        Sổ chi tiết vật liệu, dụng cụ, sản phẩm, hàng hóa (S10-DN): cùng phép
+        tính với Thẻ kho nhưng in đủ cột giá trị và TK đối ứng — Thẻ kho theo
+        mẫu chỉ theo dõi số lượng, sổ chi tiết theo dõi cả tiền.
+    -->
+    <template id="stock_ledger_table">
+        <table class="table table-sm o_vn_table o_vn_table_stock">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="o_vn_col_date">Ngày</th>
+                    <th rowspan="2" class="o_vn_col_ref">Chứng từ</th>
+                    <th rowspan="2" class="o_vn_col_label">Diễn giải</th>
+                    <th rowspan="2" class="o_vn_col_ref">TK đối ứng</th>
+                    <th rowspan="2" class="o_vn_col_amount">Đơn giá</th>
+                    <th colspan="2" class="text-center">Nhập</th>
+                    <th colspan="2" class="text-center">Xuất</th>
+                    <th colspan="2" class="text-center">Tồn</th>
+                </tr>
+                <tr>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Thành tiền</th>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Thành tiền</th>
+                    <th class="o_vn_col_qty">SL</th>
+                    <th class="o_vn_col_amount">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="group">
+
+                    <tr t-att-data-group="'g%s' % group_index"
+                        t-att-data-group-key="group.product.id"
+                        t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
+                        <td colspan="9">
+                            <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
+                            <strong t-esc="group.product.display_name"/>
+                            <span class="o_vn_muted"> — <t t-esc="group.product.uom_name"/></span>
+                        </td>
+                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr class="o_vn_opening_row"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="9">Tồn đầu kỳ</td>
+                        <td class="o_vn_col_qty" t-esc="group.opening.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.opening.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr t-foreach="group.lines" t-as="line" class="o_vn_line"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td class="o_vn_col_date" t-esc="line.date"
+                            t-options="{'widget': 'date'}"/>
+                        <td class="o_vn_col_ref" t-esc="line.reference"/>
+                        <td class="o_vn_col_label" t-esc="line.description"/>
+                        <td class="o_vn_col_ref" t-esc="line.counterpart"/>
+                        <td class="o_vn_col_amount" t-esc="line.unit_cost"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_qty">
+                            <span t-if="line.incoming.quantity"
+                                  t-esc="line.incoming.quantity"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.incoming.quantity"
+                                  t-esc="line.incoming.value"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_qty">
+                            <span t-if="line.outgoing.quantity"
+                                  t-esc="line.outgoing.quantity"/>
+                        </td>
+                        <td class="o_vn_col_amount">
+                            <span t-if="line.outgoing.quantity"
+                                  t-esc="line.outgoing.value"
+                                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        </td>
+                        <td class="o_vn_col_qty" t-esc="line.running.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="line.running.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+
+                    <tr class="o_vn_closing_row"
+                        t-att-data-group-child="'g%s' % group_index">
+                        <td colspan="5">Cộng phát sinh / Tồn cuối kỳ</td>
+                        <td class="o_vn_col_qty" t-esc="group.incoming.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.incoming.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_qty" t-esc="group.outgoing.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.outgoing.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </tr>
+                </t>
+            </tbody>
+            <tfoot t-if="report.groups">
+                <tr class="o_vn_total_row">
+                    <td colspan="10">Tổng giá trị tồn cuối kỳ</td>
+                    <td class="o_vn_col_amount" t-esc="report.totals.value"
+                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có vật tư nào phát sinh hoặc còn tồn trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="inventory_summary_screen">
+        <div class="o_vn_report o_vn_report_stock">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_stock_reports.inventory_summary_table"/>
+        </div>
+    </template>
+
+    <template id="stock_card_screen">
+        <div class="o_vn_report o_vn_report_stock">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_stock_reports.stock_card_table"/>
+        </div>
+    </template>
+
+    <template id="stock_ledger_screen">
+        <div class="o_vn_report o_vn_report_stock">
+            <t t-call="l10n_vn_reports.vn_form_header"/>
+            <t t-call="l10n_vn_stock_reports.stock_ledger_table"/>
+        </div>
+    </template>
+
+    <template id="report_stock_card">
+        <t t-call="l10n_vn_reports.vn_print_layout">
+                <div class="page o_vn_report o_vn_report_print">
+                    <t t-call="l10n_vn_reports.vn_form_header"/>
+                    <t t-if="docs and docs[0].layout == 'card'">
+                        <t t-call="l10n_vn_stock_reports.stock_card_table"/>
+                    </t>
+                    <t t-elif="docs and docs[0].layout == 'ledger'">
+                        <t t-call="l10n_vn_stock_reports.stock_ledger_table"/>
+                    </t>
+                    <t t-else="">
+                        <t t-call="l10n_vn_stock_reports.inventory_summary_table"/>
+                    </t>
+                    <t t-call="l10n_vn_reports.vn_form_signature"/>
+                </div>
+        </t>
+    </template>
+
+</odoo>

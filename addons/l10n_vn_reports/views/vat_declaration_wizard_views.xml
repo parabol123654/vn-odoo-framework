@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_vat_declaration_wizard_form" model="ir.ui.view">
+        <field name="name">vn.vat.declaration.wizard.form</field>
+        <field name="model">vn.vat.declaration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="VAT Declaration">
+                <field name="currency_id" invisible="1"/>
+                <group>
+                    <group name="period" string="Period">
+                        <field name="company_id"
+                               groups="base.group_multi_company"
+                               options="{'no_create': True}"/>
+                        <field name="date_from" required="1"/>
+                        <field name="date_to"/>
+                        <field name="target_move" widget="radio"/>
+                    </group>
+                    <group name="manual" string="Entered by hand">
+                        <field name="carried_forward"/>
+                        <field name="adjustment_decrease"/>
+                        <field name="adjustment_increase"/>
+                        <field name="refund_claimed"/>
+                    </group>
+                </group>
+                <div class="text-muted" colspan="2">
+                    Everything else is derived from the VAT listings. The
+                    declaration checks itself against the ledger: output VAT on
+                    the form must equal the period's credit movement on the
+                    output VAT account, and any VAT posted by hand shows up as
+                    the difference.
+                </div>
+                <footer>
+                    <button name="action_view" type="object" string="View"
+                            class="btn-primary"/>
+                    <button name="action_print_pdf" type="object" string="Print PDF"
+                            class="btn-secondary"/>
+                    <button name="action_export_xlsx" type="object" string="Export Excel"
+                            class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vn_vat_declaration_wizard" model="ir.actions.act_window">
+        <field name="name">VAT Declaration</field>
+        <field name="res_model">vn.vat.declaration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_vat_declaration_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

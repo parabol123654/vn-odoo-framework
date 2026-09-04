@@ -1,0 +1,21 @@
+// Production cost columns, and the scope note that must not be missed.
+.o_vn_table_mrp {
+    .o_vn_col_qty {
+        width: 90px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .o_vn_col_uom { width: 60px; }
+    .o_vn_col_code { width: 110px; }
+}
+
+// The note says what the report leaves out. Printed too faintly it gets
+// skipped, and a cost sheet read as complete when it is not is worse than none.
+.o_vn_scope_note {
+    margin-top: 16px;
+    padding: 8px 12px;
+    border-left: 3px solid #a32100;
+    background-color: #fdf6f5;
+    color: #495057;
+}

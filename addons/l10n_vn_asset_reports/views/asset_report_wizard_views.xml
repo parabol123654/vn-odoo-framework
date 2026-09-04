@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_asset_report_wizard_form" model="ir.ui.view">
+        <field name="name">vn.asset.report.wizard.form</field>
+        <field name="model">vn.asset.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fixed Asset Report">
+                <group>
+                    <group name="period" string="Period">
+                        <field name="company_id"
+                               groups="base.group_multi_company"
+                               options="{'no_create': True}"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group name="scope" string="Report">
+                        <field name="layout" widget="radio"/>
+                        <field name="include_unposted"/>
+                    </group>
+                </group>
+
+                <group name="filters" string="Restrict to">
+                    <field name="profile_ids" widget="many2many_tags"
+                           options="{'no_create': True}"/>
+                    <field name="asset_ids" widget="many2many_tags"
+                           options="{'no_create': True}"/>
+                </group>
+
+                <div class="text-muted" colspan="2">
+                    Reads the asset subledger (OCA Assets Management). By
+                    default only depreciation that reached the ledger counts,
+                    so the figures agree with accounts 211 and 214; planned
+                    depreciation joins only when asked for.
+                </div>
+
+                <footer>
+                    <button name="action_view" type="object" string="View"
+                            class="btn-primary"/>
+                    <button name="action_print_pdf" type="object" string="Print PDF"
+                            class="btn-secondary"/>
+                    <button name="action_export_xlsx" type="object" string="Export Excel"
+                            class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vn_asset_register_wizard" model="ir.actions.act_window">
+        <field name="name">Asset Register</field>
+        <field name="res_model">vn.asset.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_asset_report_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{'default_layout': 'register'}</field>
+    </record>
+
+    <record id="action_vn_asset_card_wizard" model="ir.actions.act_window">
+        <field name="name">Asset Cards</field>
+        <field name="res_model">vn.asset.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_asset_report_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{'default_layout': 'card'}</field>
+    </record>
+
+    <record id="action_vn_asset_allocation_wizard" model="ir.actions.act_window">
+        <field name="name">Depreciation Allocation</field>
+        <field name="res_model">vn.asset.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_asset_report_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{'default_layout': 'allocation'}</field>
+    </record>
+
+</odoo>

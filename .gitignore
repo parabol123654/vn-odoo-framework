@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Odoo
+*.log
+filestore/
+sessions/
+odoo.conf
+scripts/odoo.conf
+
+# Translations: keep .po, never commit compiled catalogs
+*.mo
+
+# Tooling
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store

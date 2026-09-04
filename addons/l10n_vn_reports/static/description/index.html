@@ -1,0 +1,81 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Vietnam VAS Reports (TT200 / TT133)</h2>
+            <h3 class="oe_slogan">Sổ sách kế toán, báo cáo tài chính, bảng kê thuế GTGT và phiếu thu chi
+                theo Chuẩn mực Kế toán Việt Nam — cho Odoo 14 Community</h3>
+        </div>
+        <div class="oe_span12">
+            <img class="oe_picture oe_screenshot" src="banner.png"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3>Báo cáo trong module này / Reports included</h3>
+            <ul>
+                <li><b>Sổ kế toán:</b> Sổ Nhật ký chung (S03a-DN), Sổ Cái (S03b-DN),
+                    Bảng cân đối số phát sinh (S06-DN)</li>
+                <li><b>Sổ chi tiết:</b> Sổ chi tiết thanh toán với người mua, người bán (S31-DN),
+                    Sổ quỹ tiền mặt / tiền gửi ngân hàng (S07-DN / S08-DN),
+                    Sổ chi tiết bán hàng (S35-DN),
+                    Sổ chi phí sản xuất, kinh doanh (S36-DN),
+                    Bảng phân bổ nguyên liệu, vật liệu, công cụ, dụng cụ (07-VT),
+                    Bảng tổng hợp công nợ theo tuổi nợ</li>
+                <li><b>Báo cáo tài chính:</b> Bảng cân đối kế toán (B01-DN · B01a-DNN),
+                    Báo cáo kết quả hoạt động kinh doanh (B02-DN · B02-DNN),
+                    Báo cáo lưu chuyển tiền tệ (B03-DN trực tiếp · B03-DNN gián tiếp)</li>
+                <li><b>Thuế GTGT:</b> Bảng kê hoá đơn bán ra / mua vào (phụ lục 01/GTGT),
+                    Tờ khai thuế GTGT (mẫu 01/GTGT)</li>
+                <li><b>Chứng từ:</b> Phiếu thu (01-TT), Phiếu chi (02-TT) in thẳng từ bút toán</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3>Điểm đáng tin cậy / Why the numbers hold up</h3>
+            <ul>
+                <li><b>Một QWeb template cho cả màn hình và PDF</b> — bản xem và bản in
+                    không bao giờ lệch nhau. Xuất Excel cho mọi báo cáo, kèm đơn vị,
+                    kỳ và điều kiện lọc.</li>
+                <li><b>Số dư đầu kỳ theo năm tài chính:</b> tài khoản bảng cân đối luỹ kế
+                    từ khi thành lập, tài khoản kết quả kinh doanh reset đầu năm.</li>
+                <li><b>Tách dư Nợ / dư Có theo từng đối tượng</b> trên Bảng cân đối kế toán
+                    (TK 131, 331) — tính theo từng khách hàng rồi mới cộng.</li>
+                <li><b>Tuổi nợ tại một ngày trong quá khứ</b> cộng ngược các khoản
+                    đối trừ phát sinh sau ngày chốt.</li>
+                <li><b>TT200 hay TT133 là thuộc tính của công ty</b> (Cấu hình → Công ty);
+                    chỉ tiêu báo cáo là dữ liệu ánh xạ sửa được qua giao diện,
+                    không phải mã Python, và <b>không dùng eval</b>.</li>
+                <li><b>Truy vết ngược:</b> bấm một chỉ tiêu trên B01/B02 mở đúng Sổ Cái
+                    các tài khoản cấu thành, rồi tới từng bút toán và chứng từ gốc.</li>
+                <li>Toàn bộ nghiệp vụ nằm trong domain Python thuần (module
+                    <code>vn_core</code>) với hàng trăm unit test chạy không cần Odoo.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3>Bộ module / Module suite</h3>
+            <p>Module này là phần kế toán. Cài thêm tuỳ nhu cầu:</p>
+            <ul>
+                <li><code>l10n_vn_stock_reports</code> — Thẻ kho (S12-DN), Sổ chi tiết
+                    vật liệu (S10-DN), Bảng tổng hợp N-X-T (S11-DN)</li>
+                <li><code>l10n_vn_mrp_reports</code> — Chi phí sản xuất và giá thành,
+                    Thẻ tính giá thành (S37-DN)</li>
+                <li><code>l10n_vn_asset_reports</code> — Sổ TSCĐ (S21-DN), Thẻ TSCĐ
+                    (S23-DN), Bảng phân bổ khấu hao (06-TSCĐ)</li>
+            </ul>
+            <p>Có dữ liệu demo đầy đủ (hai năm tài chính, hoá đơn có thuế GTGT) để
+                xem báo cáo ngay sau khi cài. Giấy phép AGPL-3, mã nguồn mở.</p>
+        </div>
+    </div>
+</section>

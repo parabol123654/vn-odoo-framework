@@ -1,0 +1,25 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.py]
+indent_size = 4
+max_line_length = 88
+
+[*.{xml,html}]
+indent_size = 4
+
+[*.{js,scss,css,json,yml,yaml}]
+indent_size = 4
+
+[*.md]
+# Markdown uses trailing spaces for hard line breaks.
+trim_trailing_whitespace = false
+
+[*.po]
+indent_size = 4

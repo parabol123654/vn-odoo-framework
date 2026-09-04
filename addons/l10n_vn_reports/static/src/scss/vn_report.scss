@@ -1,0 +1,412 @@
+// Target: Odoo 14.0 Community Edition
+//
+// Styling follows Odoo's own backend language rather than inventing a visual
+// identity: the accountant reads this alongside every other Odoo screen. The
+// one place with a deliberate character is the printed book, which is set to
+// look like a statutory Vietnamese ledger — narrow rules, tabular figures,
+// no rounded corners.
+
+$o-vn-rule: #dee2e6;
+$o-vn-group-bg: #f1f5f9;
+$o-vn-total-bg: #e2e8f0;
+
+.o_vn_hidden {
+    display: none !important;
+}
+
+.o_vn_filtered {
+    display: none !important;
+}
+
+// ---------------------------------------------------------------- viewer
+.o_vn_viewer {
+    // No padding at the top of the scroll container. A sticky toolbar pins
+    // against the scrollport, so any padding above it is a strip that report
+    // rows scroll through in plain view — which is why a long statement showed
+    // a sliver of the row above the toolbar. The spacing moves onto the toolbar
+    // itself, which also lets its background bleed across the side gutters.
+    padding: 0 16px 32px;
+    background-color: #fff;
+    height: 100%;
+    overflow: auto;
+
+    .o_vn_toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        position: sticky;
+        top: 0;
+        // Well clear of anything a table style might introduce. The report body
+        // below is pinned into its own stacking context at 0, so nothing inside
+        // it can climb over this bar however it is styled later.
+        z-index: 10;
+        margin: 0 -16px 12px;
+        padding: 12px 16px 10px;
+        background-color: #fff;
+        // An inset shadow rather than a border: a border on a sticky element
+        // can leave a hairline that rows show through while scrolling.
+        box-shadow: inset 0 -1px 0 $o-vn-rule;
+    }
+
+    // Everything below the toolbar shares one stacking context beneath it.
+    .o_vn_filter_notice,
+    .o_vn_report_content,
+    .o_vn_expired {
+        position: relative;
+        z-index: 0;
+    }
+
+    .o_vn_toolbar_title {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+
+        .o_vn_report_name {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        .o_vn_summary {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+    }
+
+    .o_vn_toolbar_actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .o_vn_toolbar_divider {
+        display: inline-block;
+        width: 1px;
+        height: 20px;
+        margin: 0 6px;
+        background-color: $o-vn-rule;
+    }
+
+    .o_vn_search {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .o_vn_search_icon {
+            color: #6c757d;
+        }
+        .o_vn_search_input {
+            width: 180px;
+        }
+    }
+
+    .o_vn_filter_notice {
+        padding: 6px 10px;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+    }
+
+    .o_vn_expired {
+        max-width: 520px;
+        margin: 48px auto;
+        text-align: center;
+        color: #6c757d;
+    }
+}
+
+// ---------------------------------------------------------------- form header
+.o_vn_report {
+    .o_vn_form_header {
+        margin-bottom: 12px;
+        font-size: 0.85rem;
+    }
+
+    .o_vn_form_code {
+        font-size: 0.8rem;
+    }
+
+    .o_vn_form_legal {
+        font-style: italic;
+        color: #6c757d;
+        font-size: 0.75rem;
+    }
+
+    .o_vn_form_title {
+        margin: 14px 0 4px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+    }
+
+    .o_vn_form_period,
+    .o_vn_form_unit {
+        font-size: 0.85rem;
+    }
+
+    .o_vn_form_unit {
+        margin-bottom: 10px;
+        color: #6c757d;
+    }
+
+    // Applied filters. Kept compact and inline: it is provenance, not content,
+    // and on a printed book it must not push the table onto a second page.
+    .o_vn_form_filters {
+        margin: 8px 0 10px;
+        padding: 5px 8px;
+        font-size: 0.78rem;
+        color: #495057;
+        background-color: #f6f7f9;
+        border-left: 3px solid $o-vn-rule;
+    }
+
+    .o_vn_filter_item {
+        display: inline-block;
+        margin-right: 14px;
+        white-space: nowrap;
+    }
+
+    .o_vn_filter_label {
+        color: #6c757d;
+    }
+
+    .o_vn_filter_value {
+        font-weight: 600;
+    }
+
+    .o_vn_empty {
+        padding: 32px;
+        text-align: center;
+        color: #6c757d;
+    }
+}
+
+// ---------------------------------------------------------------- table
+.o_vn_table {
+    width: 100%;
+    font-size: 0.85rem;
+    // Figures must align digit for digit down the column.
+    font-variant-numeric: tabular-nums;
+
+    thead th {
+        vertical-align: middle;
+        text-align: center;
+        background-color: $o-vn-group-bg;
+        border-bottom: 2px solid #adb5bd;
+        white-space: nowrap;
+    }
+
+    td, th {
+        border: 1px solid $o-vn-rule;
+        padding: 3px 6px;
+    }
+
+    .o_vn_col_amount {
+        text-align: right;
+        white-space: nowrap;
+        width: 11%;
+    }
+
+    .o_vn_col_date,
+    .o_vn_col_ref,
+    .o_vn_col_code,
+    .o_vn_col_counterpart {
+        white-space: nowrap;
+        width: 1%;
+    }
+
+    .o_vn_col_label {
+        width: auto;
+    }
+
+    .o_vn_credit {
+        color: #b02a37;
+    }
+
+    .o_vn_group_row {
+        background-color: $o-vn-group-bg;
+
+        &.o_vn_group_toggle {
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken($o-vn-group-bg, 4%);
+            }
+        }
+
+        .o_vn_caret {
+            width: 12px;
+            margin-right: 6px;
+            color: #6c757d;
+        }
+    }
+
+    .o_vn_opening_row,
+    .o_vn_subtotal_row,
+    .o_vn_closing_row {
+        font-style: italic;
+        color: #495057;
+    }
+
+    .o_vn_subtotal_row,
+    .o_vn_closing_row {
+        font-weight: 600;
+        font-style: normal;
+    }
+
+    .o_vn_total_row {
+        font-weight: 700;
+        background-color: $o-vn-total-bg;
+    }
+
+    .o_vn_line[data-move-id] {
+        cursor: pointer;
+
+        &:hover {
+            background-color: #fffbe6;
+        }
+    }
+}
+
+// ---------------------------------------------------------------- signatures
+.o_vn_signature {
+    margin-top: 28px;
+    font-size: 0.85rem;
+
+    .o_vn_signature_role {
+        font-weight: 600;
+    }
+
+    .o_vn_signature_hint,
+    .o_vn_signature_date {
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    // Room for a wet signature and a company stamp.
+    div[class^="col-"] {
+        padding-bottom: 70px;
+    }
+}
+
+// ---------------------------------------------------------------- print
+.o_vn_report_print {
+    .o_vn_table {
+        font-size: 0.72rem;
+    }
+
+    // Never split an account's block across pages if it can be helped.
+    .o_vn_group_row {
+        page-break-after: avoid;
+    }
+    .o_vn_closing_row {
+        page-break-before: avoid;
+    }
+}
+
+// Aged balance: a narrow day-count column and a muted document label.
+.o_vn_table_aging {
+    .o_vn_col_days {
+        width: 70px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .o_vn_overdue {
+        color: #a32100;
+        font-weight: bold;
+    }
+
+    .o_vn_muted {
+        color: #6c757d;
+    }
+}
+
+// Financial statements: a code column and indentation driven by the mapping.
+.o_vn_table_statement {
+    .o_vn_col_code {
+        width: 80px;
+        text-align: center;
+    }
+
+    .o_vn_bold {
+        font-weight: bold;
+        background-color: #f8f9fa;
+    }
+
+    // Only items the ledger can explain are offered as links, so the cursor is
+    // itself information: if it does not change, there is nothing underneath.
+    .o_vn_drillable {
+        cursor: pointer;
+        border-bottom: 1px dotted #6c757d;
+
+        &:hover {
+            color: #714b67;
+            border-bottom-style: solid;
+        }
+    }
+
+    .o_vn_statement_line td {
+        border-top: 1px solid #eceff1;
+    }
+}
+
+// VAT listing: sequence, invoice number and tax-code columns.
+.o_vn_table_vat {
+    .o_vn_col_seq { width: 44px; text-align: right; }
+    .o_vn_col_vat { width: 110px; font-variant-numeric: tabular-nums; }
+
+    // A credit note reduces the declaration; make that visible.
+    .o_vn_refund td { color: #a32100; }
+}
+
+.o_vn_note {
+    margin-top: 12px;
+    font-size: 11px;
+    color: #6c757d;
+}
+
+// Balance sheet diagnostics: a visible verdict, not a footnote.
+.o_vn_alert {
+    margin: 12px 0;
+    padding: 8px 12px;
+    border-left: 4px solid;
+    font-size: 12px;
+
+    &.o_vn_alert_error {
+        background-color: #fdf2f0;
+        border-color: #a32100;
+    }
+
+    &.o_vn_alert_ok {
+        background-color: #f1f8f2;
+        border-color: #2e7d32;
+    }
+}
+
+.o_vn_unmapped {
+    margin-top: 20px;
+
+    h5 {
+        font-size: 13px;
+        font-weight: bold;
+    }
+}
+
+// Cash voucher (01-TT / 02-TT). A single sheet, so it can breathe more than a
+// ledger that runs to hundreds of pages.
+.o_vn_voucher {
+    font-size: 0.9rem;
+
+    .o_vn_voucher_head {
+        margin-top: 12px;
+
+        td {
+            border: none;
+            padding: 3px 6px;
+        }
+    }
+
+    .o_vn_signature > div {
+        padding-top: 6px;
+    }
+}

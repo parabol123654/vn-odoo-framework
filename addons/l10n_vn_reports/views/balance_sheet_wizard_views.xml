@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_balance_sheet_wizard_form" model="ir.ui.view">
+        <field name="name">vn.balance.sheet.wizard.form</field>
+        <field name="model">vn.balance.sheet.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Balance Sheet">
+                <group>
+                    <group name="period" string="As at">
+                        <field name="company_id"
+                               groups="base.group_multi_company"
+                               options="{'no_create': True}"/>
+                        <field name="date_to" string="Balance as at"/>
+                        <field name="target_move" widget="radio"/>
+                        <field name="date_from" invisible="1"/>
+                    </group>
+                    <group name="layout" string="Layout">
+                        <field name="comparative"/>
+                        <field name="show_diagnostics"/>
+                        <field name="mapping_id" options="{'no_create': True}"
+                               groups="account.group_account_manager"/>
+                    </group>
+                </group>
+                <div class="text-muted" colspan="2">
+                    The shipped TT200 form maps the items a typical SME uses.
+                    Uncommon items are left blank on purpose; switch on
+                    "Check coverage" and the report will list the accounts that
+                    no item picks up.
+                </div>
+                <footer>
+                    <button name="action_view" type="object" string="View"
+                            class="btn-primary"/>
+                    <button name="action_print_pdf" type="object" string="Print PDF"
+                            class="btn-secondary"/>
+                    <button name="action_export_xlsx" type="object" string="Export Excel"
+                            class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vn_balance_sheet_wizard" model="ir.actions.act_window">
+        <field name="name">Balance Sheet</field>
+        <field name="res_model">vn.balance.sheet.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_balance_sheet_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

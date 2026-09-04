@@ -1,0 +1,25 @@
+# Odoo 14 CE itself is installed separately; see the upstream install guide.
+#
+# vn_core and l10n_vn_reports currently need no Python package beyond what
+# Odoo 14 already requires. The Domain layer deliberately depends on nothing
+# outside the standard library.
+#
+# OCA dependencies are Odoo *addons*, not pip packages. Either clone the repos
+# into addons_path (see scripts/odoo.conf.example):
+#
+#   OCA/reporting-engine            report_xlsx, report_csv
+#   OCA/queue                       queue_job
+#   OCA/account-financial-tools     account_asset_management  (fixed assets —
+#                                   account_asset is Enterprise-only in 14)
+#
+# ...or install them from PyPI, which puts them on addons_path automatically:
+#
+#   odoo14-addon-report-xlsx
+#   odoo14-addon-queue-job
+#   odoo14-addon-account-asset-management
+
+# Excel export. Deliberately not pinned here: whatever Odoo 14 installs is what
+# runs, and Odoo 14 pins XlsxWriter==1.1.2. Treat 1.1.2 as the baseline — any
+# newer method must be feature-detected, which scripts/check_repo.py enforces.
+# Nothing is added to the server's dependencies by this framework.
+XlsxWriter>=1.1.2

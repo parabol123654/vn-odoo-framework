@@ -1,0 +1,50 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Vietnam VAS Reports — Fixed Assets</h2>
+            <h3 class="oe_slogan">Sổ TSCĐ (S21-DN), Thẻ TSCĐ (S23-DN) và Bảng tính, phân bổ khấu hao (06-TSCĐ)</h3>
+        </div>
+        <div class="oe_span12">
+            <img class="oe_picture oe_screenshot" src="banner.png"/>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+<ul>
+<li><b>Sổ tài sản cố định (S21-DN)</b> — mỗi tài sản một dòng, nhóm theo loại,
+    tỷ lệ khấu hao năm, luỹ kế, giá trị còn lại, ngày ghi giảm.</li>
+<li><b>Thẻ tài sản cố định (S23-DN)</b> — mỗi tài sản một thẻ, hao mòn cộng
+    dồn theo từng năm suốt đời tài sản.</li>
+<li><b>Bảng tính và phân bổ khấu hao (06-TSCĐ)</b> — nhóm TSCĐ × tài khoản
+    chi phí, kèm khối tổng hợp I–IV so với kỳ trước theo tháng lịch.</li>
+<li>Mặc định chỉ tính khấu hao <b>đã ghi sổ</b> (khớp TK 211 / 214); kế hoạch
+    chưa ghi sổ chỉ vào báo cáo khi được chọn.</li>
+<li><b>Dependency:</b> reads the asset subledger of OCA
+    <a href="https://github.com/OCA/account-financial-tools/tree/14.0/account_asset_management">
+    <code>account_asset_management</code></a> (branch 14.0; free, AGPL-3),
+    which itself needs <code>report_xlsx_helper</code> from
+    <a href="https://github.com/OCA/reporting-engine/tree/14.0">OCA/reporting-engine</a>.
+    Install those first — Odoo 14 Community has no asset subledger of its own.</li>
+<li>Xem màn hình + in PDF từ cùng một template, xuất Excel, dữ liệu demo.</li>
+</ul>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h3>Vietnam VAS Reports suite</h3>
+            <p>Part of the <b>Vietnam VAS Reports</b> suite for Odoo 14
+                Community: accounting books and financial statements
+                (<code>l10n_vn_reports</code>), inventory
+                (<code>l10n_vn_stock_reports</code>), manufacturing
+                (<code>l10n_vn_mrp_reports</code>) and fixed assets
+                (<code>l10n_vn_asset_reports</code>) on the shared framework
+                <code>vn_core</code>. Free and open source, AGPL-3.</p>
+        </div>
+    </div>
+</section>

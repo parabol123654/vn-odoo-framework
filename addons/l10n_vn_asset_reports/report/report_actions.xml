@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <record id="action_report_vn_asset" model="ir.actions.report">
+        <field name="name">Fixed Asset Reports</field>
+        <field name="model">vn.asset.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_asset_reports.report_vn_asset</field>
+        <field name="report_file">l10n_vn_asset_reports.report_vn_asset</field>
+        <field name="print_report_name">'Bao-cao-TSCD-%s' % (object.date_to)</field>
+        <field name="paperformat_id" ref="l10n_vn_reports.paperformat_vn_book"/>
+    </record>
+
+</odoo>

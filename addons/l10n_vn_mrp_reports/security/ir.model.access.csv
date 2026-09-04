@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vn_production_cost_wizard,vn.production.cost.wizard,model_vn_production_cost_wizard,l10n_vn_mrp_reports.group_vn_report_manufacturing,1,1,1,1

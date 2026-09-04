@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Target: Odoo 14.0 Community Edition — legacy QWeb, loaded via the manifest 'qweb' key -->
+<templates id="template" xml:space="preserve">
+
+    <t t-name="l10n_vn_reports.ReportViewer">
+        <div class="o_vn_viewer">
+
+            <div class="o_vn_toolbar">
+                <div class="o_vn_toolbar_title">
+                    <span class="o_vn_report_name" t-esc="widget.reportName"/>
+                    <span class="o_vn_summary"/>
+                </div>
+
+                <div class="o_vn_toolbar_actions">
+                    <button type="button" class="btn btn-primary btn-sm o_vn_print_pdf">
+                        <i class="fa fa-file-pdf-o mr-1"/>Print PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm o_vn_export_xlsx">
+                        <i class="fa fa-file-excel-o mr-1"/>Export Excel
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm o_vn_edit_filters">
+                        <i class="fa fa-sliders mr-1"/>Change period
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm o_vn_refresh">
+                        <i class="fa fa-refresh mr-1"/>Refresh
+                    </button>
+
+                    <span class="o_vn_toolbar_divider"/>
+
+                    <button type="button" class="btn btn-link btn-sm o_vn_expand_all">Expand all</button>
+                    <button type="button" class="btn btn-link btn-sm o_vn_collapse_all">Collapse all</button>
+
+                    <div class="o_vn_search">
+                        <i class="fa fa-search o_vn_search_icon"/>
+                        <input type="text" class="form-control form-control-sm o_vn_search_input"
+                               placeholder="Search in this report"/>
+                        <button type="button" class="btn btn-link btn-sm o_vn_search_clear"
+                                title="Clear search">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="o_vn_filter_notice alert alert-info o_vn_hidden">
+                Showing matching lines only. The totals below still cover the whole period.
+            </div>
+
+            <div class="o_vn_report_content"/>
+        </div>
+    </t>
+
+    <t t-name="l10n_vn_reports.ReportViewerExpired">
+        <div class="o_vn_expired">
+            <h4>This report is no longer available</h4>
+            <p>
+                Report criteria are held temporarily and have since been cleared.
+                Open the report again from the Reporting menu to rebuild it.
+            </p>
+        </div>
+    </t>
+
+</templates>

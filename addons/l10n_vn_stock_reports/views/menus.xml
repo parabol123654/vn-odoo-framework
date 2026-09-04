@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+
+    <!-- Hangs off the menu tree l10n_vn_reports already declares, so the
+         inventory reports sit beside the accounting books rather than in a
+         parallel place the accountant has to learn. -->
+    <menuitem id="menu_vn_reports_inventory"
+              name="Inventory"
+              parent="l10n_vn_reports.menu_vn_reports_root"
+              sequence="40"/>
+
+    <menuitem id="menu_vn_report_inventory_summary"
+              name="Inventory Summary (S11-DN)"
+              parent="menu_vn_reports_inventory"
+              action="action_vn_inventory_summary_wizard"
+              groups="l10n_vn_stock_reports.group_vn_report_inventory"
+              sequence="10"/>
+
+    <menuitem id="menu_vn_report_stock_card"
+              name="Stock Card (S12-DN)"
+              parent="menu_vn_reports_inventory"
+              action="action_vn_stock_card_wizard"
+              groups="l10n_vn_stock_reports.group_vn_report_inventory"
+              sequence="20"/>
+
+    <menuitem id="menu_vn_report_stock_ledger"
+              name="Stock Ledger (S10-DN)"
+              parent="menu_vn_reports_inventory"
+              action="action_vn_stock_ledger_wizard"
+              groups="l10n_vn_stock_reports.group_vn_report_inventory"
+              sequence="30"/>
+
+</odoo>

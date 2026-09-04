@@ -1,0 +1,28 @@
+This project is licensed under the GNU Affero General Public License v3.0
+(AGPL-3.0), as declared in each module's __manifest__.py.
+
+AGPL-3 rather than LGPL-3 because the project depends on OCA modules that are
+themselves AGPL-3 (report_xlsx among them). Note that docs/README.md still
+recommends LGPL-3; that recommendation predates the OCA dependency and should be
+updated.
+
+  Copyright (C) 2026  <your organisation>
+
+  This program is free software: you can redistribute it and/or modify it under
+  the terms of the GNU Affero General Public License as published by the Free
+  Software Foundation, either version 3 of the License, or (at your option) any
+  later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more
+  details.
+
+  You should have received a copy of the GNU Affero General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+-------------------------------------------------------------------------------
+ACTION REQUIRED: replace this file with the full, verbatim AGPL-3.0 text before
+publishing. The notice above is not a substitute for it. Fetch it from
+https://www.gnu.org/licenses/agpl-3.0.txt
+-------------------------------------------------------------------------------

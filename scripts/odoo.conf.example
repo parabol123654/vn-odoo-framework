@@ -1,0 +1,28 @@
+; Copy to scripts/odoo.conf (gitignored) and adjust the paths.
+[options]
+
+; Order matters: Odoo takes the first match, so keep core last.
+; Point the OCA entries at your clones, or drop them if installed from PyPI.
+addons_path =
+    /opt/odoo-vn-framework/addons,
+    /opt/OCA/reporting-engine,
+    /opt/OCA/queue,
+    /opt/odoo/addons
+
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = odoo
+
+; Accounting books over a full year are legitimately slow the first time an
+; index is cold. The 120s default will kill a General Ledger on real data.
+limit_time_cpu = 600
+limit_time_real = 1200
+
+; wkhtmltopdf needs to reach this to render the PDF header and footer.
+; Set it to the URL the Odoo process itself can call, not the public one.
+; report.url = http://127.0.0.1:8069
+
+logfile = None
+log_level = info
+list_db = True

@@ -1,0 +1,150 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_vn_asset_reports
+#
+# Source strings are English, as Odoo expects. Statutory form numbers are
+# part of the menu label and read the same in both languages. The headings
+# printed inside the reports are absent on purpose: they are fixed by Thong
+# tu 200 and are hardcoded in the QWeb templates.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-03 07:00+0000\n"
+"PO-Revision-Date: 2026-09-03 07:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__card
+msgid "Asset cards (one card per asset)"
+msgstr "Thẻ TSCĐ (mỗi tài sản một thẻ)"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_card_wizard
+#: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
+#, python-format
+msgid "Asset Cards"
+msgstr "Thẻ tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_report_asset_card
+msgid "Asset Cards (S23-DN)"
+msgstr "Thẻ TSCĐ (S23-DN)"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__profile_ids
+msgid "Asset groups"
+msgstr "Nhóm tài sản"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__register
+msgid "Asset register (one row per asset)"
+msgstr "Sổ TSCĐ (mỗi tài sản một dòng)"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_register_wizard
+#: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
+#, python-format
+msgid "Asset Register"
+msgstr "Sổ tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_report_asset_register
+msgid "Asset Register (S21-DN)"
+msgstr "Sổ TSCĐ (S21-DN)"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__asset_ids
+msgid "Assets"
+msgstr "Tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Cancel"
+msgstr "Huỷ"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__allocation
+msgid "Depreciation allocation (period cross-tab)"
+msgstr "Bảng tính và phân bổ khấu hao (bảng chéo theo kỳ)"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_allocation_wizard
+#: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
+#, python-format
+msgid "Depreciation Allocation"
+msgstr "Bảng tính và phân bổ khấu hao"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_report_asset_allocation
+msgid "Depreciation Allocation (06-TSCD)"
+msgstr "Bảng tính và phân bổ khấu hao (06-TSCĐ)"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Export Excel"
+msgstr "Xuất Excel"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Fixed Asset Report"
+msgstr "Báo cáo tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model,name:l10n_vn_asset_reports.model_vn_asset_report_wizard
+#: model:ir.actions.report,name:l10n_vn_asset_reports.action_report_vn_asset
+msgid "Fixed Asset Reports"
+msgstr "Báo cáo tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_reports_assets
+msgid "Fixed Assets"
+msgstr "Tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__include_unposted
+msgid "Include planned depreciation"
+msgstr "Gồm cả khấu hao kế hoạch chưa ghi sổ"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Period"
+msgstr "Kỳ báo cáo"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Print PDF"
+msgstr "In PDF"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__layout
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Report"
+msgstr "Báo cáo"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Restrict to"
+msgstr "Giới hạn theo"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Reads the asset subledger (OCA Assets Management). By default only depreciation that reached the ledger counts, so the figures agree with accounts 211 and 214; planned depreciation joins only when asked for."
+msgstr "Đọc sổ chi tiết tài sản (OCA Assets Management). Mặc định chỉ tính khấu hao đã ghi sổ, nên số liệu khớp với TK 211 và 214; khấu hao kế hoạch chỉ vào báo cáo khi được chọn."
+
+#. module: l10n_vn_asset_reports
+#: model:res.groups,name:l10n_vn_asset_reports.group_vn_report_asset
+msgid "Vietnam Reports / Fixed Assets"
+msgstr "Báo cáo Việt Nam / Tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "View"
+msgstr "Xem"

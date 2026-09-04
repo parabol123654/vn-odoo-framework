@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 14.0 Community Edition -->
+<odoo>
+    <!--
+        Mẫu B01a-DNN — Báo cáo tình hình tài chính (Thông tư 133/2016).
+
+        File này tồn tại một phần để kiểm chứng luận điểm trung tâm của kiến
+        trúc: đổi thông tư là đổi **dữ liệu**, không đổi engine. Không một dòng
+        Python nào thay đổi để có báo cáo này — cùng Financial Statement Engine,
+        cùng bộ phân tích biểu thức, cùng bộ đánh giá công thức, cùng khối chẩn
+        đoán. Chỉ khác các dòng dưới đây.
+
+        Khác biệt thật so với TT200, chứ không phải đổi tên:
+
+        * Ít chỉ tiêu hơn hẳn (khoảng 40 thay vì 72), không tách ngắn hạn với
+          dài hạn ở phần lớn khoản mục.
+        * Chi phí bán hàng và chi phí quản lý gộp thành "Chi phí quản lý kinh
+          doanh", nên TK 641 và 642 rơi vào cùng một chỉ tiêu.
+        * Mã số hoàn toàn khác: tổng tài sản là 200 chứ không phải 270.
+
+        Vẫn giữ nguyên hai điểm khó của VAS: TK 131 và 331 tách nợ/có theo từng
+        đối tượng, và báo cáo tự kiểm 200 = 500.
+
+        Chỉ tiêu ít gặp cố ý để trống, như bản TT200.
+    -->
+    <data noupdate="1">
+
+        <record id="mapping_tt133_b01adnn" model="vn.report.mapping">
+            <field name="code">tt133_b01adnn</field>
+            <field name="name">Báo cáo tình hình tài chính</field>
+            <field name="report_type">balance_sheet</field>
+            <field name="basis">closing</field>
+            <field name="version">TT133</field>
+            <field name="balance_check">200=500</field>
+        </record>
+
+        <!-- ============================ TÀI SẢN ============================ -->
+        <record id="b01adnn_ts" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">10</field><field name="code">TS</field>
+            <field name="name">TÀI SẢN</field><field name="bold" eval="True"/>
+        </record>
+
+        <record id="b01adnn_110" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">20</field><field name="code">110</field>
+            <field name="name">1. Tiền và các khoản tương đương tiền</field>
+            <field name="expression">111*,112*,113*</field>
+            <field name="level">1</field>
+        </record>
+
+        <record id="b01adnn_120" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">30</field><field name="code">120</field>
+            <field name="name">2. Đầu tư tài chính</field>
+            <field name="formula">121 + 122 + 123 + 124</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <record id="b01adnn_121" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">40</field><field name="code">121</field>
+            <field name="name">- Chứng khoán kinh doanh</field>
+            <field name="expression">121*</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_122" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">50</field><field name="code">122</field>
+            <field name="name">- Đầu tư nắm giữ đến ngày đáo hạn</field>
+            <field name="level">2</field>
+        </record>
+        <record id="b01adnn_123" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">60</field><field name="code">123</field>
+            <field name="name">- Đầu tư góp vốn vào đơn vị khác</field>
+            <field name="expression">228*</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_124" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">70</field><field name="code">124</field>
+            <field name="name">- Dự phòng tổn thất đầu tư tài chính</field>
+            <field name="expression">2291*,2292*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_130" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">80</field><field name="code">130</field>
+            <field name="name">3. Các khoản phải thu</field>
+            <field name="formula">131 + 132 + 133 + 134 + 135 + 136</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <!-- Dư Nợ 131, tính theo từng khách hàng. -->
+        <record id="b01adnn_131" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">90</field><field name="code">131</field>
+            <field name="name">- Phải thu của khách hàng</field>
+            <field name="expression">131*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="level">2</field>
+        </record>
+        <!-- Dư Nợ 331, tính theo từng nhà cung cấp. -->
+        <record id="b01adnn_132" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">100</field><field name="code">132</field>
+            <field name="name">- Trả trước cho người bán</field>
+            <field name="expression">331*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="level">2</field>
+        </record>
+        <record id="b01adnn_133" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">110</field><field name="code">133</field>
+            <field name="name">- Vốn kinh doanh ở đơn vị trực thuộc</field>
+            <field name="level">2</field>
+        </record>
+        <record id="b01adnn_134" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">120</field><field name="code">134</field>
+            <field name="name">- Phải thu khác</field>
+            <field name="expression">1288*,1386*,1388*,141*,244*</field>
+            <field name="side">debit_only</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_135" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">130</field><field name="code">135</field>
+            <field name="name">- Tài sản thiếu chờ xử lý</field>
+            <field name="expression">1381*</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_136" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">140</field><field name="code">136</field>
+            <field name="name">- Dự phòng phải thu khó đòi</field>
+            <field name="expression">2293*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_140" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">150</field><field name="code">140</field>
+            <field name="name">4. Hàng tồn kho</field>
+            <field name="formula">141 + 142</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <record id="b01adnn_141" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">160</field><field name="code">141</field>
+            <field name="name">- Hàng tồn kho</field>
+            <field name="expression">151*,152*,153*,154*,155*,156*,157*</field>
+            <field name="level">2</field>
+        </record>
+        <record id="b01adnn_142" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">170</field><field name="code">142</field>
+            <field name="name">- Dự phòng giảm giá hàng tồn kho</field>
+            <field name="expression">2294*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_150" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">180</field><field name="code">150</field>
+            <field name="name">5. Tài sản cố định</field>
+            <field name="formula">151 + 152</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <record id="b01adnn_151" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">190</field><field name="code">151</field>
+            <field name="name">- Nguyên giá</field>
+            <field name="expression">211*,213*</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_152" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">200</field><field name="code">152</field>
+            <field name="name">- Giá trị hao mòn luỹ kế</field>
+            <field name="expression">2141*,2143*</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_160" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">210</field><field name="code">160</field>
+            <field name="name">6. Bất động sản đầu tư</field>
+            <field name="formula">161 + 162</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <record id="b01adnn_161" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">220</field><field name="code">161</field>
+            <field name="name">- Nguyên giá</field>
+            <field name="expression">217*</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_162" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">230</field><field name="code">162</field>
+            <field name="name">- Giá trị hao mòn luỹ kế</field>
+            <field name="expression">2147*</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_170" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">240</field><field name="code">170</field>
+            <field name="name">7. XDCB dở dang</field>
+            <field name="expression">241*</field><field name="level">1</field>
+        </record>
+
+        <record id="b01adnn_180" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">250</field><field name="code">180</field>
+            <field name="name">8. Tài sản khác</field>
+            <field name="formula">181 + 182</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <record id="b01adnn_181" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">260</field><field name="code">181</field>
+            <field name="name">- Thuế GTGT được khấu trừ</field>
+            <field name="expression">133*</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_182" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">270</field><field name="code">182</field>
+            <field name="name">- Tài sản khác</field>
+            <field name="expression">242*,243*,333*</field>
+            <field name="side">debit_only</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_200" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">280</field><field name="code">200</field>
+            <field name="name">TỔNG CỘNG TÀI SẢN</field>
+            <field name="formula">110 + 120 + 130 + 140 + 150 + 160 + 170 + 180</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <!-- =========================== NGUỒN VỐN =========================== -->
+        <record id="b01adnn_nv" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">290</field><field name="code">NV</field>
+            <field name="name">NGUỒN VỐN</field><field name="bold" eval="True"/>
+        </record>
+
+        <record id="b01adnn_300" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">300</field><field name="code">300</field>
+            <field name="name">1. Nợ phải trả</field>
+            <field name="formula">311 + 312 + 313 + 314 + 315 + 316 + 318 + 319</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <!-- Dư Có 331, theo từng nhà cung cấp. -->
+        <record id="b01adnn_311" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">310</field><field name="code">311</field>
+            <field name="name">- Phải trả người bán</field>
+            <field name="expression">331*</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <!-- Dư Có 131, theo từng khách hàng. -->
+        <record id="b01adnn_312" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">320</field><field name="code">312</field>
+            <field name="name">- Người mua trả tiền trước</field>
+            <field name="expression">131*</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_313" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">330</field><field name="code">313</field>
+            <field name="name">- Thuế và các khoản phải nộp Nhà nước</field>
+            <field name="expression">333*</field>
+            <field name="side">credit_only</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_314" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">340</field><field name="code">314</field>
+            <field name="name">- Phải trả người lao động</field>
+            <field name="expression">334*</field>
+            <field name="side">credit_only</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_315" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">350</field><field name="code">315</field>
+            <field name="name">- Phải trả khác</field>
+            <field name="expression">335*,338*,3381*</field>
+            <field name="side">credit_only</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_316" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">360</field><field name="code">316</field>
+            <field name="name">- Vay và nợ thuê tài chính</field>
+            <field name="expression">341*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_318" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">370</field><field name="code">318</field>
+            <field name="name">- Dự phòng phải trả</field>
+            <field name="expression">352*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_319" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">380</field><field name="code">319</field>
+            <field name="name">- Quỹ khen thưởng, phúc lợi</field>
+            <field name="expression">353*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_400" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">390</field><field name="code">400</field>
+            <field name="name">2. Vốn chủ sở hữu</field>
+            <field name="formula">411 + 412 + 413 + 416 + 417</field>
+            <field name="level">1</field><field name="bold" eval="True"/>
+        </record>
+        <record id="b01adnn_411" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">400</field><field name="code">411</field>
+            <field name="name">- Vốn góp của chủ sở hữu</field>
+            <field name="expression">4111*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_412" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">410</field><field name="code">412</field>
+            <field name="name">- Thặng dư vốn cổ phần</field>
+            <field name="expression">4112*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_413" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">420</field><field name="code">413</field>
+            <field name="name">- Vốn khác của chủ sở hữu</field>
+            <field name="expression">4118*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_416" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">430</field><field name="code">416</field>
+            <field name="name">- Các quỹ thuộc vốn chủ sở hữu</field>
+            <field name="expression">414*,418*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+        <record id="b01adnn_417" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">440</field><field name="code">417</field>
+            <field name="name">- Lợi nhuận sau thuế chưa phân phối</field>
+            <field name="expression">421*</field>
+            <field name="sign">-1</field><field name="level">2</field>
+        </record>
+
+        <record id="b01adnn_500" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
+            <field name="sequence">450</field><field name="code">500</field>
+            <field name="name">TỔNG CỘNG NGUỒN VỐN</field>
+            <field name="formula">300 + 400</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
