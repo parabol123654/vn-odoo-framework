@@ -40,7 +40,7 @@ TARGETS = {
 
 def build_package(addon, layers, test_modules, workdir):
     """Assemble the Odoo-free subset of ``addon`` inside ``workdir``."""
-    source = os.path.join(REPO_ROOT, 'addons', addon)
+    source = os.path.join(REPO_ROOT, addon)
     if not os.path.isdir(source):
         raise SystemExit('Addon not found: %s' % source)
 

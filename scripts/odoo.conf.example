@@ -4,7 +4,7 @@
 ; Order matters: Odoo takes the first match, so keep core last.
 ; Point the OCA entries at your clones, or drop them if installed from PyPI.
 addons_path =
-    /opt/odoo-vn-framework/addons,
+    /opt/odoo-vn-framework,
     /opt/OCA/reporting-engine,
     /opt/OCA/queue,
     /opt/odoo/addons

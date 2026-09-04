@@ -11,7 +11,8 @@
 #     psycopg2.errors.UndefinedColumn: column "cash_expression"
 #     of relation "vn_report_mapping" does not exist
 #
-# The module list is read from addons/ rather than typed, so a module added
+# The module list is discovered from the manifests at the repository root
+# (the layout Odoo Apps expects) rather than typed, so a module added
 # later is picked up without anyone remembering to edit a command.
 #
 # Usage:
@@ -42,7 +43,7 @@ fi
 
 # Dependency order does not need to be worked out here: Odoo sorts the graph
 # itself. What matters is that nothing is left out.
-MODULES="$(ls -1 "$ROOT/addons" | tr '\n' ',' | sed 's/,$//')"
+MODULES="$(cd "$ROOT" && ls -d */__manifest__.py 2>/dev/null | xargs -n1 dirname | tr '\n' ',' | sed 's/,$//')"
 
 echo "Updating $MODULES on database $DB"
 exec "$ODOO_BIN" -c "$CONF" -d "$DB" -u "$MODULES" \

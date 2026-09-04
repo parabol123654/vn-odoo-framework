@@ -29,7 +29,7 @@ Part 17 §8.3 giải thích tại sao. Đừng đi xây nó.
 
 ## 2. Ba luật không được phá
 
-**Domain không được import odoo.** `addons/vn_core/core/`, `dto/`, `domain/` là
+**Domain không được import odoo.** `vn_core/core/`, `dto/`, `domain/` là
 Python thuần. Đó là lý do 268 test chạy trong 30 mili giây không cần database.
 `scripts/run_domain_tests.py` dựng lại một package chỉ gồm ba thư mục đó, nên vi
 phạm là gãy ngay với ImportError.
@@ -95,7 +95,7 @@ Vì vậy:
 Bộ guard sẽ chặn nếu thiếu, nên làm đủ ngay từ đầu sẽ nhanh hơn:
 
 * `run_domain_tests.py` và `check_repo.py` đều sạch;
-* logic nghiệp vụ mới có test ở `addons/vn_core/tests/` — và test đó phải **thật
+* logic nghiệp vụ mới có test ở `vn_core/tests/` — và test đó phải **thật
   sự đỏ** nếu gỡ bản vá đi;
 * chuỗi hiển thị mới đã dịch: chạy `scripts/regenerate_translations.py <module>`
   rồi điền phần còn trống, đừng sửa `.po` bằng tay;
@@ -136,7 +136,7 @@ Có TK 3331 — chính cái này bắt được bút toán thuế ghi tay không
 | Thứ | Lý do | Xem |
 | --- | ----- | --- |
 | Tầng `ReportRenderer` đa hình | Odoo đã có `ir.actions.report` + QWeb. Hai renderer chưa đủ để trừu tượng hoá | §8.3 |
-| `shared/` ngoài `addons/` | Odoo chỉ nạp thứ trong `addons_path` | Part 16 |
+| `shared/` ngoài các module | Odoo chỉ nạp thứ trong `addons_path` | Part 16 |
 | 16 package con của `vn_core` | Package rỗng làm cây thư mục trông có kiến trúc mà không có nội dung | §8.1 |
 | Model riêng cho Phiếu thu/Chi | Phiếu quỹ *chính là* bút toán trên sổ tiền mặt | §6 |
 | Nhân công, sản xuất chung trong giá thành | Odoo 14 CE không hạch toán chúng vào sổ. Cần **quyết định nghiệp vụ** trước | §6 |

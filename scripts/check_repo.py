@@ -64,8 +64,8 @@ def fail(check, detail):
 
 
 def check_utf8():
-    patterns = ('addons/**/*.py', 'addons/**/*.xml', 'addons/**/*.csv',
-                'addons/**/*.po', 'addons/**/*.js', 'addons/**/*.scss',
+    patterns = ('**/*.py', '**/*.xml', '**/*.csv',
+                '**/*.po', '**/*.js', '**/*.scss',
                 'docs/*.md', '*.md')
     for pattern in patterns:
         for path in glob.glob(os.path.join(ROOT, pattern), recursive=True):
@@ -76,7 +76,7 @@ def check_utf8():
 
 
 def check_domain_is_pure():
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/'), recursive=False):
+    for path in glob.glob(os.path.join(ROOT, '*/'), recursive=False):
         for layer in ('core', 'dto', 'domain'):
             for source in glob.glob(os.path.join(path, layer, '**/*.py'),
                                     recursive=True):
@@ -93,7 +93,7 @@ def check_domain_is_pure():
 
 
 def check_group_keys():
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/report/*.xml')):
+    for path in glob.glob(os.path.join(ROOT, '*/report/*.xml')):
         content = io.open(path, encoding='utf-8').read()
         for match in re.finditer(r't-att-data-group(?:-child)?="([^"]+)"',
                                  content):
@@ -103,7 +103,7 @@ def check_group_keys():
 
 
 def check_menu_translations():
-    for module in glob.glob(os.path.join(ROOT, 'addons/*/')):
+    for module in glob.glob(os.path.join(ROOT, '*/')):
         menus = os.path.join(module, 'views/menus.xml')
         po = os.path.join(module, 'i18n/vi.po')
         if not (os.path.exists(menus) and os.path.exists(po)):
@@ -124,7 +124,7 @@ def check_odoo14_api():
         (r"_\(\s*'[^']*'\s*,", 'multi-argument _() is 16.0+'),
         (r'\btools\.create_index\b', 'import create_index from odoo.tools.sql'),
     )
-    for source in glob.glob(os.path.join(ROOT, 'addons/**/*.py'),
+    for source in glob.glob(os.path.join(ROOT, '**/*.py'),
                             recursive=True):
         content = io.open(source, encoding='utf-8').read()
         for pattern, message in banned:
@@ -150,7 +150,7 @@ def check_readme_matches_code():
     section = readme.split('## Báo cáo đã có')[1].split('\n## ')[0]
 
     declared = set()
-    for source in glob.glob(os.path.join(ROOT, 'addons/*/wizard/*.py')):
+    for source in glob.glob(os.path.join(ROOT, '*/wizard/*.py')):
         declared |= set(re.findall(
             r"'(S\d+[a-z]?-DN|B\d+-DN|F\d+-DNN)'",
             io.open(source, encoding='utf-8').read()))
@@ -167,7 +167,7 @@ def check_readme_matches_code():
     menu_count = sum(
         len(re.findall(r'<menuitem id="menu_vn_report_[a-z_]+"',
                        io.open(path, encoding='utf-8').read()))
-        for path in glob.glob(os.path.join(ROOT, 'addons/*/views/menus.xml')))
+        for path in glob.glob(os.path.join(ROOT, '*/views/menus.xml')))
     rows = [line for line in section.split('\n')
             if line.startswith('|') and '---' not in line]
     listed = max(len(rows) - 1, 0)          # first row is the header
@@ -222,7 +222,7 @@ def check_source_strings_are_english():
         (r'\bstring="([^"]+)"', 'view label'),
         (r'<field name="string">([^<]+)</field>', 'field label'),
     )
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/views/*.xml')):
+    for path in glob.glob(os.path.join(ROOT, '*/views/*.xml')):
         content = io.open(path, encoding='utf-8').read()
         for pattern, kind in patterns:
             for match in re.finditer(pattern, content, re.S):
@@ -244,7 +244,7 @@ def check_menu_form_codes():
     is free to carry no number — the aged balances and the VAT listings have
     none to carry — but it may not carry the wrong one.
     """
-    for module_path in glob.glob(os.path.join(ROOT, 'addons/*/')):
+    for module_path in glob.glob(os.path.join(ROOT, '*/')):
         module = os.path.basename(os.path.dirname(module_path))
         menus_path = os.path.join(module_path, 'views/menus.xml')
         if not os.path.exists(menus_path):
@@ -302,7 +302,8 @@ def check_update_commands_are_complete():
     database somewhere else.
     """
     modules = {os.path.basename(path.rstrip('/'))
-               for path in glob.glob(os.path.join(ROOT, 'addons/*/'))}
+               for path in glob.glob(os.path.join(ROOT, '*/'))
+               if os.path.exists(os.path.join(path, '__manifest__.py'))}
     if not modules:
         return
 
@@ -338,7 +339,7 @@ def check_shared_template_contracts():
     the intent: a print template setting ``drillable = False`` is saying that a
     sheet of paper has nothing to click, not merely forgetting to.
     """
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/report/*.xml')):
+    for path in glob.glob(os.path.join(ROOT, '*/report/*.xml')):
         content = io.open(path, encoding='utf-8').read()
         for name, body in re.findall(
                 r'<template id="([^"]+)"[^>]*>(.*?)</template>', content, re.S):
@@ -368,7 +369,7 @@ def check_translations_are_complete():
     Parsing is wrap-aware on purpose: gettext splits long strings over several
     quoted lines, and a single-line reader misses exactly the longest entries.
     """
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/i18n/*.po')):
+    for path in glob.glob(os.path.join(ROOT, '*/i18n/*.po')):
         module = os.path.basename(os.path.dirname(os.path.dirname(path)))
         msgid = msgstr = None
         mode = None
@@ -407,14 +408,14 @@ def check_xlsx_layouts_exist():
     accountant clicks Export at the end of a quarter.
     """
     registry = os.path.join(ROOT,
-                            'addons/l10n_vn_reports/report/xlsx_layouts.py')
+                            'l10n_vn_reports/report/xlsx_layouts.py')
     if not os.path.exists(registry):
         return
     content = io.open(registry, encoding='utf-8').read()
     block = re.search(r'LAYOUTS = \{(.*?)\}', content, re.S)
     available = set(re.findall(r"'([\w]+)':", block.group(1))) if block else set()
 
-    for source in glob.glob(os.path.join(ROOT, 'addons/*/wizard/*.py')):
+    for source in glob.glob(os.path.join(ROOT, '*/wizard/*.py')):
         text = io.open(source, encoding='utf-8').read()
         for match in re.finditer(
                 r'def _xlsx_layout\(self\):\s*\n\s*return \'([\w]+)\'', text):
@@ -430,7 +431,7 @@ def check_toolbar_buttons_have_handlers():
     enabled, and does nothing at all when clicked. Nothing raises and nothing is
     logged — the user simply concludes the report is broken.
     """
-    for module_path in glob.glob(os.path.join(ROOT, 'addons/*/')):
+    for module_path in glob.glob(os.path.join(ROOT, '*/')):
         module = os.path.basename(os.path.dirname(module_path))
         templates = glob.glob(os.path.join(module_path, 'static/src/xml/*.xml'))
         scripts = glob.glob(os.path.join(module_path, 'static/src/js/*.js'))
@@ -473,7 +474,7 @@ def check_xlsxwriter_baseline():
     A newer method may still be used; it just has to be guarded by ``hasattr``
     so the export degrades instead of failing.
     """
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/report/*.py')):
+    for path in glob.glob(os.path.join(ROOT, '*/report/*.py')):
         content = io.open(path, encoding='utf-8').read()
         if 'xlsxwriter' not in content:
             continue
@@ -511,7 +512,8 @@ def check_handoff_is_current():
     content = io.open(path, encoding='utf-8').read()
 
     modules = sorted(os.path.basename(p.rstrip('/'))
-                     for p in glob.glob(os.path.join(ROOT, 'addons/*/')))
+                     for p in glob.glob(os.path.join(ROOT, '*/'))
+                     if os.path.exists(os.path.join(p, '__manifest__.py')))
     if str(len(modules)) not in content:
         fail('handoff', 'AGENTS.md does not state the module count (%d)'
              % len(modules))
@@ -540,7 +542,7 @@ def _declared_models():
     import ast
 
     owned, methods = set(), {}
-    for path in glob.glob(os.path.join(ROOT, 'addons/*/**/*.py'), recursive=True):
+    for path in glob.glob(os.path.join(ROOT, '*/**/*.py'), recursive=True):
         try:
             tree = ast.parse(io.open(path, encoding='utf-8').read())
         except SyntaxError:
@@ -586,7 +588,7 @@ def check_model_methods_exist():
         return
     pattern = re.compile(r"env\[[\'\"]([\w.]+)[\'\"]\]\s*\.\s*(\w+)\s*\(")
 
-    for path in glob.glob(os.path.join(ROOT, 'addons/**/*.py'), recursive=True):
+    for path in glob.glob(os.path.join(ROOT, '**/*.py'), recursive=True):
         content = io.open(path, encoding='utf-8').read()
         for match in pattern.finditer(content):
             model, method = match.group(1), match.group(2)

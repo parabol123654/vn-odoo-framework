@@ -44,4 +44,4 @@ repos:
             entry: python3 scripts/run_domain_tests.py
             language: system
             pass_filenames: false
-            files: ^addons/vn_core/(core|dto|domain)/
+            files: ^vn_core/(core|dto|domain)/

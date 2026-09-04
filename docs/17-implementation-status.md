@@ -410,7 +410,7 @@ tháng, không phải sửa báo cáo.
 Part 16 §3, nhưng nó tạo một cái bẫy vận hành: update thiếu `vn_core` thì cột
 chưa tồn tại mà dữ liệu đã ghi vào, và lỗi báo ở file XML chứ không báo ở chỗ
 thật sự thiếu. Đã xử lý bằng `scripts/update.sh` (đọc danh sách module từ
-`addons/`) và một guard bắt mọi lệnh `-i`/`-u` trong tài liệu bỏ sót module.
+các manifest ở gốc repo) và một guard bắt mọi lệnh `-i`/`-u` trong tài liệu bỏ sót module.
 
 **Dữ liệu demo dồn vào một sổ nhật ký chung.** VAS phân biệt Nhật ký chung với
 các nhật ký chuyên dùng (thu tiền, chi tiền, mua hàng, bán hàng). Đủ để test báo

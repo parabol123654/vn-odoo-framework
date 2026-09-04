@@ -105,9 +105,10 @@ psycopg2.errors.UndefinedColumn: column "cash_expression"
 of relation "vn_report_mapping" does not exist
 ```
 
-`scripts/update.sh` đọc danh sách module từ `addons/` nên không sót được.
+`scripts/update.sh` tự tìm mọi manifest ở gốc repo nên không sót được.
 
-Chỉ thư mục `addons/` được thêm vào `addons_path`; mẫu cấu hình ở
+Thêm thư mục gốc của repo vào `addons_path` (các module nằm ngay gốc,
+đúng layout Odoo Apps yêu cầu); mẫu cấu hình ở
 `scripts/odoo.conf.example`.
 
 Trên WSL nên giải nén vào `~` chứ đừng vào `/mnt/c/` — thư mục Windows mount qua
@@ -137,12 +138,12 @@ Wizard  ──►  Service  ──►  Domain Engine  ──►  Repository inte
                                           Odoo Repository (ORM/SQL)
 ```
 
-Toàn bộ nghiệp vụ kế toán nằm trong `addons/vn_core/domain/`, và **tầng đó không
+Toàn bộ nghiệp vụ kế toán nằm trong `vn_core/domain/`, và **tầng đó không
 được phép import `odoo`** — có script kiểm tra tự động, không phải quy ước suông.
 Nhờ vậy Engine test được bằng một repository giả trong bộ nhớ.
 
 ```text
-addons/vn_core/
+vn_core/
 ├── core/           exceptions, enums, làm tròn tiền tệ, năm tài chính   ← không có odoo
 ├── dto/            filter, ledger, financial statement, result          ← không có odoo
 ├── domain/

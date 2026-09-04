@@ -29,13 +29,14 @@ odoo-vn-framework/
 │   ├── run_tests.sh              # Test đầy đủ, cần Odoo + PostgreSQL
 │   └── run_domain_tests.py       # Test Domain, KHÔNG cần Odoo
 │
-└── addons/                       # Mọi thứ Odoo load được nằm trong đây
-    ├── vn_core/
-    └── l10n_vn_reports/
+├── vn_core/                      # Các module Odoo nằm ngay gốc repo
+└── l10n_vn_reports/              # (layout Odoo Apps store yêu cầu)
 ```
 
-Chỉ có `addons/` được thêm vào `addons_path`. Mọi thứ khác là công cụ phát triển
-và tài liệu, Odoo không bao giờ đọc tới.
+Các module nằm **ngay gốc repo** — apps.odoo.com quét manifest ở đúng một cấp
+thư mục dưới gốc, và đây cũng là layout của các repo OCA. Thư mục gốc được thêm
+vào `addons_path`; `docs/` và `scripts/` không có manifest nên Odoo bỏ qua.
+(Trước đây module nằm trong `addons/`; đổi khi publish lên Odoo Apps.)
 
 ---
 
