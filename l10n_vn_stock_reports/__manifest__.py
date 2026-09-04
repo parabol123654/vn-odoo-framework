@@ -4,7 +4,8 @@
     'name': 'Vietnam VAS Reports - Inventory',
     'version': '14.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
-    'summary': 'Thẻ kho and Bảng tổng hợp Nhập - Xuất - Tồn (TT200)',
+    'summary': 'Vietnamese inventory books: stock card S12-DN, '
+               'stock ledger S10-DN, summary S11-DN (TT200)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
     'support': 'parabol123654@gmail.com',

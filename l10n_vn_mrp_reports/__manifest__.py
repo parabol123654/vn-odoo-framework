@@ -4,7 +4,8 @@
     'name': 'Vietnam VAS Reports - Manufacturing',
     'version': '14.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
-    'summary': 'Báo cáo chi phí sản xuất và giá thành sản phẩm (TT200)',
+    'summary': 'Vietnamese production cost reports and the cost card '
+               'S37-DN (TT200)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
     'support': 'parabol123654@gmail.com',

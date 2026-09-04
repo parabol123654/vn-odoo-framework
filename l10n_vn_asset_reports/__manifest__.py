@@ -4,8 +4,9 @@
     'name': 'Vietnam VAS Reports - Fixed Assets',
     'version': '14.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
-    'summary': 'Sổ TSCĐ (S21-DN), Thẻ TSCĐ (S23-DN) and Bảng tính và phân bổ '
-               'khấu hao (06-TSCĐ) on top of OCA account_asset_management',
+    'summary': 'Vietnamese fixed asset books S21-DN and S23-DN and the '
+               'depreciation allocation sheet 06-TSCD, on OCA '
+               'account_asset_management',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
     'support': 'parabol123654@gmail.com',
