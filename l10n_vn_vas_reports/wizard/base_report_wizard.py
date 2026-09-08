@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Base report wizard (Part 12 §5).
 
 A wizard has exactly four jobs: collect input, validate it superficially, build

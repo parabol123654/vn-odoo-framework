@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Configurable statement mapping (Part 9 §5-6).
 
 The whole point of these two models is that a change of circular — TT200 to

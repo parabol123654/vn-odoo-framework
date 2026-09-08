@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 {
     'name': 'Vietnam VAS Reports - Fixed Assets',
-    'version': '14.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese fixed asset books S21-DN and S23-DN and the '
                'depreciation allocation sheet 06-TSCD, on OCA '

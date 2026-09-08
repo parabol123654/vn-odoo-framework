@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -38,27 +38,27 @@
             <tbody t-if="report.groups">
                 <tr t-foreach="report.groups" t-as="group" class="o_vn_line"
                     t-att-data-search="group.product.code + ' ' + group.product.name">
-                    <td class="o_vn_col_code" t-esc="group.product.code"/>
-                    <td class="o_vn_col_label" t-esc="group.product.name"/>
-                    <td class="o_vn_col_uom" t-esc="group.product.uom_name"/>
-                    <td class="o_vn_col_qty" t-esc="group.opening.quantity"/>
-                    <td class="o_vn_col_amount" t-esc="group.opening.value"
+                    <td class="o_vn_col_code" t-out="group.product.code"/>
+                    <td class="o_vn_col_label" t-out="group.product.name"/>
+                    <td class="o_vn_col_uom" t-out="group.product.uom_name"/>
+                    <td class="o_vn_col_qty" t-out="group.opening.quantity"/>
+                    <td class="o_vn_col_amount" t-out="group.opening.value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_qty" t-esc="group.incoming.quantity"/>
-                    <td class="o_vn_col_amount" t-esc="group.incoming.value"
+                    <td class="o_vn_col_qty" t-out="group.incoming.quantity"/>
+                    <td class="o_vn_col_amount" t-out="group.incoming.value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_qty" t-esc="group.outgoing.quantity"/>
-                    <td class="o_vn_col_amount" t-esc="group.outgoing.value"
+                    <td class="o_vn_col_qty" t-out="group.outgoing.quantity"/>
+                    <td class="o_vn_col_amount" t-out="group.outgoing.value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
-                    <td class="o_vn_col_amount" t-esc="group.closing.value"
+                    <td class="o_vn_col_qty" t-out="group.closing.quantity"/>
+                    <td class="o_vn_col_amount" t-out="group.closing.value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tbody>
             <tfoot t-if="report.groups">
                 <tr class="o_vn_total_row">
                     <td colspan="10">Tổng giá trị tồn cuối kỳ</td>
-                    <td class="o_vn_col_amount" t-esc="report.totals.value"
+                    <td class="o_vn_col_amount" t-out="report.totals.value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tfoot>
@@ -91,50 +91,50 @@
                         t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
                         <td colspan="6">
                             <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
-                            <strong t-esc="group.product.display_name"/>
-                            <span class="o_vn_muted"> — <t t-esc="group.product.uom_name"/></span>
+                            <strong t-out="group.product.display_name"/>
+                            <span class="o_vn_muted"> — <t t-out="group.product.uom_name"/></span>
                         </td>
-                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                        <td class="o_vn_col_qty" t-out="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.closing.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr class="o_vn_opening_row"
                         t-att-data-group-child="'g%s' % group_index">
                         <td colspan="6">Tồn đầu kỳ</td>
-                        <td class="o_vn_col_qty" t-esc="group.opening.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.opening.value"
+                        <td class="o_vn_col_qty" t-out="group.opening.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.opening.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr t-foreach="group.lines" t-as="line" class="o_vn_line"
                         t-att-data-group-child="'g%s' % group_index">
-                        <td class="o_vn_col_date" t-esc="line.date"
+                        <td class="o_vn_col_date" t-out="line.date"
                             t-options="{'widget': 'date'}"/>
-                        <td class="o_vn_col_ref" t-esc="line.reference"/>
-                        <td class="o_vn_col_label" t-esc="line.description"/>
-                        <td class="o_vn_col_amount" t-esc="line.unit_cost"
+                        <td class="o_vn_col_ref" t-out="line.reference"/>
+                        <td class="o_vn_col_label" t-out="line.description"/>
+                        <td class="o_vn_col_amount" t-out="line.unit_cost"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <td class="o_vn_col_qty">
                             <span t-if="line.incoming.quantity"
-                                  t-esc="line.incoming.quantity"/>
+                                  t-out="line.incoming.quantity"/>
                         </td>
                         <td class="o_vn_col_qty">
                             <span t-if="line.outgoing.quantity"
-                                  t-esc="line.outgoing.quantity"/>
+                                  t-out="line.outgoing.quantity"/>
                         </td>
-                        <td class="o_vn_col_qty" t-esc="line.running.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="line.running.value"
+                        <td class="o_vn_col_qty" t-out="line.running.quantity"/>
+                        <td class="o_vn_col_amount" t-out="line.running.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr class="o_vn_closing_row"
                         t-att-data-group-child="'g%s' % group_index">
                         <td colspan="4">Cộng phát sinh / Tồn cuối kỳ</td>
-                        <td class="o_vn_col_qty" t-esc="group.incoming.quantity"/>
-                        <td class="o_vn_col_qty" t-esc="group.outgoing.quantity"/>
-                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                        <td class="o_vn_col_qty" t-out="group.incoming.quantity"/>
+                        <td class="o_vn_col_qty" t-out="group.outgoing.quantity"/>
+                        <td class="o_vn_col_qty" t-out="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.closing.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
                 </t>
@@ -181,65 +181,65 @@
                         t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
                         <td colspan="9">
                             <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
-                            <strong t-esc="group.product.display_name"/>
-                            <span class="o_vn_muted"> — <t t-esc="group.product.uom_name"/></span>
+                            <strong t-out="group.product.display_name"/>
+                            <span class="o_vn_muted"> — <t t-out="group.product.uom_name"/></span>
                         </td>
-                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                        <td class="o_vn_col_qty" t-out="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.closing.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr class="o_vn_opening_row"
                         t-att-data-group-child="'g%s' % group_index">
                         <td colspan="9">Tồn đầu kỳ</td>
-                        <td class="o_vn_col_qty" t-esc="group.opening.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.opening.value"
+                        <td class="o_vn_col_qty" t-out="group.opening.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.opening.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr t-foreach="group.lines" t-as="line" class="o_vn_line"
                         t-att-data-group-child="'g%s' % group_index">
-                        <td class="o_vn_col_date" t-esc="line.date"
+                        <td class="o_vn_col_date" t-out="line.date"
                             t-options="{'widget': 'date'}"/>
-                        <td class="o_vn_col_ref" t-esc="line.reference"/>
-                        <td class="o_vn_col_label" t-esc="line.description"/>
-                        <td class="o_vn_col_ref" t-esc="line.counterpart"/>
-                        <td class="o_vn_col_amount" t-esc="line.unit_cost"
+                        <td class="o_vn_col_ref" t-out="line.reference"/>
+                        <td class="o_vn_col_label" t-out="line.description"/>
+                        <td class="o_vn_col_ref" t-out="line.counterpart"/>
+                        <td class="o_vn_col_amount" t-out="line.unit_cost"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <td class="o_vn_col_qty">
                             <span t-if="line.incoming.quantity"
-                                  t-esc="line.incoming.quantity"/>
+                                  t-out="line.incoming.quantity"/>
                         </td>
                         <td class="o_vn_col_amount">
                             <span t-if="line.incoming.quantity"
-                                  t-esc="line.incoming.value"
+                                  t-out="line.incoming.value"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                         <td class="o_vn_col_qty">
                             <span t-if="line.outgoing.quantity"
-                                  t-esc="line.outgoing.quantity"/>
+                                  t-out="line.outgoing.quantity"/>
                         </td>
                         <td class="o_vn_col_amount">
                             <span t-if="line.outgoing.quantity"
-                                  t-esc="line.outgoing.value"
+                                  t-out="line.outgoing.value"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
-                        <td class="o_vn_col_qty" t-esc="line.running.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="line.running.value"
+                        <td class="o_vn_col_qty" t-out="line.running.quantity"/>
+                        <td class="o_vn_col_amount" t-out="line.running.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr class="o_vn_closing_row"
                         t-att-data-group-child="'g%s' % group_index">
                         <td colspan="5">Cộng phát sinh / Tồn cuối kỳ</td>
-                        <td class="o_vn_col_qty" t-esc="group.incoming.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.incoming.value"
+                        <td class="o_vn_col_qty" t-out="group.incoming.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.incoming.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                        <td class="o_vn_col_qty" t-esc="group.outgoing.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.outgoing.value"
+                        <td class="o_vn_col_qty" t-out="group.outgoing.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.outgoing.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                        <td class="o_vn_col_qty" t-esc="group.closing.quantity"/>
-                        <td class="o_vn_col_amount" t-esc="group.closing.value"
+                        <td class="o_vn_col_qty" t-out="group.closing.quantity"/>
+                        <td class="o_vn_col_amount" t-out="group.closing.value"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
                 </t>
@@ -247,7 +247,7 @@
             <tfoot t-if="report.groups">
                 <tr class="o_vn_total_row">
                     <td colspan="10">Tổng giá trị tồn cuối kỳ</td>
-                    <td class="o_vn_col_amount" t-esc="report.totals.value"
+                    <td class="o_vn_col_amount" t-out="report.totals.value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tfoot>

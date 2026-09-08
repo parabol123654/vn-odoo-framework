@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Bảng tổng hợp công nợ theo tuổi nợ.
 
 Deliberately not given a "Mẫu số": this is a management report, not one of the

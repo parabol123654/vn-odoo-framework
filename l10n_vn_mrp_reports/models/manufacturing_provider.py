@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Extends the domain provider with the manufacturing cost engine.
 
 Fourth module, fourth bounded context added by inheriting one AbstractModel and

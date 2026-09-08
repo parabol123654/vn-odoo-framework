@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -16,13 +16,13 @@
              class="o_vn_alert o_vn_alert_error">
             <strong>Báo cáo chưa khớp với số dư tiền.</strong>
             Chỉ tiêu 70 =
-            <span t-esc="report.balance_check.left_amount"
+            <span t-out="report.balance_check.left_amount"
                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>,
             trong khi số dư thực tế của các tài khoản tiền =
-            <span t-esc="report.balance_check.right_amount"
+            <span t-out="report.balance_check.right_amount"
                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>,
             lệch
-            <strong><span t-esc="report.balance_check.difference"
+            <strong><span t-out="report.balance_check.difference"
                           t-options="{'widget': 'monetary', 'display_currency': currency}"/></strong>.
             <t t-if="cash_flow_method == 'indirect'">
                 Với phương pháp gián tiếp, nguyên nhân thường gặp là **sai dấu**
@@ -47,7 +47,7 @@
                     nhưng chưa chỉ tiêu nào nhặt</t>
                 <t t-else="">Tài khoản đối ứng làm dịch chuyển tiền nhưng chưa
                     được ánh xạ</t>
-                (<t t-esc="len(report.unmapped)"/>)</h5>
+                (<t t-out="len(report.unmapped)"/>)</h5>
             <p class="o_vn_note">
                 Bổ sung các tài khoản này vào chỉ tiêu phù hợp tại Kế toán →
                 Cấu hình → Statement Mappings. Cột số dư là phần tiền vào (dương)
@@ -63,9 +63,9 @@
                 </thead>
                 <tbody>
                     <tr t-foreach="report.unmapped" t-as="account">
-                        <td class="o_vn_col_code"><strong t-esc="account.code"/></td>
-                        <td class="o_vn_col_label" t-esc="account.name"/>
-                        <td class="o_vn_col_amount" t-esc="account.balance"
+                        <td class="o_vn_col_code"><strong t-out="account.code"/></td>
+                        <td class="o_vn_col_label" t-out="account.name"/>
+                        <td class="o_vn_col_amount" t-out="account.balance"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
                 </tbody>

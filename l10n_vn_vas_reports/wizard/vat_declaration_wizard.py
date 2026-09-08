@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Tờ khai thuế giá trị gia tăng, mẫu 01/GTGT."""
 
 from odoo import _, fields, models

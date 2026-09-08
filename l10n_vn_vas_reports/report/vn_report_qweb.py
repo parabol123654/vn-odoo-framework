@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """QWeb report adapters.
 
 These exist only to hand the wizard's DTO to the template. No queries, no

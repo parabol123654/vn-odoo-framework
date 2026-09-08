@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Báo cáo kết quả hoạt động kinh doanh (mẫu B02-DN)."""
 
 from dateutil.relativedelta import relativedelta

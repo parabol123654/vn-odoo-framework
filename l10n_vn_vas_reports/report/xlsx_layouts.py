@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sheet layouts, one per DTO shape rather than one per report.
 
 Sixteen reports share seven shapes, so seven functions cover the lot. That is

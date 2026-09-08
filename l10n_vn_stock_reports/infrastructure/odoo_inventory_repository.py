@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Odoo implementation of ``IInventoryRepository``.
 
 Reads ``stock.valuation.layer``. That choice is the whole point: the layer is
@@ -43,7 +43,7 @@ class OdooInventoryRepository(IInventoryRepository, BaseRepository):
             rounding=currency.rounding, decimal_places=currency.decimal_places)
 
     def get_products(self, inventory_filter):
-        domain = [('type', '=', 'product')]
+        domain = [('is_storable', '=', True)]
         if inventory_filter.product_ids:
             domain.append(('id', 'in', list(inventory_filter.product_ids)))
         if inventory_filter.category_ids:
@@ -110,7 +110,9 @@ class OdooInventoryRepository(IInventoryRepository, BaseRepository):
         # so the counterpart is whatever the entry carries on the opposite
         # side. A layer with no entry (periodic inventory) prints nothing.
         counterpart_expr = """
-            (SELECT string_agg(DISTINCT aa.code, ', ')
+            (SELECT string_agg(
+                        DISTINCT aa.code_store->>(aml.company_id::text),
+                        ', ')
                FROM account_move_line aml
                JOIN account_account aa ON aa.id = aml.account_id
               WHERE aml.move_id = {alias}.account_move_id
@@ -173,8 +175,10 @@ class OdooInventoryRepository(IInventoryRepository, BaseRepository):
     def _query_parts(self, inventory_filter):
         """WHERE clause with record rules applied, as for the ledger."""
         model = self.env[SVL]
-        model.flush()
-        self.env['stock.move'].flush()
+        model.flush_model()
+        self.env['stock.move'].flush_model()
         query = model._where_calc(self._build_domain(inventory_filter))
         model._apply_ir_rules(query, 'read')
-        return query.get_sql()
+        from_sql, where_sql = query.from_clause, query.where_clause
+        return (from_sql.code, where_sql.code,
+                list(from_sql.params) + list(where_sql.params))

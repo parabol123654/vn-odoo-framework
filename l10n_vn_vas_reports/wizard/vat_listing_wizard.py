@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Bảng kê hoá đơn, chứng từ hàng hoá dịch vụ bán ra / mua vào.
 
 Một wizard, hai bảng kê. Khác nhau ở chiều thuế, mà đó là một tham số chứ không

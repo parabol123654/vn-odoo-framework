@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sổ Nhật ký chung (mẫu S03a-DN)."""
 
 from odoo import _, models

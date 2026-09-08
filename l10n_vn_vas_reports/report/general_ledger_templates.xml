@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -40,7 +40,7 @@
                         t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
                         <td colspan="4">
                             <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
-                            <strong t-esc="group.display_name"/>
+                            <strong t-out="group.display_name"/>
                         </td>
                         <!--
                             On screen the header carries the group's totals, so a
@@ -50,21 +50,21 @@
                         -->
                         <td class="o_vn_col_amount">
                             <span t-if="interactive and group.movement.debit"
-                                  t-esc="group.movement.debit"
+                                  t-out="group.movement.debit"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                         <td class="o_vn_col_amount">
                             <span t-if="interactive and group.movement.credit"
-                                  t-esc="group.movement.credit"
+                                  t-out="group.movement.credit"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                         <td class="o_vn_col_amount">
                             <t t-if="interactive">
                                 <span t-if="group.closing.debit_balance"
-                                      t-esc="group.closing.debit_balance"
+                                      t-out="group.closing.debit_balance"
                                       t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                                 <span t-if="group.closing.credit_balance" class="o_vn_credit">
-                                    (<span t-esc="group.closing.credit_balance"
+                                    (<span t-out="group.closing.credit_balance"
                                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>)
                                 </span>
                             </t>
@@ -77,10 +77,10 @@
                         <td class="o_vn_col_amount"/>
                         <td class="o_vn_col_amount">
                             <span t-if="group.opening.debit_balance"
-                                  t-esc="group.opening.debit_balance"
+                                  t-out="group.opening.debit_balance"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             <span t-if="group.opening.credit_balance" class="o_vn_credit">
-                                (<span t-esc="group.opening.credit_balance"
+                                (<span t-out="group.opening.credit_balance"
                                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>)
                             </span>
                         </td>
@@ -90,28 +90,28 @@
                         class="o_vn_line"
                         t-att-data-group-child="'g%s' % group_index"
                         t-att-data-move-id="line.source.move_id if interactive else None">
-                        <td class="o_vn_col_date" t-esc="line.date"
+                        <td class="o_vn_col_date" t-out="line.date"
                             t-options="{'widget': 'date'}"/>
-                        <td class="o_vn_col_ref" t-esc="line.move_name"/>
-                        <td class="o_vn_col_label" t-esc="line.label"/>
-                        <td class="o_vn_col_counterpart" t-esc="line.counterpart_label"/>
+                        <td class="o_vn_col_ref" t-out="line.move_name"/>
+                        <td class="o_vn_col_label" t-out="line.label"/>
+                        <td class="o_vn_col_counterpart" t-out="line.counterpart_label"/>
                         <td class="o_vn_col_amount">
-                            <span t-if="line.debit" t-esc="line.debit"
+                            <span t-if="line.debit" t-out="line.debit"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                         <td class="o_vn_col_amount">
-                            <span t-if="line.credit" t-esc="line.credit"
+                            <span t-if="line.credit" t-out="line.credit"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
-                        <td class="o_vn_col_amount" t-esc="line.running_balance"
+                        <td class="o_vn_col_amount" t-out="line.running_balance"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
 
                     <tr class="o_vn_subtotal_row" t-att-data-group-child="'g%s' % group_index">
                         <td colspan="4">Cộng phát sinh trong kỳ</td>
-                        <td class="o_vn_col_amount" t-esc="group.movement.debit"
+                        <td class="o_vn_col_amount" t-out="group.movement.debit"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                        <td class="o_vn_col_amount" t-esc="group.movement.credit"
+                        <td class="o_vn_col_amount" t-out="group.movement.credit"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <td class="o_vn_col_amount"/>
                     </tr>
@@ -122,10 +122,10 @@
                         <td class="o_vn_col_amount"/>
                         <td class="o_vn_col_amount">
                             <span t-if="group.closing.debit_balance"
-                                  t-esc="group.closing.debit_balance"
+                                  t-out="group.closing.debit_balance"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             <span t-if="group.closing.credit_balance" class="o_vn_credit">
-                                (<span t-esc="group.closing.credit_balance"
+                                (<span t-out="group.closing.credit_balance"
                                        t-options="{'widget': 'monetary', 'display_currency': currency}"/>)
                             </span>
                         </td>
@@ -136,9 +136,9 @@
             <tfoot t-if="report.groups">
                 <tr class="o_vn_total_row">
                     <td colspan="4">Tổng cộng</td>
-                    <td class="o_vn_col_amount" t-esc="report.totals.debit"
+                    <td class="o_vn_col_amount" t-out="report.totals.debit"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="report.totals.credit"
+                    <td class="o_vn_col_amount" t-out="report.totals.credit"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td class="o_vn_col_amount"/>
                 </tr>

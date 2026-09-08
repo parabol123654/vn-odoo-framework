@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Phiếu thu (01-TT) và Phiếu chi (02-TT).
 
 Every cash movement in Vietnam needs a numbered, signed voucher — a receipt when

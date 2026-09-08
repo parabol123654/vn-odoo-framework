@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Odoo implementation of ``IMappingRepository``.
 
 Maps records to DTOs and nothing else. Every rule about what a mapping *means*

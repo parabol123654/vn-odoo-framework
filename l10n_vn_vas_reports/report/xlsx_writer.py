@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """XLSX renderer.
 
 Takes a declarative sheet description and produces a workbook. It knows nothing

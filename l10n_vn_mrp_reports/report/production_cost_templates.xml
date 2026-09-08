@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -18,18 +18,20 @@
             valuation layer của vật tư đã xuất cho lệnh sản xuất, nên khớp với
             các TK 152 và 155.
             Chi phí nhân công trực tiếp (622) và chi phí sản xuất chung (627)
-            <strong>không có trong báo cáo này</strong>: Odoo 14 Community không
-            hạch toán chúng vào sổ kế toán, nên mọi con số về chúng sẽ là số liệu
-            quản trị chứ không phải số liệu sổ sách.
+            <strong>không có trong báo cáo này</strong>: báo cáo đo giá trị vật
+            tư trên valuation layer. Odoo 18 hạch toán tiêu hao sản xuất qua tài
+            khoản chi phí sản xuất của nhóm sản phẩm (nên trỏ về TK 154) — các
+            bút toán đó nằm trên Sổ chi phí SXKD (S36-DN), còn thẻ này vẫn chỉ
+            nói về nguyên vật liệu trực tiếp.
         </div>
     </template>
 
     <template id="production_cost_wip">
         <div t-if="report.open_order_count" class="o_vn_alert o_vn_alert_ok">
             <strong>Chi phí sản xuất dở dang cuối kỳ:</strong>
-            <span t-esc="report.work_in_progress"
+            <span t-out="report.work_in_progress"
                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-            — vật tư đã xuất cho <t t-esc="report.open_order_count"/> lệnh sản
+            — vật tư đã xuất cho <t t-out="report.open_order_count"/> lệnh sản
             xuất chưa hoàn thành tại ngày báo cáo. Odoo 14 Community không có tài
             khoản sản phẩm dở dang, nên con số này không nằm ở đâu trong sổ; nó
             được suy ra từ chính các lệnh đó để đối chiếu với số dư TK 154.
@@ -54,25 +56,25 @@
             <tbody t-if="report.products">
                 <tr t-foreach="report.products" t-as="row" class="o_vn_line"
                     t-att-data-search="row.product.code + ' ' + row.product.name">
-                    <td class="o_vn_col_code" t-esc="row.product.code"/>
-                    <td class="o_vn_col_label" t-esc="row.product.name"/>
-                    <td class="o_vn_col_uom" t-esc="row.product.uom_name"/>
-                    <td class="o_vn_col_qty" t-esc="row.order_count"/>
-                    <td class="o_vn_col_qty" t-esc="row.output_quantity"/>
-                    <td class="o_vn_col_amount" t-esc="row.material_cost"
+                    <td class="o_vn_col_code" t-out="row.product.code"/>
+                    <td class="o_vn_col_label" t-out="row.product.name"/>
+                    <td class="o_vn_col_uom" t-out="row.product.uom_name"/>
+                    <td class="o_vn_col_qty" t-out="row.order_count"/>
+                    <td class="o_vn_col_qty" t-out="row.output_quantity"/>
+                    <td class="o_vn_col_amount" t-out="row.material_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.output_value"
+                    <td class="o_vn_col_amount" t-out="row.output_value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.unit_cost"
+                    <td class="o_vn_col_amount" t-out="row.unit_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tbody>
             <tfoot t-if="report.products">
                 <tr class="o_vn_total_row">
                     <td colspan="5">Tổng cộng</td>
-                    <td class="o_vn_col_amount" t-esc="report.material_cost"
+                    <td class="o_vn_col_amount" t-out="report.material_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="report.output_value"
+                    <td class="o_vn_col_amount" t-out="report.output_value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td class="o_vn_col_amount"/>
                 </tr>
@@ -102,32 +104,32 @@
             <tbody t-if="report.orders">
                 <tr t-foreach="report.orders" t-as="row" class="o_vn_line"
                     t-att-data-search="row.production.name + ' ' + row.production.product.name">
-                    <td class="o_vn_col_ref" t-esc="row.production.name"/>
-                    <td class="o_vn_col_date" t-esc="row.production.date_finished"
+                    <td class="o_vn_col_ref" t-out="row.production.name"/>
+                    <td class="o_vn_col_date" t-out="row.production.date_finished"
                         t-options="{'widget': 'date'}"/>
                     <td class="o_vn_col_label"
-                        t-esc="row.production.product.display_name"/>
-                    <td class="o_vn_col_qty" t-esc="row.output_quantity"/>
-                    <td class="o_vn_col_amount" t-esc="row.material_cost"
+                        t-out="row.production.product.display_name"/>
+                    <td class="o_vn_col_qty" t-out="row.output_quantity"/>
+                    <td class="o_vn_col_amount" t-out="row.material_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.output_value"
+                    <td class="o_vn_col_amount" t-out="row.output_value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <!-- Bằng 0 với bình quân gia quyền và FIFO; khác 0 khi tính
                          theo giá thành định mức, hoặc khi có chi phí thu mua
                          phân bổ thêm sau. -->
                     <td t-att-class="'o_vn_col_amount o_vn_credit' if row.variance else 'o_vn_col_amount'"
-                        t-esc="row.variance"
+                        t-out="row.variance"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.unit_cost"
+                    <td class="o_vn_col_amount" t-out="row.unit_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tbody>
             <tfoot t-if="report.orders">
                 <tr class="o_vn_total_row">
                     <td colspan="4">Tổng cộng</td>
-                    <td class="o_vn_col_amount" t-esc="report.material_cost"
+                    <td class="o_vn_col_amount" t-out="report.material_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="report.output_value"
+                    <td class="o_vn_col_amount" t-out="report.output_value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td class="o_vn_col_amount"/>
                     <td class="o_vn_col_amount"/>
@@ -171,39 +173,39 @@
             <tbody t-if="report.rows">
                 <tr t-foreach="report.rows" t-as="row" class="o_vn_line"
                     t-att-data-search="row.product.code + ' ' + row.product.name">
-                    <td class="o_vn_col_code" t-esc="row.product.code"/>
-                    <td class="o_vn_col_label" t-esc="row.product.name"/>
-                    <td class="o_vn_col_uom" t-esc="row.product.uom_name"/>
-                    <td class="o_vn_col_amount" t-esc="row.opening_wip"
+                    <td class="o_vn_col_code" t-out="row.product.code"/>
+                    <td class="o_vn_col_label" t-out="row.product.name"/>
+                    <td class="o_vn_col_uom" t-out="row.product.uom_name"/>
+                    <td class="o_vn_col_amount" t-out="row.opening_wip"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.period_cost"
+                    <td class="o_vn_col_amount" t-out="row.period_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.finished_value"
+                    <td class="o_vn_col_amount" t-out="row.finished_value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="row.closing_wip"
+                    <td class="o_vn_col_amount" t-out="row.closing_wip"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_qty" t-esc="row.finished_quantity"/>
-                    <td class="o_vn_col_amount" t-esc="row.unit_cost"
+                    <td class="o_vn_col_qty" t-out="row.finished_quantity"/>
+                    <td class="o_vn_col_amount" t-out="row.unit_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td t-att-class="'o_vn_col_amount o_vn_credit' if row.imbalance else 'o_vn_col_amount'"
-                        t-esc="row.imbalance"
+                        t-out="row.imbalance"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tbody>
             <tfoot t-if="report.rows">
                 <tr class="o_vn_total_row">
                     <td colspan="3">Tổng cộng</td>
-                    <td class="o_vn_col_amount" t-esc="report.total_opening_wip"
+                    <td class="o_vn_col_amount" t-out="report.total_opening_wip"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="report.total_period_cost"
+                    <td class="o_vn_col_amount" t-out="report.total_period_cost"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="report.total_finished_value"
+                    <td class="o_vn_col_amount" t-out="report.total_finished_value"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                    <td class="o_vn_col_amount" t-esc="report.total_closing_wip"
+                    <td class="o_vn_col_amount" t-out="report.total_closing_wip"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td class="o_vn_col_qty"/>
                     <td class="o_vn_col_amount"/>
-                    <td class="o_vn_col_amount" t-esc="report.imbalance"
+                    <td class="o_vn_col_amount" t-out="report.imbalance"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tfoot>

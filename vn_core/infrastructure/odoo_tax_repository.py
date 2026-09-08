@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Odoo implementation of ``ITaxRepository``.
 
 Reads the **tax lines** of each move — those with ``tax_line_id`` set — rather
@@ -128,10 +128,12 @@ class OdooTaxRepository(ITaxRepository, BaseRepository):
 
     def _query_parts(self, domain):
         model = self.env[AML]
-        model.flush()
+        model.flush_model()
         query = model._where_calc(domain)
         model._apply_ir_rules(query, 'read')
-        return query.get_sql()
+        from_sql, where_sql = query.from_clause, query.where_clause
+        return (from_sql.code, where_sql.code,
+                list(from_sql.params) + list(where_sql.params))
 
     def _tax_index(self, tax_ids):
         taxes = self.env['account.tax'].browse(

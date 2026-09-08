@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sổ quỹ tiền mặt (S07-DN) và Sổ tiền gửi ngân hàng (S08-DN).
 
 One wizard, two statutory forms. The only difference is which accounts are in

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <record id="view_move_form_vn_voucher" model="ir.ui.view">
@@ -12,12 +12,12 @@
             <xpath expr="//header" position="inside">
                 <button name="action_print_vn_voucher" type="object"
                         string="Print Cash Voucher" class="btn-secondary"
-                        attrs="{'invisible': [('vn_voucher_type', '=', False)]}"/>
+                        invisible="not vn_voucher_type"/>
             </xpath>
             <xpath expr="//field[@name='ref']" position="after">
                 <field name="vn_voucher_type" invisible="1"/>
                 <field name="vn_voucher_number" readonly="1"
-                       attrs="{'invisible': [('vn_voucher_number', '=', False)]}"/>
+                       invisible="not vn_voucher_number"/>
             </xpath>
         </field>
     </record>

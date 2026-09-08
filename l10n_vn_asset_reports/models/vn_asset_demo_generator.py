@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Demo fixed assets for the asset reports.
 
 Three assets on two profiles, depreciating monthly since the start of the
@@ -15,25 +15,20 @@ from datetime import date
 
 from odoo import api, fields, models
 
-#: key -> (prefixes best-first, (code, name, account type xmlid) to create
-#: when the chart has none — a database running on the generator-made chart
-#: has no 211/214 to find).
+#: key -> (prefixes best-first, (code, name, account_type) to create when the
+#: chart has none — a database running on the generator-made chart has no
+#: 211/214 to find). account_type is the Odoo 16+ selection.
 _ACCOUNTS = {
     'asset_machine': (('2112', '211'), (
-        '211', 'Tài sản cố định hữu hình',
-        'account.data_account_type_non_current_assets')),
+        '211', 'Tài sản cố định hữu hình', 'asset_fixed')),
     'asset_office': (('2114', '211'), (
-        '211', 'Tài sản cố định hữu hình',
-        'account.data_account_type_non_current_assets')),
+        '211', 'Tài sản cố định hữu hình', 'asset_fixed')),
     'depreciation': (('2141', '214'), (
-        '214', 'Hao mòn tài sản cố định',
-        'account.data_account_type_non_current_assets')),
+        '214', 'Hao mòn tài sản cố định', 'asset_fixed')),
     'expense_factory': (('6274', '627', '642'), (
-        '627', 'Chi phí sản xuất chung',
-        'account.data_account_type_expenses')),
+        '627', 'Chi phí sản xuất chung', 'expense')),
     'expense_office': (('6424', '642'), (
-        '642', 'Chi phí quản lý kinh doanh',
-        'account.data_account_type_expenses')),
+        '642', 'Chi phí quản lý kinh doanh', 'expense')),
 }
 
 
@@ -80,11 +75,11 @@ class VnAssetDemoGenerator(models.AbstractModel):
 
     # ------------------------------------------------------------------
     def _account(self, company, key):
-        Account = self.env['account.account']
-        prefixes, (code, name, type_xmlid) = _ACCOUNTS[key]
+        Account = self.env['account.account'].with_company(company)
+        prefixes, (code, name, account_type) = _ACCOUNTS[key]
         for prefix in prefixes:
             account = Account.search([
-                ('company_id', '=', company.id),
+                ('company_ids', 'in', [company.id]),
                 ('code', '=like', prefix + '%'),
             ], order='code', limit=1)
             if account:
@@ -92,8 +87,7 @@ class VnAssetDemoGenerator(models.AbstractModel):
         return Account.create({
             'code': code,
             'name': name,
-            'user_type_id': self.env.ref(type_xmlid).id,
-            'company_id': company.id,
+            'account_type': account_type,
         })
 
     def _ensure_profiles(self, company):

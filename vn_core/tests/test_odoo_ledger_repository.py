@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Repository integration tests (Part 6 §21).
 
 The Domain is already covered without a database; what needs a real Odoo here is

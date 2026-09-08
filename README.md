@@ -1,4 +1,7 @@
-# Vietnam VAS Framework for Odoo 14 CE
+# Vietnam VAS Framework for Odoo 18 CE
+
+> Đây là nhánh **18.0**. Bản Odoo 14 nằm ở nhánh `14.0` của cùng repo; hai
+> nhánh cùng một Domain thuần Python, khác nhau ở tầng Odoo (ORM, view, OWL).
 
 > **Tiếp quản dự án này?** Đọc [`AGENTS.md`](AGENTS.md) trước — nó nói rõ đọc
 > tài liệu nào theo thứ tự nào, luật nào không được phá, và thứ gì **cố ý** không
@@ -123,8 +126,8 @@ GTGT gắn sản phẩm), kho, sản xuất và TSCĐ tuỳ theo module đã cà
 
 | Item | Version |
 | --- | --- |
-| Odoo | 14.0 Community Edition |
-| Python | 3.8+ |
+| Odoo | 18.0 Community Edition |
+| Python | 3.10 – 3.12 |
 | PostgreSQL | 12+ |
 | License | AGPL-3 |
 

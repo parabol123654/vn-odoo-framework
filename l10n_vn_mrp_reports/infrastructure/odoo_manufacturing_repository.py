@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Odoo implementation of ``IManufacturingRepository``.
 
 Cost and quantity both come from ``stock.valuation.layer``, joined to the moves
@@ -58,7 +58,7 @@ class OdooManufacturingRepository(IManufacturingRepository, BaseRepository):
             # not finished. Orders opened afterwards are not yet anybody's WIP.
             domain += [
                 ('state', 'in', list(OPEN_STATES)),
-                ('date_planned_start', '<=', '%s 23:59:59' % (
+                ('date_start', '<=', '%s 23:59:59' % (
                     odoo_fields.Date.to_string(manufacturing_filter.date_to))),
             ]
 
@@ -75,7 +75,7 @@ class OdooManufacturingRepository(IManufacturingRepository, BaseRepository):
         end_of_day = '%s 23:59:59' % odoo_fields.Date.to_string(at_date)
         domain = [
             ('company_id', 'in', list(manufacturing_filter.company_ids)),
-            ('date_planned_start', '<=', end_of_day),
+            ('date_start', '<=', end_of_day),
             '|', ('state', 'in', list(OPEN_STATES)),
             '&', ('state', '=', 'done'), ('date_finished', '>', end_of_day),
         ] + self._scope_domain(manufacturing_filter)
@@ -110,8 +110,8 @@ class OdooManufacturingRepository(IManufacturingRepository, BaseRepository):
                 state=production.state,
                 date_finished=(production.date_finished.date()
                                if production.date_finished else None),
-                date_started=(production.date_planned_start.date()
-                              if production.date_planned_start else None),
+                date_started=(production.date_start.date()
+                              if production.date_start else None),
             )
             for production in productions
         )
@@ -162,5 +162,5 @@ class OdooManufacturingRepository(IManufacturingRepository, BaseRepository):
                 for row in self.cr.dictfetchall()}
 
     def _flush(self):
-        self.env['stock.valuation.layer'].flush()
-        self.env['stock.move'].flush()
+        self.env['stock.valuation.layer'].flush_model()
+        self.env['stock.move'].flush_model()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sổ Cái / Sổ chi tiết tài khoản wizard."""
 
 from odoo import _, fields, models

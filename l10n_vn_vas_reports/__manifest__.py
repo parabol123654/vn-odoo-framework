@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 {
     'name': 'Vietnam VAS Reports',
-    'version': '14.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese statutory books, financial statements, VAT returns '
                'and cash vouchers (TT200)',
@@ -31,7 +31,6 @@
         'report/balance_sheet_templates.xml',
         'report/cash_flow_templates.xml',
         'report/report_actions.xml',
-        'views/assets.xml',
         'views/general_ledger_wizard_views.xml',
         'views/expense_ledger_wizard_views.xml',
         'views/sales_ledger_wizard_views.xml',
@@ -60,10 +59,16 @@
     'demo': [
         'demo/vn_demo_data.xml',
     ],
-    # 14.0 loads backend QWeb templates through this key, not through 'assets'.
-    'qweb': [
-        'static/src/xml/vn_report_viewer.xml',
-    ],
+    'assets': {
+        'web.assets_backend': [
+            'l10n_vn_vas_reports/static/src/scss/vn_report.scss',
+            'l10n_vn_vas_reports/static/src/js/vn_report_viewer.js',
+            'l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml',
+        ],
+        'web.report_assets_common': [
+            'l10n_vn_vas_reports/static/src/scss/vn_report.scss',
+        ],
+    },
     'installable': True,
     'application': False,
 }

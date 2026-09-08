@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Demo journal entries for a Vietnamese furniture SME.
 
 One implementation, two entry points: the ``demo/`` data file calls it at module
@@ -32,35 +32,26 @@ from odoo.exceptions import UserError
 
 DEMO_REF_PREFIX = 'VAS-DEMO'
 
-# code -> (name, account type xmlid, reconcile)
+# code -> (name, account_type, reconcile). account.account.account_type is a
+# selection since Odoo 16; the old account.account.type xmlids are gone.
 ACCOUNT_SPECS = {
-    '111': ('Tiền mặt', 'account.data_account_type_liquidity', False),
-    '112': ('Tiền gửi ngân hàng', 'account.data_account_type_liquidity', False),
-    '131': ('Phải thu của khách hàng',
-            'account.data_account_type_receivable', True),
-    '133': ('Thuế GTGT được khấu trừ',
-            'account.data_account_type_current_assets', False),
-    '152': ('Nguyên liệu, vật liệu',
-            'account.data_account_type_current_assets', False),
-    '154': ('Chi phí SXKD dở dang',
-            'account.data_account_type_current_assets', False),
-    '155': ('Thành phẩm', 'account.data_account_type_current_assets', False),
-    '331': ('Phải trả cho người bán',
-            'account.data_account_type_payable', True),
-    '3331': ('Thuế GTGT phải nộp',
-             'account.data_account_type_current_liabilities', False),
-    '411': ('Vốn đầu tư của chủ sở hữu',
-            'account.data_account_type_equity', False),
-    '421': ('Lợi nhuận sau thuế chưa phân phối',
-            'account.data_account_type_equity', False),
-    '511': ('Doanh thu bán hàng và cung cấp dịch vụ',
-            'account.data_account_type_revenue', False),
-    '632': ('Giá vốn hàng bán',
-            'account.data_account_type_direct_costs', False),
-    '642': ('Chi phí quản lý kinh doanh',
-            'account.data_account_type_expenses', False),
+    '111': ('Tiền mặt', 'asset_cash', False),
+    '112': ('Tiền gửi ngân hàng', 'asset_cash', False),
+    '131': ('Phải thu của khách hàng', 'asset_receivable', True),
+    '133': ('Thuế GTGT được khấu trừ', 'asset_current', False),
+    '152': ('Nguyên liệu, vật liệu', 'asset_current', False),
+    '154': ('Chi phí SXKD dở dang', 'asset_current', False),
+    '155': ('Thành phẩm', 'asset_current', False),
+    '331': ('Phải trả cho người bán', 'liability_payable', True),
+    '3331': ('Thuế GTGT phải nộp', 'liability_current', False),
+    '411': ('Vốn đầu tư của chủ sở hữu', 'equity', False),
+    # Not equity_unaffected: Odoo 18 auto-creates its single allowed
+    # current-year-earnings account per company and refuses a second.
+    '421': ('Lợi nhuận sau thuế chưa phân phối', 'equity', False),
+    '511': ('Doanh thu bán hàng và cung cấp dịch vụ', 'income', False),
+    '632': ('Giá vốn hàng bán', 'expense_direct_cost', False),
+    '642': ('Chi phí quản lý kinh doanh', 'expense', False),
 }
-
 PARTNERS = {
     'truong_thanh': ('Công ty TNHH Gỗ Trường Thành', '0301234567'),
     'hoa_binh': ('Đại lý Nội thất Hoà Bình', '0102345678'),
@@ -276,29 +267,26 @@ class VnDemoDataGenerator(models.AbstractModel):
         })
 
     def _ensure_accounts(self, company):
-        """Resolve by code prefix, create when absent. -> {code: account}."""
-        Account = self.env['account.account']
+        """Resolve by code prefix, create when absent. -> {code: account}.
+
+        Odoo 18: accounts are shared records with a company-dependent code,
+        so both the search and the create run with the target company.
+        """
+        Account = self.env['account.account'].with_company(company)
         accounts = {}
-        for code, (name, type_xmlid, reconcile) in ACCOUNT_SPECS.items():
+        for code, (name, account_type, reconcile) in ACCOUNT_SPECS.items():
             existing = Account.search([
-                ('company_id', '=', company.id),
+                ('company_ids', 'in', [company.id]),
                 ('code', '=like', code + '%'),
             ], order='code', limit=1)
             if existing:
                 accounts[code] = existing
                 continue
-
-            account_type = self.env.ref(type_xmlid, raise_if_not_found=False)
-            if not account_type:
-                raise UserError(_(
-                    "Account type %s not found; is the 'account' module "
-                    "installed?") % type_xmlid)
             accounts[code] = Account.create({
                 'code': code,
                 'name': name,
-                'user_type_id': account_type.id,
+                'account_type': account_type,
                 'reconcile': reconcile,
-                'company_id': company.id,
             })
         return accounts
 
@@ -348,25 +336,23 @@ class VnDemoDataGenerator(models.AbstractModel):
             return existing
 
         tax_account = accounts['3331'] if direction == 'sale' else accounts['133']
-        repartition = [
-            (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
-            (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                    'account_id': tax_account.id}),
-        ]
-        return Tax.create({
+        # Odoo 18 builds the repartition lines itself at create time; pointing
+        # the tax lines at the right account afterwards is both simpler and
+        # version-proof compared with spelling the lines out.
+        tax = Tax.create({
             'name': 'Thuế GTGT %d%% %s' % (
                 rate, 'đầu ra' if direction == 'sale' else 'đầu vào'),
             'amount_type': 'percent',
             'amount': rate,
             'type_tax_use': direction,
             'company_id': company.id,
-            'invoice_repartition_line_ids': repartition,
-            'refund_repartition_line_ids': [
-                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
-                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax',
-                        'account_id': tax_account.id}),
-            ],
         })
+        for lines in (tax.invoice_repartition_line_ids,
+                      tax.refund_repartition_line_ids):
+            lines.filtered(
+                lambda l: l.repartition_type == 'tax'
+            ).account_id = tax_account
+        return tax
 
     def _ensure_invoice_journal(self, company, kind):
         journal_type = 'sale' if kind.startswith('out') else 'purchase'

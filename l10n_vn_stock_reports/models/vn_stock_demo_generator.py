@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Demo stock movements for the inventory reports.
 
 The accounting demo (``vn.demo.data.generator``) writes journal entries; this
@@ -52,7 +52,9 @@ class VnStockDemoGenerator(models.AbstractModel):
             products[code] = Product.create({
                 'name': name,
                 'default_code': code,
-                'type': 'product',
+                # Odoo 18: storable goods are type consu with is_storable.
+                'type': 'consu',
+                'is_storable': True,
                 'categ_id': categories[categ_key].id,
                 'standard_price': cost,
             })
@@ -66,10 +68,10 @@ class VnStockDemoGenerator(models.AbstractModel):
 
     # ------------------------------------------------------------------
     def _account(self, company, key):
-        Account = self.env['account.account']
+        Account = self.env['account.account'].with_company(company)
         for prefix in _ACCOUNT_FALLBACKS[key]:
             account = Account.search([
-                ('company_id', '=', company.id),
+                ('company_ids', 'in', [company.id]),
                 ('code', '=like', prefix + '%'),
             ], order='code', limit=1)
             if account:
@@ -111,24 +113,23 @@ class VnStockDemoGenerator(models.AbstractModel):
                            'valuation_tp', 'input_tp', 'output_tp'),
         }
 
-    def _opening_inventory(self, company, products):
-        inventory = self.env['stock.inventory'].create({
-            'name': 'VAS demo - tồn đầu nguyên vật liệu',
-            'company_id': company.id,
-            'product_ids': [(4, products[code].id)
-                            for code, _n, _c, _p, qty in PRODUCTS if qty],
-        })
-        inventory.action_start()
+    def _set_stock(self, company, product, quantity):
+        """Set on-hand through the quant inventory flow.
+
+        ``stock.inventory`` left Odoo in 15.0; the counted quantity on the
+        quant plus ``action_apply_inventory`` is the supported way since.
+        """
         location = self.env['stock.warehouse'].search(
             [('company_id', '=', company.id)], limit=1).lot_stock_id
-        for code, _name, _categ, _cost, qty in PRODUCTS:
-            if not qty:
-                continue
-            self.env['stock.inventory.line'].create({
-                'inventory_id': inventory.id,
-                'product_id': products[code].id,
+        quant = self.env['stock.quant'].with_context(
+            inventory_mode=True).create({
+                'product_id': product.id,
                 'location_id': location.id,
-                'product_qty': qty,
-                'product_uom_id': products[code].uom_id.id,
+                'inventory_quantity': quantity,
             })
-        inventory.action_validate()
+        quant.action_apply_inventory()
+
+    def _opening_inventory(self, company, products):
+        for code, _name, _categ, _cost, qty in PRODUCTS:
+            if qty:
+                self._set_stock(company, products[code], qty)

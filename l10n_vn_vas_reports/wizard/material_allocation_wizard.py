@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Bảng phân bổ nguyên liệu, vật liệu, công cụ, dụng cụ (mẫu 07-VT).
 
 Built from the general ledger — the credit lines of 152/153/242 and where
@@ -40,8 +40,9 @@ class VnMaterialAllocationWizard(models.TransientModel):
         domain = ['|'] * (len(SOURCE_ACCOUNT_PREFIXES) - 1)
         domain += [('code', '=like', prefix + '%')
                    for prefix in SOURCE_ACCOUNT_PREFIXES]
-        return self.env['account.account'].search(
-            [('company_id', '=', self.env.company.id)] + domain)
+        return self.env['account.account'].with_company(
+            self.env.company).search(
+            [('company_ids', 'in', [self.env.company.id])] + domain)
 
     # -- filter --------------------------------------------------------
     def _ledger_filter(self, **overrides):

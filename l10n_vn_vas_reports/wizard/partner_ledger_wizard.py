@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sổ chi tiết thanh toán với người mua/người bán (mẫu S31-DN)."""
 
 from odoo import _, fields, models

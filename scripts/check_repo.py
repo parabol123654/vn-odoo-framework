@@ -442,8 +442,17 @@ def check_toolbar_buttons_have_handlers():
                            for path in scripts)
         for path in templates:
             markup = io.open(path, encoding='utf-8').read()
-            for match in re.finditer(r'<button[^>]*class="([^"]*)"', markup):
-                for css in match.group(1).split():
+            for match in re.finditer(r'<button[^>]*?>', markup, re.S):
+                tag = match.group(0)
+                classes = re.search(r'class="([^"]*)"', tag)
+                if not classes:
+                    continue
+                # An OWL button is bound where it stands: a t-on-click on the
+                # tag itself is the handler (18.0); the legacy events map
+                # ('click .css') is how the 14.0 branch binds.
+                if 't-on-click' in tag:
+                    continue
+                for css in classes.group(1).split():
                     if not css.startswith('o_vn_'):
                         continue
                     if ("'click .%s'" % css) not in handlers:

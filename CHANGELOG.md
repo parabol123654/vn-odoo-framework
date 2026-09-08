@@ -5,6 +5,34 @@ Versioning follows Semantic Versioning (Part 15 §21).
 
 ## [Unreleased]
 
+### Changed — Nhánh 18.0: port toàn bộ framework sang Odoo 18 CE
+
+- Tầng Domain thuần Python và toàn bộ 268 unit test **không đổi một dòng** —
+  đúng lời hứa của kiến trúc. Mọi thay đổi nằm ở tầng Odoo:
+  - `account.account` 18 dùng chung giữa các công ty (`company_ids`), mã tài
+    khoản phụ thuộc công ty (`code_store` jsonb — SQL thô đọc bằng khoá
+    `company_id` của chính dòng bút toán), `account_type` selection thay cho
+    account type record.
+  - `Query.get_sql()` không còn: các repository đọc `from_clause`/`where_clause`
+    dạng SQL object; `flush()` → `flush_model()`.
+  - `analytic_distribution` (json) thay `analytic_account_id`; analytic tags
+    không còn trong Odoo nên filter đó bị bỏ có chủ đích.
+  - Kho: `stock.inventory` đã bị bỏ — demo và smoke dùng quant
+    (`inventory_quantity` + `action_apply_inventory`); hàng tồn kho là
+    `type='consu'` + `is_storable`.
+  - Sản xuất: `date_planned_start` → `date_start`; `quantity_done` →
+    `quantity` + `picked`. **Odoo 17+ hạch toán tiêu hao sản xuất** qua tài
+    khoản chi phí sản xuất của nhóm sản phẩm
+    (`property_stock_account_production_cost_id`) — demo trỏ nó về TK 154 nên
+    tiêu hao ra đúng Nợ 154 / Có 152, nhập kho Nợ 155 / Có 154.
+  - Viewer viết lại thành OWL component (legacy AbstractAction không còn);
+    assets khai trong manifest thay vì inherit bundle template; QWeb
+    `t-esc` → `t-out`; view `attrs/states` → biểu thức; `tree` → `list`.
+  - Thuế demo: Odoo 18 tự dựng repartition lines — generator chỉ trỏ account
+    của dòng thuế sau khi tạo.
+- Cài chạy thật trên Odoo 18: đủ 5 module + OCA `account_asset_management`
+  18.0, demo đủ bốn mảng, smoke suite 16/16.
+
 ### Added — Sổ chi tiết bán hàng (S35-DN)
 
 - Doanh thu theo sản phẩm từ chính các dòng 511 (số lượng và sản phẩm giờ đi

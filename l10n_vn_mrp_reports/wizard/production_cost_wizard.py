@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Báo cáo chi phí sản xuất và giá thành sản phẩm."""
 
 from odoo import _, fields, models
@@ -24,7 +24,7 @@ class VnProductionCostWizard(models.TransientModel):
         string='Detail', default='product', required=True)
     product_ids = fields.Many2many(
         'product.product', string='Products',
-        domain=[('type', '=', 'product')],
+        domain=[('is_storable', '=', True)],
         help='Leave empty to include everything manufactured in the period.')
     category_ids = fields.Many2many(
         'product.category', string='Product categories')

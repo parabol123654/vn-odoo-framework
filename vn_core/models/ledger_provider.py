@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Domain provider (extension point).
 
 The Domain is pure Python and therefore has no ``_inherit``. This model is the

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -21,7 +21,7 @@
                     <th class="o_vn_col_days">Số ngày<br/>quá hạn</th>
                     <th class="o_vn_col_amount">Tổng nợ</th>
                     <th t-foreach="report.buckets" t-as="bucket"
-                        class="o_vn_col_amount" t-esc="bucket.label"/>
+                        class="o_vn_col_amount" t-out="bucket.label"/>
                 </tr>
             </thead>
 
@@ -33,13 +33,13 @@
                         t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
                         <td colspan="4">
                             <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
-                            <strong t-esc="group.partner_name or 'Không xác định'"/>
+                            <strong t-out="group.partner_name or 'Không xác định'"/>
                         </td>
-                        <td class="o_vn_col_amount" t-esc="group.total"
+                        <td class="o_vn_col_amount" t-out="group.total"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <td t-foreach="group.amounts" t-as="amount"
                             class="o_vn_col_amount">
-                            <span t-if="amount" t-esc="amount"
+                            <span t-if="amount" t-out="amount"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                     </tr>
@@ -49,27 +49,27 @@
                         t-att-data-group-child="'g%s' % group_index"
                         t-att-data-move-id="line.source.move_id if interactive else None">
                         <td class="o_vn_col_label">
-                            <span t-esc="line.move_name"/>
+                            <span t-out="line.move_name"/>
                             <span t-if="line.label" class="o_vn_muted">
-                                — <t t-esc="line.label"/>
+                                — <t t-out="line.label"/>
                             </span>
                         </td>
-                        <td class="o_vn_col_date" t-esc="line.date"
+                        <td class="o_vn_col_date" t-out="line.date"
                             t-options="{'widget': 'date'}"/>
-                        <td class="o_vn_col_date" t-esc="line.due_date"
+                        <td class="o_vn_col_date" t-out="line.due_date"
                             t-options="{'widget': 'date'}"/>
                         <td class="o_vn_col_days">
                             <span t-if="line.days_overdue &gt; 0"
-                                  class="o_vn_overdue" t-esc="line.days_overdue"/>
+                                  class="o_vn_overdue" t-out="line.days_overdue"/>
                         </td>
-                        <td class="o_vn_col_amount" t-esc="line.residual"
+                        <td class="o_vn_col_amount" t-out="line.residual"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <!-- The residual is printed under its own ageing band
                              and left blank under every other. -->
                         <td t-foreach="report.buckets" t-as="bucket"
                             class="o_vn_col_amount">
                             <span t-if="bucket_index == line.bucket_index"
-                                  t-esc="line.residual"
+                                  t-out="line.residual"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                     </tr>
@@ -79,10 +79,10 @@
             <tfoot t-if="report.groups">
                 <tr class="o_vn_total_row">
                     <td colspan="4">Tổng cộng</td>
-                    <td class="o_vn_col_amount" t-esc="report.grand_total"
+                    <td class="o_vn_col_amount" t-out="report.grand_total"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td t-foreach="report.totals" t-as="total"
-                        class="o_vn_col_amount" t-esc="total"
+                        class="o_vn_col_amount" t-out="total"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tfoot>

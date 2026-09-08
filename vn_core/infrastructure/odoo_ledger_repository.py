@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Odoo implementation of ``ILedgerRepository`` (Part 6 §7).
 
 The only module in the ledger stack that touches the ORM or SQL. It contains no
@@ -58,20 +58,26 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
         )
 
     def get_accounts(self, ledger_filter):
-        domain = [('company_id', 'in', list(ledger_filter.company_ids))]
+        # Odoo 18: accounts are shared across companies (company_ids m2m) and
+        # the code is company-dependent, so both the search and the read run
+        # with the reporting company. include_initial_balance is computed on
+        # the account itself now — no account type record to follow.
+        domain = [('company_ids', 'in', list(ledger_filter.company_ids))]
         if ledger_filter.account_ids:
             domain.append(('id', 'in', list(ledger_filter.account_ids)))
         if ledger_filter.account_type_ids:
             domain.append(
-                ('user_type_id', 'in', list(ledger_filter.account_type_ids)))
-        accounts = self.env['account.account'].search(domain)
+                ('account_type', 'in', list(ledger_filter.account_type_ids)))
+        company_id = list(ledger_filter.company_ids)[0]
+        accounts = self.env['account.account'].with_company(
+            company_id).search(domain)
         return tuple(
             AccountDTO(
                 id=account.id,
                 code=account.code or '',
                 name=account.name or '',
                 include_initial_balance=bool(
-                    account.user_type_id.include_initial_balance),
+                    account.include_initial_balance),
                 internal_group=account.internal_group or '',
             )
             for account in accounts
@@ -176,7 +182,6 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
                    {alias}.partner_id,
                    {alias}.journal_id,
                    {alias}.move_id,
-                   {alias}.analytic_account_id,
                    {alias}.date_maturity,
                    {alias}.amount_residual,
                    {alias}.full_reconcile_id,
@@ -208,7 +213,7 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
                 label=row['label'] or '',
                 ref=row['ref'] or '',
                 partner_id=row['partner_id'],
-                analytic_account_id=row['analytic_account_id'],
+                analytic_account_id=None,
                 currency_id=row['currency_id'],
                 amount_currency=row['amount_currency'] or 0.0,
                 date_maturity=row['date_maturity'],
@@ -226,7 +231,7 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
     def get_move_account_sums(self, move_ids):
         if not move_ids:
             return ()
-        self.env[AML].flush()
+        self.env[AML].flush_model()
         self.cr.execute("""
             SELECT move_id, account_id,
                    SUM(debit)  AS debit,
@@ -247,7 +252,7 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
     def get_reconciled_after(self, line_ids, date_to):
         if not line_ids:
             return {}
-        self.env['account.partial.reconcile'].flush()
+        self.env['account.partial.reconcile'].flush_model()
         self.cr.execute("""
             SELECT line_id, SUM(amount) AS amount FROM (
                 SELECT pr.debit_move_id AS line_id, pr.amount AS amount
@@ -306,8 +311,10 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
         for field, values in (
             ('partner_id', ledger_filter.partner_ids),
             ('journal_id', ledger_filter.journal_ids),
-            ('analytic_account_id', ledger_filter.analytic_account_ids),
-            ('analytic_tag_ids', ledger_filter.analytic_tag_ids),
+            # analytic_distribution replaced analytic_account_id in 16.0 and
+            # carries its own search; analytic tags no longer exist in Odoo,
+            # so that filter is deliberately ignored.
+            ('analytic_distribution', ledger_filter.analytic_account_ids),
             ('product_id', ledger_filter.product_ids),
         ):
             if values:
@@ -317,7 +324,10 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
     def _query_parts(self, domain):
         """``(from_clause, where_clause, params)`` with record rules applied."""
         model = self.env[AML]
-        model.flush()
+        model.flush_model()
         query = model._where_calc(domain)
         model._apply_ir_rules(query, 'read')
-        return query.get_sql()
+        # Odoo 18's Query exposes SQL objects rather than (sql, params) pairs.
+        from_sql, where_sql = query.from_clause, query.where_clause
+        return (from_sql.code, where_sql.code,
+                list(from_sql.params) + list(where_sql.params))

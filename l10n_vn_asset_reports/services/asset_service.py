@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Fixed-asset use cases."""
 
 from odoo.addons.vn_core.services.base_service import BaseService

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Extends the domain provider with the fixed-asset engine.
 
 Same extension point the inventory and manufacturing modules used: a whole

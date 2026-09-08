@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -36,17 +36,17 @@
                         t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
                         <td colspan="6">
                             <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
-                            <strong t-if="group.product" t-esc="group.display_name"/>
+                            <strong t-if="group.product" t-out="group.display_name"/>
                             <strong t-if="not group.product">Doanh thu không gắn sản phẩm</strong>
                             <span t-if="group.product" class="o_vn_muted">
-                                — <t t-esc="group.product.uom_name"/>
+                                — <t t-out="group.product.uom_name"/>
                             </span>
                         </td>
-                        <td class="o_vn_col_amount" t-esc="group.revenue_total"
+                        <td class="o_vn_col_amount" t-out="group.revenue_total"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <td class="o_vn_col_amount">
                             <span t-if="group.deduction_total"
-                                  t-esc="group.deduction_total"
+                                  t-out="group.deduction_total"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                     </tr>
@@ -55,24 +55,24 @@
                         t-att-data-group-child="'g%s' % group_index"
                         t-att-data-search="line.move_name + ' ' + line.label"
                         t-att-data-move-id="line.source.source.move_id if interactive else None">
-                        <td class="o_vn_col_date" t-esc="line.date"
+                        <td class="o_vn_col_date" t-out="line.date"
                             t-options="{'widget': 'date'}"/>
-                        <td class="o_vn_col_ref" t-esc="line.move_name"/>
-                        <td class="o_vn_col_label" t-esc="line.label"/>
-                        <td class="o_vn_col_counterpart" t-esc="line.counterpart_label"/>
+                        <td class="o_vn_col_ref" t-out="line.move_name"/>
+                        <td class="o_vn_col_label" t-out="line.label"/>
+                        <td class="o_vn_col_counterpart" t-out="line.counterpart_label"/>
                         <td class="o_vn_col_qty">
-                            <span t-if="line.quantity" t-esc="line.quantity"/>
+                            <span t-if="line.quantity" t-out="line.quantity"/>
                         </td>
                         <td class="o_vn_col_amount">
-                            <span t-if="line.unit_price" t-esc="line.unit_price"
+                            <span t-if="line.unit_price" t-out="line.unit_price"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                         <td class="o_vn_col_amount">
-                            <span t-if="line.revenue" t-esc="line.revenue"
+                            <span t-if="line.revenue" t-out="line.revenue"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                         <td class="o_vn_col_amount">
-                            <span t-if="line.deduction" t-esc="line.deduction"
+                            <span t-if="line.deduction" t-out="line.deduction"
                                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         </td>
                     </tr>
@@ -80,9 +80,9 @@
                     <tr class="o_vn_subtotal_row"
                         t-att-data-group-child="'g%s' % group_index">
                         <td colspan="4">Cộng — doanh thu thuần</td>
-                        <td class="o_vn_col_qty" t-esc="group.quantity_total"/>
+                        <td class="o_vn_col_qty" t-out="group.quantity_total"/>
                         <td class="o_vn_col_amount"/>
-                        <td class="o_vn_col_amount" t-esc="group.net_revenue"
+                        <td class="o_vn_col_amount" t-out="group.net_revenue"
                             t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                         <td class="o_vn_col_amount"/>
                     </tr>
@@ -92,12 +92,12 @@
                 <tr class="o_vn_total_row">
                     <td colspan="6">Tổng cộng — doanh thu / giảm trừ / thuần</td>
                     <td class="o_vn_col_amount">
-                        <div t-esc="report.total_revenue"
+                        <div t-out="report.total_revenue"
                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
-                        <div t-esc="report.total_net_revenue"
+                        <div t-out="report.total_net_revenue"
                              t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </td>
-                    <td class="o_vn_col_amount" t-esc="report.total_deduction"
+                    <td class="o_vn_col_amount" t-out="report.total_deduction"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tfoot>

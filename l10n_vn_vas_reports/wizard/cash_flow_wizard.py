@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Báo cáo lưu chuyển tiền tệ, phương pháp trực tiếp (mẫu B03-DN)."""
 
 from odoo import _, fields, models

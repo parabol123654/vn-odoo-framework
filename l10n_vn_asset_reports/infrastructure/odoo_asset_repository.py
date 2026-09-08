@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Odoo implementation of ``IAssetRepository``.
 
 Reads the asset subledger of OCA ``account_asset_management``:
@@ -123,11 +123,11 @@ class OdooAssetRepository(IAssetRepository, BaseRepository):
         move_ids = tuple({line.move_id.id for line in lines if line.move_id})
         if not move_ids:
             return {}
-        self.env['account.move.line'].flush()
+        self.env['account.move.line'].flush_model()
         self.cr.execute("""
             SELECT DISTINCT ON (aml.move_id)
                    aml.move_id AS move_id,
-                   aa.code     AS code
+                   aa.code_store->>(aml.company_id::text) AS code
               FROM account_move_line aml
               JOIN account_account aa ON aa.id = aml.account_id
              WHERE aml.move_id IN %s

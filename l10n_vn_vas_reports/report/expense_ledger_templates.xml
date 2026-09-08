@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -20,7 +20,7 @@
         <t t-foreach="report.groups" t-as="group">
             <div class="o_vn_expense_group">
                 <h4 class="o_vn_group_heading">
-                    <strong t-esc="group.display_name"/>
+                    <strong t-out="group.display_name"/>
                 </h4>
                 <table class="table table-sm o_vn_table o_vn_table_ledger">
                     <thead>
@@ -36,7 +36,7 @@
                         <tr>
                             <th t-foreach="group.columns" t-as="column"
                                 class="o_vn_col_amount"
-                                t-esc="column or 'Khác'"/>
+                                t-out="column or 'Khác'"/>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,10 +44,10 @@
                             <td colspan="4">Số dư đầu kỳ</td>
                             <td class="o_vn_col_amount">
                                 <span t-if="group.opening.debit_balance"
-                                      t-esc="group.opening.debit_balance"
+                                      t-out="group.opening.debit_balance"
                                       t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                                 <span t-if="group.opening.credit_balance" class="o_vn_credit">
-                                    (<span t-esc="group.opening.credit_balance"
+                                    (<span t-out="group.opening.credit_balance"
                                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>)
                                 </span>
                             </td>
@@ -58,34 +58,34 @@
                         <tr t-foreach="group.lines" t-as="line" class="o_vn_line"
                             t-att-data-search="line.move_name + ' ' + line.label"
                             t-att-data-move-id="line.move_id if interactive else None">
-                            <td class="o_vn_col_date" t-esc="line.date"
+                            <td class="o_vn_col_date" t-out="line.date"
                                 t-options="{'widget': 'date'}"/>
-                            <td class="o_vn_col_ref" t-esc="line.move_name"/>
-                            <td class="o_vn_col_label" t-esc="line.label"/>
-                            <td class="o_vn_col_counterpart" t-esc="line.counterpart_label"/>
-                            <td class="o_vn_col_amount" t-esc="line.debit"
+                            <td class="o_vn_col_ref" t-out="line.move_name"/>
+                            <td class="o_vn_col_label" t-out="line.label"/>
+                            <td class="o_vn_col_counterpart" t-out="line.counterpart_label"/>
+                            <td class="o_vn_col_amount" t-out="line.debit"
                                 t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             <td t-foreach="line.amounts" t-as="amount"
                                 class="o_vn_col_amount">
-                                <span t-if="amount" t-esc="amount"
+                                <span t-if="amount" t-out="amount"
                                       t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             </td>
                         </tr>
 
                         <tr class="o_vn_subtotal_row">
                             <td colspan="4">Cộng phát sinh trong kỳ</td>
-                            <td class="o_vn_col_amount" t-esc="group.debit_total"
+                            <td class="o_vn_col_amount" t-out="group.debit_total"
                                 t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             <td t-foreach="group.column_totals" t-as="total"
                                 class="o_vn_col_amount">
-                                <span t-if="total" t-esc="total"
+                                <span t-if="total" t-out="total"
                                       t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             </td>
                         </tr>
 
                         <tr class="o_vn_subtotal_row">
-                            <td colspan="4">Ghi Có TK <t t-esc="group.code"/></td>
-                            <td class="o_vn_col_amount" t-esc="group.credit_total"
+                            <td colspan="4">Ghi Có TK <t t-out="group.code"/></td>
+                            <td class="o_vn_col_amount" t-out="group.credit_total"
                                 t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                             <td t-foreach="group.columns" t-as="column"
                                 class="o_vn_col_amount"/>
@@ -95,10 +95,10 @@
                             <td colspan="4">Số dư cuối kỳ</td>
                             <td class="o_vn_col_amount">
                                 <span t-if="group.closing.debit_balance"
-                                      t-esc="group.closing.debit_balance"
+                                      t-out="group.closing.debit_balance"
                                       t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                                 <span t-if="group.closing.credit_balance" class="o_vn_credit">
-                                    (<span t-esc="group.closing.credit_balance"
+                                    (<span t-out="group.closing.credit_balance"
                                            t-options="{'widget': 'monetary', 'display_currency': currency}"/>)
                                 </span>
                             </td>

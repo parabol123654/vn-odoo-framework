@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Indexing support for ledger reporting.
 
 Every ledger query filters on ``company_id`` + ``parent_state`` + ``date`` and

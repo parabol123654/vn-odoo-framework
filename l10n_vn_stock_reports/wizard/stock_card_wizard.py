@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Thẻ kho và Bảng tổng hợp Nhập - Xuất - Tồn.
 
 Reuses ``vn.report.wizard.mixin`` from ``l10n_vn_vas_reports`` so the viewer, the
@@ -30,7 +30,7 @@ class VnStockCardWizard(models.TransientModel):
         string='Detail', default='summary', required=True)
     product_ids = fields.Many2many(
         'product.product', string='Products',
-        domain=[('type', '=', 'product')],
+        domain=[('is_storable', '=', True)],
         help='Leave empty to include every storable product.')
     category_ids = fields.Many2many(
         'product.category', string='Product categories')

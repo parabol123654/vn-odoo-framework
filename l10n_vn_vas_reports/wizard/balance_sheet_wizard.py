@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Bảng cân đối kế toán (mẫu B01-DN)."""
 
 from datetime import timedelta

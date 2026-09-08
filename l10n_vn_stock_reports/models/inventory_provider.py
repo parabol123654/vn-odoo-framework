@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Extends the domain provider with the inventory engine.
 
 This is the extension point built into ``vn_core`` doing its job: a separate

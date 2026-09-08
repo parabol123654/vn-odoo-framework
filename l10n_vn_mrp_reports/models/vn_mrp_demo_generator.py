@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Demo manufacturing orders for the production cost reports.
 
 Self-contained on purpose: this module does not depend on
@@ -40,18 +40,20 @@ class VnMrpDemoGenerator(models.AbstractModel):
         component = Product.create({
             'name': 'Gỗ sồi ghép thanh (demo SX)',
             'default_code': 'VNDEMO-MRP-NVL',
-            'type': 'product',
+            'type': 'consu',
+            'is_storable': True,
             'categ_id': nvl_categ.id,
             'standard_price': 400000.0,
         })
         finished = Product.create({
             'name': 'Tủ quần áo 4 cánh (demo SX)',
             'default_code': 'VNDEMO-MRP-TP',
-            'type': 'product',
+            'type': 'consu',
+            'is_storable': True,
             'categ_id': tp_categ.id,
         })
 
-        self._add_stock(company, component, 500.0)
+        self._set_stock(company, component, 500.0)
         bom = self.env['mrp.bom'].create({
             'product_tmpl_id': finished.product_tmpl_id.id,
             'product_qty': 1,
@@ -69,10 +71,10 @@ class VnMrpDemoGenerator(models.AbstractModel):
 
     # ------------------------------------------------------------------
     def _account(self, company, key):
-        Account = self.env['account.account']
+        Account = self.env['account.account'].with_company(company)
         for prefix in _ACCOUNT_FALLBACKS[key]:
             account = Account.search([
-                ('company_id', '=', company.id),
+                ('company_ids', 'in', [company.id]),
                 ('code', '=like', prefix + '%'),
             ], order='code', limit=1)
             if account:
@@ -98,6 +100,12 @@ class VnMrpDemoGenerator(models.AbstractModel):
                     self._account(company, input_key).id,
                 'property_stock_account_output_categ_id':
                     self._account(company, output_key).id,
+                # Odoo 17+ books an MO's consumption and receipt against the
+                # category's production-cost account. 154 is what that account
+                # means in the Vietnamese chart: consumption Nợ 154 / Có 152,
+                # receipt Nợ 155 / Có 154.
+                'property_stock_account_production_cost_id':
+                    self._account(company, 'input_tp').id,
                 'property_stock_journal': journal.id,
             })
 
@@ -106,22 +114,21 @@ class VnMrpDemoGenerator(models.AbstractModel):
                 category('VAS demo SX - Thành phẩm',
                          'valuation_tp', 'input_tp', 'output_tp'))
 
-    def _add_stock(self, company, product, quantity):
-        inventory = self.env['stock.inventory'].create({
-            'name': 'VAS demo SX - tồn nguyên liệu',
-            'company_id': company.id,
-            'product_ids': [(4, product.id)],
-        })
-        inventory.action_start()
-        self.env['stock.inventory.line'].create({
-            'inventory_id': inventory.id,
-            'product_id': product.id,
-            'location_id': self.env['stock.warehouse'].search(
-                [('company_id', '=', company.id)], limit=1).lot_stock_id.id,
-            'product_qty': quantity,
-            'product_uom_id': product.uom_id.id,
-        })
-        inventory.action_validate()
+    def _set_stock(self, company, product, quantity):
+        """Set on-hand through the quant inventory flow.
+
+        ``stock.inventory`` left Odoo in 15.0; the counted quantity on the
+        quant plus ``action_apply_inventory`` is the supported way since.
+        """
+        location = self.env['stock.warehouse'].search(
+            [('company_id', '=', company.id)], limit=1).lot_stock_id
+        quant = self.env['stock.quant'].with_context(
+            inventory_mode=True).create({
+                'product_id': product.id,
+                'location_id': location.id,
+                'inventory_quantity': quantity,
+            })
+        quant.action_apply_inventory()
 
     def _run_order(self, finished, bom, quantity, finish):
         # Imported lazily: odoo.tests is a heavyweight import that production
@@ -145,6 +152,8 @@ class VnMrpDemoGenerator(models.AbstractModel):
             # the order stays in progress, and the consumed value is exactly
             # the closing WIP an accountant computes for TK 154.
             for move in order.move_raw_ids:
-                move.quantity_done = move.product_uom_qty
+                # quantity_done became quantity + picked in Odoo 17.
+                move.quantity = move.product_uom_qty
+                move.picked = True
             order.move_raw_ids._action_done()
         return order

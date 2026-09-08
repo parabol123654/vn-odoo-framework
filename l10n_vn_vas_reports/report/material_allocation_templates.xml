@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -18,24 +18,24 @@
                     <th class="o_vn_col_stt">STT</th>
                     <th class="o_vn_col_label">Đối tượng sử dụng<br/>(Ghi Nợ các TK)</th>
                     <th t-foreach="report.columns" t-as="column"
-                        class="o_vn_col_amount">Ghi Có TK <t t-esc="column"/></th>
+                        class="o_vn_col_amount">Ghi Có TK <t t-out="column"/></th>
                     <th class="o_vn_col_amount">Cộng</th>
                 </tr>
             </thead>
             <tbody t-if="report.rows">
                 <tr t-foreach="report.rows" t-as="row" class="o_vn_line"
                     t-att-data-search="row.code">
-                    <td class="o_vn_col_stt" t-esc="row_index + 1"/>
+                    <td class="o_vn_col_stt" t-out="row_index + 1"/>
                     <td class="o_vn_col_label">
-                        <t t-if="row.code">TK <t t-esc="row.code"/></t>
+                        <t t-if="row.code">TK <t t-out="row.code"/></t>
                         <t t-else="">Khác (bút toán nhiều TK ghi Nợ)</t>
                     </td>
                     <td t-foreach="row.amounts" t-as="amount"
                         class="o_vn_col_amount">
-                        <span t-if="amount" t-esc="amount"
+                        <span t-if="amount" t-out="amount"
                               t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </td>
-                    <td class="o_vn_col_amount" t-esc="row.total"
+                    <td class="o_vn_col_amount" t-out="row.total"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tbody>
@@ -44,10 +44,10 @@
                     <td colspan="2">Cộng</td>
                     <td t-foreach="report.column_totals" t-as="total"
                         class="o_vn_col_amount">
-                        <span t-if="total" t-esc="total"
+                        <span t-if="total" t-out="total"
                               t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </td>
-                    <td class="o_vn_col_amount" t-esc="report.grand_total"
+                    <td class="o_vn_col_amount" t-out="report.grand_total"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                 </tr>
             </tfoot>

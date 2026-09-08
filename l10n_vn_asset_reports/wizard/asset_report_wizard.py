@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sổ TSCĐ, Thẻ TSCĐ và Bảng tính và phân bổ khấu hao.
 
 One wizard, three layouts — the same shape the stock and manufacturing

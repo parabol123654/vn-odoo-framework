@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """The shipped TT200 mapping must be valid, and must add up.
 
 A statutory mapping is data, which means a typo in an XML file ships silently

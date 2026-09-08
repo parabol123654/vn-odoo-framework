@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -20,10 +20,10 @@
                     <th class="o_vn_col_code">Mã số</th>
                     <th class="o_vn_col_code">Thuyết minh</th>
                     <th class="o_vn_col_amount">
-                        <t t-esc="current_label or 'Năm nay'"/>
+                        <t t-out="current_label or 'Năm nay'"/>
                     </th>
                     <th t-if="report.comparative" class="o_vn_col_amount">
-                        <t t-esc="previous_label or 'Năm trước'"/>
+                        <t t-out="previous_label or 'Năm trước'"/>
                     </th>
                 </tr>
             </thead>
@@ -40,15 +40,15 @@
                              có gì để mở. -->
                         <span t-if="can_drill" class="o_vn_drillable"
                               t-att-title="'Mở Sổ Cái của các tài khoản cấu thành chỉ tiêu %s' % line.code"
-                              t-esc="line.name"/>
-                        <span t-else="" t-esc="line.name"/>
+                              t-out="line.name"/>
+                        <span t-else="" t-out="line.name"/>
                     </td>
-                    <td class="o_vn_col_code" t-esc="line.code"/>
-                    <td class="o_vn_col_code" t-esc="line.note_ref"/>
-                    <td class="o_vn_col_amount" t-esc="line.amount"
+                    <td class="o_vn_col_code" t-out="line.code"/>
+                    <td class="o_vn_col_code" t-out="line.note_ref"/>
+                    <td class="o_vn_col_amount" t-out="line.amount"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     <td t-if="report.comparative" class="o_vn_col_amount"
-                        t-esc="line.previous_amount or 0.0"
+                        t-out="line.previous_amount or 0.0"
                         t-options="{'widget': 'monetary', 'display_currency': currency}"/>
                     </tr>
                 </t>

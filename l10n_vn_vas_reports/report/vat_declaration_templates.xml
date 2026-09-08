@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -14,13 +14,13 @@
              class="o_vn_alert o_vn_alert_error">
             <strong>Tờ khai chưa khớp với sổ kế toán.</strong>
             Chỉ tiêu 28 (thuế GTGT đầu ra theo bảng kê) =
-            <span t-esc="report.balance_check.left_amount"
+            <span t-out="report.balance_check.left_amount"
                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>,
             trong khi phát sinh Có tài khoản thuế GTGT đầu ra =
-            <span t-esc="report.balance_check.right_amount"
+            <span t-out="report.balance_check.right_amount"
                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>,
             lệch
-            <strong><span t-esc="report.balance_check.difference"
+            <strong><span t-out="report.balance_check.difference"
                           t-options="{'widget': 'monetary', 'display_currency': currency}"/></strong>.
             Nguyên nhân thường gặp: có bút toán ghi thẳng vào tài khoản thuế mà
             không qua hoá đơn, nên không sinh dòng thuế và không lên bảng kê.

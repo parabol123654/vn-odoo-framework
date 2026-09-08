@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -21,13 +21,13 @@
                     <div><strong t-field="doc.company_id.name"/></div>
                     <div t-if="doc.company_id.partner_id.contact_address"
                          class="o_vn_muted">
-                        <span t-esc="doc.company_id.partner_id.contact_address
+                        <span t-out="doc.company_id.partner_id.contact_address
                                      .replace('\n', ' ').strip()"/>
                     </div>
                 </div>
                 <div class="col-5 text-right o_vn_form_code">
                     <div>Mẫu số:
-                        <strong t-esc="'01 - TT' if is_receipt else '02 - TT'"/>
+                        <strong t-out="'01 - TT' if is_receipt else '02 - TT'"/>
                     </div>
                     <div class="o_vn_form_legal">
                         (Ban hành theo Thông tư số 200/2014/TT-BTC<br/>
@@ -37,41 +37,41 @@
             </div>
 
             <h3 class="text-center o_vn_form_title">
-                <t t-esc="'PHIẾU THU' if is_receipt else 'PHIẾU CHI'"/>
+                <t t-out="'PHIẾU THU' if is_receipt else 'PHIẾU CHI'"/>
             </h3>
             <div class="text-center o_vn_form_period">
-                Ngày <span t-esc="doc.date.day"/>
-                tháng <span t-esc="doc.date.month"/>
-                năm <span t-esc="doc.date.year"/>
+                Ngày <span t-out="doc.date.day"/>
+                tháng <span t-out="doc.date.month"/>
+                năm <span t-out="doc.date.year"/>
             </div>
             <div class="text-center o_vn_form_unit">
-                Số: <strong t-esc="doc.vn_voucher_number or doc.name"/>
+                Số: <strong t-out="doc.vn_voucher_number or doc.name"/>
             </div>
 
             <table class="table table-sm o_vn_table o_vn_voucher_head">
                 <tr>
                     <td style="width:35%">
-                        <t t-esc="'Họ và tên người nộp tiền'
+                        <t t-out="'Họ và tên người nộp tiền'
                                   if is_receipt else 'Họ và tên người nhận tiền'"/>
                     </td>
                     <td><strong t-field="doc.partner_id.name"/></td>
                 </tr>
                 <tr>
                     <td>Địa chỉ</td>
-                    <td t-esc="doc.partner_id.contact_address
+                    <td t-out="doc.partner_id.contact_address
                                and doc.partner_id.contact_address
                                    .replace('\n', ' ').strip() or ''"/>
                 </tr>
                 <tr>
                     <td>Lý do
-                        <t t-esc="'nộp' if is_receipt else 'chi'"/>
+                        <t t-out="'nộp' if is_receipt else 'chi'"/>
                     </td>
-                    <td t-esc="doc.ref or doc.narration or ''"/>
+                    <td t-out="doc.ref or doc.narration or ''"/>
                 </tr>
                 <tr>
                     <td>Số tiền</td>
                     <td>
-                        <strong t-esc="doc._vn_voucher_amount()"
+                        <strong t-out="doc._vn_voucher_amount()"
                                 t-options="{'widget': 'monetary',
                                             'display_currency': doc.company_id.currency_id}"/>
                     </td>
@@ -79,7 +79,7 @@
                 <tr>
                     <td>Bằng chữ</td>
                     <td>
-                        <em t-esc="doc.company_id.currency_id
+                        <em t-out="doc.company_id.currency_id
                                    .amount_to_text(doc._vn_voucher_amount())"/>
                     </td>
                 </tr>
@@ -98,7 +98,7 @@
                         <td t-field="line.account_id.code"/>
                         <td t-field="line.name"/>
                         <td class="o_vn_col_amount"
-                            t-esc="abs(line.balance)"
+                            t-out="abs(line.balance)"
                             t-options="{'widget': 'monetary',
                                         'display_currency': doc.company_id.currency_id}"/>
                     </tr>
@@ -115,7 +115,7 @@
                     <div class="o_vn_muted">(Ký, họ tên)</div>
                 </div>
                 <div class="col-3">
-                    <div><t t-esc="'Người nộp tiền' if is_receipt
+                    <div><t t-out="'Người nộp tiền' if is_receipt
                                    else 'Người nhận tiền'"/></div>
                     <div class="o_vn_muted">(Ký, họ tên)</div>
                 </div>

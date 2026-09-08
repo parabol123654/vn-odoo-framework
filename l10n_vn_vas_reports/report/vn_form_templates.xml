@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Target: Odoo 14.0 Community Edition -->
+<!-- Target: Odoo 18.0 Community Edition -->
 <odoo>
 
     <!--
@@ -14,7 +14,7 @@
                 <div class="col-7">
                     <div>Đơn vị: <span t-field="company.name"/></div>
                     <div t-if="company.partner_id.contact_address">
-                        Địa chỉ: <span t-esc="company.partner_id.contact_address.replace('\n', ' ').strip()"/>
+                        Địa chỉ: <span t-out="company.partner_id.contact_address.replace('\n', ' ').strip()"/>
                     </div>
                     <div t-if="company.vat">Mã số thuế: <span t-field="company.vat"/></div>
                 </div>
@@ -25,7 +25,7 @@
                     status it does not have.
                 -->
                 <div class="col-5 text-right o_vn_form_code" t-if="form_code">
-                    <div>Mẫu số: <strong t-esc="form_code"/></div>
+                    <div>Mẫu số: <strong t-out="form_code"/></div>
                     <div class="o_vn_form_legal">
                         (Ban hành theo Thông tư số 200/2014/TT-BTC<br/>
                         ngày 22/12/2014 của Bộ Tài chính)
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <h3 class="text-center o_vn_form_title" t-esc="form_title"/>
+            <h3 class="text-center o_vn_form_title" t-out="form_title"/>
             <div class="text-center o_vn_form_period">
                 Từ ngày <span t-field="doc.date_from"/>
                 đến ngày <span t-field="doc.date_to"/>
@@ -69,7 +69,7 @@
             <div class="article o_vn_print_article"
                  t-att-data-oe-model="doc and doc._name or None"
                  t-att-data-oe-id="doc and doc.id or None">
-                <t t-raw="0"/>
+                <t t-out="0"/>
             </div>
 
             <div class="footer o_vn_print_footer">
@@ -79,7 +79,7 @@
                             Người in: <span t-field="doc.create_uid.name"/>
                         </span>
                         <span class="ml-3">
-                            Ngày in: <span t-esc="context_timestamp(doc.create_date).strftime('%d/%m/%Y %H:%M')"/>
+                            Ngày in: <span t-out="context_timestamp(doc.create_date).strftime('%d/%m/%Y %H:%M')"/>
                         </span>
                     </div>
                     <div class="col-4 text-right">
@@ -93,8 +93,8 @@
     <template id="vn_form_filters">
         <div t-if="filter_summary" class="o_vn_form_filters">
             <span t-foreach="filter_summary" t-as="row" class="o_vn_filter_item">
-                <span class="o_vn_filter_label" t-esc="row[0]"/>:
-                <span class="o_vn_filter_value" t-esc="row[1]"/>
+                <span class="o_vn_filter_label" t-out="row[0]"/>:
+                <span class="o_vn_filter_value" t-out="row[1]"/>
             </span>
         </div>
     </template>
@@ -111,9 +111,9 @@
             </div>
             <div class="col-4 text-center">
                 <div class="o_vn_signature_date">
-                    Ngày <span t-esc="doc.date_to.day"/>
-                    tháng <span t-esc="doc.date_to.month"/>
-                    năm <span t-esc="doc.date_to.year"/>
+                    Ngày <span t-out="doc.date_to.day"/>
+                    tháng <span t-out="doc.date_to.month"/>
+                    năm <span t-out="doc.date_to.year"/>
                 </div>
                 <div class="o_vn_signature_role">Giám đốc</div>
                 <div class="o_vn_signature_hint">(Ký, họ tên, đóng dấu)</div>

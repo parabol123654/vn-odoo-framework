@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Target: Odoo 14.0 Community Edition
+# Target: Odoo 18.0 Community Edition
 """Sổ chi tiết bán hàng (S35-DN).
 
 Revenue per product from the 511 lines themselves, deductions from 521. The
@@ -38,8 +38,9 @@ class VnSalesLedgerWizard(models.TransientModel):
         domain = ['|'] * (len(SALES_ACCOUNT_PREFIXES) - 1)
         domain += [('code', '=like', prefix + '%')
                    for prefix in SALES_ACCOUNT_PREFIXES]
-        return self.env['account.account'].search(
-            [('company_id', '=', self.env.company.id)] + domain)
+        return self.env['account.account'].with_company(
+            self.env.company).search(
+            [('company_ids', 'in', [self.env.company.id])] + domain)
 
     # -- filter --------------------------------------------------------
     def _ledger_filter(self, **overrides):
