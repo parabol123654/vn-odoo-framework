@@ -1,4 +1,4 @@
-odoo.define('l10n_vn_reports.ReportViewer', function (require) {
+odoo.define('l10n_vn_vas_reports.ReportViewer', function (require) {
 'use strict';
 
 /**
@@ -23,7 +23,7 @@ const framework = require('web.framework');
 const _t = core._t;
 
 const VnReportViewer = AbstractAction.extend({
-    template: 'l10n_vn_reports.ReportViewer',
+    template: 'l10n_vn_vas_reports.ReportViewer',
 
     events: {
         'click .o_vn_group_toggle': '_onToggleGroup',
@@ -114,7 +114,7 @@ const VnReportViewer = AbstractAction.extend({
     _renderReport: function () {
         const $content = this.$('.o_vn_report_content');
         if (this.loadFailed) {
-            $content.html(core.qweb.render('l10n_vn_reports.ReportViewerExpired'));
+            $content.html(core.qweb.render('l10n_vn_vas_reports.ReportViewerExpired'));
             this.$('.o_vn_toolbar_actions').addClass('o_vn_hidden');
             return;
         }
