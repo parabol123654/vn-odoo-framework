@@ -6,8 +6,7 @@
         Menu labels are English in source and Vietnamese through i18n/vi.po,
         which is the Odoo convention. Writing a Vietnamese source string here
         would leave an English user staring at "Sổ kế toán" next to "General
-        Ledger" — and scripts/check_repo.py now refuses non-ASCII menu names
-        for exactly that reason.
+        Ledger", so menu names stay ASCII.
 
         The statutory headings printed *inside* the reports are a different
         matter: those are fixed by Thông tư 200 and are hardcoded in Vietnamese

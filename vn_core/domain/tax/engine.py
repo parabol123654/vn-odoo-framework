@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tax Engine — Bảng kê hoá đơn GTGT (Part 1 §5.1, Engine 4).
+"""Tax Engine — Bảng kê hoá đơn GTGT.
 
 Groups invoices by VAT rate, normalises signs, and totals. It never reads the
 database: an ``ITaxRepository`` supplies rows that already represent one invoice

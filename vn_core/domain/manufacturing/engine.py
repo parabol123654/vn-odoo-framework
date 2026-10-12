@@ -12,7 +12,7 @@ production overhead. Odoo 14 Community journalises neither: a workcenter's
 mixing a journalised material cost with a statistical labour cost has one column
 that reconciles to the accounts and one that does not, and nothing on the page
 tells the reader which. Producing that quietly would be worse than producing
-less. Part 17 §6 records what it would take to add them properly.
+less.
 
 Pure Python: no Odoo, no SQL.
 """

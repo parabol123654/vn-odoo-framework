@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Manufacturing DTOs (Part 10 §11).
+"""Manufacturing DTOs.
 
 What this deliberately does **not** carry is a labour or overhead figure.
 Odoo 14 Community posts neither to the ledger: a workcenter's ``costs_hour``
@@ -9,7 +9,7 @@ that *is* journalised would produce a cost sheet where one column reconciles to
 the accounts and the next does not, without saying which is which.
 
 So this reports what the ledger actually capitalised, and says plainly that it
-is direct materials only. See Part 17 §6.
+is direct materials only.
 """
 
 from datetime import date

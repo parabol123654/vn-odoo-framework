@@ -9,7 +9,7 @@
         same markup without them.
 
         Nothing is computed here. Every figure comes off the DTO the engine
-        produced (Part 7 §10).
+        produced.
     -->
     <template id="general_ledger_table">
         <table class="table table-sm o_vn_table o_vn_table_ledger">

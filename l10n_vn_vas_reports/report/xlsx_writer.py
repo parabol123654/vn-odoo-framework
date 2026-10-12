@@ -11,17 +11,17 @@ for.
 **On the xlsxwriter version.** Odoo 14 pins ``XlsxWriter==1.1.2``, which is
 from 2018. Anything newer may be present on a given server but must never be
 required: every call outside that baseline is feature-detected, and the workbook
-is still correct without it — only less polished. ``scripts/check_repo.py``
-enforces this, because the failure otherwise appears at the moment a user clicks
+is still correct without it — only less polished. It has to stay
+that way, because the failure otherwise appears at the moment a user clicks
 Export rather than at install.
 
 **On OCA report_xlsx.** Not used, and not needed: Odoo 14 already ships
 ``xlsxwriter`` for its own list-view export, so the workbook can be built with
 no dependency beyond the server itself.
 
-**On Part 7.** That document proposed a ``ReportRenderer`` interface with a
-family of implementations, and Part 17 §8.3 records why it was not built: one
-renderer does not justify an interface. This is the second renderer, and the
+**On a renderer layer.** A polymorphic ``ReportRenderer`` interface was
+considered and not built: one renderer does not justify an interface. This is the
+second renderer, and the
 answer has not changed — this is a concrete writer, not a polymorphic layer.
 Nothing dispatches on renderer type; a wizard that wants a workbook calls this,
 and one that wants a PDF calls QWeb.

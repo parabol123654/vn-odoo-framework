@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Framework exception hierarchy (Part 3 §12).
+"""Framework exception hierarchy.
 
 Pure Python: no Odoo import. The Service layer is responsible for translating
 these into ``UserError`` / ``AccessError`` when the caller is a Wizard.
@@ -23,7 +23,7 @@ class RepositoryException(VNFrameworkException):
 
 
 class MappingException(BusinessException):
-    """Financial statement mapping is invalid (Part 9 §14)."""
+    """Financial statement mapping is invalid."""
 
 
 class ReportException(VNFrameworkException):

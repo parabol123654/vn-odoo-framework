@@ -3,7 +3,7 @@
 """QWeb report adapters.
 
 These exist only to hand the wizard's DTO to the template. No queries, no
-calculations — Part 7 §2.
+calculations.
 """
 
 from odoo import models

@@ -2,9 +2,8 @@
 # Target: Odoo 14.0 Community Edition
 """Demo journal entries for a Vietnamese furniture SME.
 
-One implementation, two entry points: the ``demo/`` data file calls it at module
-install, and ``scripts/load_demo_data.py`` calls the same method against an
-existing database. Nothing is duplicated between them.
+The ``demo/`` data file calls it at module install, and ``generate`` can be
+called again from an Odoo shell against an existing database.
 
 The dataset is built to exercise the parts of the Ledger Engine that are easy to
 get wrong, rather than to look plentiful:

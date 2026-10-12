@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Financial Statement Engine (Part 5 §11, Part 9 §17).
+"""Financial Statement Engine.
 
 Turns a mapping plus ledger balances into the lines of a statutory form. It
 never reads ``account.move.line``: the Ledger Engine supplies balances, and this
@@ -326,7 +326,7 @@ class FinancialStatementEngine:
             amounts[code] = round_amount(value * signs.get(code, 1), rounding)
 
     # ==================================================================
-    # Validation (Part 5 §17)
+    # Validation
     # ==================================================================
     def _validate(self, mapping):
         seen = set()

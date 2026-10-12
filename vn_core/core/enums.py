@@ -10,7 +10,7 @@ class TargetMove(Enum):
 
 
 class GroupBy(Enum):
-    """Aggregation dimensions supported by the Ledger Domain (Part 4 §13).
+    """Aggregation dimensions supported by the Ledger Domain.
 
     ``fields`` is the ordered tuple of ``MoveLineDTO`` attribute names that
     form the group key. The Engine never hardcodes these tuples.

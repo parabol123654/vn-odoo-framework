@@ -2,7 +2,7 @@
 """Serialization contract tests.
 
 ``to_primitive`` is what any JSON-facing consumer sees: the REST renderer
-required by Part 7 §17, an external integration, or a cache entry. Those
+an external integration, or a cache entry. Those
 consumers address fields by path, and a renamed DTO field would break them
 silently rather than loudly. These tests pin the emitted shape.
 

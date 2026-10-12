@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Inventory DTOs (Part 10 §9).
+"""Inventory DTOs.
 
 Quantity and value travel together everywhere. A Vietnamese stock report that
 carries quantity alone is useless — Thẻ kho and Bảng tổng hợp Nhập-Xuất-Tồn both

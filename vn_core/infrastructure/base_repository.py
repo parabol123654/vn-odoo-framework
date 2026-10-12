@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Base repository (Part 6 §5).
+"""Base repository.
 
 Holds the Odoo environment and nothing else — no business rules. This is the
 boundary where the pure-Python Domain meets Odoo.

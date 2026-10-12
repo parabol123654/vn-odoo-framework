@@ -9,9 +9,10 @@
                'account_asset_management',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
+    'website': 'https://github.com/parabol123654/vn-odoo-framework',
     'support': 'parabol123654@gmail.com',
     'images': ['static/description/banner.png'],
-    # Split out per Part 16 §4: these reports need an asset subledger, and
+    # Split out because these reports need an asset subledger, and
     # Odoo 14 Community has none — the data comes from OCA
     # account_asset_management (repo OCA/account-financial-tools, branch
     # 14.0). A company keeping ordinary books without asset accounting has no
