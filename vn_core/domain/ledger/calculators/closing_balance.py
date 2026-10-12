@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Closing balance calculator (Part 4 §11).
+"""Closing balance calculator.
 
     Closing = Opening + Debit - Credit
 """

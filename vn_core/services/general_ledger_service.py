@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Ledger use cases (Part 11 §7).
+"""Ledger use cases.
 
 One Service per use case. Each is a thin coordinator: build the repository, get
 the engine from the Odoo-side provider, call it, wrap the DTO in a ``ResultDTO``.

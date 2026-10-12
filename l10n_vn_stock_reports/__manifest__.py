@@ -8,12 +8,13 @@
                'stock ledger S10-DN, summary S11-DN (TT200)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
+    'website': 'https://github.com/parabol123654/vn-odoo-framework',
     'support': 'parabol123654@gmail.com',
     'images': ['static/description/banner.png'],
     # A separate module for one reason only: these reports need stock_account,
     # and a trading or services company running the accounting books should not
-    # be forced to install Inventory to get them. That is the test Part 16 §4
-    # sets for splitting a module, and this is the first time it is met.
+    # be forced to install Inventory to get them. That is the test for
+    # splitting a module out.
     'depends': ['vn_core', 'l10n_vn_vas_reports', 'stock_account'],
     'data': [
         'security/vn_stock_report_groups.xml',

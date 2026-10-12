@@ -8,7 +8,7 @@ account. That also states the report's limit honestly: on a database that
 values stock periodically (no real-time posting), issues write no journal
 entries and this table is empty, because in the books nothing was allocated.
 
-Lives beside the expense ledger for the same Part 16 §4 reason: it reads
+Lives beside the expense ledger for the same reason: it reads
 nothing but the ledger, so it must not cost anyone a stock or mrp dependency.
 """
 

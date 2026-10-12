@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Mapping repository interface (Part 5 §4, Part 6 §6).
+"""Mapping repository interface.
 
 The Financial Statement Engine knows this contract and nothing else, so a
 mapping can come from Odoo records, a YAML file or an in-memory fixture without

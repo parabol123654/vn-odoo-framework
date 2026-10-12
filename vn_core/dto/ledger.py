@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Ledger DTOs (Part 4 §14, Part 10 §7)."""
+"""Ledger DTOs."""
 
 from datetime import date
 from typing import NamedTuple, Optional, Tuple
@@ -114,8 +114,8 @@ class LedgerLineDTO(NamedTuple):
 
     ``account_code`` / ``account_name`` are resolved by the Engine from the
     account catalogue it already holds, costing no extra query and adding
-    nothing to the far more numerous ``MoveLineDTO``. Part 4 §14 lists the
-    account among the fields of the line DTO, and Sổ Nhật ký chung needs it:
+    nothing to the far more numerous ``MoveLineDTO``. Sổ Nhật ký chung needs the
+    account on the line:
     that book is ungrouped, so the account cannot be read off a group header.
     """
 

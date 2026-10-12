@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Counterpart account calculator (Part 4 §12).
+"""Counterpart account calculator.
 
 Odoo stores no notion of a counterpart account, so it is derived from the other
 lines of the same journal entry. Deciding which accounts sit on which side is

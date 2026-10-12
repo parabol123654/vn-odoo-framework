@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Opening balance calculator (Part 4 §9).
+"""Opening balance calculator.
 
 This module owns the single most error-prone rule in VAS reporting:
 

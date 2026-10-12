@@ -5,7 +5,7 @@
 Lives in the accounting module rather than beside the manufacturing reports on
 purpose: the book is prescribed for 641, 642, 242 and 335 as much as for the
 production accounts, so a trading company keeping ordinary books needs it too,
-and it reads nothing but the general ledger (Part 16 §4 — no dependency is
+and it reads nothing but the general ledger (no dependency is
 added for a report that does not need one).
 """
 
