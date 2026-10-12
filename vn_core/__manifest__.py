@@ -7,6 +7,7 @@
     'summary': 'Domain engines, repositories, services and DTOs for VAS reporting',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
+    'website': 'https://github.com/parabol123654/vn-odoo-framework',
     'support': 'parabol123654@gmail.com',
     'images': ['static/description/banner.png'],
     'depends': ['account'],

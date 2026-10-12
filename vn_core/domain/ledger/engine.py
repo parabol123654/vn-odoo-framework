@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Ledger Engine (Part 4 §7).
+"""Ledger Engine.
 
 Pure Python. No Odoo import, no ORM, no SQL, no knowledge of PDF/XLSX/QWeb. The
 Engine orchestrates: it asks calculators for business rules, asks the Repository

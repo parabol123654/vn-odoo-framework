@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Running balance calculator (Part 4 §10).
+"""Running balance calculator.
 
     Balance(n) = Balance(n-1) + Debit(n) - Credit(n)
 

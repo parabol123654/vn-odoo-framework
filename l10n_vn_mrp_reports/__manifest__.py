@@ -8,11 +8,12 @@
                'S37-DN (TT200)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
+    'website': 'https://github.com/parabol123654/vn-odoo-framework',
     'support': 'parabol123654@gmail.com',
     'images': ['static/description/banner.png'],
     # Split out for the same reason as the inventory reports: this needs mrp,
     # and a trading or services company running the accounting books has no
-    # reason to install Manufacturing to get them (Part 16 §4).
+    # reason to install Manufacturing to get them.
     'depends': ['vn_core', 'l10n_vn_vas_reports', 'mrp', 'stock_account'],
     'data': [
         'security/vn_mrp_report_groups.xml',

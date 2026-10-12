@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Inventory repository interface (Part 6 §10).
+"""Inventory repository interface.
 
 Quantity and value both come from the valuation layers, never from a quantity
 source multiplied by a current unit cost. The layer is what Odoo posted to the

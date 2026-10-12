@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Filter DTOs (Part 4 §5, Part 10 §6).
+"""Filter DTOs.
 
 Every ledger report accepts exactly this object. No loose keyword arguments, no
 dictionaries, no recordsets.
@@ -36,7 +36,7 @@ class LedgerFilter(NamedTuple):
         return self.target_move is TargetMove.POSTED
 
     def replace(self, **changes):
-        """Return a new filter; the DTO itself stays immutable (Part 10 §17)."""
+        """Return a new filter; the DTO itself stays immutable."""
         return self._replace(**changes)
 
 

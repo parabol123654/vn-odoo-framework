@@ -7,9 +7,7 @@
         Journal entries have to reference accounts of the installed chart, and
         those account XML IDs differ between l10n_vn, l10n_generic_coa and any
         customised chart. The generator resolves accounts by code prefix and
-        creates what is missing, so this file works on any chart — and the exact
-        same method is reachable from scripts/load_demo_data.py for databases
-        that were created without demo data.
+        creates what is missing, so this file works on any chart.
     -->
     <function model="vn.demo.data.generator" name="generate"/>
 

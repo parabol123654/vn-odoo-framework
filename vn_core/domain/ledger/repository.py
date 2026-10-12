@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Ledger Repository interface (Part 4 §8, Part 6 §6).
+"""Ledger Repository interface.
 
 The Engine knows this contract and nothing else. It has no idea whether the
 implementation uses the ORM, raw SQL, a snapshot table or an in-memory fake —

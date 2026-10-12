@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Account expression parser and resolver (Part 9 §7, §15, §16).
+"""Account expression parser and resolver.
 
 An expression selects accounts by code, never by database id, so a mapping
 survives a re-installed or customised chart::

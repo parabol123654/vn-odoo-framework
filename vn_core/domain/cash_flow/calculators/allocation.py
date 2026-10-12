@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Attributing a cash movement to the accounts that caused it.
 
-Part 17 §4.3 recorded this as an open architectural problem: a journal entry
+This looks like an open architectural problem: a journal entry
 with several lines has several counterpart accounts, and the cash amount looked
 like it would need an arbitrary allocation rule. Writing it out showed the
 assumption was wrong.

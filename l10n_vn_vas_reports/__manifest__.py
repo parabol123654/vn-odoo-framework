@@ -8,6 +8,7 @@
                'and cash vouchers (TT200)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
+    'website': 'https://github.com/parabol123654/vn-odoo-framework',
     'support': 'parabol123654@gmail.com',
     'images': ['static/description/banner.png'],
     'depends': ['vn_core', 'account'],

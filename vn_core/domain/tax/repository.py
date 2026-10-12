@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tax repository interface (Part 6 §12).
+"""Tax repository interface.
 
 Returns one row per **invoice and tax rate**, already aggregated. Doing that
 aggregation in SQL rather than in the Engine matters: a Vietnamese SME files

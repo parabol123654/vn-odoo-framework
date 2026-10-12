@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Target: Odoo 16.0 Community Edition
-"""Repository integration tests (Part 6 §21).
+"""Repository integration tests.
 
 The Domain is already covered without a database; what needs a real Odoo here is
 narrower: that the SQL executes, that it maps onto the DTOs the interface

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Target: Odoo 16.0 Community Edition
-"""Configurable statement mapping (Part 9 §5-6).
+"""Configurable statement mapping.
 
 The whole point of these two models is that a change of circular — TT200 to
 TT133, or an amendment to either — is a change of *data*, not of Python. No

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Tax DTOs (Part 10 §10).
+"""Tax DTOs.
 
 The unit of a Vietnamese VAT listing is the **invoice**, not the journal item.
 An invoice with five product lines is one row on the Bảng kê, so ``TaxLineDTO``

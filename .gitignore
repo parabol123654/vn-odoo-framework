@@ -10,7 +10,6 @@ venv/
 filestore/
 sessions/
 odoo.conf
-scripts/odoo.conf
 
 # Translations: keep .po, never commit compiled catalogs
 *.mo

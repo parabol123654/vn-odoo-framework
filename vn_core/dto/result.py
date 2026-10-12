@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Result DTO (Part 3 §16, Part 10 §13).
+"""Result DTO.
 
 Every Service returns one of these — never raw data, never a tuple.
 """
