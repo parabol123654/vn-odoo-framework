@@ -70,7 +70,7 @@ def _sum(move_id, account_id, debit=0.0, credit=0.0):
 
 
 class TestAllocator(unittest.TestCase):
-    """The rule Part 17 §4.3 assumed would need a proportional split."""
+    """The case that looks like it needs a proportional split."""
 
     def test_the_non_cash_side_is_the_cash_flow(self):
         rows = (_sum(1, CASH.id, debit=1100.0),

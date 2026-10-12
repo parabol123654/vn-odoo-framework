@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Formula evaluator (Part 5 §9-10, Part 9 §9).
+"""Formula evaluator.
 
 A formula references other **line codes**, never accounts::
 

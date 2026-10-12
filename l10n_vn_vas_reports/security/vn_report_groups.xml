@@ -3,7 +3,7 @@
 <odoo noupdate="0">
 
     <!--
-        Per-report groups, per Part 13 §7. Kept independent of the Odoo
+        Per-report groups. Kept independent of the Odoo
         accounting groups so a client can grant a bookkeeper the ledger without
         also handing over the full accounting menu.
     -->

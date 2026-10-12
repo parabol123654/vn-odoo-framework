@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Cash Flow Engine — Báo cáo lưu chuyển tiền tệ, phương pháp trực tiếp (B03-DN).
 
-Part 5 §16 assumed both the direct and the indirect method could be built from a
+One might assume both the direct and the indirect method can be built from a
 ``LedgerSummaryDTO``. That is true of the indirect method and false of the
 direct one: once balances are summed by account, the pairing between a cash
 movement and what caused it is gone. So this engine reads journal entries rather

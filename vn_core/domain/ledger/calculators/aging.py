@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Aged receivable / payable calculator (Part 4 §1 — Customer/Vendor Aging).
+"""Aged receivable / payable calculator (Customer/Vendor Aging).
 
 Two rules live here and nowhere else.
 

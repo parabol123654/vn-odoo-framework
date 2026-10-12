@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Manufacturing repository interface (Part 6 §11).
+"""Manufacturing repository interface.
 
 Cost and quantity both come from the valuation layers of the moves attached to a
 manufacturing order, for the same reason the inventory reports do: the layer is

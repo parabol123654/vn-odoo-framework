@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Target: Odoo 15.0 Community Edition
-"""Base report wizard (Part 12 §5).
+"""Base report wizard.
 
 A wizard has exactly four jobs: collect input, validate it superficially, build
 the FilterDTO, and hand off to a Service. It never queries accounting data and
@@ -47,7 +47,7 @@ class VnReportWizardMixin(models.AbstractModel):
         help='Leave empty to include every journal.')
 
     # ------------------------------------------------------------------
-    # Validation (Part 12 §11 — surface checks only)
+    # Validation (surface checks only)
     # ------------------------------------------------------------------
     @api.constrains('date_from', 'date_to')
     def _check_date_range(self):

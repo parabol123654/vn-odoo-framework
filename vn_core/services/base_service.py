@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Base application service (Part 11 §5).
+"""Base application service.
 
 A Service validates input, resolves collaborators, calls the Domain and returns a
 ``ResultDTO``. It performs no accounting calculation and no SQL. It is also the
@@ -46,7 +46,7 @@ class BaseService:
         return ResultDTO.ok(data, elapsed)
 
     def _audit(self, elapsed, **context):
-        """Audit log lives in the Service, never in the Engine (Part 11 §13)."""
+        """Audit log lives in the Service, never in the Engine."""
         _logger.info(
             'report=%s user=%s company=%s elapsed=%.3fs %s',
             self.name, self.env.uid, self.env.company.id, elapsed,

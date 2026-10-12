@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Common DTOs (Part 10 §12).
+"""Common DTOs.
 
 These carry every piece of Odoo metadata the Domain needs, so that no engine or
 calculator ever has to reach for ``env``. In particular:
@@ -79,7 +79,7 @@ class AnalyticAccountDTO(NamedTuple):
 
 
 class ReportMetadataDTO(NamedTuple):
-    """Header metadata every ReportDTO must carry (Part 10 §15)."""
+    """Header metadata every ReportDTO must carry."""
 
     report_name: str
     company: CompanyDTO

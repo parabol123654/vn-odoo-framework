@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Financial statement DTOs (Part 5 §12, Part 9 §5-6)."""
+"""Financial statement DTOs."""
 
 from typing import NamedTuple, Optional, Tuple
 

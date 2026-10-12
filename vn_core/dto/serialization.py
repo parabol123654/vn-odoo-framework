@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""DTO serialization (Part 10 §16).
+"""DTO serialization.
 
 Turns the nested NamedTuple DTOs into JSON-safe primitives for the JSON renderer
 and the web client. Pure Python: the Domain stays free of Odoo, and the same
