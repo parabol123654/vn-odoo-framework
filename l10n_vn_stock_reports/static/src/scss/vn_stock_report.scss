@@ -1,0 +1,22 @@
+// Inventory columns. Quantities are not money: they keep their own alignment
+// and their own precision, but still need tabular figures to line up.
+.o_vn_table_stock {
+    .o_vn_col_qty {
+        width: 80px;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .o_vn_col_uom {
+        width: 60px;
+    }
+
+    .o_vn_col_code {
+        width: 110px;
+    }
+
+    thead th {
+        text-align: center;
+        vertical-align: middle;
+    }
+}
