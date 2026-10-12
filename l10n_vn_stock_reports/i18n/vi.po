@@ -1,0 +1,146 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_vn_stock_reports
+#
+# Source strings are English, as Odoo expects. Statutory form numbers are
+# part of the menu label and read the same in both languages. The headings
+# printed inside the reports are absent on purpose: they are fixed by Thong
+# tu 200 and are hardcoded in the QWeb templates.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-07 07:00+0000\n"
+"PO-Revision-Date: 2026-08-07 07:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Cancel"
+msgstr "Huỷ"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model.fields,field_description:l10n_vn_stock_reports.field_vn_stock_card_wizard__layout
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Detail"
+msgstr "Mức chi tiết"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Export Excel"
+msgstr "Xuất Excel"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.ui.menu,name:l10n_vn_stock_reports.menu_vn_reports_inventory
+msgid "Inventory"
+msgstr "Kho"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Inventory Report"
+msgstr "Báo cáo kho"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.ui.menu,name:l10n_vn_stock_reports.menu_vn_report_inventory_summary
+#: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_inventory_summary_wizard
+#: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
+#, python-format
+msgid "Inventory Summary"
+msgstr "Bảng tổng hợp Nhập - Xuất - Tồn"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.ui.menu,name:l10n_vn_stock_reports.menu_vn_report_inventory_summary
+msgid "Inventory Summary (S11-DN)"
+msgstr "Bảng tổng hợp Nhập - Xuất - Tồn (S11-DN)"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Period"
+msgstr "Kỳ báo cáo"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Print PDF"
+msgstr "In PDF"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model.fields,field_description:l10n_vn_stock_reports.field_vn_stock_card_wizard__category_ids
+msgid "Product categories"
+msgstr "Nhóm vật tư"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model.fields,field_description:l10n_vn_stock_reports.field_vn_stock_card_wizard__product_ids
+msgid "Products"
+msgstr "Vật tư, hàng hoá"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Quantities and values both come from the stock valuation layers, so the closing value agrees with accounts 152, 155 and 156 by construction."
+msgstr "Số lượng và giá trị đều lấy từ valuation layer, nên giá trị tồn cuối kỳ khớp với các TK 152, 155, 156 theo đúng bản chất."
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "Restrict to"
+msgstr "Giới hạn theo"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_stock_card_wizard
+#: model:ir.actions.report,name:l10n_vn_stock_reports.action_report_stock_card
+#: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
+#, python-format
+msgid "Stock Card"
+msgstr "Thẻ kho"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model.fields.selection,name:l10n_vn_stock_reports.selection__vn_stock_card_wizard__layout__card
+msgid "Stock card (movement detail)"
+msgstr "Thẻ kho (chi tiết từng lần nhập xuất)"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.ui.menu,name:l10n_vn_stock_reports.menu_vn_report_stock_card
+msgid "Stock Card (S12-DN)"
+msgstr "Thẻ kho (S12-DN)"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model,name:l10n_vn_stock_reports.model_vn_stock_card_wizard
+msgid "Stock Card / Inventory Summary"
+msgstr "Thẻ kho / Bảng tổng hợp Nhập - Xuất - Tồn"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_stock_ledger_wizard
+#: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
+#, python-format
+msgid "Stock Ledger"
+msgstr "Sổ chi tiết vật liệu, dụng cụ, sản phẩm, hàng hóa"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.ui.menu,name:l10n_vn_stock_reports.menu_vn_report_stock_ledger
+msgid "Stock Ledger (S10-DN)"
+msgstr "Sổ chi tiết vật liệu (S10-DN)"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model.fields.selection,name:l10n_vn_stock_reports.selection__vn_stock_card_wizard__layout__ledger
+msgid "Stock ledger (movement detail with value)"
+msgstr "Sổ chi tiết vật tư (chi tiết nhập xuất kèm giá trị)"
+
+#. module: l10n_vn_stock_reports
+#: model:ir.model.fields.selection,name:l10n_vn_stock_reports.selection__vn_stock_card_wizard__layout__summary
+msgid "Summary (opening, in, out, closing)"
+msgstr "Tổng hợp (tồn đầu, nhập, xuất, tồn cuối)"
+
+#. module: l10n_vn_stock_reports
+#: model:res.groups,name:l10n_vn_stock_reports.group_vn_report_inventory
+msgid "Vietnam Reports / Inventory"
+msgstr "Báo cáo Việt Nam / Kho"
+
+#. module: l10n_vn_stock_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
+msgid "View"
+msgstr "Xem"
