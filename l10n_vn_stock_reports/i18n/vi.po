@@ -48,7 +48,6 @@ msgid "Inventory Report"
 msgstr "Báo cáo kho"
 
 #. module: l10n_vn_stock_reports
-#: model:ir.ui.menu,name:l10n_vn_stock_reports.menu_vn_report_inventory_summary
 #: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_inventory_summary_wizard
 #: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
 #, python-format
