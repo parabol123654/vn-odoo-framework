@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 07:00+0000\n"
-"PO-Revision-Date: 2026-10-13 07:00+0000\n"
+"POT-Creation-Date: 2026-10-13 04:21+0000\n"
+"PO-Revision-Date: 2026-10-13 04:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -18,28 +18,368 @@ msgstr ""
 
 #. module: vn_core
 #. odoo-python
-#: code:addons/vn_core/models/vn_report_mapping.py:0
-#, python-format
-msgid "No %(report)s mapping found for %(circular)s. Check Accounting > Configuration > Statement Mappings."
-msgstr "Không tìm thấy ánh xạ %(report)s cho %(circular)s. Kiểm tra Kế toán > Cấu hình > Statement Mappings."
+#: code:addons/vn_core/services/base_service.py:0
+msgid ""
+"%s could not be produced:\n"
+"%s"
+msgstr "Không lập được %s:\n%s"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__side
+msgid ""
+"A Vietnamese balance sheet splits account 131 into a receivable and a "
+"customer prepayment. Combine with 'Split by partner'."
+msgstr "Bảng cân đối kế toán tách tài khoản 131 thành phải thu và khách hàng trả trước. Dùng cùng với 'Tách theo đối tượng'."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__basis
+msgid ""
+"A balance sheet reads closing balances; a profit and loss statement reads "
+"the movement of the period. This belongs to the mapping, not to the engine."
+msgstr "Bảng cân đối kế toán đọc số dư cuối kỳ; báo cáo kết quả kinh doanh đọc số phát sinh trong kỳ. Thuộc tính này nằm ở ánh xạ, không nằm trong bộ tính toán."
+
+#. module: vn_core
+#: model:ir.model.constraint,message:vn_core.constraint_vn_report_mapping_code_company_uniq
+msgid "A mapping code must be unique per company."
+msgstr "Mã ánh xạ phải là duy nhất trong mỗi công ty."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__expression
+msgid "Account expression"
+msgstr "Biểu thức tài khoản"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_res_company__vn_accounting_circular
+msgid "Accounting circular"
+msgstr "Thông tư áp dụng"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__active
+msgid "Active"
+msgstr "Đang hoạt động"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__balance_check
+msgid "Balance Check"
+msgstr "Kiểm tra cân đối"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping__report_type__balance_sheet
+msgid "Balance Sheet"
+msgstr "Bảng cân đối kế toán"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__basis
+msgid "Basis"
+msgstr "Cơ sở số liệu"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__bold
+msgid "Bold"
+msgstr "In đậm"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping__report_type__cash_flow
+msgid "Cash Flow Statement"
+msgstr "Báo cáo lưu chuyển tiền tệ"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__cash_expression
+msgid "Cash accounts"
+msgstr "Tài khoản tiền"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__cash_flow_method
+msgid "Cash flow method"
+msgstr "Phương pháp lưu chuyển tiền tệ"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping__basis__closing
+msgid "Closing balance"
+msgstr "Số dư cuối kỳ"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__code
+msgid "Code"
+msgstr "Mã"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__company_id
+msgid "Company"
+msgstr "Công ty"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__create_uid
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__create_uid
+msgid "Created by"
+msgstr "Được tạo bởi"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__create_date
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__create_date
+msgid "Created on"
+msgstr "Được tạo vào"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__side__credit_only
+msgid "Credit side only"
+msgstr "Chỉ lấy dư Có"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__side__debit_only
+msgid "Debit side only"
+msgstr "Chỉ lấy dư Nợ"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:vn_core.field_res_company__display_name
+#: model:ir.model.fields,field_description:vn_core.field_vn_ledger_provider__display_name
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__display_name
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: vn_core
+#: model:ir.module.module,summary:base.module_vn_core
+msgid "Domain engines, repositories, services and DTOs for VAS reporting"
+msgstr "Bộ máy nghiệp vụ, repository, service và DTO cho báo cáo VAS"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__balance_check
+msgid ""
+"Equality the finished statement must satisfy, written as two item codes, "
+"e.g. 270=440 for a balance sheet. Leave empty when the form has no such "
+"identity."
+msgstr "Đẳng thức báo cáo hoàn chỉnh phải thỏa mãn, ghi bằng hai mã chỉ tiêu, ví dụ 270=440 cho bảng cân đối kế toán. Để trống nếu mẫu biểu không có đẳng thức này."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__split_by_partner
+msgid ""
+"Evaluate the side per partner before summing. Required for items 131 and "
+"331: netting the account first cancels a customer who owes against one who "
+"has prepaid, and both items come out too small."
+msgstr "Xét dư Nợ/dư Có theo từng đối tượng rồi mới cộng. Bắt buộc với chỉ tiêu 131 và 331: nếu bù trừ cả tài khoản trước, khách hàng còn nợ sẽ triệt tiêu với khách hàng đã trả trước và cả hai chỉ tiêu đều bị thấp đi."
+
+#. module: vn_core
+#: model:ir.model,name:vn_core.model_vn_report_mapping
+msgid "Financial Statement Mapping"
+msgstr "Ánh xạ báo cáo tài chính"
+
+#. module: vn_core
+#: model:ir.model,name:vn_core.model_vn_report_mapping_line
+msgid "Financial Statement Mapping Line"
+msgstr "Dòng ánh xạ báo cáo tài chính"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__formula
+msgid "Formula"
+msgstr "Công thức"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_account_move_line__id
+#: model:ir.model.fields,field_description:vn_core.field_res_company__id
+#: model:ir.model.fields,field_description:vn_core.field_vn_ledger_provider__id
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__id
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping__report_type__income_statement
+msgid "Income Statement"
+msgstr "Báo cáo kết quả hoạt động kinh doanh"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__level
+msgid "Indentation depth when printed."
+msgstr "Mức thụt lề khi in."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__write_uid
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__write_uid
+msgid "Last Updated by"
+msgstr "Cập nhật lần cuối bởi"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__write_date
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lần cuối vào"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__company_id
+msgid "Leave empty to make the mapping available to every company."
+msgstr "Để trống để mọi công ty đều dùng được ánh xạ này."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__level
+msgid "Level"
+msgstr "Cấp"
 
 #. module: vn_core
 #. odoo-python
 #: code:addons/vn_core/models/vn_report_mapping.py:0
-#, python-format
-msgid "Line %s has both an account expression and a formula. It must have one or the other."
+msgid ""
+"Line %s has both an account expression and a formula. It must have one or "
+"the other."
 msgstr "Dòng %s có cả biểu thức tài khoản lẫn công thức. Mỗi dòng chỉ được có một trong hai."
 
 #. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__line_ids
+#: model_terms:ir.ui.view,arch_db:vn_core.view_vn_report_mapping_form
+msgid "Lines"
+msgstr "Các chỉ tiêu"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__mapping_id
+msgid "Mapping"
+msgstr "Ánh xạ"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping__basis__movement
+msgid "Movement in the period"
+msgstr "Số phát sinh trong kỳ"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__side__both
+msgid "Net balance"
+msgstr "Số dư bù trừ"
+
+#. module: vn_core
 #. odoo-python
 #: code:addons/vn_core/models/vn_report_mapping.py:0
-#, python-format
+msgid ""
+"No %(report)s mapping found for %(circular)s. Check Accounting > "
+"Configuration > Statement Mappings."
+msgstr "Không tìm thấy ánh xạ %(report)s cho %(circular)s. Kiểm tra Kế toán > Cấu hình > Ánh xạ báo cáo tài chính."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__parent_id
+msgid "Parent"
+msgstr "Chỉ tiêu cha"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__bold
+msgid "Printed in bold, for totals and headings."
+msgstr "In đậm, dùng cho dòng tổng và tiêu đề."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__formula
+msgid ""
+"References other item codes, never accounts: 10 - 11. A line has either an "
+"expression or a formula, not both."
+msgstr "Tham chiếu mã chỉ tiêu khác, không tham chiếu tài khoản: 10 - 11. Mỗi dòng có biểu thức hoặc công thức, không có cả hai."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__report_type
+msgid "Report Type"
+msgstr "Loại báo cáo"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__expression
+msgid ""
+"Selects accounts by code: 111*, 111*\\,112*, 111*\\,-1113. Leave empty for a"
+" heading or a computed line."
+msgstr "Chọn tài khoản theo mã: 111*, 111*\\,112*, 111*\\,-1113. Để trống với dòng tiêu đề hoặc dòng tính toán."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__sequence
+msgid "Sequence"
+msgstr "Thứ tự"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__side
+msgid "Side"
+msgstr "Bên số dư"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__sign
+msgid "Sign"
+msgstr "Dấu"
+
+#. module: vn_core
+#. odoo-python
+#: code:addons/vn_core/models/vn_report_mapping.py:0
 msgid "Sign must be 1 or -1."
 msgstr "Dấu phải là 1 hoặc -1."
 
 #. module: vn_core
-#. odoo-python
-#: code:addons/vn_core/services/base_service.py:0
-#, python-format
-msgid "%s could not be produced:\n%s"
-msgstr "Không lập được %s:\n%s"
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__split_by_partner
+msgid "Split By Partner"
+msgstr "Tách theo đối tượng"
+
+#. module: vn_core
+#: model_terms:ir.ui.view,arch_db:vn_core.view_vn_report_mapping_form
+msgid "Statement Mapping"
+msgstr "Ánh xạ báo cáo"
+
+#. module: vn_core
+#: model:ir.actions.act_window,name:vn_core.action_vn_report_mapping
+#: model:ir.ui.menu,name:vn_core.menu_vn_report_mapping
+#: model_terms:ir.ui.view,arch_db:vn_core.view_vn_report_mapping_tree
+msgid "Statement Mappings"
+msgstr "Ánh xạ báo cáo tài chính"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__code
+msgid "The item code printed on the statutory form."
+msgstr "Mã số chỉ tiêu in trên mẫu biểu."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__sign
+msgid ""
+"Use -1 for accounts that carry a credit balance, such as revenue, so the "
+"statement prints a positive figure."
+msgstr "Dùng -1 cho tài khoản có số dư Có, như doanh thu, để báo cáo in ra số dương."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__version
+msgid "Version"
+msgstr "Thông tư"
+
+#. module: vn_core
+#: model:ir.model,name:vn_core.model_vn_ledger_provider
+msgid "Vietnam Ledger Domain Provider"
+msgstr "Bộ cung cấp nghiệp vụ sổ kế toán Việt Nam"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__visible
+msgid "Visible"
+msgstr "Hiển thị"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__cash_expression
+msgid ""
+"Which accounts count as cash on a cash flow statement, written as an account"
+" expression such as 111*,112*,113*. Ignored by the other statements."
+msgstr "Những tài khoản được tính là tiền trên báo cáo lưu chuyển tiền tệ, ghi bằng biểu thức tài khoản như 111*,112*,113*. Các báo cáo khác bỏ qua trường này."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_res_company__vn_accounting_circular
+msgid ""
+"Which circular this company reports under. Thông tư 133 applies to small and"
+" medium enterprises and uses different statement forms; the reports follow "
+"this setting."
+msgstr "Thông tư mà công ty áp dụng để lập báo cáo. Thông tư 133 dành cho doanh nghiệp nhỏ và vừa, dùng mẫu báo cáo khác; các báo cáo tự theo thiết lập này."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__version
+msgid ""
+"Which circular this set of items comes from. A company reports under one "
+"circular, and the reports pick the matching mapping from here rather than "
+"from a hardcoded name."
+msgstr "Bộ chỉ tiêu này thuộc thông tư nào. Mỗi công ty báo cáo theo một thông tư, và báo cáo chọn ánh xạ tương ứng từ đây thay vì từ một tên cố định trong mã."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__cash_flow_method
+msgid ""
+"Which method this cash flow form uses. The direct method reads journal "
+"entries and classifies each cash movement by its counterpart; the indirect "
+"one starts from profit and adjusts it with balance movements. Ignored by the"
+" other statements."
+msgstr "Phương pháp của mẫu báo cáo lưu chuyển tiền tệ này. Phương pháp trực tiếp đọc bút toán và phân loại từng dòng tiền theo tài khoản đối ứng; phương pháp gián tiếp đi từ lợi nhuận rồi điều chỉnh theo biến động số dư. Các báo cáo khác bỏ qua trường này."
