@@ -28,6 +28,7 @@ msgid "%s and %s more"
 msgstr "%s và %s mục nữa"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/js/vn_report_viewer.js:0
 #, python-format
 msgid "%s groups, %s lines"
@@ -259,6 +260,7 @@ msgid "Cash Voucher"
 msgstr "Phiếu quỹ"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Change period"
@@ -270,12 +272,14 @@ msgid "Check coverage"
 msgstr "Kiểm tra độ phủ ánh xạ"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Clear search"
 msgstr "Xóa tìm kiếm"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Collapse all"
@@ -342,12 +346,14 @@ msgid "Everything else is derived from the VAT listings. The declaration checks 
 msgstr "Các chỉ tiêu còn lại suy ra từ bảng kê hoá đơn. Tờ khai tự đối chiếu với sổ: thuế GTGT đầu ra trên tờ khai phải bằng phát sinh Có tài khoản thuế GTGT đầu ra trong kỳ, và mọi bút toán thuế ghi tay sẽ lộ ra ở phần chênh lệch."
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Expand all"
 msgstr "Mở tất cả"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
@@ -716,6 +722,7 @@ msgid "Print Cash Voucher"
 msgstr "In phiếu quỹ"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
@@ -743,6 +750,7 @@ msgid "Receivable (customers)"
 msgstr "Phải thu (khách hàng)"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Refresh"
@@ -754,12 +762,14 @@ msgid "Refund claimed (42)"
 msgstr "Thuế đề nghị hoàn (42)"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/js/vn_report_viewer.js:0
 #, python-format
 msgid "Report"
 msgstr "Báo cáo"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Report criteria are held temporarily and have since been cleared. Open the report again from the Reporting menu to rebuild it."
@@ -787,6 +797,7 @@ msgid "Scope"
 msgstr "Phạm vi"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Search in this report"
@@ -813,6 +824,7 @@ msgid "Show previous year"
 msgstr "Hiện cột năm trước"
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Showing matching lines only. The totals below still cover the whole period."
@@ -861,6 +873,7 @@ msgid "This entry is not a cash voucher: it is not on a cash journal, or it does
 msgstr "Bút toán này không phải phiếu quỹ: nó không nằm trên sổ nhật ký tiền mặt, hoặc không làm dịch chuyển tiền mặt."
 
 #. module: l10n_vn_vas_reports
+#. openerp-web
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "This report is no longer available"
@@ -1013,3 +1026,15 @@ msgstr "Xem"
 #, python-format
 msgid "Yes"
 msgstr "Có"
+
+#. module: l10n_vn_vas_reports
+#: code:addons/l10n_vn_vas_reports/wizard/material_allocation_wizard.py:0
+#, python-format
+msgid "Choose at least one credited account. An allocation sheet needs to know what it allocates."
+msgstr "Chọn ít nhất một tài khoản ghi Có. Bảng phân bổ cần biết phân bổ từ đâu."
+
+#. module: l10n_vn_vas_reports
+#: code:addons/l10n_vn_vas_reports/wizard/sales_ledger_wizard.py:0
+#, python-format
+msgid "Choose at least one revenue account."
+msgstr "Chọn ít nhất một tài khoản doanh thu."
