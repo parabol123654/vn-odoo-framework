@@ -48,6 +48,7 @@ msgid "Inventory Report"
 msgstr "Báo cáo kho"
 
 #. module: l10n_vn_stock_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_inventory_summary_wizard
 #: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
 #, python-format
@@ -90,6 +91,7 @@ msgid "Restrict to"
 msgstr "Giới hạn theo"
 
 #. module: l10n_vn_stock_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_stock_card_wizard
 #: model:ir.actions.report,name:l10n_vn_stock_reports.action_report_stock_card
 #: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
@@ -113,6 +115,7 @@ msgid "Stock Card / Inventory Summary"
 msgstr "Thẻ kho / Bảng tổng hợp Nhập - Xuất - Tồn"
 
 #. module: l10n_vn_stock_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_stock_reports.action_vn_stock_ledger_wizard
 #: code:addons/l10n_vn_stock_reports/wizard/stock_card_wizard.py:0
 #, python-format
@@ -143,3 +146,10 @@ msgstr "Báo cáo Việt Nam / Kho"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_stock_reports.view_vn_stock_card_wizard_form
 msgid "View"
 msgstr "Xem"
+
+#. module: l10n_vn_stock_reports
+#. odoo-python
+#: code:addons/l10n_vn_stock_reports/models/vn_stock_demo_generator.py:0
+#, python-format
+msgid "No account found for %s; install a chart of accounts or run the accounting demo first."
+msgstr "Không tìm thấy tài khoản %s; hãy cài hệ thống tài khoản hoặc chạy dữ liệu demo kế toán trước."
