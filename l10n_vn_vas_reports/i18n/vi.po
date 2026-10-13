@@ -22,24 +22,28 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "%s and %s more"
 msgstr "%s và %s mục nữa"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/js/vn_report_viewer.js:0
 #, python-format
 msgid "%s groups, %s lines"
 msgstr "%s nhóm, %s dòng"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/cash_flow_wizard.py:0
 #, python-format
 msgid "A cash flow statement covers a period, so a start date is required."
 msgstr "Báo cáo lưu chuyển tiền tệ lập cho một kỳ, nên bắt buộc phải có ngày bắt đầu."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/vat_declaration_wizard.py:0
 #, python-format
 msgid "A VAT declaration covers a period, so a start date is required."
@@ -51,6 +55,7 @@ msgid "Account"
 msgstr "Tài khoản"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/models/vn_demo_generator.py:0
 #, python-format
 msgid "Account type %s not found; is the 'account' module installed?"
@@ -96,6 +101,7 @@ msgid "Aged Balance"
 msgstr "Công nợ theo tuổi nợ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_aged_payable_wizard
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_aged_payable
 #: code:addons/l10n_vn_vas_reports/wizard/aging_wizard.py:0
@@ -104,6 +110,7 @@ msgid "Aged Payable"
 msgstr "Công nợ phải trả theo tuổi nợ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_aged_receivable_wizard
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_aged_receivable
 #: code:addons/l10n_vn_vas_reports/wizard/aging_wizard.py:0
@@ -117,6 +124,7 @@ msgid "Aged Receivable / Payable Report"
 msgstr "Báo cáo công nợ theo tuổi nợ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "All"
@@ -155,6 +163,7 @@ msgid "Balance as at"
 msgstr "Số dư tại ngày"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_balance_sheet_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_balance_sheet
@@ -174,6 +183,7 @@ msgid "Balance Sheet Report"
 msgstr "Báo cáo bảng cân đối kế toán"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/cash_book_wizard.py:0
 #, python-format
 msgid "Bank Book"
@@ -228,6 +238,7 @@ msgid "Cash / Bank Book Report"
 msgstr "Báo cáo Sổ quỹ / Sổ tiền gửi"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/cash_book_wizard.py:0
 #, python-format
 msgid "Cash Book"
@@ -239,6 +250,7 @@ msgid "Cash book (111)"
 msgstr "Sổ quỹ tiền mặt (111)"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.model,name:l10n_vn_vas_reports.model_vn_cash_flow_wizard
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_cash_flow_wizard
@@ -259,6 +271,7 @@ msgid "Cash Voucher"
 msgstr "Phiếu quỹ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Change period"
@@ -270,12 +283,14 @@ msgid "Check coverage"
 msgstr "Kiểm tra độ phủ ánh xạ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Clear search"
 msgstr "Xóa tìm kiếm"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Collapse all"
@@ -342,12 +357,14 @@ msgid "Everything else is derived from the VAT listings. The declaration checks 
 msgstr "Các chỉ tiêu còn lại suy ra từ bảng kê hoá đơn. Tờ khai tự đối chiếu với sổ: thuế GTGT đầu ra trên tờ khai phải bằng phát sinh Có tài khoản thuế GTGT đầu ra trong kỳ, và mọi bút toán thuế ghi tay sẽ lộ ra ở phần chênh lệch."
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Expand all"
 msgstr "Mở tất cả"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
@@ -383,6 +400,7 @@ msgid "From"
 msgstr "Từ ngày"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_general_journal_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_general_journal
@@ -402,6 +420,7 @@ msgid "General Journal Report"
 msgstr "Báo cáo Sổ Nhật ký chung"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_expense_ledger_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_expense_ledger
@@ -421,6 +440,7 @@ msgid "Expense Ledger Report"
 msgstr "Báo cáo Sổ chi phí sản xuất, kinh doanh"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_sales_ledger_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_sales_ledger
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
@@ -455,6 +475,7 @@ msgid "Revenue per product from the 511 lines themselves, deductions from 521, c
 msgstr "Doanh thu theo sản phẩm từ chính các dòng 511, khoản giảm trừ từ 521, loại kết chuyển cuối kỳ — nên sổ cộng ra đúng phát sinh TK 511. Thuế GTGT theo dõi trên Bảng kê 01/GTGT, nơi các dòng thuế thực sự nằm."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_material_allocation_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_material_allocation
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
@@ -501,6 +522,7 @@ msgid "Vietnam Reports / Expense Ledger"
 msgstr "Báo cáo Việt Nam / Sổ chi phí SXKD"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/expense_ledger_wizard.py:0
 #, python-format
 msgid ""
@@ -511,6 +533,7 @@ msgstr ""
 "khoản thì không còn là sổ chi phí nữa."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_general_ledger_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_general_ledger
@@ -540,6 +563,7 @@ msgid "Include accounts with no activity"
 msgstr "Gồm cả tài khoản không phát sinh"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_income_statement_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_income_statement
@@ -559,6 +583,7 @@ msgid "Income Statement Report"
 msgstr "Báo cáo kết quả hoạt động kinh doanh"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "Item %s is a heading or a figure the ledger cannot explain, so there is nothing to open."
@@ -605,36 +630,42 @@ msgid "Mapping"
 msgstr "Ánh xạ chỉ tiêu"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "No"
 msgstr "Không"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/aging_wizard.py:0
 #, python-format
 msgid "No %s account was found for %s. Check the chart of accounts."
 msgstr "Không tìm thấy tài khoản %s cho %s. Hãy kiểm tra lại hệ thống tài khoản."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/cash_book_wizard.py:0
 #, python-format
 msgid "No account with a code starting with %s was found for %s. Pick the accounts manually, or check the chart of accounts."
 msgstr "Không tìm thấy tài khoản nào có mã bắt đầu bằng %s cho %s. Hãy chọn tài khoản thủ công, hoặc kiểm tra lại hệ thống tài khoản."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "No item %s on this report."
 msgstr "Không có chỉ tiêu %s trên báo cáo này."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/models/account_move_voucher.py:0
 #, python-format
 msgid "No sequence found for %s. Check Settings > Technical > Sequences."
 msgstr "Không tìm thấy dãy số %s. Kiểm tra Cấu hình > Kỹ thuật > Dãy số."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "No spreadsheet layout named %s."
@@ -651,6 +682,7 @@ msgid "Partner"
 msgstr "Đối tác"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_partner_ledger_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_partner_ledger
@@ -716,6 +748,7 @@ msgid "Print Cash Voucher"
 msgstr "In phiếu quỹ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
@@ -743,6 +776,7 @@ msgid "Receivable (customers)"
 msgstr "Phải thu (khách hàng)"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Refresh"
@@ -754,12 +788,14 @@ msgid "Refund claimed (42)"
 msgstr "Thuế đề nghị hoàn (42)"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/js/vn_report_viewer.js:0
 #, python-format
 msgid "Report"
 msgstr "Báo cáo"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Report criteria are held temporarily and have since been cleared. Open the report again from the Reporting menu to rebuild it."
@@ -787,6 +823,7 @@ msgid "Scope"
 msgstr "Phạm vi"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Search in this report"
@@ -813,6 +850,7 @@ msgid "Show previous year"
 msgstr "Hiện cột năm trước"
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Showing matching lines only. The totals below still cover the whole period."
@@ -849,18 +887,21 @@ msgid "The shipped TT200 form maps the items a typical SME uses. Uncommon items 
 msgstr "Mẫu TT200 đi kèm đã ánh xạ các chỉ tiêu mà doanh nghiệp vừa và nhỏ thường dùng. Chỉ tiêu ít gặp cố ý để trống; bật \"Kiểm tra độ phủ ánh xạ\" để báo cáo liệt kê những tài khoản chưa chỉ tiêu nào nhặt."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "The start date must precede the end date."
 msgstr "Ngày bắt đầu phải trước ngày kết thúc."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/models/account_move_voucher.py:0
 #, python-format
 msgid "This entry is not a cash voucher: it is not on a cash journal, or it does not move cash."
 msgstr "Bút toán này không phải phiếu quỹ: nó không nằm trên sổ nhật ký tiền mặt, hoặc không làm dịch chuyển tiền mặt."
 
 #. module: l10n_vn_vas_reports
+#. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "This report is no longer available"
@@ -882,6 +923,7 @@ msgid "To"
 msgstr "Đến ngày"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_trial_balance_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_trial_balance
@@ -901,6 +943,7 @@ msgid "Trial Balance Report"
 msgstr "Báo cáo Bảng cân đối số phát sinh"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_vat_declaration_wizard
 #: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_vat_declaration
@@ -923,6 +966,7 @@ msgid "VAT Invoice Listing"
 msgstr "Bảng kê hoá đơn GTGT"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_vat_purchase
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_vat_purchase_wizard
 #: code:addons/l10n_vn_vas_reports/wizard/vat_listing_wizard.py:0
@@ -931,6 +975,7 @@ msgid "VAT Purchase Listing"
 msgstr "Bảng kê hoá đơn mua vào"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_vat_sales
 #: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_vat_sales_wizard
 #: code:addons/l10n_vn_vas_reports/wizard/vat_listing_wizard.py:0
@@ -1009,7 +1054,22 @@ msgid "View"
 msgstr "Xem"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "Yes"
 msgstr "Có"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/material_allocation_wizard.py:0
+#, python-format
+msgid "Choose at least one credited account. An allocation sheet needs to know what it allocates."
+msgstr "Chọn ít nhất một tài khoản ghi Có. Bảng phân bổ cần biết phân bổ từ đâu."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/sales_ledger_wizard.py:0
+#, python-format
+msgid "Choose at least one revenue account."
+msgstr "Chọn ít nhất một tài khoản doanh thu."

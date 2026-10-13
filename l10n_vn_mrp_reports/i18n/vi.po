@@ -27,6 +27,7 @@ msgid "By manufacturing order"
 msgstr "Theo lệnh sản xuất"
 
 #. module: l10n_vn_mrp_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_mrp_reports.action_vn_cost_card_wizard
 #: code:addons/l10n_vn_mrp_reports/wizard/production_cost_wizard.py:0
 #, python-format
@@ -90,6 +91,7 @@ msgid "Product categories"
 msgstr "Nhóm sản phẩm"
 
 #. module: l10n_vn_mrp_reports
+#. odoo-python
 #: model:ir.ui.menu,name:l10n_vn_mrp_reports.menu_vn_report_production_cost
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
 #: model:ir.actions.act_window,name:l10n_vn_mrp_reports.action_vn_production_cost_wizard
@@ -128,3 +130,10 @@ msgstr "Báo cáo Việt Nam / Sản xuất"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
 msgid "View"
 msgstr "Xem"
+
+#. module: l10n_vn_mrp_reports
+#. odoo-python
+#: code:addons/l10n_vn_mrp_reports/models/vn_mrp_demo_generator.py:0
+#, python-format
+msgid "No account found for %s; install a chart of accounts or run the accounting demo first."
+msgstr "Không tìm thấy tài khoản %s; hãy cài hệ thống tài khoản hoặc chạy dữ liệu demo kế toán trước."

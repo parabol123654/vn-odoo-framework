@@ -27,6 +27,7 @@ msgid "Asset cards (one card per asset)"
 msgstr "Thẻ TSCĐ (mỗi tài sản một thẻ)"
 
 #. module: l10n_vn_asset_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_card_wizard
 #: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
 #, python-format
@@ -49,6 +50,7 @@ msgid "Asset register (one row per asset)"
 msgstr "Sổ TSCĐ (mỗi tài sản một dòng)"
 
 #. module: l10n_vn_asset_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_register_wizard
 #: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
 #, python-format
@@ -76,6 +78,7 @@ msgid "Depreciation allocation (period cross-tab)"
 msgstr "Bảng tính và phân bổ khấu hao (bảng chéo theo kỳ)"
 
 #. module: l10n_vn_asset_reports
+#. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_allocation_wizard
 #: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
 #, python-format
