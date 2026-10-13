@@ -44,7 +44,8 @@ class VnAgingWizard(models.TransientModel):
         domain=[('reconcile', '=', True)],
         help='Leave empty to use every receivable or payable account.')
 
-    _INTERNAL_TYPE = {'receivable': 'receivable', 'payable': 'payable'}
+    _ACCOUNT_TYPE = {'receivable': 'asset_receivable',
+                     'payable': 'liability_payable'}
     _BASIS = {'due_date': AgingBasis.DUE_DATE,
               'document_date': AgingBasis.DOCUMENT_DATE}
 
@@ -53,13 +54,13 @@ class VnAgingWizard(models.TransientModel):
         """Resolved by account type, not by hardcoding 131 / 331."""
         self.ensure_one()
         accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
-            ('internal_type', '=', self._INTERNAL_TYPE[self.aging_type]),
+            ('company_ids', 'in', self.company_id.id),
+            ('account_type', '=', self._ACCOUNT_TYPE[self.aging_type]),
         ])
         if not accounts:
             raise UserError(_(
                 "No %s account was found for %s. Check the chart of accounts."
-            ) % (self._INTERNAL_TYPE[self.aging_type],
+            ) % (self.aging_type,
                  self.company_id.display_name))
         return tuple(accounts.ids)
 

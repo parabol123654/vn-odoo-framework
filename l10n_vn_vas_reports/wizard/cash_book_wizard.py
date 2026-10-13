@@ -42,7 +42,7 @@ class VnCashBookWizard(models.TransientModel):
         self.ensure_one()
         prefix = self._CODE_PREFIX[self.book_type]
         accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
+            ('company_ids', 'in', self.company_id.id),
             ('code', '=like', prefix + '%'),
         ])
         if not accounts:

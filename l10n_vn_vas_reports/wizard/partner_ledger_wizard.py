@@ -37,12 +37,12 @@ class VnPartnerLedgerWizard(models.TransientModel):
         self.ensure_one()
         types = []
         if self.partner_type in ('customer', 'both'):
-            types.append('receivable')
+            types.append('asset_receivable')
         if self.partner_type in ('supplier', 'both'):
-            types.append('payable')
+            types.append('liability_payable')
         accounts = self.env['account.account'].search([
-            ('company_id', '=', self.company_id.id),
-            ('internal_type', 'in', types),
+            ('company_ids', 'in', self.company_id.id),
+            ('account_type', 'in', types),
         ])
         return tuple(accounts.ids)
 
