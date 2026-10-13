@@ -259,7 +259,8 @@ class VnReportWizardMixin(models.AbstractModel):
             field = self._fields.get(name)
             if field is None:
                 continue
-            rows.append((field.string, self._format_filter(name, field)))
+            rows.append((field._description_string(self.env),
+                         self._format_filter(name, field)))
         return rows
 
     def _format_filter(self, name, field):
