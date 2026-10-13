@@ -9,7 +9,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-07 07:00+0000\n"
 "PO-Revision-Date: 2026-08-07 07:00+0000\n"
@@ -61,8 +61,8 @@ msgstr "Mức chi tiết"
 
 #. module: l10n_vn_mrp_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
-msgid "Direct materials only, taken from the valuation layers of the components issued to each order, so the figures agree with accounts 152 and 155. Direct labour and production overhead are absent because Odoo 14 Community does not post them to the ledger."
-msgstr "Chỉ gồm chi phí nguyên vật liệu trực tiếp, lấy từ valuation layer của vật tư đã xuất cho từng lệnh sản xuất, nên khớp với các TK 152 và 155. Không có chi phí nhân công trực tiếp và sản xuất chung vì Odoo 14 Community không hạch toán chúng vào sổ kế toán."
+msgid "Direct materials only, taken from the valuation layers of the components issued to each order, so the figures agree with accounts 152 and 155. Direct labour and production overhead are absent because Odoo 17 Community does not post them to the ledger."
+msgstr "Chỉ gồm chi phí nguyên vật liệu trực tiếp, lấy từ valuation layer của vật tư đã xuất cho từng lệnh sản xuất, nên khớp với các TK 152 và 155. Không có chi phí nhân công trực tiếp và sản xuất chung vì Odoo 17 Community không hạch toán chúng vào sổ kế toán."
 
 #. module: l10n_vn_mrp_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
