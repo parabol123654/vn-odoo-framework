@@ -77,6 +77,19 @@ class TestRunningStock(unittest.TestCase):
         self.assertEqual(outgoing.quantity, 4)
         self.assertEqual(outgoing.value, 400000.0)
 
+    def test_value_only_increase_is_incoming(self):
+        """A revaluation adding value moves no quantity but is not an issue."""
+        incoming, outgoing = RunningStockCalculator.split(
+            _move(1, 1, date(2026, 1, 5), 0, 10000000.0), VND.rounding)
+        self.assertEqual(incoming, InventoryBalanceDTO(0, 10000000.0))
+        self.assertEqual(outgoing, InventoryBalanceDTO())
+
+    def test_value_only_decrease_is_outgoing(self):
+        incoming, outgoing = RunningStockCalculator.split(
+            _move(1, 1, date(2026, 1, 5), 0, -10000000.0), VND.rounding)
+        self.assertEqual(incoming, InventoryBalanceDTO())
+        self.assertEqual(outgoing, InventoryBalanceDTO(0, 10000000.0))
+
     def test_running_balance_tracks_quantity_and_value_together(self):
         moves = (_move(1, 1, date(2026, 1, 5), 10, 1000000.0),
                  _move(2, 1, date(2026, 1, 8), -4, -400000.0))
