@@ -46,7 +46,11 @@ class InventoryMoveDTO(NamedTuple):
 
     @property
     def is_incoming(self):
-        return self.quantity > 0
+        # A revaluation moves no quantity; it is incoming when it adds value,
+        # otherwise a cost increase would be printed and totalled as an issue.
+        if self.quantity:
+            return self.quantity > 0
+        return self.value >= 0
 
 
 class InventoryBalanceDTO(NamedTuple):
