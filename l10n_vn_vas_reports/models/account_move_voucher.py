@@ -48,7 +48,7 @@ class AccountMove(models.Model):
                 continue
             balance = sum(
                 line.balance for line in move.line_ids
-                if line.account_id.internal_type == 'liquidity')
+                if line.account_id.account_type == 'asset_cash')
             if move.currency_id.is_zero(balance):
                 continue
             move.vn_voucher_type = RECEIPT if balance > 0 else PAYMENT
@@ -102,10 +102,10 @@ class AccountMove(models.Model):
         """
         self.ensure_one()
         return self.line_ids.filtered(
-            lambda line: line.account_id.internal_type != 'liquidity')
+            lambda line: line.account_id.account_type != 'asset_cash')
 
     def _vn_voucher_amount(self):
         self.ensure_one()
         return abs(sum(
             line.balance for line in self.line_ids
-            if line.account_id.internal_type == 'liquidity'))
+            if line.account_id.account_type == 'asset_cash'))
