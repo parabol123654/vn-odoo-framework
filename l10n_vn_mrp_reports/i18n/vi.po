@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 07:00+0000\n"
-"PO-Revision-Date: 2026-08-07 07:00+0000\n"
+"POT-Creation-Date: 2026-10-14 16:47+0000\n"
+"PO-Revision-Date: 2026-10-14 16:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -27,24 +27,6 @@ msgid "By manufacturing order"
 msgstr "Theo lệnh sản xuất"
 
 #. module: l10n_vn_mrp_reports
-#. odoo-python
-#: model:ir.actions.act_window,name:l10n_vn_mrp_reports.action_vn_cost_card_wizard
-#: code:addons/l10n_vn_mrp_reports/wizard/production_cost_wizard.py:0
-#, python-format
-msgid "Cost Card"
-msgstr "Thẻ tính giá thành"
-
-#. module: l10n_vn_mrp_reports
-#: model:ir.ui.menu,name:l10n_vn_mrp_reports.menu_vn_report_cost_card
-msgid "Cost Card (S37-DN)"
-msgstr "Thẻ tính giá thành (S37-DN)"
-
-#. module: l10n_vn_mrp_reports
-#: model:ir.model.fields.selection,name:l10n_vn_mrp_reports.selection__vn_production_cost_wizard__layout__cost_card
-msgid "Cost card (opening WIP, costs, finished, closing WIP)"
-msgstr "Thẻ tính giá thành (dở dang đầu kỳ, phát sinh, nhập kho, dở dang cuối kỳ)"
-
-#. module: l10n_vn_mrp_reports
 #: model:ir.model.fields.selection,name:l10n_vn_mrp_reports.selection__vn_production_cost_wizard__layout__product
 msgid "By product"
 msgstr "Theo sản phẩm"
@@ -55,15 +37,28 @@ msgid "Cancel"
 msgstr "Huỷ"
 
 #. module: l10n_vn_mrp_reports
+#. odoo-python
+#: model:ir.actions.act_window,name:l10n_vn_mrp_reports.action_vn_cost_card_wizard
+#: code:addons/l10n_vn_mrp_reports/wizard/production_cost_wizard.py:0
+#, python-format
+msgid "Cost Card"
+msgstr "Thẻ tính giá thành"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields.selection,name:l10n_vn_mrp_reports.selection__vn_production_cost_wizard__layout__cost_card
+msgid "Cost card (opening WIP, costs, finished, closing WIP)"
+msgstr "Thẻ tính giá thành (dở dang đầu kỳ, phát sinh, nhập kho, dở dang cuối kỳ)"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.ui.menu,name:l10n_vn_mrp_reports.menu_vn_report_cost_card
+msgid "Cost Card (S37-DN)"
+msgstr "Thẻ tính giá thành (S37-DN)"
+
+#. module: l10n_vn_mrp_reports
 #: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__layout
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
 msgid "Detail"
 msgstr "Mức chi tiết"
-
-#. module: l10n_vn_mrp_reports
-#: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
-msgid "Split into direct materials (the components issued), direct labour (the operations' workcenter cost) and production overhead (the order's extra unit cost): the three amounts Odoo adds up to value the finished goods. Labour and overhead are charged when an order finishes, so work in progress is materials only."
-msgstr "Tách thành nguyên vật liệu trực tiếp (vật tư đã xuất), nhân công trực tiếp (chi phí công đoạn) và sản xuất chung (chi phí phụ trên mỗi đơn vị của lệnh): ba khoản Odoo cộng lại để định giá thành phẩm. Nhân công và sản xuất chung được tính khi lệnh hoàn thành, nên dở dang chỉ gồm nguyên vật liệu."
 
 #. module: l10n_vn_mrp_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
@@ -74,6 +69,13 @@ msgstr "Xuất Excel"
 #: model:ir.ui.menu,name:l10n_vn_mrp_reports.menu_vn_reports_manufacturing
 msgid "Manufacturing"
 msgstr "Sản xuất"
+
+#. module: l10n_vn_mrp_reports
+#. odoo-python
+#: code:addons/l10n_vn_mrp_reports/models/vn_mrp_demo_generator.py:0
+#, python-format
+msgid "No account found for %s; install a chart of accounts or run the accounting demo first."
+msgstr "Không tìm thấy tài khoản %s; hãy cài hệ thống tài khoản hoặc chạy dữ liệu demo kế toán trước."
 
 #. module: l10n_vn_mrp_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
@@ -122,6 +124,11 @@ msgid "Show work in progress"
 msgstr "Hiện chi phí dở dang"
 
 #. module: l10n_vn_mrp_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
+msgid "Split into direct materials (the components issued),\n                    direct labour (the operations' workcenter cost) and\n                    production overhead (the order's extra unit cost): the\n                    three amounts Odoo adds up to value the finished goods.\n                    Labour and overhead are charged when an order finishes,\n                    so work in progress is materials only."
+msgstr "Tách thành nguyên vật liệu trực tiếp (vật tư đã xuất), nhân công trực tiếp (chi phí công đoạn) và sản xuất chung (chi phí phụ trên mỗi đơn vị của lệnh): ba khoản Odoo cộng lại để định giá thành phẩm. Nhân công và sản xuất chung được tính khi lệnh hoàn thành, nên dở dang chỉ gồm nguyên vật liệu."
+
+#. module: l10n_vn_mrp_reports
 #: model:res.groups,name:l10n_vn_mrp_reports.group_vn_report_manufacturing
 msgid "Vietnam Reports / Manufacturing"
 msgstr "Báo cáo Việt Nam / Sản xuất"
@@ -130,10 +137,3 @@ msgstr "Báo cáo Việt Nam / Sản xuất"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
 msgid "View"
 msgstr "Xem"
-
-#. module: l10n_vn_mrp_reports
-#. odoo-python
-#: code:addons/l10n_vn_mrp_reports/models/vn_mrp_demo_generator.py:0
-#, python-format
-msgid "No account found for %s; install a chart of accounts or run the accounting demo first."
-msgstr "Không tìm thấy tài khoản %s; hãy cài hệ thống tài khoản hoặc chạy dữ liệu demo kế toán trước."
