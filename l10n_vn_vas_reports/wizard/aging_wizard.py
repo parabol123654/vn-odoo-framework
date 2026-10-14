@@ -54,7 +54,7 @@ class VnAgingWizard(models.TransientModel):
         """Resolved by account type, not by hardcoding 131 / 331."""
         self.ensure_one()
         accounts = self.env['account.account'].search([
-            ('company_ids', 'in', self.company_id.id),
+            ('company_id', '=', self.company_id.id),
             ('account_type', '=', self._ACCOUNT_TYPE[self.aging_type]),
         ])
         if not accounts:

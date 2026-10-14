@@ -41,7 +41,7 @@ class VnPartnerLedgerWizard(models.TransientModel):
         if self.partner_type in ('supplier', 'both'):
             types.append('liability_payable')
         accounts = self.env['account.account'].search([
-            ('company_ids', 'in', self.company_id.id),
+            ('company_id', '=', self.company_id.id),
             ('account_type', 'in', types),
         ])
         return tuple(accounts.ids)

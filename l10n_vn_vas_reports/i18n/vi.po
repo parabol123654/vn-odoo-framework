@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 07:00+0000\n"
-"PO-Revision-Date: 2026-08-07 07:00+0000\n"
+"POT-Creation-Date: 2026-10-14 16:47+0000\n"
+"PO-Revision-Date: 2026-10-14 16:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -43,6 +43,11 @@ msgid "A cash flow statement covers a period, so a start date is required."
 msgstr "Báo cáo lưu chuyển tiền tệ lập cho một kỳ, nên bắt buộc phải có ngày bắt đầu."
 
 #. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
+msgid "A period cross-tab: what left 152, 153 and 242, by the\n                    account it was charged to. Built from the journal entries\n                    themselves, so each column reconciles to that account's\n                    credit total on the General Ledger."
+msgstr "Bảng chéo trong kỳ: giá trị xuất khỏi 152, 153, 242 chia theo tài khoản được ghi Nợ. Lập từ chính các bút toán, nên mỗi cột đối chiếu được với tổng phát sinh Có của tài khoản đó trên Sổ Cái."
+
+#. module: l10n_vn_vas_reports
 #. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/vat_declaration_wizard.py:0
 #, python-format
@@ -53,13 +58,6 @@ msgstr "Tờ khai thuế GTGT lập cho một kỳ, nên bắt buộc phải có
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_ledger_wizard__group_by__account
 msgid "Account"
 msgstr "Tài khoản"
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: code:addons/l10n_vn_vas_reports/models/vn_demo_generator.py:0
-#, python-format
-msgid "Account type %s not found; is the 'account' module installed?"
-msgstr "Không tìm thấy loại tài khoản %s; module 'account' đã được cài chưa?"
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_ledger_wizard__group_by__account_partner
@@ -74,8 +72,10 @@ msgstr "Sổ kế toán"
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_aging_wizard__account_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_book_wizard__account_ids
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_expense_ledger_wizard__account_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_ledger_wizard__account_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__account_ids
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__account_ids
 msgid "Accounts"
 msgstr "Tài khoản"
 
@@ -135,10 +135,13 @@ msgstr "Tất cả"
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_balance_sheet_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_cash_book_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_cash_flow_wizard__target_move__all
+#: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_expense_ledger_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_journal_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_ledger_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_income_statement_wizard__target_move__all
+#: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_material_allocation_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_partner_ledger_wizard__target_move__all
+#: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_sales_ledger_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_trial_balance_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_declaration_wizard__target_move__all
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_listing_wizard__target_move__all
@@ -210,10 +213,13 @@ msgstr "Cả hai"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
@@ -283,6 +289,27 @@ msgid "Check coverage"
 msgstr "Kiểm tra độ phủ ánh xạ"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/expense_ledger_wizard.py:0
+#, python-format
+msgid "Choose at least one account. An expense ledger over every account of the chart would not be an expense ledger."
+msgstr "Hãy chọn ít nhất một tài khoản. Sổ chi phí mở trên toàn bộ hệ thống tài khoản thì không còn là sổ chi phí nữa."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/material_allocation_wizard.py:0
+#, python-format
+msgid "Choose at least one credited account. An allocation sheet needs to know what it allocates."
+msgstr "Chọn ít nhất một tài khoản ghi Có. Bảng phân bổ cần biết phân bổ từ đâu."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/sales_ledger_wizard.py:0
+#, python-format
+msgid "Choose at least one revenue account."
+msgstr "Chọn ít nhất một tài khoản doanh thu."
+
+#. module: l10n_vn_vas_reports
 #. odoo-javascript
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
@@ -301,10 +328,13 @@ msgstr "Thu tất cả"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_balance_sheet_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_book_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_flow_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_expense_ledger_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_journal_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_ledger_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_trial_balance_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__company_id
@@ -315,6 +345,11 @@ msgstr "Công ty"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__carried_forward
 msgid "Credit carried forward (22)"
 msgstr "Thuế còn được khấu trừ kỳ trước chuyển sang (22)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__account_ids
+msgid "Credited accounts"
+msgstr "Tài khoản ghi Có"
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_partner_ledger_wizard__partner_type__customer
@@ -341,10 +376,13 @@ msgstr "Nhập tay"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_balance_sheet_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_book_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_flow_wizard__target_move
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_expense_ledger_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_journal_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_ledger_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__target_move
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__target_move
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_trial_balance_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__target_move
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__target_move
@@ -353,7 +391,7 @@ msgstr "Bút toán"
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
-msgid "Everything else is derived from the VAT listings. The declaration checks itself against the ledger: output VAT on the form must equal the period's credit movement on the output VAT account, and any VAT posted by hand shows up as the difference."
+msgid "Everything else is derived from the VAT listings. The\n                    declaration checks itself against the ledger: output VAT on\n                    the form must equal the period's credit movement on the\n                    output VAT account, and any VAT posted by hand shows up as\n                    the difference."
 msgstr "Các chỉ tiêu còn lại suy ra từ bảng kê hoá đơn. Tờ khai tự đối chiếu với sổ: thuế GTGT đầu ra trên tờ khai phải bằng phát sinh Có tài khoản thuế GTGT đầu ra trong kỳ, và mọi bút toán thuế ghi tay sẽ lộ ra ở phần chênh lệch."
 
 #. module: l10n_vn_vas_reports
@@ -364,15 +402,38 @@ msgid "Expand all"
 msgstr "Mở tất cả"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_expense_ledger_wizard
+#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_expense_ledger
+#: code:addons/l10n_vn_vas_reports/wizard/expense_ledger_wizard.py:0
+#, python-format
+msgid "Expense Ledger"
+msgstr "Sổ chi phí sản xuất, kinh doanh"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_expense_ledger
+msgid "Expense Ledger (S36-DN)"
+msgstr "Sổ chi phí SXKD (S36-DN)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_expense_ledger_wizard
+msgid "Expense Ledger Report"
+msgstr "Báo cáo Sổ chi phí sản xuất, kinh doanh"
+
+#. module: l10n_vn_vas_reports
 #. odoo-javascript
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
@@ -389,10 +450,13 @@ msgstr "Báo cáo tài chính"
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_book_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_flow_wizard__date_from
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_expense_ledger_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_journal_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_ledger_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__date_from
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__date_from
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_trial_balance_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__date_from
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__date_from
@@ -418,119 +482,6 @@ msgstr "Sổ Nhật ký chung (S03a-DN)"
 #: model:ir.model,name:l10n_vn_vas_reports.model_vn_general_journal_wizard
 msgid "General Journal Report"
 msgstr "Báo cáo Sổ Nhật ký chung"
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
-#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_expense_ledger_wizard
-#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_expense_ledger
-#: code:addons/l10n_vn_vas_reports/wizard/expense_ledger_wizard.py:0
-#, python-format
-msgid "Expense Ledger"
-msgstr "Sổ chi phí sản xuất, kinh doanh"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_expense_ledger
-msgid "Expense Ledger (S36-DN)"
-msgstr "Sổ chi phí SXKD (S36-DN)"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.model,name:l10n_vn_vas_reports.model_vn_expense_ledger_wizard
-msgid "Expense Ledger Report"
-msgstr "Báo cáo Sổ chi phí sản xuất, kinh doanh"
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_sales_ledger_wizard
-#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_sales_ledger
-#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
-#: code:addons/l10n_vn_vas_reports/wizard/sales_ledger_wizard.py:0
-#, python-format
-msgid "Sales Ledger"
-msgstr "Sổ chi tiết bán hàng"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_sales_ledger
-msgid "Sales Ledger (S35-DN)"
-msgstr "Sổ chi tiết bán hàng (S35-DN)"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.model,name:l10n_vn_vas_reports.model_vn_sales_ledger_wizard
-msgid "Sales Ledger Report"
-msgstr "Báo cáo Sổ chi tiết bán hàng"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__product_ids
-msgid "Products"
-msgstr "Sản phẩm, hàng hoá"
-
-#. module: l10n_vn_vas_reports
-#: model:res.groups,name:l10n_vn_vas_reports.group_vn_report_sales_ledger
-msgid "Vietnam Reports / Sales Ledger"
-msgstr "Báo cáo Việt Nam / Sổ chi tiết bán hàng"
-
-#. module: l10n_vn_vas_reports
-#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
-msgid "Revenue per product from the 511 lines themselves, deductions from 521, closing transfers excluded — so the book adds up to account 511. VAT stays on the Bảng kê 01/GTGT, where the tax lines live."
-msgstr "Doanh thu theo sản phẩm từ chính các dòng 511, khoản giảm trừ từ 521, loại kết chuyển cuối kỳ — nên sổ cộng ra đúng phát sinh TK 511. Thuế GTGT theo dõi trên Bảng kê 01/GTGT, nơi các dòng thuế thực sự nằm."
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_material_allocation_wizard
-#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_material_allocation
-#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
-#: code:addons/l10n_vn_vas_reports/wizard/material_allocation_wizard.py:0
-#, python-format
-msgid "Material Allocation"
-msgstr "Bảng phân bổ NVL, CCDC"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_material_allocation
-msgid "Material Allocation (07-VT)"
-msgstr "Bảng phân bổ NVL, CCDC (07-VT)"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.model,name:l10n_vn_vas_reports.model_vn_material_allocation_wizard
-msgid "Material Allocation Sheet"
-msgstr "Bảng phân bổ nguyên liệu, vật liệu, công cụ, dụng cụ"
-
-#. module: l10n_vn_vas_reports
-#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__account_ids
-msgid "Credited accounts"
-msgstr "Tài khoản ghi Có"
-
-#. module: l10n_vn_vas_reports
-#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
-msgid "A period cross-tab: what left 152, 153 and 242, by the account it was charged to. Built from the journal entries themselves, so each column reconciles to that account's credit total on the General Ledger."
-msgstr "Bảng chéo trong kỳ: giá trị xuất khỏi 152, 153, 242 chia theo tài khoản được ghi Nợ. Lập từ chính các bút toán, nên mỗi cột đối chiếu được với tổng phát sinh Có của tài khoản đó trên Sổ Cái."
-
-#. module: l10n_vn_vas_reports
-#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
-msgid ""
-"One page per account, debit detail with a breakdown by\n"
-"                    counterpart account: 152 is materials, 334 labour, 214\n"
-"                    depreciation. The credit side prints as a single closing\n"
-"                    transfer line, as the form prescribes."
-msgstr ""
-"Mỗi tài khoản một trang: chi tiết phát sinh Nợ kèm cột chia ra theo TK đối "
-"ứng — 152 là nguyên vật liệu, 334 nhân công, 214 khấu hao. Bên Có in thành "
-"một dòng kết chuyển duy nhất, đúng như mẫu quy định."
-
-#. module: l10n_vn_vas_reports
-#: model:res.groups,name:l10n_vn_vas_reports.group_vn_report_expense_ledger
-msgid "Vietnam Reports / Expense Ledger"
-msgstr "Báo cáo Việt Nam / Sổ chi phí SXKD"
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: code:addons/l10n_vn_vas_reports/wizard/expense_ledger_wizard.py:0
-#, python-format
-msgid ""
-"Choose at least one account. An expense ledger over every account of the "
-"chart would not be an expense ledger."
-msgstr ""
-"Hãy chọn ít nhất một tài khoản. Sổ chi phí mở trên toàn bộ hệ thống tài "
-"khoản thì không còn là sổ chi phí nữa."
 
 #. module: l10n_vn_vas_reports
 #. odoo-python
@@ -599,10 +550,13 @@ msgstr "Sổ nhật ký"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_balance_sheet_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_book_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_flow_wizard__journal_ids
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_expense_ledger_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_journal_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_ledger_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__journal_ids
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__journal_ids
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_trial_balance_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__journal_ids
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__journal_ids
@@ -628,6 +582,26 @@ msgstr "Loại bảng kê"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__mapping_id
 msgid "Mapping"
 msgstr "Ánh xạ chỉ tiêu"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_material_allocation_wizard
+#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_material_allocation
+#: code:addons/l10n_vn_vas_reports/wizard/material_allocation_wizard.py:0
+#, python-format
+msgid "Material Allocation"
+msgstr "Bảng phân bổ NVL, CCDC"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_material_allocation
+msgid "Material Allocation (07-VT)"
+msgstr "Bảng phân bổ NVL, CCDC (07-VT)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_material_allocation_wizard
+msgid "Material Allocation Sheet"
+msgstr "Bảng phân bổ nguyên liệu, vật liệu, công cụ, dụng cụ"
 
 #. module: l10n_vn_vas_reports
 #. odoo-python
@@ -670,6 +644,11 @@ msgstr "Không tìm thấy dãy số %s. Kiểm tra Cấu hình > Kỹ thuật >
 #, python-format
 msgid "No spreadsheet layout named %s."
 msgstr "Không có bố cục bảng tính tên %s."
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
+msgid "One page per account, debit detail with a breakdown by\n                    counterpart account: 152 is materials, 334 labour, 214\n                    depreciation. The credit side prints as a single closing\n                    transfer line, as the form prescribes."
+msgstr "Mỗi tài khoản một trang: chi tiết phát sinh Nợ kèm cột chia ra theo TK đối ứng — 152 là nguyên vật liệu, 334 nhân công, 214 khấu hao. Bên Có in thành một dòng kết chuyển duy nhất, đúng như mẫu quy định."
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
@@ -717,10 +696,13 @@ msgstr "Phải trả (nhà cung cấp)"
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
@@ -732,10 +714,13 @@ msgstr "Kỳ báo cáo"
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_balance_sheet_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_cash_book_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_cash_flow_wizard__target_move__posted
+#: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_expense_ledger_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_journal_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_ledger_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_income_statement_wizard__target_move__posted
+#: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_material_allocation_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_partner_ledger_wizard__target_move__posted
+#: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_sales_ledger_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_trial_balance_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_declaration_wizard__target_move__posted
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_listing_wizard__target_move__posted
@@ -753,10 +738,13 @@ msgstr "In phiếu quỹ"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
@@ -764,6 +752,11 @@ msgstr "In phiếu quỹ"
 #, python-format
 msgid "Print PDF"
 msgstr "In PDF"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__product_ids
+msgid "Products"
+msgstr "Sản phẩm, hàng hoá"
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_listing_wizard__direction__purchase
@@ -804,11 +797,19 @@ msgstr "Điều kiện báo cáo chỉ được giữ tạm thời và đã bị
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 msgid "Restrict to"
 msgstr "Giới hạn theo"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
+msgid "Revenue per product from the 511 lines themselves,\n                    deductions from 521, closing transfers excluded — so the\n                    book adds up to account 511. VAT stays on the Bảng kê\n                    01/GTGT, where the tax lines live."
+msgstr "Doanh thu theo sản phẩm từ chính các dòng 511, khoản giảm trừ từ 521, loại kết chuyển cuối kỳ — nên sổ cộng ra đúng phát sinh TK 511. Thuế GTGT theo dõi trên Bảng kê 01/GTGT, nơi các dòng thuế thực sự nằm."
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_listing_wizard__direction__sale
@@ -816,8 +817,31 @@ msgid "Sales (output VAT)"
 msgstr "Bán ra (thuế GTGT đầu ra)"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_sales_ledger_wizard
+#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_sales_ledger
+#: code:addons/l10n_vn_vas_reports/wizard/sales_ledger_wizard.py:0
+#, python-format
+msgid "Sales Ledger"
+msgstr "Sổ chi tiết bán hàng"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_sales_ledger
+msgid "Sales Ledger (S35-DN)"
+msgstr "Sổ chi tiết bán hàng (S35-DN)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_sales_ledger_wizard
+msgid "Sales Ledger Report"
+msgstr "Báo cáo Sổ chi tiết bán hàng"
+
+#. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
 msgid "Scope"
 msgstr "Phạm vi"
@@ -873,17 +897,17 @@ msgstr "Thuế"
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
-msgid "The direct method reads journal entries rather than balances, so the report checks itself: total cash at the end must equal the balance of the cash accounts. Any counterpart account it could not classify is listed underneath."
+msgid "The direct method reads journal entries rather than balances,\n                    so the report checks itself: total cash at the end must equal\n                    the balance of the cash accounts. Any counterpart account it\n                    could not classify is listed underneath."
 msgstr "Phương pháp trực tiếp đọc bút toán chứ không đọc số dư, nên báo cáo tự đối chiếu: tiền cuối kỳ phải bằng số dư các tài khoản tiền. Tài khoản đối ứng nào không phân loại được sẽ liệt kê bên dưới."
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
-msgid "The general journal is recorded in date order and is not grouped by account, so this report offers no grouping option."
+msgid "The general journal is recorded in date order and is not\n                    grouped by account, so this report offers no grouping option."
 msgstr "Sổ Nhật ký chung ghi theo trình tự thời gian, không nhóm theo tài khoản, nên báo cáo này không có tuỳ chọn nhóm."
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
-msgid "The shipped TT200 form maps the items a typical SME uses. Uncommon items are left blank on purpose; switch on \"Check coverage\" and the report will list the accounts that no item picks up."
+msgid "The shipped TT200 form maps the items a typical SME uses.\n                    Uncommon items are left blank on purpose; switch on\n                    \"Check coverage\" and the report will list the accounts that\n                    no item picks up."
 msgstr "Mẫu TT200 đi kèm đã ánh xạ các chỉ tiêu mà doanh nghiệp vừa và nhỏ thường dùng. Chỉ tiêu ít gặp cố ý để trống; bật \"Kiểm tra độ phủ ánh xạ\" để báo cáo liệt kê những tài khoản chưa chỉ tiêu nào nhặt."
 
 #. module: l10n_vn_vas_reports
@@ -912,10 +936,13 @@ msgstr "Báo cáo này không còn khả dụng"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_balance_sheet_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_book_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_flow_wizard__date_to
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_expense_ledger_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_journal_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_general_ledger_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__date_to
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__date_to
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_trial_balance_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__date_to
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__date_to
@@ -1009,6 +1036,11 @@ msgid "Vietnam Reports / Cash and Bank Book"
 msgstr "Báo cáo Việt Nam / Sổ quỹ và tiền gửi"
 
 #. module: l10n_vn_vas_reports
+#: model:res.groups,name:l10n_vn_vas_reports.group_vn_report_expense_ledger
+msgid "Vietnam Reports / Expense Ledger"
+msgstr "Báo cáo Việt Nam / Sổ chi phí SXKD"
+
+#. module: l10n_vn_vas_reports
 #: model:res.groups,name:l10n_vn_vas_reports.group_vn_report_financial_statement
 msgid "Vietnam Reports / Financial Statements"
 msgstr "Báo cáo Việt Nam / Báo cáo tài chính"
@@ -1029,6 +1061,11 @@ msgid "Vietnam Reports / Partner Ledger"
 msgstr "Báo cáo Việt Nam / Sổ chi tiết công nợ"
 
 #. module: l10n_vn_vas_reports
+#: model:res.groups,name:l10n_vn_vas_reports.group_vn_report_sales_ledger
+msgid "Vietnam Reports / Sales Ledger"
+msgstr "Báo cáo Việt Nam / Sổ chi tiết bán hàng"
+
+#. module: l10n_vn_vas_reports
 #: model:res.groups,name:l10n_vn_vas_reports.group_vn_report_trial_balance
 msgid "Vietnam Reports / Trial Balance"
 msgstr "Báo cáo Việt Nam / Bảng cân đối số phát sinh"
@@ -1043,10 +1080,13 @@ msgstr "Báo cáo Việt Nam / Bảng kê thuế GTGT"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_journal_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_general_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
@@ -1059,17 +1099,3 @@ msgstr "Xem"
 #, python-format
 msgid "Yes"
 msgstr "Có"
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: code:addons/l10n_vn_vas_reports/wizard/material_allocation_wizard.py:0
-#, python-format
-msgid "Choose at least one credited account. An allocation sheet needs to know what it allocates."
-msgstr "Chọn ít nhất một tài khoản ghi Có. Bảng phân bổ cần biết phân bổ từ đâu."
-
-#. module: l10n_vn_vas_reports
-#. odoo-python
-#: code:addons/l10n_vn_vas_reports/wizard/sales_ledger_wizard.py:0
-#, python-format
-msgid "Choose at least one revenue account."
-msgstr "Chọn ít nhất một tài khoản doanh thu."
