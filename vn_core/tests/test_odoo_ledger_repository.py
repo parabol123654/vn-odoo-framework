@@ -24,8 +24,10 @@ from ..services.general_ledger_service import (
 class TestOdooLedgerRepository(AccountTestInvoicingCommon):
 
     @classmethod
-    def setUpClass(cls, chart_template_ref=None):
-        super().setUpClass(chart_template_ref=chart_template_ref)
+    def setUpClass(cls):
+        # 18.0 dropped the chart_template_ref argument from
+        # AccountTestInvoicingCommon.setUpClass.
+        super().setUpClass()
         cls.provider = cls.env['vn.ledger.provider']
         cls.repo = cls.provider.build_ledger_repository()
         cls.journal = cls.company_data['default_journal_misc']
@@ -163,7 +165,9 @@ class TestOdooLedgerRepository(AccountTestInvoicingCommon):
     # ------------------------------------------------------------------
     def test_other_company_data_is_not_returned(self):
         """Raw SQL still goes through _apply_ir_rules, so isolation holds."""
-        other = self.setup_company_data('VAS Second Company')
+        # setup_company_data became setup_other_company in 18.0; the dict
+        # it returns carries the same keys.
+        other = self.setup_other_company(name='VAS Second Company')
         other_move = self.env['account.move'].with_company(
             other['company']).create({
                 'move_type': 'entry',
