@@ -41,10 +41,14 @@ class VnCashBookWizard(models.TransientModel):
         """
         self.ensure_one()
         prefix = self._CODE_PREFIX[self.book_type]
-        accounts = self.env['account.account'].search([
-            ('company_ids', 'in', self.company_id.id),
-            ('code', '=like', prefix + '%'),
-        ])
+        # The code is stored per company from 18.0 (code_store is company
+        # dependent) and searched in the environment's company, so the search
+        # must run as the company the book is for, not the user's current one.
+        accounts = self.env['account.account'].with_company(
+            self.company_id).search([
+                ('company_ids', 'in', self.company_id.id),
+                ('code', '=like', prefix + '%'),
+            ])
         if not accounts:
             raise UserError(_(
                 "No account with a code starting with %s was found for %s. "
