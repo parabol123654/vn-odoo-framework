@@ -1,0 +1,26 @@
+# Formatting configuration. Matches OCA conventions for the 14.0 series.
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+exclude = '''
+/(
+  \.git
+  | __pycache__
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_odoo = ["odoo"]
+known_odoo_addons = ["odoo.addons"]
+sections = [
+    "FUTURE",
+    "STDLIB",
+    "THIRDPARTY",
+    "ODOO",
+    "ODOO_ADDONS",
+    "FIRSTPARTY",
+    "LOCALFOLDER",
+]
