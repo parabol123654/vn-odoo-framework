@@ -8,6 +8,8 @@ the shipped mapping through the Domain's own validator and then check the
 arithmetic against a known set of entries.
 """
 
+from datetime import date
+
 from odoo.tests import tagged
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -28,7 +30,10 @@ class TestTT200IncomeStatement(AccountTestInvoicingCommon):
         cls.repo = cls.provider.build_mapping_repository()
 
     def _filter(self, date_from, date_to):
-        return LedgerFilter(date_from=date_from, date_to=date_to,
+        # Dates, as the wizards pass them: current Date.to_string no longer
+        # accepts a string.
+        return LedgerFilter(date_from=date.fromisoformat(date_from),
+                            date_to=date.fromisoformat(date_to),
                             company_ids=(self.env.company.id,))
 
     # ------------------------------------------------------------------
@@ -122,7 +127,7 @@ class TestTT200BalanceSheet(AccountTestInvoicingCommon):
         return self.repo.get_mapping('tt200_b01dn', (self.env.company.id,))
 
     def _filter(self):
-        return LedgerFilter(date_from=None, date_to='2026-12-31',
+        return LedgerFilter(date_from=None, date_to=date(2026, 12, 31),
                             company_ids=(self.env.company.id,))
 
     def test_mapping_is_installed(self):
