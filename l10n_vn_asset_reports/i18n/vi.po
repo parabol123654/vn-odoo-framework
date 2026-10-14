@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 07:00+0000\n"
-"PO-Revision-Date: 2026-09-03 07:00+0000\n"
+"POT-Creation-Date: 2026-10-14 16:47+0000\n"
+"PO-Revision-Date: 2026-10-14 16:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -22,17 +22,17 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: l10n_vn_asset_reports
-#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__card
-msgid "Asset cards (one card per asset)"
-msgstr "Thẻ TSCĐ (mỗi tài sản một thẻ)"
-
-#. module: l10n_vn_asset_reports
 #. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_card_wizard
 #: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
 #, python-format
 msgid "Asset Cards"
 msgstr "Thẻ tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__card
+msgid "Asset cards (one card per asset)"
+msgstr "Thẻ TSCĐ (mỗi tài sản một thẻ)"
 
 #. module: l10n_vn_asset_reports
 #: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_report_asset_card
@@ -45,17 +45,17 @@ msgid "Asset groups"
 msgstr "Nhóm tài sản"
 
 #. module: l10n_vn_asset_reports
-#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__register
-msgid "Asset register (one row per asset)"
-msgstr "Sổ TSCĐ (mỗi tài sản một dòng)"
-
-#. module: l10n_vn_asset_reports
 #. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_register_wizard
 #: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
 #, python-format
 msgid "Asset Register"
 msgstr "Sổ tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__register
+msgid "Asset register (one row per asset)"
+msgstr "Sổ TSCĐ (mỗi tài sản một dòng)"
 
 #. module: l10n_vn_asset_reports
 #: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_report_asset_register
@@ -73,11 +73,6 @@ msgid "Cancel"
 msgstr "Huỷ"
 
 #. module: l10n_vn_asset_reports
-#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__allocation
-msgid "Depreciation allocation (period cross-tab)"
-msgstr "Bảng tính và phân bổ khấu hao (bảng chéo theo kỳ)"
-
-#. module: l10n_vn_asset_reports
 #. odoo-python
 #: model:ir.actions.act_window,name:l10n_vn_asset_reports.action_vn_asset_allocation_wizard
 #: code:addons/l10n_vn_asset_reports/wizard/asset_report_wizard.py:0
@@ -89,6 +84,11 @@ msgstr "Bảng tính và phân bổ khấu hao"
 #: model:ir.ui.menu,name:l10n_vn_asset_reports.menu_vn_report_asset_allocation
 msgid "Depreciation Allocation (06-TSCD)"
 msgstr "Bảng tính và phân bổ khấu hao (06-TSCĐ)"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields.selection,name:l10n_vn_asset_reports.selection__vn_asset_report_wizard__layout__allocation
+msgid "Depreciation allocation (period cross-tab)"
+msgstr "Bảng tính và phân bổ khấu hao (bảng chéo theo kỳ)"
 
 #. module: l10n_vn_asset_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
@@ -127,6 +127,11 @@ msgid "Print PDF"
 msgstr "In PDF"
 
 #. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
+msgid "Reads the asset subledger (OCA Assets Management). By\n                    default only depreciation that reached the ledger counts,\n                    so the figures agree with accounts 211 and 214; planned\n                    depreciation joins only when asked for."
+msgstr "Đọc sổ chi tiết tài sản (OCA Assets Management). Mặc định chỉ tính khấu hao đã ghi sổ, nên số liệu khớp với TK 211 và 214; khấu hao kế hoạch chỉ vào báo cáo khi được chọn."
+
+#. module: l10n_vn_asset_reports
 #: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__layout
 #: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
 msgid "Report"
@@ -136,11 +141,6 @@ msgstr "Báo cáo"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
 msgid "Restrict to"
 msgstr "Giới hạn theo"
-
-#. module: l10n_vn_asset_reports
-#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
-msgid "Reads the asset subledger (OCA Assets Management). By default only depreciation that reached the ledger counts, so the figures agree with accounts 211 and 214; planned depreciation joins only when asked for."
-msgstr "Đọc sổ chi tiết tài sản (OCA Assets Management). Mặc định chỉ tính khấu hao đã ghi sổ, nên số liệu khớp với TK 211 và 214; khấu hao kế hoạch chỉ vào báo cáo khi được chọn."
 
 #. module: l10n_vn_asset_reports
 #: model:res.groups,name:l10n_vn_asset_reports.group_vn_report_asset
