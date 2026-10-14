@@ -63,10 +63,12 @@ class VnReportMapping(models.Model):
     line_ids = fields.One2many('vn.report.mapping.line', 'mapping_id',
                                string='Lines')
 
-    _sql_constraints = [
-        ('code_company_uniq', 'unique(code, company_id)',
-         'A mapping code must be unique per company.'),
-    ]
+    # 19.0 ignores _sql_constraints (it only logs a warning), so the
+    # uniqueness rule has to be declared as a models.Constraint.
+    _code_company_uniq = models.Constraint(
+        'unique(code, company_id)',
+        'A mapping code must be unique per company.',
+    )
 
     @api.model
     def default_for(self, report_type, company):
