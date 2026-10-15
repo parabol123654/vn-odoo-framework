@@ -6,6 +6,10 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Added
 
+- Notes to the financial statements for Thông tư 99/2025: form B09-DN (Phụ lục IV Mục 1 điểm 5), with all 53 tables of the printed form. A company on TT99 gets this form automatically.
+- The notes support the layouts TT99 prints: several figures per row (cost / fair value / provision…), fixed assets by asset class, and the two-year equity reconciliation, whose last-year lines come from last year's locked notes.
+- The "Thuyết minh" column of TT99's B01-DN and B02-DN now points at the matching note. On upgrade it is filled only where it is empty.
+- A row filled in by hand that has a check but is still empty is shown as a to-do, not as a difference.
 - Bản thuyết minh báo cáo tài chính, form B09-DNN of Thông tư 133/2016 (Phụ lục 2; Điều 81 mục 2.5): Accounting → Reporting → Vietnam (VAS) → Financial Statements.
 - The notes are kept per company and year, and locked once filed. As the circular requires, the "Số đầu năm" / "Năm trước" columns are copied from last year's locked notes; the first year they are read from the ledger and every row says so. Text carries over from last year's notes.
 - The 22 numeric tables (V.1–V.13, VI.1–VI.9) are read from the ledger with the same accounts as the balance sheet and income statement, and every total is checked against the statement line it explains. Rows the circular gives no account for (related parties, bad debts, short/long-term loans, cost of sales by kind…) are filled in by hand and checked against their total. Hand-typed figures are kept when the notes are computed again.

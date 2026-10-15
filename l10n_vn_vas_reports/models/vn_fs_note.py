@@ -325,7 +325,7 @@ class VnFsNote(models.Model):
             ledger = calculator.compute(table, year, previous_year)
             values, updates = {}, []
             for row in item.row_ids:
-                if row.source == 'formula':
+                if row.source in ('formula', 'previous'):
                     continue
                 if row.manual:
                     # Typed in by hand: every column stays as typed.
@@ -343,6 +343,18 @@ class VnFsNote(models.Model):
                     origin = 'previous'
                 values[row.code] = figure
                 updates.append((row, figure, origin))
+
+            # Rows that print another row's comparative (TT99's "… năm
+            # trước" lines): last year's figures, by way of that row.
+            for row in item.row_ids.filtered(
+                    lambda r: r.source == 'previous'):
+                source = values.get(row.template_row_id.formula.strip())
+                figure = NoteRowValueDTO(
+                    row.code,
+                    current=(source.opening or 0.0) if source else 0.0)
+                values[row.code] = figure
+                updates.append((row, figure, 'previous' if previous
+                                else 'ledger' if source else 'none'))
 
             totals = NotesCalculator.apply_formulas(table, values, rounding)
             for row in item.row_ids.filtered(lambda r: r.source == 'formula'):
@@ -399,6 +411,14 @@ class VnFsNote(models.Model):
                     % {'code': line_code, 'form': form_code}}
         expected = factor * line.amount
         difference = round_amount(row.current - expected, rounding)
+        if row.source == 'manual' and not row.manual \
+                and not is_zero(difference, rounding):
+            # A row filled in by hand that nobody has filled in yet: a to-do,
+            # not a disagreement (TT99 VII.11 "Lợi nhuận kế toán trước thuế").
+            return {'row_id': row.id, 'name': label, 'state': 'info',
+                    'expected': expected, 'actual': row.current,
+                    'difference': difference,
+                    'message': _("Not filled in yet.")}
         return {
             'row_id': row.id, 'name': label,
             'expected': expected, 'actual': row.current,
@@ -496,6 +516,8 @@ class VnFsNoteItem(models.Model):
     layout = fields.Selection(related='template_item_id.layout')
     display = fields.Selection(related='template_item_id.display')
     column_labels = fields.Char(related='template_item_id.column_labels')
+    measures = fields.Char(related='template_item_id.measures')
+    periods = fields.Selection(related='template_item_id.periods')
     guidance = fields.Text(related='template_item_id.guidance')
     show_unit = fields.Boolean(related='template_item_id.show_unit')
     content = fields.Html(sanitize=True)
@@ -524,7 +546,10 @@ class VnFsNoteItem(models.Model):
                 sign=template_row.sign,
                 side=template_row.side,
                 split_by_partner=template_row.split_by_partner,
-                movement_side=template_row.movement_side))
+                movement_side=template_row.movement_side,
+                figure=(template_row.figure or ''
+                        if template_row.source == 'ledger' else ''),
+                maturity=template_row.maturity or 'all'))
         return NoteTableDTO(
             code=self.reference or str(self.template_item_id.id),
             layout=self.layout, rows=tuple(rows),
@@ -544,6 +569,36 @@ class VnFsNoteItem(models.Model):
         'equity': ('Số dư đầu năm', 'Tăng vốn trong năm',
                    'Giảm vốn trong năm', 'Số dư cuối năm'),
     }
+
+    def print_grid(self):
+        """A table with several measures, laid out as the form prints it.
+
+        -> ``(period_headers, measure_headers, lines)``. ``period_headers`` is
+        ``[(label, span), …]`` or empty when the table has one column per
+        measure; ``lines`` is ``[(label_row, [(row or None, field), …]), …]``
+        with one cell per printed column.
+        """
+        self.ensure_one()
+        measures = (self.measures or '').split('|')
+        if self.periods == 'current':
+            periods = [('', 'current')]
+        else:
+            labels = (tuple(self.column_labels.split('|'))
+                      if self.column_labels
+                      else self.DEFAULT_LABELS.get(self.layout, ('', '')))
+            periods = list(zip(labels, ('current', 'comparative')))
+        lines = {}
+        for row in self.row_ids.filtered(lambda r: r.printed):
+            lines.setdefault(row.line or row.code, {})[row.measure] = row
+        grid = []
+        for cells in lines.values():
+            label = cells.get(0) or cells[min(cells)]
+            grid.append((label, [(cells.get(index), field)
+                                 for _label, field in periods
+                                 for index in range(len(measures))]))
+        period_headers = ([(label, len(measures)) for label, _f in periods]
+                          if self.periods != 'current' else [])
+        return period_headers, measures * len(periods), grid
 
     def print_columns(self):
         """-> ((heading, field name), ...) in the order the form prints.
@@ -583,6 +638,8 @@ class VnFsNoteRow(models.Model):
     name = fields.Char(related='template_row_id.name')
     style = fields.Selection(related='template_row_id.style')
     printed = fields.Boolean(related='template_row_id.printed')
+    measure = fields.Integer(related='template_row_id.measure')
+    line = fields.Char(related='template_row_id.line')
     indent = fields.Integer(related='template_row_id.indent')
     source = fields.Selection(related='template_row_id.source')
     source_note = fields.Char(related='template_row_id.source_note')
@@ -610,7 +667,7 @@ class VnFsNoteRow(models.Model):
         self.note_id._check_editable()
         if not self.env.context.get('vn_fs_note_compute') \
                 and set(vals) & set(VALUE_FIELDS) and 'manual' not in vals:
-            if any(row.source == 'formula' for row in self):
+            if any(row.source in ('formula', 'previous') for row in self):
                 raise UserError(_(
                     "A total is computed from the rows above it; change "
                     "those instead."))

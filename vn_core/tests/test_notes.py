@@ -207,3 +207,54 @@ class TestValidation(_Base):
             NoteRowDTO('a', formula='b'), NoteRowDTO('b', formula='a')))
         with self.assertRaises(MappingException):
             self.calc.compute(table, YEAR)
+
+
+#: TT99 V.9 style: one table whose rows are the opening balance, the year's
+#: purchases and disposals, the depreciation charge and the closing balance.
+ASSET_MATRIX = NoteTableDTO(
+    code='V9', layout='balance', rows=(
+        NoteRowDTO('open', expression='2111*', figure='opening'),
+        NoteRowDTO('bought', expression='2111*', figure='debit'),
+        NoteRowDTO('sold', expression='2111*', sign=-1, figure='credit'),
+        NoteRowDTO('close', expression='2111*'),
+        NoteRowDTO('rolled', formula='open + bought - sold'),
+        NoteRowDTO('charge', expression='2141*', sign=-1, figure='credit'),
+    ))
+
+
+class TestRowFigures(_Base):
+
+    def test_each_row_reads_its_own_figure(self):
+        """Cost: 1,000 at the start, 500 bought, 200 disposed, 1,300 at the
+        end; 120 depreciation charged."""
+        values = self._all(ASSET_MATRIX, previous=LAST_YEAR)
+        self.assertEqual(
+            [values[c].current for c in ('open', 'bought', 'sold', 'close',
+                                         'charge')],
+            [1000.0, 500.0, 200.0, 1300.0, 120.0])
+
+    def test_rows_reconcile(self):
+        values = self._all(ASSET_MATRIX, previous=LAST_YEAR)
+        self.assertEqual(values['rolled'].current, values['close'].current)
+
+    def test_comparative_is_the_same_figure_a_year_earlier(self):
+        """2025: opening 0, bought 1,000, nothing disposed, closing 1,000,
+        depreciation 100."""
+        values = self._all(ASSET_MATRIX, previous=LAST_YEAR)
+        self.assertEqual(
+            [values[c].opening for c in ('open', 'bought', 'sold', 'close',
+                                         'charge')],
+            [0.0, 1000.0, 0.0, 1000.0, 100.0])
+
+    def test_movement_figures_leave_out_the_year_end_transfer(self):
+        """The transfer debits 511 by 900; the debit figure is the return."""
+        table = NoteTableDTO('VII2', 'balance', closing_expression='911*',
+                             rows=(NoteRowDTO('returns', expression='511*',
+                                              figure='debit'),))
+        self.assertEqual(self._all(table)['returns'].current, 100.0)
+
+    def test_unknown_figure(self):
+        table = NoteTableDTO('x', 'balance', rows=(
+            NoteRowDTO('a', expression='111*', figure='sideways'),))
+        with self.assertRaises(MappingException):
+            self.calc.compute(table, YEAR)
