@@ -124,3 +124,20 @@ class VnVatDeclarationQwebReport(models.AbstractModel):
     _inherit = 'report.vn.qweb.mixin'
     _description = 'VAT Declaration QWeb Report'
     _wizard_model = 'vn.vat.declaration.wizard'
+
+
+class VnFsNoteQwebReport(models.AbstractModel):
+    """The notes are a stored record, not a wizard: values come from it."""
+    _name = 'report.l10n_vn_vas_reports.report_fs_note'
+    _description = 'Notes to the Financial Statements QWeb Report'
+
+    def _get_report_values(self, docids, data=None):
+        note = self.env['vn.fs.note'].browse(docids)
+        note.ensure_one()
+        values = note._template_values()
+        values.update({
+            'doc_ids': docids,
+            'doc_model': note._name,
+            'docs': note,
+        })
+        return values

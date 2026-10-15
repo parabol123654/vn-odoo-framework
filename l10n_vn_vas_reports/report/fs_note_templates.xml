@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 19.0 Community Edition -->
+<odoo>
+
+    <!--
+        Bản thuyết minh BCTC (B09). Đầu biểu, tiêu đề và chân biểu theo mẫu của
+        thông tư (TT133 Phụ lục 2 phần I mục 6); mọi con số đã tính sẵn trong
+        vn.fs.note, template chỉ trình bày.
+
+        Không dùng vn_print_layout: chân trang của nó in "Người in / Ngày in"
+        lấy từ bản ghi, mà bản thuyết minh được tạo từ trước khi in.
+    -->
+    <template id="fs_note_amount">
+        <t t-if="row.style != 'heading'">
+            <span t-out="row[column]"
+                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+        </t>
+    </template>
+
+    <template id="fs_note_table">
+        <t t-set="rows" t-value="item.row_ids.filtered(lambda r: r.printed)"/>
+        <t t-set="columns" t-value="item.print_columns()"/>
+
+        <!-- Vốn chủ sở hữu: mẫu xoay bảng, dòng thành cột. -->
+        <table t-if="item.display == 'equity' and item.layout == 'movement'"
+               class="table table-sm o_vn_table o_vn_note_table">
+            <thead>
+                <tr>
+                    <th rowspan="2">Nội dung</th>
+                    <th t-att-colspan="len(rows)" class="text-center">
+                        Các khoản mục thuộc vốn chủ sở hữu
+                    </th>
+                </tr>
+                <tr>
+                    <th t-foreach="rows" t-as="row" class="text-center"
+                        t-out="row.name"/>
+                </tr>
+                <tr class="o_vn_col_numbers">
+                    <th class="text-center">A</th>
+                    <th t-foreach="rows" t-as="row" class="text-center"
+                        t-out="row_index + 1"/>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="columns" t-as="column_def">
+                    <t t-set="column" t-value="column_def[1]"/>
+                    <td t-out="column_def[0]"/>
+                    <td t-foreach="rows" t-as="row" class="o_vn_col_amount">
+                        <t t-call="l10n_vn_vas_reports.fs_note_amount"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table t-else="" class="table table-sm o_vn_table o_vn_note_table">
+            <thead>
+                <tr t-if="item.display == 'loan' and item.layout == 'movement'">
+                    <th rowspan="2"/>
+                    <th rowspan="2" class="o_vn_col_amount" t-out="columns[0][0]"/>
+                    <th colspan="2" class="text-center">Trong năm</th>
+                    <th rowspan="2" class="o_vn_col_amount" t-out="columns[3][0]"/>
+                </tr>
+                <tr t-if="item.display == 'loan' and item.layout == 'movement'">
+                    <th class="o_vn_col_amount" t-out="columns[1][0]"/>
+                    <th class="o_vn_col_amount" t-out="columns[2][0]"/>
+                </tr>
+                <tr t-if="not (item.display == 'loan' and item.layout == 'movement')">
+                    <th t-out="'Khoản mục' if item.layout == 'movement' else ''"/>
+                    <th t-foreach="columns" t-as="column_def"
+                        class="o_vn_col_amount" t-out="column_def[0]"/>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="rows" t-as="row"
+                    t-att-class="'o_vn_row_bold' if row.style in ('bold', 'heading') else 'o_vn_row_italic' if row.style == 'italic' else ''">
+                    <td t-att-style="'padding-left: %dem' % (row.indent + 0.3)"
+                        t-out="row.name"/>
+                    <td t-foreach="columns" t-as="column_def" class="o_vn_col_amount">
+                        <t t-set="column" t-value="column_def[1]"/>
+                        <t t-call="l10n_vn_vas_reports.fs_note_amount"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <template id="report_fs_note">
+        <t t-call="web.html_container">
+            <div class="article o_vn_print_article"
+                 t-att-data-oe-model="doc._name" t-att-data-oe-id="doc.id">
+                <div class="page o_vn_report o_vn_report_print o_vn_fs_note">
+                    <div class="o_vn_form_header">
+                        <div class="row">
+                            <div class="col-7">
+                                <div>Đơn vị báo cáo: <span t-field="company.name"/></div>
+                                <div t-if="company.partner_id.contact_address">
+                                    Địa chỉ: <span t-out="company.partner_id.contact_address.replace('\n', ' ').strip()"/>
+                                </div>
+                            </div>
+                            <div class="col-5 text-right o_vn_form_code">
+                                <div>Mẫu số <strong t-out="form_code"/></div>
+                                <div class="o_vn_form_legal" t-if="form_legal">
+                                    <t t-out="form_legal[0]"/><br/><t t-out="form_legal[1]"/>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-center o_vn_form_title" t-out="form_title"/>
+                        <div class="text-center o_vn_form_period">
+                            Năm <t t-out="doc.date_to.year"/>
+                        </div>
+                        <div class="text-center" t-if="doc.template_id.form_subtitle"
+                             t-out="doc.template_id.form_subtitle"/>
+                    </div>
+
+                    <t t-foreach="doc.item_ids.filtered(lambda i: not i.hidden)" t-as="item">
+                        <div t-att-class="'o_vn_note_item o_vn_note_level_%d' % item.level">
+                            <div t-if="item.level == 0" class="o_vn_note_section">
+                                <strong><t t-out="item.number"/> <t t-out="item.name"/></strong>
+                                <div t-if="item.show_unit" class="o_vn_form_unit">
+                                    Đơn vị tính: <t t-out="currency.name"/>
+                                </div>
+                            </div>
+                            <div t-else="" class="o_vn_note_title">
+                                <t t-out="item.number"/> <t t-out="item.name"/>
+                            </div>
+                            <t t-if="item.kind == 'table'"
+                               t-call="l10n_vn_vas_reports.fs_note_table"/>
+                            <div t-if="item.content" class="o_vn_note_text"
+                                 t-out="item.content"/>
+                        </div>
+                    </t>
+
+                    <div class="row o_vn_signature">
+                        <div class="col-4 text-center">
+                            <div class="o_vn_signature_role" t-out="form_preparer.upper()"/>
+                            <div class="o_vn_signature_hint">(Ký, họ tên)</div>
+                            <div class="o_vn_signature_name" t-out="doc.preparer_name"/>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="o_vn_signature_role">KẾ TOÁN TRƯỞNG</div>
+                            <div class="o_vn_signature_hint">(Ký, họ tên)</div>
+                            <div class="o_vn_signature_name" t-out="doc.chief_accountant_name"/>
+                        </div>
+                        <div class="col-4 text-center">
+                            <div class="o_vn_signature_date">
+                                <t t-if="doc.report_date">
+                                    Lập, ngày <t t-out="doc.report_date.day"/>
+                                    tháng <t t-out="doc.report_date.month"/>
+                                    năm <t t-out="doc.report_date.year"/>
+                                </t>
+                                <t t-else="">Lập, ngày ... tháng ... năm ...</t>
+                            </div>
+                            <div class="o_vn_signature_role" t-out="form_signer.upper()"/>
+                            <div class="o_vn_signature_hint">(Ký, họ tên, đóng dấu)</div>
+                            <div class="o_vn_signature_name" t-out="doc.representative_name"/>
+                        </div>
+                    </div>
+
+                    <div class="o_vn_note_footnote" t-if="doc.template_id.footnote">
+                        <t t-out="doc.template_id.footnote"/>
+                        <div t-if="doc.accounting_service" t-out="doc.accounting_service"/>
+                    </div>
+                </div>
+            </div>
+            <div class="footer o_vn_print_footer">
+                <div class="text-right">
+                    Trang <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
