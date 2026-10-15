@@ -2,7 +2,8 @@
 
 Vietnamese statutory accounting books, financial statements and VAT returns
 under the Vietnamese Accounting Standards (VAS), for **Odoo 14 Community
-Edition**. Supports **Circular 200 (TT200)** and **Circular 133 (TT133)**.
+Edition**. Supports **Circular 99 (TT99, from 2026)**, **Circular 200 (TT200)**
+and **Circular 133 (TT133)**.
 
 Every report has an on-screen viewer (collapsible groups, filters, click through
 to the journal entry), a PDF print sharing the same QWeb template, and an Excel
@@ -13,7 +14,7 @@ export.
 | Module | Depends on | Purpose |
 | --- | --- | --- |
 | `vn_core` | `account` | Reporting engines, statement mapping model. Nothing Vietnam-specific. |
-| `l10n_vn_vas_reports` | `vn_core` | Books, financial statements, VAT returns, cash vouchers, TT200/TT133 mappings |
+| `l10n_vn_vas_reports` | `vn_core` | Books, financial statements, VAT returns, cash vouchers, TT99/TT200/TT133 mappings |
 | `l10n_vn_stock_reports` | `stock_account` | Inventory books |
 | `l10n_vn_mrp_reports` | `mrp`, `stock_account` | Production cost reports |
 | `l10n_vn_asset_reports` | OCA `account_asset_management` | Fixed asset books |
@@ -27,16 +28,17 @@ install Inventory or Manufacturing to get the accounting books.
 | --- | --- | --- |
 | Sổ Nhật ký chung | S03a-DN | Accounting books |
 | Sổ Cái | S03b-DN | Accounting books |
-| Bảng cân đối số phát sinh | S06-DN | Accounting books |
+| Bảng cân đối số phát sinh / Bảng cân đối tài khoản | S06-DN · F01-DNN | Accounting books |
 | Sổ chi tiết thanh toán với người mua (người bán) | S31-DN | Detail books |
 | Sổ quỹ tiền mặt / Sổ tiền gửi ngân hàng | S07-DN / S08-DN | Detail books |
 | Sổ chi tiết bán hàng | S35-DN | Detail books |
 | Sổ chi phí sản xuất, kinh doanh | S36-DN | Detail books |
 | Bảng phân bổ nguyên liệu, vật liệu, công cụ, dụng cụ | 07-VT | Detail books |
 | Công nợ phải thu / phải trả theo tuổi nợ | management | Detail books |
-| Bảng cân đối kế toán / Báo cáo tình hình tài chính | B01-DN · B01a-DNN | Financial statements |
+| Bảng cân đối kế toán / Báo cáo tình hình tài chính | B01-DN · B01a-DNN · B01b-DNN | Financial statements |
 | Báo cáo kết quả hoạt động kinh doanh | B02-DN · B02-DNN | Financial statements |
-| Báo cáo lưu chuyển tiền tệ | B03-DN direct · B03-DNN indirect | Financial statements |
+| Báo cáo lưu chuyển tiền tệ | B03-DN direct · B03-DNN indirect or direct | Financial statements |
+| Bản thuyết minh báo cáo tài chính | B09-DN · B09-DNN | Financial statements |
 | Bảng kê hoá đơn bán ra / mua vào | 01/GTGT annex | Tax |
 | Tờ khai thuế giá trị gia tăng | 01/GTGT | Tax |
 | Bảng tổng hợp Nhập - Xuất - Tồn | S11-DN | Inventory |
@@ -80,7 +82,7 @@ works with `l10n_vn` or any other chart of accounts.
 
 ## Configuration
 
-* **Settings → Companies → Accounting circular**: TT200 or TT133. Financial
+* **Settings → Companies → Accounting circular**: TT99, TT200 or TT133. Financial
   statements pick the matching layout automatically.
 * **Accounting → Configuration → Statement Mappings**: the lines of each
   financial statement. Accounts are selected by expression (`511*`,

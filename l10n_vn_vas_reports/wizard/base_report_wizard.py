@@ -22,6 +22,32 @@ from ..report.xlsx_layouts import LAYOUTS as XLSX_LAYOUTS
 from ..report.xlsx_writer import VnXlsxWriter
 
 
+#: The line printed under "Mẫu số", per accounting regime (Phụ lục 2 and 4 of
+#: each circular). Statutory text, so not translated.
+FORM_LEGAL_LINE = {
+    'TT200': ('(Ban hành theo Thông tư số 200/2014/TT-BTC', 'ngày 22/12/2014 '
+              'của Bộ Tài chính)'),
+    'TT133': ('(Ban hành theo Thông tư số 133/2016/TT-BTC', 'ngày 26/8/2016 '
+              'của Bộ Tài chính)'),
+    # TT99 prints "Kèm theo", not "Ban hành theo" (Công báo 1577+1578).
+    'TT99': ('(Kèm theo Thông tư số 99/2025/TT-BTC ngày 27 tháng 10 năm 2025',
+             'của Bộ trưởng Bộ Tài chính)'),
+}
+
+#: Who signs a statement on the right. TT133's forms say "Người đại diện theo
+#: pháp luật"; TT200's say "Giám đốc".
+FORM_SIGNER = {
+    'TT200': 'Giám đốc',
+    'TT133': 'Người đại diện theo pháp luật',
+    'TT99': 'Người đại diện theo pháp luật',
+}
+
+#: The left signature. TT99's forms say "Người lập".
+FORM_PREPARER = {
+    'TT99': 'Người lập',
+}
+
+
 def _default_date_from(record):
     today = fields.Date.context_today(record)
     return today.replace(month=1, day=1)
@@ -91,6 +117,35 @@ class VnReportWizardMixin(models.AbstractModel):
     def _report_form_code(self):
         """Statutory form number printed top-right, e.g. "S03b-DN"."""
         return ''
+
+    def _circular(self):
+        """The accounting regime the company reports under."""
+        self.ensure_one()
+        return self.company_id.vn_accounting_circular or 'TT200'
+
+    def _by_circular(self, values):
+        """Pick the value for the company's circular, TT200's by default.
+
+        Book numbers differ between the circulars rather than by a suffix:
+        TT200's S07-DN cash book is S04a-DNN under TT133, and TT200's S06-DN
+        trial balance is TT133's F01-DNN while S06-DNN is another book.
+        """
+        return values.get(self._circular(), values.get('TT200', ''))
+
+    def _form_legal_line(self):
+        """The "(Ban hành theo …)" lines under the form number.
+
+        Empty for a form no accounting circular prescribes, such as a tax
+        return: printing a circular there would state a legal basis the form
+        does not have.
+        """
+        return FORM_LEGAL_LINE.get(self._circular(), ())
+
+    def _form_signer(self):
+        return FORM_SIGNER.get(self._circular(), FORM_SIGNER['TT200'])
+
+    def _form_preparer(self):
+        return FORM_PREPARER.get(self._circular(), 'Người lập biểu')
 
     def _report_form_title(self):
         """The Vietnamese heading printed on the statutory form.
@@ -296,6 +351,9 @@ class VnReportWizardMixin(models.AbstractModel):
             'title': self._report_title(),
             'form_title': self._report_form_title(),
             'form_code': self._report_form_code(),
+            'form_legal': self._form_legal_line(),
+            'form_signer': self._form_signer(),
+            'form_preparer': self._form_preparer(),
             'filter_summary': self._filter_summary(),
             'interactive': False,
         }

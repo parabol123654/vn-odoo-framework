@@ -21,6 +21,9 @@
             <field name="report_type">income_statement</field>
             <field name="basis">movement</field>
             <field name="version">TT200</field>
+            <field name="closing_expression">911*,421*</field>
+            <field name="form_code">B02-DN</field>
+            <field name="form_title">BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH</field>
         </record>
 
         <record id="b02dn_01" model="vn.report.mapping.line">
