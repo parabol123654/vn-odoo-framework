@@ -32,10 +32,13 @@ class VnTrialBalanceWizard(models.TransientModel):
         return _('Trial Balance')
 
     def _report_form_code(self):
-        return 'S06-DN'
+        # Under TT133 this is the F01-DNN that goes to the tax authority with
+        # the statements (Điều 71, Điều 83); S06-DNN is a different book.
+        return self._by_circular({'TT200': 'S06-DN', 'TT133': 'F01-DNN'})
 
     def _report_form_title(self):
-        return 'BẢNG CÂN ĐỐI SỐ PHÁT SINH'
+        return self._by_circular({'TT200': 'BẢNG CÂN ĐỐI SỐ PHÁT SINH',
+                                  'TT133': 'BẢNG CÂN ĐỐI TÀI KHOẢN'})
 
     def _screen_template(self):
         return 'l10n_vn_vas_reports.trial_balance_screen'
