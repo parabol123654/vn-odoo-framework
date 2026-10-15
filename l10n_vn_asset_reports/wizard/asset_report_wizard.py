@@ -87,11 +87,13 @@ class VnAssetReportWizard(models.TransientModel):
     def _report_form_code(self):
         # 'S21-DN' is the register, 'S23-DN' the card. The allocation sheet is
         # mẫu 06-TSCĐ of the chứng từ appendix.
+        # TT133 numbers the register S09-DNN and the card S11-DNN; 06-TSCĐ
+        # is the same voucher in both circulars.
         if self.layout == 'card':
-            return 'S23-DN'
+            return self._by_circular({'TT200': 'S23-DN', 'TT133': 'S11-DNN'})
         if self.layout == 'allocation':
             return '06-TSCĐ'
-        return 'S21-DN'
+        return self._by_circular({'TT200': 'S21-DN', 'TT133': 'S09-DNN'})
 
     def _report_form_title(self):
         if self.layout == 'card':

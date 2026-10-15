@@ -53,6 +53,8 @@ class OdooMappingRepository(IMappingRepository, BaseRepository):
                     note_ref=line.note_ref or '',
                     visible=line.visible,
                     bold=line.bold,
+                    movement_side=line.movement_side or 'net',
+                    maturity=line.maturity or 'all',
                 )
                 for line in mapping.line_ids.sorted(
                     key=lambda l: (l.sequence, l.code))
@@ -66,5 +68,8 @@ class OdooMappingRepository(IMappingRepository, BaseRepository):
             balance_check=mapping.balance_check or '',
             cash_expression=mapping.cash_expression or '',
             cash_flow_method=mapping.cash_flow_method or 'direct',
+            closing_expression=mapping.closing_expression or '',
+            form_code=mapping.form_code or '',
+            form_title=mapping.form_title or '',
             lines=lines,
         )
