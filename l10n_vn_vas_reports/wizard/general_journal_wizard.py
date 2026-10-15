@@ -31,7 +31,7 @@ class VnGeneralJournalWizard(models.TransientModel):
         return _('General Journal')
 
     def _report_form_code(self):
-        return 'S03a-DN'
+        return self._by_circular({'TT200': 'S03a-DN', 'TT133': 'S03a-DNN'})
 
     def _report_form_title(self):
         return 'SỔ NHẬT KÝ CHUNG'

@@ -31,7 +31,8 @@ AML = 'account.move.line'
 ALIAS = '"account_move_line"'
 
 # Whitelist of groupable columns. Guards the interpolated GROUP BY.
-GROUPABLE = ('account_id', 'partner_id', 'journal_id', 'analytic_account_id')
+GROUPABLE = ('account_id', 'partner_id', 'journal_id', 'analytic_account_id',
+             'long_term')
 
 
 class OdooLedgerRepository(ILedgerRepository, BaseRepository):
@@ -133,12 +134,28 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
             account_ids=account_ids, company_ids=company_ids)
         from_clause, where_clause, params = self._query_parts(domain)
 
+        # long_term is not a column: an item due after the filter's
+        # long_term_after date. Its parameter precedes the FROM/WHERE ones
+        # because it comes first in the statement.
+        columns, select_params = [], []
+        for field in group_by:
+            if field == 'long_term':
+                if ledger_filter.long_term_after:
+                    columns.append('(%s.date_maturity > %%s)' % ALIAS)
+                    select_params.append(odoo_fields.Date.to_string(
+                        ledger_filter.long_term_after))
+                else:
+                    columns.append('FALSE')
+            else:
+                columns.append('%s.%s' % (ALIAS, field))
+        params = select_params + params
         select_group = ''.join(
-            '%s.%s AS %s, ' % (ALIAS, field, field) for field in group_by)
+            '%s AS %s, ' % (column, field)
+            for column, field in zip(columns, group_by))
         group_clause = ''
         if group_by:
             group_clause = 'GROUP BY ' + ', '.join(
-                '%s.%s' % (ALIAS, field) for field in group_by)
+                str(index + 1) for index in range(len(group_by)))
 
         sql = """
             SELECT {select_group}
@@ -319,7 +336,25 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
         ):
             if values:
                 domain.append((field, 'in', list(values)))
+
+        if ledger_filter.exclude_move_account_ids:
+            domain.append(('move_id', 'not in', self._moves_touching(
+                ledger_filter.exclude_move_account_ids, companies,
+                date_from, date_to)))
         return domain
+
+    def _moves_touching(self, account_ids, company_ids, date_from, date_to):
+        """Ids of the entries in the window holding a line on these accounts.
+
+        Read with the ORM so record rules apply; only ids leave the method.
+        """
+        domain = [('company_id', 'in', list(company_ids)),
+                  ('account_id', 'in', list(account_ids)),
+                  ('date', '<=', odoo_fields.Date.to_string(date_to))]
+        if date_from:
+            domain.append(('date', '>=', odoo_fields.Date.to_string(date_from)))
+        groups = self.env[AML]._read_group(domain, ['move_id'])
+        return [move.id for (move,) in groups]
 
     def _query_parts(self, domain):
         """``(from_clause, where_clause, params)`` with record rules applied."""

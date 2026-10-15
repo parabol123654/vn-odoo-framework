@@ -59,7 +59,7 @@ class VnGeneralLedgerWizard(models.TransientModel):
         return _('General Ledger')
 
     def _report_form_code(self):
-        return 'S03b-DN'
+        return self._by_circular({'TT200': 'S03b-DN', 'TT133': 'S03b-DNN'})
 
     def _report_form_title(self):
         return 'SỔ CÁI'
