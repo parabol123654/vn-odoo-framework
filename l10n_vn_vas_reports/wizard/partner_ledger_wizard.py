@@ -67,7 +67,7 @@ class VnPartnerLedgerWizard(models.TransientModel):
         return _('Partner Ledger')
 
     def _report_form_code(self):
-        return 'S31-DN'
+        return self._by_circular({'TT200': 'S31-DN', 'TT133': 'S12-DNN'})
 
     def _report_form_title(self):
         return 'SỔ CHI TIẾT THANH TOÁN VỚI NGƯỜI MUA (NGƯỜI BÁN)'
