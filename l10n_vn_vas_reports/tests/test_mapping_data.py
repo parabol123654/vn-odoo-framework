@@ -314,3 +314,308 @@ class TestCircularSwitch(AccountTestInvoicingCommon):
         mapping = self.mappings.search([('code', '=', 'tt133_b03dnn')])
         self.assertEqual(mapping.balance_check, '70=__closing_cash__')
         self.assertTrue(mapping.cash_expression)
+
+
+def _account_factory(env, company):
+    """``account(code, kind, reconcile=False)`` creating a test account.
+
+    15.0 types an account by user_type_id (account.data_account_type_*); there
+    is no account_type selection. ``retained`` is the 421 profit account: the
+    unaffected-earnings type when the chart has none yet (only one is allowed
+    per company), plain equity otherwise.
+    """
+    Account = env['account.account']
+    unaffected = env.ref('account.data_unaffected_earnings')
+    has_unaffected = bool(Account.search([
+        ('user_type_id', '=', unaffected.id),
+        ('company_id', '=', company.id)], limit=1))
+
+    def account(code, kind, reconcile=False):
+        if kind == 'retained':
+            user_type = (env.ref('account.data_account_type_equity')
+                         if has_unaffected else unaffected)
+        else:
+            user_type = env.ref('account.data_account_type_%s' % kind)
+        return Account.create({
+            'code': code, 'name': 'VN %s' % code,
+            'user_type_id': user_type.id, 'reconcile': reconcile,
+            'company_id': company.id,
+        })
+    return account
+
+
+@tagged('post_install', '-at_install')
+class TestTT133Statements(AccountTestInvoicingCommon):
+    """The shipped TT133 forms against figures worked out by hand.
+
+    The test chart has no Vietnamese codes, so the accounts the forms read
+    are created here with codes no generic chart uses.
+    """
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.env.company
+        cls.company.vn_accounting_circular = 'TT133'
+        cls.provider = cls.env['vn.ledger.provider']
+        cls.engine = cls.provider.build_financial_statement_engine()
+        account = _account_factory(cls.env, cls.company)
+
+        cls.bank = account('112199', 'liquidity')
+        cls.customer = account('131199', 'receivable', True)
+        cls.allowance = account('229399', 'current_assets')
+        cls.capital = account('411199', 'equity')
+        cls.retained = account('421299', 'retained')
+        cls.revenue = account('511199', 'revenue')
+        cls.cogs = account('632199', 'direct_costs')
+        cls.provision_cost = account('642299', 'expenses')
+        cls.journal = cls.company_data['default_journal_misc']
+
+    def _post(self, day, *pairs):
+        move = self.env['account.move'].create({
+            'move_type': 'entry', 'date': day, 'journal_id': self.journal.id,
+            'line_ids': [
+                (0, 0, {'account_id': account.id, 'name': 'x',
+                        'debit': amount if amount > 0 else 0.0,
+                        'credit': -amount if amount < 0 else 0.0})
+                for account, amount in pairs],
+        })
+        move.action_post()
+        return move
+
+    def _filter(self, date_from, date_to):
+        return LedgerFilter(
+            date_from=date.fromisoformat(date_from) if date_from else None,
+            date_to=date.fromisoformat(date_to),
+            company_ids=(self.company.id,))
+
+    def _books(self):
+        """Capital 900, sale 1,000 on credit, cost 600 paid, allowance 100,
+        then the year-end transfer straight to 421."""
+        self._post('2026-01-02', (self.bank, 900.0), (self.capital, -900.0))
+        self._post('2026-03-01', (self.customer, 1000.0),
+                   (self.revenue, -1000.0))
+        self._post('2026-03-02', (self.cogs, 600.0), (self.bank, -600.0))
+        self._post('2026-12-30', (self.provision_cost, 100.0),
+                   (self.allowance, -100.0))
+        self._post('2026-12-31', (self.revenue, 1000.0), (self.cogs, -600.0),
+                   (self.provision_cost, -100.0), (self.retained, -300.0))
+
+    def test_b01a_allowance_is_deducted(self):
+        """Receivable 1,000 less allowance (100); assets 1,300 = capital
+        900 + profit 300 + ... and the form balances."""
+        self._books()
+        report = self.engine.compute(self._filter(None, '2026-12-31'),
+                                     'tt133_b01adnn')
+        self.assertEqual(report.by_code('131').amount, 1000.0)
+        self.assertEqual(report.by_code('136').amount, -100.0)
+        self.assertEqual(report.by_code('130').amount, 900.0)
+        self.assertEqual(report.by_code('110').amount, 300.0)
+        self.assertEqual(report.by_code('200').amount, 1200.0)
+        self.assertEqual(report.by_code('411').amount, 900.0)
+        self.assertEqual(report.by_code('417').amount, 300.0)
+        self.assertEqual(report.by_code('500').amount, 1200.0)
+        self.assertTrue(report.balance_check.is_balanced)
+
+    def test_b02_reads_the_year_before_the_transfer(self):
+        self._books()
+        report = self.engine.compute(
+            self._filter('2026-01-01', '2026-12-31'), 'tt133_b02dnn')
+        self.assertEqual(report.by_code('01').amount, 1000.0)
+        self.assertEqual(report.by_code('02').amount, 0.0)
+        self.assertEqual(report.by_code('11').amount, 600.0)
+        self.assertEqual(report.by_code('24').amount, 100.0)
+        self.assertEqual(report.by_code('60').amount, 300.0)
+
+    def test_b03_indirect_reconciles_to_cash(self):
+        self._books()
+        report = self.engine.compute(
+            self._filter('2026-01-01', '2026-12-31'), 'tt133_b03dnn')
+        self.assertEqual(report.by_code('70').amount, 300.0)
+        self.assertTrue(report.balance_check.is_balanced)
+
+    def test_b01b_balances(self):
+        self._books()
+        report = self.engine.compute(self._filter(None, '2026-12-31'),
+                                     'tt133_b01bdnn')
+        self.assertEqual(report.by_code('131').amount, 1000.0)
+        self.assertEqual(report.by_code('211').amount, 0.0)
+        self.assertTrue(report.balance_check.is_balanced)
+
+    def test_company_picks_b01b_and_the_direct_method(self):
+        Mapping = self.env['vn.report.mapping']
+        self.assertEqual(
+            Mapping.default_for('balance_sheet', self.company).code,
+            'tt133_b01adnn')
+        self.company.vn_balance_sheet_mapping_id = self.env.ref(
+            'l10n_vn_vas_reports.mapping_tt133_b01bdnn')
+        self.company.vn_cash_flow_mapping_id = self.env.ref(
+            'l10n_vn_vas_reports.mapping_tt133_b03dnn_direct')
+        self.assertEqual(
+            Mapping.default_for('balance_sheet', self.company).code,
+            'tt133_b01bdnn')
+        self.assertEqual(
+            Mapping.default_for('cash_flow', self.company).code,
+            'tt133_b03dnn_direct')
+        # A choice from another circular is ignored, not printed.
+        self.company.vn_accounting_circular = 'TT200'
+        self.assertEqual(
+            Mapping.default_for('balance_sheet', self.company).code,
+            'tt200_b01dn')
+
+    def test_printed_form_follows_the_circular(self):
+        cases = (
+            ('vn.balance.sheet.wizard', {}, 'B01a-DNN', 'B01-DN'),
+            ('vn.income.statement.wizard', {}, 'B02-DNN', 'B02-DN'),
+            ('vn.trial.balance.wizard', {}, 'F01-DNN', 'S06-DN'),
+            ('vn.general.ledger.wizard', {}, 'S03b-DNN', 'S03b-DN'),
+            ('vn.cash.book.wizard', {'book_type': 'cash'}, 'S04a-DNN',
+             'S07-DN'),
+            ('vn.partner.ledger.wizard', {}, 'S12-DNN', 'S31-DN'),
+        )
+        for model, values, tt133, tt200 in cases:
+            self.company.vn_accounting_circular = 'TT133'
+            wizard = self.env[model].create(values)
+            self.assertEqual(wizard._report_form_code(), tt133, model)
+            self.assertIn('133/2016', wizard._form_legal_line()[0], model)
+            self.assertEqual(wizard._form_signer(),
+                             'Người đại diện theo pháp luật')
+            self.company.vn_accounting_circular = 'TT200'
+            wizard = self.env[model].create(values)
+            self.assertEqual(wizard._report_form_code(), tt200, model)
+            self.assertIn('200/2014', wizard._form_legal_line()[0], model)
+
+    def test_tax_return_states_no_accounting_circular(self):
+        wizard = self.env['vn.vat.declaration.wizard'].create({})
+        self.assertFalse(wizard._form_legal_line())
+
+
+class _RegimeBooks(AccountTestInvoicingCommon):
+    """One small set of books, worked out by hand, for any circular.
+
+    Capital 900, sale 1,000 on credit, cost 600 paid, allowance 100 on the
+    receivable, then the year-end transfer straight to 421: cash 300,
+    receivable 1,000 less 100, capital 900, profit 300.
+    """
+
+    CIRCULAR = 'TT200'
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        cls.company = cls.env.company
+        cls.company.vn_accounting_circular = cls.CIRCULAR
+        cls.engine = cls.env['vn.ledger.provider'] \
+            .build_financial_statement_engine()
+        cls.cash_engine = cls.env['vn.ledger.provider'].build_cash_flow_engine()
+        account = _account_factory(cls.env, cls.company)
+
+        cls.bank = account('112199', 'liquidity')
+        cls.customer = account('131199', 'receivable', True)
+        cls.allowance = account('229399', 'current_assets')
+        cls.capital = account('411199', 'equity')
+        cls.retained = account('421299', 'retained')
+        cls.revenue = account('511199', 'revenue')
+        cls.cogs = account('632199', 'direct_costs')
+        cls.admin = account('642299', 'expenses')
+        cls.journal = cls.company_data['default_journal_misc']
+
+    def _post(self, day, *pairs):
+        move = self.env['account.move'].create({
+            'move_type': 'entry', 'date': day, 'journal_id': self.journal.id,
+            'line_ids': [
+                (0, 0, {'account_id': acc.id, 'name': 'x',
+                        'debit': amount if amount > 0 else 0.0,
+                        'credit': -amount if amount < 0 else 0.0})
+                for acc, amount in pairs],
+        })
+        move.action_post()
+
+    def _books(self):
+        self._post('2026-01-02', (self.bank, 900.0), (self.capital, -900.0))
+        self._post('2026-03-01', (self.customer, 1000.0),
+                   (self.revenue, -1000.0))
+        self._post('2026-03-02', (self.cogs, 600.0), (self.bank, -600.0))
+        self._post('2026-12-30', (self.admin, 100.0), (self.allowance, -100.0))
+        self._post('2026-12-31', (self.revenue, 1000.0), (self.cogs, -600.0),
+                   (self.admin, -100.0), (self.retained, -300.0))
+
+    def _filter(self, date_from=None):
+        return LedgerFilter(
+            date_from=date.fromisoformat(date_from) if date_from else None,
+            date_to=date(2026, 12, 31), company_ids=(self.company.id,))
+
+
+@tagged('post_install', '-at_install')
+class TestTT200BalanceSheetFigures(_RegimeBooks):
+
+    CIRCULAR = 'TT200'
+
+    def test_allowance_is_deducted_and_the_form_balances(self):
+        self._books()
+        report = self.engine.compute(self._filter(), 'tt200_b01dn')
+        self.assertEqual(report.by_code('137').amount, -100.0)
+        self.assertEqual(report.by_code('270').amount, 1200.0)
+        self.assertEqual(report.by_code('440').amount, 1200.0)
+        self.assertTrue(report.balance_check.is_balanced)
+
+    def test_income_statement_survives_the_year_end_transfer(self):
+        self._books()
+        report = self.engine.compute(self._filter('2026-01-01'), 'tt200_b02dn')
+        self.assertEqual(report.by_code('01').amount, 1000.0)
+        self.assertEqual(report.by_code('11').amount, 600.0)
+
+
+@tagged('post_install', '-at_install')
+class TestTT99Statements(_RegimeBooks):
+
+    CIRCULAR = 'TT99'
+
+    def test_b01_balances(self):
+        self._books()
+        report = self.engine.compute(self._filter(), 'tt99_b01dn')
+        self.assertEqual(report.by_code('111').amount, 300.0)
+        self.assertEqual(report.by_code('131').amount, 1000.0)
+        self.assertEqual(report.by_code('136').amount, -100.0)
+        self.assertEqual(report.by_code('280').amount, 1200.0)
+        self.assertEqual(report.by_code('411a').amount, 900.0)
+        self.assertEqual(report.by_code('420').amount, 300.0)
+        self.assertEqual(report.by_code('440').amount, 1200.0)
+        self.assertTrue(report.balance_check.is_balanced)
+
+    def test_b02(self):
+        self._books()
+        report = self.engine.compute(self._filter('2026-01-01'), 'tt99_b02dn')
+        self.assertEqual(report.by_code('01').amount, 1000.0)
+        self.assertEqual(report.by_code('11').amount, 600.0)
+        self.assertEqual(report.by_code('26').amount, 100.0)
+        self.assertEqual(report.by_code('60').amount, 300.0)
+
+    def test_b03_both_methods_reconcile_to_cash(self):
+        self._books()
+        direct = self.cash_engine.compute(self._filter('2026-01-01'),
+                                          'tt99_b03dn')
+        self.assertEqual(direct.by_code('70').amount, 300.0)
+        self.assertEqual(direct.by_code('31').amount, 900.0)
+        self.assertEqual(direct.by_code('02').amount, -600.0)
+        self.assertTrue(direct.balance_check.is_balanced)
+        indirect = self.engine.compute(self._filter('2026-01-01'),
+                                       'tt99_b03dn_indirect')
+        self.assertEqual(indirect.by_code('70').amount, 300.0)
+        self.assertEqual(indirect.by_code('20').amount, -600.0)
+        self.assertTrue(indirect.balance_check.is_balanced)
+
+    def test_default_forms_and_printed_identity(self):
+        Mapping = self.env['vn.report.mapping']
+        self.assertEqual(Mapping.default_for('balance_sheet', self.company).code,
+                         'tt99_b01dn')
+        self.assertEqual(Mapping.default_for('cash_flow', self.company).code,
+                         'tt99_b03dn')
+        wizard = self.env['vn.balance.sheet.wizard'].create({})
+        self.assertEqual(wizard._report_form_code(), 'B01-DN')
+        self.assertIn('Kèm theo Thông tư số 99/2025', wizard._form_legal_line()[0])
+        self.assertEqual(wizard._form_preparer(), 'Người lập')
+        self.assertEqual(wizard._form_signer(), 'Người đại diện theo pháp luật')
+        book = self.env['vn.cash.book.wizard'].create({'book_type': 'bank'})
+        self.assertEqual(book._report_form_code(), 'S08-DN')
+        self.assertEqual(book._report_form_title(), 'SỔ TIỀN GỬI KHÔNG KỲ HẠN')

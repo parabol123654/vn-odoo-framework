@@ -46,6 +46,14 @@ OPENING_CASH = '__opening_cash__'
 CLOSING_CASH = '__closing_cash__'
 from .formula import FormulaEvaluator
 
+TERM_ALL = 'all'
+TERM_SHORT = 'short'
+TERM_LONG = 'long'
+
+MOVEMENT_NET = 'net'
+MOVEMENT_DEBIT = 'debit'
+MOVEMENT_CREDIT = 'credit'
+
 SIDE_BOTH = 'both'
 SIDE_DEBIT = 'debit_only'
 SIDE_CREDIT = 'credit_only'
@@ -122,6 +130,16 @@ class FinancialStatementEngine:
             balance_check=diagnostics[1],
         )
 
+    def amounts_for(self, ledger_filter, mapping):
+        """-> ``{line_code: amount}`` for a mapping built by the caller.
+
+        ``compute`` loads its mapping by code from the repository. The notes
+        to the financial statements (B09) build theirs from the note's own
+        table rows instead, and read the same balances the same way.
+        """
+        self._validate(mapping)
+        return self._amounts(ledger_filter, mapping)
+
     # ==================================================================
     # Diagnostics
     # ==================================================================
@@ -138,6 +156,7 @@ class FinancialStatementEngine:
 
     def _unmapped_accounts(self, ledger_filter, mapping, rounding):
         accounts = self._ledger._repo.get_accounts(ledger_filter)
+        ledger_filter = self._measured_filter(ledger_filter, mapping, accounts)
         covered = set()
         for line in mapping.lines:
             if line.expression:
@@ -225,21 +244,31 @@ class FinancialStatementEngine:
     def _amounts(self, ledger_filter, mapping):
         rounding = self._ledger._load_context(ledger_filter)['currency'].rounding
         accounts = self._ledger._repo.get_accounts(ledger_filter)
+        measured = self._measured_filter(ledger_filter, mapping, accounts)
 
-        by_account = self._ledger.compute_balances(ledger_filter,
-                                                   GroupBy.ACCOUNT)
+        by_account = self._ledger.compute_balances(measured, GroupBy.ACCOUNT)
         by_account_partner = None
         if any(l.split_by_partner for l in mapping.lines):
             by_account_partner = self._ledger.compute_balances(
-                ledger_filter, GroupBy.ACCOUNT_PARTNER)
+                measured, GroupBy.ACCOUNT_PARTNER)
+        by_term = None
+        if any(l.maturity in (TERM_SHORT, TERM_LONG) for l in mapping.lines):
+            by_term = self._ledger.compute_balances(
+                measured.replace(
+                    long_term_after=self._one_year_after(measured.date_to)),
+                GroupBy.ACCOUNT_PARTNER_TERM)
 
         amounts = {}
         for line in mapping.lines:
             if line.formula or not line.expression:
                 continue
             selected = AccountExpression.resolve(line.expression, accounts)
-            value = self._sum(line, selected, mapping.basis,
-                              by_account, by_account_partner)
+            if line.maturity in (TERM_SHORT, TERM_LONG):
+                value = self._sum_by_term(line, selected, mapping.basis,
+                                          by_term)
+            else:
+                value = self._sum(line, selected, mapping.basis,
+                                  by_account, by_account_partner)
             amounts[line.code] = round_amount(value * line.sign, rounding)
 
         self._inject_cash_position(ledger_filter, mapping, accounts, amounts,
@@ -281,6 +310,33 @@ class FinancialStatementEngine:
             sum(summary.closing for key, summary in balances.items()
                 if key[0] in cash_ids), rounding)
 
+    @staticmethod
+    def _measured_filter(ledger_filter, mapping, accounts):
+        """The filter the mapping's figures are read with.
+
+        A statement of the period's movement leaves out the year-end transfer.
+        A closing entry moves revenue and expense to 911 (or straight to 421);
+        it is not itself revenue or expense, and reading the net movement with
+        it included gives zero on every income statement line. The accounts are
+        mapping data, so a company that closes elsewhere changes data, not code.
+        """
+        if mapping.basis != BASIS_MOVEMENT or not mapping.closing_expression:
+            return ledger_filter
+        closing_ids = tuple(sorted(
+            a.id for a in
+            AccountExpression.resolve(mapping.closing_expression, accounts)))
+        if not closing_ids:
+            return ledger_filter
+        return ledger_filter.replace(exclude_move_account_ids=closing_ids)
+
+    @staticmethod
+    def _one_year_after(day):
+        """Twelve months on, the boundary of short term (Điều 73 khoản 4)."""
+        try:
+            return day.replace(year=day.year + 1)
+        except ValueError:              # 29 February
+            return day.replace(year=day.year + 1, day=28)
+
     def _sum(self, line, accounts, basis, by_account, by_account_partner):
         if not accounts:
             return 0.0
@@ -292,19 +348,67 @@ class FinancialStatementEngine:
             total = 0.0
             for key, summary in (by_account_partner or {}).items():
                 if key[0] in account_ids:
-                    total += self._sided(self._value(summary, basis), line.side)
+                    total += self._sided(
+                        self._value(summary, basis, line.movement_side),
+                        line.side)
             return total
 
         total = 0.0
         for account_id in account_ids:
             summary = by_account.get((account_id,))
             if summary is not None:
-                total += self._sided(self._value(summary, basis), line.side)
+                total += self._sided(
+                    self._value(summary, basis, line.movement_side), line.side)
         return total
 
+    def _sum_by_term(self, line, accounts, basis, by_term):
+        """Short- or long-term part of a balance, account by account.
+
+        Each (account, partner) balance is split by the due dates of its
+        items. A payment reduces the short-term part first: it settles what
+        falls due soonest, so the long-term part is the long-dated items
+        capped at what is still owed, and the short-term part is the rest.
+        """
+        if not accounts:
+            return 0.0
+        account_ids = {a.id for a in accounts}
+        parts = {}
+        for (account_id, partner_id, long_term), summary in (
+                by_term or {}).items():
+            if account_id not in account_ids:
+                continue
+            short, long_ = parts.get((account_id, partner_id), (0.0, 0.0))
+            value = self._value(summary, basis, line.movement_side)
+            if long_term:
+                long_ += value
+            else:
+                short += value
+            parts[(account_id, partner_id)] = (short, long_)
+
+        wanted = {}
+        for (account_id, partner_id), (short, long_) in parts.items():
+            net = short + long_
+            if net > 0:
+                long_part = min(max(long_, 0.0), net)
+            elif net < 0:
+                long_part = max(min(long_, 0.0), net)
+            else:
+                long_part = 0.0
+            part = long_part if line.maturity == TERM_LONG else net - long_part
+            key = (account_id, partner_id) if line.split_by_partner \
+                else (account_id,)
+            wanted[key] = wanted.get(key, 0.0) + part
+        return sum(self._sided(value, line.side) for value in wanted.values())
+
     @staticmethod
-    def _value(summary, basis):
+    def _value(summary, basis, movement_side=MOVEMENT_NET):
         if basis == BASIS_MOVEMENT:
+            if movement_side == MOVEMENT_DEBIT:
+                return summary.movement.debit
+            if movement_side == MOVEMENT_CREDIT:
+                # Credits read as a negative balance, as everywhere else, so
+                # a revenue line keeps its usual sign of -1.
+                return -summary.movement.credit
             return summary.movement.balance
         return summary.closing
 
@@ -343,6 +447,15 @@ class FinancialStatementEngine:
             if line.side not in (SIDE_BOTH, SIDE_DEBIT, SIDE_CREDIT):
                 raise MappingException(
                     "Line %r has an unknown side %r." % (line.code, line.side))
+            if line.movement_side not in (MOVEMENT_NET, MOVEMENT_DEBIT,
+                                          MOVEMENT_CREDIT):
+                raise MappingException(
+                    "Line %r has an unknown movement side %r."
+                    % (line.code, line.movement_side))
+            if line.maturity not in (TERM_ALL, TERM_SHORT, TERM_LONG):
+                raise MappingException(
+                    "Line %r has an unknown maturity %r."
+                    % (line.code, line.maturity))
 
         for line in mapping.lines:
             if line.parent_code and line.parent_code not in seen:

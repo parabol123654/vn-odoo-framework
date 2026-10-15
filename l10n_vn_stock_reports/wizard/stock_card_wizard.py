@@ -85,9 +85,12 @@ class VnStockCardWizard(models.TransientModel):
         # columns, S11-DN the summary: mẫu "Bảng tổng hợp chi tiết vật liệu,
         # dụng cụ, sản phẩm, hàng hóa" is exactly opening/in/out/closing per
         # product — this report with the quantity columns as a bonus.
+        # TT133 numbers the same three books S06-DNN, S08-DNN and S07-DNN.
         if self.layout == 'ledger':
-            return 'S10-DN'
-        return 'S12-DN' if self.layout == 'card' else 'S11-DN'
+            return self._by_circular({'TT200': 'S10-DN', 'TT133': 'S06-DNN'})
+        if self.layout == 'card':
+            return self._by_circular({'TT200': 'S12-DN', 'TT133': 'S08-DNN'})
+        return self._by_circular({'TT200': 'S11-DN', 'TT133': 'S07-DNN'})
 
     def _report_form_title(self):
         if self.layout == 'ledger':

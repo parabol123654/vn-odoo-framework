@@ -31,6 +31,8 @@
             <field name="basis">closing</field>
             <field name="version">TT200</field>
             <field name="balance_check">270=440</field>
+            <field name="form_code">B01-DN</field>
+            <field name="form_title">BẢNG CÂN ĐỐI KẾ TOÁN</field>
         </record>
 
         <!-- ============================ TÀI SẢN ============================ -->
@@ -84,7 +86,7 @@
             <field name="sequence">70</field><field name="code">122</field>
             <field name="name">2. Dự phòng giảm giá chứng khoán kinh doanh</field>
             <field name="expression">2291*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="level">2</field>
         </record>
         <record id="b01dn_123" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
@@ -151,7 +153,7 @@
             <field name="sequence">160</field><field name="code">137</field>
             <field name="name">7. Dự phòng phải thu ngắn hạn khó đòi</field>
             <field name="expression">2293*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="level">2</field>
         </record>
         <record id="b01dn_139" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
@@ -179,7 +181,7 @@
             <field name="sequence">200</field><field name="code">149</field>
             <field name="name">2. Dự phòng giảm giá hàng tồn kho</field>
             <field name="expression">2294*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="level">2</field>
         </record>
 
         <record id="b01dn_150" model="vn.report.mapping.line">
@@ -461,7 +463,7 @@
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
             <field name="sequence">600</field><field name="code">320</field>
             <field name="name">8. Vay và nợ thuê tài chính ngắn hạn</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*</field><field name="maturity">short</field>
             <field name="sign">-1</field><field name="level">2</field>
         </record>
         <record id="b01dn_322" model="vn.report.mapping.line">
@@ -483,7 +485,7 @@
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
             <field name="sequence">630</field><field name="code">338</field>
             <field name="name">1. Vay và nợ thuê tài chính dài hạn</field>
-            <field name="expression">3411*,3412*</field>
+            <field name="expression">341*</field><field name="maturity">long</field>
             <field name="sign">-1</field><field name="level">2</field>
         </record>
         <record id="b01dn_341" model="vn.report.mapping.line">
