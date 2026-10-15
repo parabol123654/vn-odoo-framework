@@ -24,14 +24,17 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from .test_mapping_data import _account_factory
 
 
-@tagged('post_install', '-at_install')
-class TestFsNoteTT133(AccountTestInvoicingCommon):
+class _NoteBooks(AccountTestInvoicingCommon):
+    """The two years of books above, for any circular. Holds no tests."""
+
+    CIRCULAR = None
+    TEMPLATE = None
 
     @classmethod
     def setUpClass(cls, chart_template_ref=None):
         super().setUpClass(chart_template_ref=chart_template_ref)
         cls.company = cls.env.company
-        cls.company.vn_accounting_circular = 'TT133'
+        cls.company.vn_accounting_circular = cls.CIRCULAR
         # 15.0 types accounts by user_type_id; see _account_factory.
         account = _account_factory(cls.env, cls.company)
 
@@ -45,7 +48,7 @@ class TestFsNoteTT133(AccountTestInvoicingCommon):
         cls.revenue = account('511199', 'revenue')
         cls.expense = account('642299', 'expenses')
         cls.journal = cls.company_data['default_journal_misc']
-        cls.template = cls.env.ref('l10n_vn_vas_reports.fs_note_tt133_b09dnn')
+        cls.template = cls.env.ref(cls.TEMPLATE)
 
     # -- helpers -------------------------------------------------------
     def _post(self, day, *pairs):
@@ -95,6 +98,34 @@ class TestFsNoteTT133(AccountTestInvoicingCommon):
         row = self._row(note, reference, code)
         return (row.comparative, row.increase, row.decrease, row.current)
 
+    def _check(self, note, reference, code):
+        """The check of a row against the statements."""
+        return note.check_ids.filtered(
+            lambda c: c.row_id == self._row(note, reference, code)
+            and '↔' in c.name)
+
+    def _assert_checks_name_real_lines(self):
+        """A check pointing at a missing item would silently never run."""
+        Mapping = self.env['vn.report.mapping']
+        rows = self.env['vn.fs.note.template.row'].search([
+            ('item_id.template_id', '=', self.template.id),
+            ('statement_check', '!=', False)])
+        self.assertTrue(rows)
+        for row in rows:
+            form_code, _sep, code = row.statement_check.partition(':')
+            mapping = Mapping.search([('form_code', '=', form_code),
+                                      ('version', '=', self.CIRCULAR)])
+            self.assertTrue(mapping, row.statement_check)
+            self.assertIn(code.lstrip('-'), mapping.line_ids.mapped('code'),
+                          row.statement_check)
+
+
+@tagged('post_install', '-at_install')
+class TestFsNoteTT133(_NoteBooks):
+
+    CIRCULAR = 'TT133'
+    TEMPLATE = 'l10n_vn_vas_reports.fs_note_tt133_b09dnn'
+
     # -- the shipped template ------------------------------------------
     def test_template_has_the_forms_tables(self):
         """B09-DNN has 22 numeric tables: V.1–V.13 and VI.1–VI.9."""
@@ -106,19 +137,7 @@ class TestFsNoteTT133(AccountTestInvoicingCommon):
                    + ['VI.%d' % n for n in range(1, 10)]))
 
     def test_every_statement_check_names_a_real_line(self):
-        """A check pointing at a missing item would silently never run."""
-        Mapping = self.env['vn.report.mapping']
-        rows = self.env['vn.fs.note.template.row'].search([
-            ('item_id.template_id', '=', self.template.id),
-            ('statement_check', '!=', False)])
-        self.assertTrue(rows)
-        for row in rows:
-            form_code, _sep, code = row.statement_check.partition(':')
-            mapping = Mapping.search([('form_code', '=', form_code),
-                                      ('version', '=', 'TT133')])
-            self.assertTrue(mapping, row.statement_check)
-            self.assertIn(code.lstrip('-'), mapping.line_ids.mapped('code'),
-                          row.statement_check)
+        self._assert_checks_name_real_lines()
 
     # -- first year: comparatives from the ledger ----------------------
     def test_balance_table_and_check_against_b01a(self):
@@ -302,3 +321,129 @@ class TestFsNoteTT133(AccountTestInvoicingCommon):
         self.assertIn('Tăng, giảm tài sản cố định', html)
         # Totals kept only for the checks are not printed.
         self.assertNotIn('Tổng chứng khoán kinh doanh', html)
+
+
+@tagged('post_install', '-at_install')
+class TestFsNoteTT99(_NoteBooks):
+    """B09-DN of Thông tư 99/2025 on the same two years of books.
+
+    The TT99 chart uses the same account numbers for everything these books
+    touch (111/112, 131, 211, 2141, 3331, 4111, 421, 511, 642).
+    """
+
+    CIRCULAR = 'TT99'
+    TEMPLATE = 'l10n_vn_vas_reports.fs_note_tt99_b09dn'
+
+    def test_template_has_the_forms_tables(self):
+        """53 table blocks: 40 in V, 12 in VII, 1 in VIII."""
+        tables = self.template.item_ids.filtered(lambda i: i.kind == 'table')
+        self.assertEqual(len(tables), 53)
+        self.assertEqual(self.template.form_code, 'B09-DN')
+
+    def test_every_statement_check_names_a_real_line(self):
+        self._assert_checks_name_real_lines()
+
+    def test_the_company_gets_its_circulars_form(self):
+        note = self.env['vn.fs.note'].create({
+            'company_id': self.company.id,
+            'date_from': '2026-01-01', 'date_to': '2026-12-31'})
+        self.assertEqual(note.template_id, self.template)
+
+    def test_cash_and_the_balance_sheet(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        bank = self._row(note, 'V.1', 'bank')
+        self.assertEqual((bank.current, bank.comparative), (440.0, 800.0))
+        self.assertEqual(self._check(note, 'V.1', 'total').state, 'ok')
+
+    def test_fixed_asset_matrix(self):
+        """Total column: cost 1,200 at the start, 1,500 at the end;
+        depreciation charged 250, 450 at the end; carrying amount 1,050."""
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        current = lambda code: self._row(note, 'V.9', code).current
+        self.assertEqual(current('c_open_t'), 1200.0)
+        self.assertEqual(current('c_close_t'), 1500.0)
+        self.assertEqual(current('d_dep_t'), 250.0)
+        self.assertEqual(current('d_close_t'), 450.0)
+        self.assertEqual(current('nbv_close_t'), 1050.0)
+        self.assertEqual(self._check(note, 'V.9', 'c_close_t').state, 'ok')
+        self.assertEqual(self._check(note, 'V.9', 'd_close_t').state, 'ok')
+
+    def test_tax_payable_and_paid(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._figures(note, 'V.19', 'a33311'),
+                         (0.0, 100.0, 60.0, 40.0))
+
+    def test_equity_over_two_years(self):
+        """421: −200 at the start of 2026, 550 at the end; equity 2,550 is
+        B01-DN item 400. Last year's lines come from last year's notes."""
+        self._books()
+        last = self._note(2025)
+        last.action_compute()
+        self._row(last, 'V.27a', 'cy_inc_1').current = 2000.0
+        last.action_compute()
+        last.action_lock()
+        note = self._note(2026)
+        note.action_compute()
+        current = lambda code: self._row(note, 'V.27a', code).current
+        self.assertEqual(current('cy_open_1'), 2000.0)
+        self.assertEqual(current('cy_open_7'), -200.0)
+        self.assertEqual(current('cy_close_7'), 550.0)
+        self.assertEqual(current('cy_close_t'), 2550.0)
+        self.assertEqual(self._check(note, 'V.27a', 'cy_close_t').state, 'ok')
+        # Last year's lines: what last year's notes said.
+        self.assertEqual(current('py_inc_1'), 2000.0)
+        self.assertEqual(current('py_open_1'), 0.0)
+        with self.assertRaises(UserError):
+            self._row(note, 'V.27a', 'py_inc_1').current = 1.0
+
+    def test_revenue_and_the_income_statement(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._row(note, 'VII.1', 'total').current, 1000.0)
+        self.assertEqual(self._check(note, 'VII.1', 'total').state, 'ok')
+
+    def test_everything_agrees_with_the_statements(self):
+        """Every table agrees with B01-DN/B02-DN. The fixed-asset and
+        equity tables do not yet roll forward: their movement lines are
+        filled in by hand, and the check says so."""
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        statement = note.check_ids.filtered(lambda c: '↔' in c.name)
+        self.assertFalse(statement.filtered(
+            lambda c: c.state == 'mismatch').mapped('name'))
+        # Profit before tax is typed in by hand: a to-do, not a difference.
+        self.assertEqual(self._check(note, 'VII.11', 'pbt').state, 'info')
+        rollforward = note.check_ids.filtered(
+            lambda c: c.state == 'mismatch').mapped('row_id.item_id.reference')
+        self.assertEqual(sorted(set(rollforward)), ['V.27a', 'V.9'])
+
+    def test_statement_points_at_the_notes(self):
+        line = self.env.ref('l10n_vn_vas_reports.b01dn99_110')
+        self.assertEqual(line.note_ref, 'V.1')
+        self.assertEqual(
+            self.env.ref('l10n_vn_vas_reports.b02dn99_01').note_ref, 'VII.1')
+
+    def test_pdf_renders_the_form(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        # 15.0: _render_qweb_html is called on the report action itself.
+        report = self.env.ref('l10n_vn_vas_reports.action_report_fs_note')
+        html = report._render_qweb_html(note.ids)[0]
+        if isinstance(html, bytes):
+            html = html.decode('utf-8')
+        html = str(html)
+        self.assertIn('B09-DN', html)
+        self.assertIn('Kèm theo Thông tư số 99/2025/TT-BTC', html)
+        self.assertIn('Phê duyệt, ngày', html)
+        self.assertIn('NGƯỜI LẬP', html)
+        self.assertIn('Nhà cửa, vật kiến trúc', html)
+        self.assertIn('Số dư đầu năm trước', html)
