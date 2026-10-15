@@ -569,3 +569,150 @@ class TestMappingValidation(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+# ======================================================================
+# Year-end transfer, one-sided movement, short / long term
+# ======================================================================
+CLOSING_CHART = CHART + (
+    _account(10, '4212', 'LNST chưa phân phối năm nay'),
+    _account(11, '911', 'Xác định kết quả kinh doanh', bs=False),
+    _account(12, '1121', 'Tiền gửi'),
+)
+
+
+def _entry(move_id, when, *pairs):
+    """One balanced journal entry: ``(account_id, amount)`` pairs."""
+    return tuple(_line(move_id * 10 + i, account_id, amount, when,
+                       move_id=move_id)
+                 for i, (account_id, amount) in enumerate(pairs))
+
+
+class TestYearEndTransfer(unittest.TestCase):
+    """B02 reads the period's movement; a closing entry is not part of it.
+
+    Figures by hand: 1,000 sold on credit, 100 returned, 600 cost of sales,
+    then the year-end transfer of all three to 421 (TT133 allows closing to
+    421 directly). Revenue is 1,000 whether or not the books were closed.
+    """
+
+    LINES = (
+        _entry(1, date(2026, 3, 1), (4, 1000.0), (6, -1000.0)) +
+        _entry(2, date(2026, 4, 1), (6, 100.0), (4, -100.0)) +
+        _entry(3, date(2026, 5, 1), (8, 600.0), (12, -600.0)) +
+        _entry(4, date(2026, 12, 31), (6, 900.0), (8, -600.0), (10, -300.0)))
+
+    def _engine(self, mapping):
+        repo = FakeLedgerRepository(companies=(ACME,), accounts=CLOSING_CHART,
+                                    lines=self.LINES)
+        return FinancialStatementEngine(LedgerEngine(repo),
+                                        FakeMappingRepository([mapping]))
+
+    def _mapping(self, closing_expression):
+        return MappingDTO(
+            code='b02', name='B02-DNN', report_type='income_statement',
+            basis='movement', version='TT133',
+            closing_expression=closing_expression,
+            lines=(
+                MappingLineDTO('01', 'Doanh thu', sequence=1,
+                               expression='511*', sign=-1,
+                               movement_side='credit'),
+                MappingLineDTO('02', 'Giảm trừ', sequence=2,
+                               expression='511*', movement_side='debit'),
+                MappingLineDTO('10', 'Doanh thu thuần', sequence=3,
+                               formula='01 - 02'),
+                MappingLineDTO('11', 'Giá vốn', sequence=4, expression='632*'),
+                MappingLineDTO('20', 'Lợi nhuận gộp', sequence=5,
+                               formula='10 - 11'),
+            ))
+
+    FILTER = LedgerFilter(date_from=date(2026, 1, 1),
+                          date_to=date(2026, 12, 31), company_ids=(1,))
+
+    def test_closing_entry_is_left_out(self):
+        report = self._engine(self._mapping('911*,421*')).compute(
+            self.FILTER, 'b02')
+        self.assertEqual(report.by_code('01').amount, 1000.0)
+        self.assertEqual(report.by_code('02').amount, 100.0)
+        self.assertEqual(report.by_code('10').amount, 900.0)
+        self.assertEqual(report.by_code('11').amount, 600.0)
+        self.assertEqual(report.by_code('20').amount, 300.0)
+
+    def test_without_closing_accounts_the_transfer_wipes_the_lines(self):
+        """The behaviour the closing expression exists to prevent."""
+        report = self._engine(self._mapping('')).compute(self.FILTER, 'b02')
+        self.assertEqual(report.by_code('11').amount, 0.0)
+        self.assertEqual(report.by_code('10').amount, 0.0)
+
+    def test_closing_entry_does_not_hide_balances(self):
+        """The exclusion is for movement statements only."""
+        mapping = MappingDTO(
+            code='b01', name='B01', report_type='balance_sheet',
+            basis='closing', closing_expression='911*,421*',
+            lines=(MappingLineDTO('417', 'LNST', sequence=1,
+                                  expression='421*', sign=-1),))
+        report = self._engine(mapping).compute(self.FILTER, 'b01')
+        self.assertEqual(report.by_code('417').amount, 300.0)
+
+    def test_unknown_movement_side_is_rejected(self):
+        mapping = self._mapping('')._replace(lines=(
+            MappingLineDTO('01', 'x', expression='511*',
+                           movement_side='both'),))
+        with self.assertRaises(MappingException):
+            self._engine(mapping).compute(self.FILTER, 'b02')
+
+
+class TestTermSplit(unittest.TestCase):
+    """B01b-DNN: short and long term by the items' due dates.
+
+    Report date 31/12/2026, so long term is due after 31/12/2027.
+    Customer 7: invoice 100 due 2028, then paid 30 → owes 70, all long term
+                (the payment settles the short-term part first, and there is
+                none).
+    Customer 8: invoice 50 due 2027 → 50 short term.
+    Customer 9: invoice 40 due 2028, invoice 20 due 2027, paid 30 → owes 30;
+                long-dated 40 capped at 30 owed → 30 long, 0 short.
+    """
+
+    def _lines(self):
+        def item(line_id, amount, due, partner, when=date(2026, 6, 1)):
+            debit = amount if amount > 0 else 0.0
+            return MoveLineDTO(
+                id=line_id, date=when, account_id=4, journal_id=1,
+                move_id=line_id, move_name='JE/%s' % line_id,
+                debit=debit, credit=-amount if amount < 0 else 0.0,
+                balance=amount, partner_id=partner, company_id=1,
+                date_maturity=due)
+        return (
+            item(1, 100.0, date(2028, 6, 1), 7),
+            item(2, -30.0, date(2026, 9, 1), 7),
+            item(3, 50.0, date(2027, 6, 1), 8),
+            item(4, 40.0, date(2028, 6, 1), 9),
+            item(5, 20.0, date(2027, 3, 1), 9),
+            item(6, -30.0, date(2026, 9, 1), 9),
+        )
+
+    def test_short_and_long_parts(self):
+        mapping = MappingDTO(
+            code='b01b', name='B01b-DNN', report_type='balance_sheet',
+            basis='closing',
+            lines=(
+                MappingLineDTO('131', 'Phải thu ngắn hạn', sequence=1,
+                               expression='131', side='debit_only',
+                               split_by_partner=True, maturity='short'),
+                MappingLineDTO('211', 'Phải thu dài hạn', sequence=2,
+                               expression='131', side='debit_only',
+                               split_by_partner=True, maturity='long'),
+                MappingLineDTO('999', 'Tổng', sequence=3,
+                               formula='131 + 211'),
+            ))
+        repo = FakeLedgerRepository(companies=(ACME,), accounts=CHART,
+                                    lines=self._lines())
+        engine = FinancialStatementEngine(LedgerEngine(repo),
+                                          FakeMappingRepository([mapping]))
+        report = engine.compute(
+            LedgerFilter(date_to=date(2026, 12, 31), company_ids=(1,)), 'b01b')
+        self.assertEqual(report.by_code('131').amount, 50.0)
+        self.assertEqual(report.by_code('211').amount, 100.0)
+        # The two parts add up to what is owed: 70 + 50 + 30.
+        self.assertEqual(report.by_code('999').amount, 150.0)
