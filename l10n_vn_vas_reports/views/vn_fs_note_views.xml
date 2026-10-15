@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 20.0 Community Edition -->
+<odoo>
+
+    <!-- ============================================================
+         A company's notes for one year
+         ============================================================ -->
+    <record id="view_vn_fs_note_form" model="ir.ui.view">
+        <field name="name">vn.fs.note.form</field>
+        <field name="model">vn.fs.note</field>
+        <field name="arch" type="xml">
+            <form string="Notes to the Financial Statements">
+                <header>
+                    <button name="action_compute" type="object"
+                            string="Compute figures" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_lock" type="object" string="Lock"
+                            invisible="state != 'draft' or not computed_on"
+                            confirm="Locked notes cannot be changed, and next year's notes copy their comparative figures from them. Lock?"/>
+                    <button name="action_unlock" type="object" string="Unlock"
+                            invisible="state != 'locked'"
+                            groups="account.group_account_manager"/>
+                    <button name="action_print_pdf" type="object"
+                            string="Print PDF" invisible="not computed_on"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="check_state != 'mismatch'">
+                        Some figures do not agree with the statements or with
+                        their breakdown. See the Checks tab.
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="previous_note_id or not computed_on">
+                        There are no locked notes for last year, so the
+                        comparative column was read from the ledger. The
+                        circular takes it from last year's notes: check it
+                        against the notes you filed.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   readonly="id" options="{'no_create': True}"/>
+                            <field name="template_id" readonly="id"
+                                   options="{'no_create': True}"/>
+                            <field name="date_from" readonly="id"/>
+                            <field name="date_to" readonly="id"/>
+                        </group>
+                        <group>
+                            <field name="previous_note_id"/>
+                            <field name="computed_on"/>
+                            <field name="locked_on" invisible="state != 'locked'"/>
+                            <field name="locked_by" invisible="state != 'locked'"/>
+                            <field name="check_state" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contents" name="items">
+                            <field name="item_ids" readonly="state == 'locked'">
+                                <list create="0" delete="0"
+                                      decoration-bf="level == 0"
+                                      decoration-muted="hidden">
+                                    <field name="sequence" column_invisible="1"/>
+                                    <field name="level" column_invisible="1"/>
+                                    <field name="number"/>
+                                    <field name="name"/>
+                                    <field name="kind"/>
+                                    <field name="hidden"/>
+                                </list>
+                            </field>
+                            <div class="text-muted mt8">
+                                Open an item to write its text or fill in its
+                                table. Text starts from last year's notes, or
+                                from the form the first year.
+                            </div>
+                        </page>
+                        <page string="Figures" name="rows">
+                            <field name="row_ids" readonly="state == 'locked'">
+                                <list editable="bottom" create="0" delete="0"
+                                      decoration-bf="style == 'bold'"
+                                      decoration-it="style == 'italic'"
+                                      decoration-muted="not printed"
+                                      decoration-info="manual">
+                                    <field name="item_id" readonly="1"
+                                           options="{'no_open': True}"/>
+                                    <field name="name" readonly="1"/>
+                                    <field name="style" column_invisible="1"/>
+                                    <field name="printed" column_invisible="1"/>
+                                    <field name="source"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="comparative"
+                                           readonly="source == 'formula' or style == 'heading'"
+                                           invisible="style == 'heading'"/>
+                                    <field name="increase" optional="show"
+                                           readonly="source == 'formula' or style == 'heading'"
+                                           invisible="style == 'heading'"/>
+                                    <field name="decrease" optional="show"
+                                           readonly="source == 'formula' or style == 'heading'"
+                                           invisible="style == 'heading'"/>
+                                    <field name="current"
+                                           readonly="source == 'formula' or style == 'heading'"
+                                           invisible="style == 'heading'"/>
+                                    <field name="comparative_origin" optional="show"/>
+                                    <field name="manual"/>
+                                    <field name="source_note" optional="hide"/>
+                                    <button name="action_reset" type="object"
+                                            icon="undo" title="Read from the ledger again"
+                                            invisible="not manual or source != 'ledger'"/>
+                                </list>
+                            </field>
+                            <div class="text-muted mt8">
+                                "Current" is the closing balance or this
+                                year's figure, "comparative" the opening
+                                balance or last year's. Figures typed in are
+                                kept when the notes are computed again; the
+                                undo button reads a row from the ledger again.
+                                Grey rows are totals the form does not print,
+                                kept for the checks.
+                            </div>
+                        </page>
+                        <page string="Checks" name="checks">
+                            <field name="check_ids">
+                                <list decoration-danger="state == 'mismatch'"
+                                      decoration-success="state == 'ok'"
+                                      decoration-warning="state == 'info'"
+                                      decoration-muted="state == 'skipped'">
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="name"/>
+                                    <field name="expected"/>
+                                    <field name="actual"/>
+                                    <field name="difference"/>
+                                    <field name="message"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Signatures" name="signatures">
+                            <group>
+                                <group>
+                                    <field name="report_date"/>
+                                    <field name="preparer_name"/>
+                                    <field name="chief_accountant_name"/>
+                                    <field name="representative_name"/>
+                                </group>
+                                <group>
+                                    <field name="accounting_service"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vn_fs_note_item_form" model="ir.ui.view">
+        <field name="name">vn.fs.note.item.form</field>
+        <field name="model">vn.fs.note.item</field>
+        <field name="arch" type="xml">
+            <form string="Notes item">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="number" readonly="1" class="me-2"/>
+                            <field name="name" readonly="1"/>
+                        </h2>
+                    </div>
+                    <field name="state" invisible="1"/>
+                    <field name="kind" invisible="1"/>
+                    <div class="alert alert-info" role="alert"
+                         invisible="not guidance">
+                        <field name="guidance" readonly="1"/>
+                    </div>
+                    <group>
+                        <field name="hidden" readonly="state == 'locked'"/>
+                    </group>
+                    <field name="row_ids" invisible="kind != 'table'"
+                           readonly="state == 'locked'">
+                        <list editable="bottom" create="0" delete="0"
+                              decoration-bf="style == 'bold'"
+                              decoration-it="style == 'italic'"
+                              decoration-muted="not printed"
+                              decoration-info="manual">
+                            <field name="name" readonly="1"/>
+                            <field name="style" column_invisible="1"/>
+                            <field name="printed" column_invisible="1"/>
+                            <field name="source"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="comparative"
+                                   readonly="source == 'formula' or style == 'heading'"
+                                   invisible="style == 'heading'"/>
+                            <field name="increase"
+                                   column_invisible="parent.layout != 'movement'"
+                                   readonly="source == 'formula' or style == 'heading'"
+                                   invisible="style == 'heading'"/>
+                            <field name="decrease"
+                                   column_invisible="parent.layout != 'movement'"
+                                   readonly="source == 'formula' or style == 'heading'"
+                                   invisible="style == 'heading'"/>
+                            <field name="current"
+                                   readonly="source == 'formula' or style == 'heading'"
+                                   invisible="style == 'heading'"/>
+                            <field name="manual"/>
+                            <field name="source_note" optional="show"/>
+                            <button name="action_reset" type="object"
+                                    icon="undo" title="Read from the ledger again"
+                                    invisible="not manual or source != 'ledger'"/>
+                        </list>
+                    </field>
+                    <field name="layout" invisible="1"/>
+                    <field name="content" readonly="state == 'locked'"
+                           placeholder="Text printed under this heading"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vn_fs_note_list" model="ir.ui.view">
+        <field name="name">vn.fs.note.list</field>
+        <field name="model">vn.fs.note</field>
+        <field name="arch" type="xml">
+            <list string="Notes to the Financial Statements">
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="check_state" widget="badge"
+                       decoration-danger="check_state == 'mismatch'"
+                       decoration-success="check_state == 'ok'"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'locked'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_vn_fs_note" model="ir.actions.act_window">
+        <field name="name">Notes to the Financial Statements</field>
+        <field name="res_model">vn.fs.note</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Chưa có bản thuyết minh nào</p>
+            <p>
+                Bản thuyết minh báo cáo tài chính (B09) được lưu theo từng năm.
+                Số liệu các bảng đọc từ sổ cái và đối chiếu với các báo cáo tài
+                chính; phần lời văn do doanh nghiệp viết. Khóa bản thuyết minh
+                khi đã nộp: năm sau lấy cột số so sánh từ bản đã khóa.
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Templates (configuration)
+         ============================================================ -->
+    <record id="view_vn_fs_note_template_form" model="ir.ui.view">
+        <field name="name">vn.fs.note.template.form</field>
+        <field name="model">vn.fs.note.template</field>
+        <field name="arch" type="xml">
+            <form string="Notes Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="version"/>
+                            <field name="form_code"/>
+                            <field name="form_title"/>
+                            <field name="form_subtitle"/>
+                        </group>
+                        <group>
+                            <field name="closing_expression"/>
+                            <field name="sequence"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   options="{'no_create': True}"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="footnote" placeholder="Footnote of the form"/>
+                    <field name="item_ids">
+                        <list>
+                            <field name="sequence" widget="handle"/>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="reference"/>
+                            <field name="kind"/>
+                            <field name="layout"/>
+                            <field name="level" optional="hide"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vn_fs_note_template_item_form" model="ir.ui.view">
+        <field name="name">vn.fs.note.template.item.form</field>
+        <field name="model">vn.fs.note.template.item</field>
+        <field name="arch" type="xml">
+            <form string="Notes Template Item">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="reference"/>
+                            <field name="kind"/>
+                        </group>
+                        <group>
+                            <field name="level"/>
+                            <field name="show_unit"/>
+                            <field name="layout" invisible="kind != 'table'"
+                                   required="kind == 'table'"/>
+                            <field name="display" invisible="layout != 'movement'"/>
+                        </group>
+                    </group>
+                    <field name="guidance" placeholder="What the circular asks for here (not printed)"/>
+                    <field name="default_text"/>
+                    <field name="row_ids" invisible="kind != 'table'">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="style"/>
+                            <field name="indent" optional="hide"/>
+                            <field name="source"/>
+                            <field name="expression"/>
+                            <field name="formula"/>
+                            <field name="sign"/>
+                            <field name="side" optional="hide"/>
+                            <field name="split_by_partner" optional="hide"/>
+                            <field name="movement_side" optional="hide"/>
+                            <field name="statement_check" optional="show"/>
+                            <field name="detail_formula" optional="show"/>
+                            <field name="printed" optional="hide"/>
+                            <field name="source_note" optional="hide"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vn_fs_note_template_list" model="ir.ui.view">
+        <field name="name">vn.fs.note.template.list</field>
+        <field name="model">vn.fs.note.template</field>
+        <field name="arch" type="xml">
+            <list string="Notes Templates">
+                <field name="name"/>
+                <field name="version"/>
+                <field name="form_code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_vn_fs_note_template" model="ir.actions.act_window">
+        <field name="name">Notes Templates</field>
+        <field name="res_model">vn.fs.note.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_vn_fs_note_template"
+              name="Notes Templates (B09)"
+              parent="account.menu_finance_configuration"
+              action="action_vn_fs_note_template"
+              groups="account.group_account_manager"
+              sequence="91"/>
+
+</odoo>

@@ -2,7 +2,7 @@
 # Target: Odoo 20.0 Community Edition
 {
     'name': 'Vietnam ERP Framework - Core',
-    'version': '20.0.1.1.0',
+    'version': '20.0.1.2.0',
     'category': 'Technical',
     'summary': 'Domain engines, repositories, services and DTOs for VAS reporting',
     'author': 'Manh Nguyen',
