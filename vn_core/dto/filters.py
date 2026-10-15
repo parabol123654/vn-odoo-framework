@@ -30,6 +30,14 @@ class LedgerFilter(NamedTuple):
     currency_id: Optional[int] = None
     include_opening: bool = True
     include_closing: bool = True
+    #: Journal entries holding a line on any of these accounts are left out
+    #: entirely. A statement of the period's movement passes the year-end
+    #: transfer accounts (911, 421) here: a closing entry is not revenue or
+    #: expense, and counting it nets every income statement line to zero.
+    exclude_move_account_ids: Tuple[int, ...] = ()
+    #: For ``GroupBy.ACCOUNT_PARTNER_TERM``: an item due after this date is
+    #: long term. None means nothing is.
+    long_term_after: Optional[date] = None
 
     @property
     def posted_only(self):
