@@ -2,7 +2,7 @@
 # Target: Odoo 16.0 Community Edition
 {
     'name': 'Vietnam VAS Reports',
-    'version': '16.0.1.3.0',
+    'version': '16.0.1.4.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese statutory books, financial statements, VAT returns '
                'and cash vouchers (TT200)',
@@ -67,6 +67,7 @@
         'data/tt99_cash_flow_indirect.xml',
         'data/tt133_notes.xml',
         'data/tt99_notes.xml',
+        'data/tt200_notes.xml',
     ],
     'demo': [
         'demo/vn_demo_data.xml',

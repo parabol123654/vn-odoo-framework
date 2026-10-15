@@ -6,6 +6,8 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Added
 
+- Notes to the financial statements for Thông tư 200/2014: form B09-DN (Phụ lục 2 mục 5), with the 49 tables of the printed form, for financial years that began before 2026. A company on TT200 gets this form automatically.
+- The "Thuyết minh" column of TT200's B01-DN and B02-DN now points at the matching note. On upgrade it is filled only where it is empty.
 - Notes to the financial statements for Thông tư 99/2025: form B09-DN (Phụ lục IV Mục 1 điểm 5), with all 53 tables of the printed form. A company on TT99 gets this form automatically.
 - The notes support the layouts TT99 prints: several figures per row (cost / fair value / provision…), fixed assets by asset class, and the two-year equity reconciliation, whose last-year lines come from last year's locked notes.
 - The "Thuyết minh" column of TT99's B01-DN and B02-DN now points at the matching note. On upgrade it is filled only where it is empty.
