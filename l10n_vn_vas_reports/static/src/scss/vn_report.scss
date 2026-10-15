@@ -410,3 +410,46 @@ $o-vn-total-bg: #e2e8f0;
         padding-top: 6px;
     }
 }
+
+// ---------------------------------------------------------------- notes (B09)
+.o_vn_fs_note {
+    .o_vn_note_item {
+        margin-top: 6px;
+    }
+    .o_vn_note_section {
+        margin-top: 14px;
+    }
+    .o_vn_note_level_2 {
+        padding-left: 1.2em;
+    }
+    .o_vn_note_table {
+        margin: 4px 0 8px;
+        page-break-inside: auto;
+
+        tr {
+            page-break-inside: avoid;
+        }
+        .o_vn_row_bold td {
+            font-weight: 600;
+        }
+        .o_vn_row_italic td {
+            font-style: italic;
+        }
+        .o_vn_col_numbers th {
+            font-weight: normal;
+            font-style: italic;
+        }
+    }
+    .o_vn_note_text {
+        padding-left: 1.2em;
+    }
+    .o_vn_signature_name {
+        margin-top: 60px;
+        font-weight: 600;
+    }
+    .o_vn_note_footnote {
+        margin-top: 12px;
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+}
