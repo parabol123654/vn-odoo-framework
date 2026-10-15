@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 18.0 Community Edition -->
+<odoo noupdate="1">
+
+    <!--
+        Company rules for the notes to the financial statements (B09).
+        20.0 puts these domains on its ir.access lines; 18.0 has no ir.access,
+        so the same domains are global record rules here. Global (no groups):
+        a company's notes are never visible from another company, whatever
+        the user's groups.
+    -->
+    <record id="rule_vn_fs_note_company" model="ir.rule">
+        <field name="name">Notes to the financial statements: own companies</field>
+        <field name="model_id" ref="model_vn_fs_note"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_item_company" model="ir.rule">
+        <field name="name">Notes item: own companies</field>
+        <field name="model_id" ref="model_vn_fs_note_item"/>
+        <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_row_company" model="ir.rule">
+        <field name="name">Notes row: own companies</field>
+        <field name="model_id" ref="model_vn_fs_note_row"/>
+        <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_check_company" model="ir.rule">
+        <field name="name">Notes check: own companies</field>
+        <field name="model_id" ref="model_vn_fs_note_check"/>
+        <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_template_company" model="ir.rule">
+        <field name="name">Notes template: shared or own companies</field>
+        <field name="model_id" ref="model_vn_fs_note_template"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>
