@@ -19,9 +19,22 @@ from odoo.exceptions import ValidationError, UserError
 class VnReportMapping(models.Model):
     _name = 'vn.report.mapping'
     _description = 'Financial Statement Mapping'
-    _order = 'report_type, code'
+    _order = 'report_type, sequence, code'
 
     code = fields.Char(required=True, index=True)
+    sequence = fields.Integer(
+        default=10,
+        help="When a circular offers several forms of one statement (B01a-DNN "
+             "or B01b-DNN, the direct or the indirect cash flow), the lowest "
+             "sequence is the default. A company picks another on its form.")
+    form_code = fields.Char(
+        string='Form number',
+        help="Printed top right of the statement, e.g. B01a-DNN. Leave empty "
+             "to print the report's own default.")
+    form_title = fields.Char(
+        string='Form heading', translate=False,
+        help="The heading the circular prints, e.g. BÁO CÁO TÌNH HÌNH TÀI "
+             "CHÍNH. Kept in Vietnamese: it is the statutory text.")
     name = fields.Char(required=True, translate=True)
     report_type = fields.Selection(
         [('balance_sheet', 'Balance Sheet'),
@@ -59,6 +72,12 @@ class VnReportMapping(models.Model):
         help="Which accounts count as cash on a cash flow statement, written "
              "as an account expression such as 111*,112*,113*. Ignored by the "
              "other statements.")
+    closing_expression = fields.Char(
+        string='Year-end transfer accounts',
+        help="Accounts of the year-end closing entry, e.g. 911*,421*. Journal "
+             "entries touching them are left out of a statement of the "
+             "period's movement: a closing entry moves revenue and expense, it "
+             "is not itself revenue or expense. Ignored by balance sheets.")
     active = fields.Boolean(default=True)
     line_ids = fields.One2many('vn.report.mapping.line', 'mapping_id',
                                string='Lines')
@@ -83,11 +102,18 @@ class VnReportMapping(models.Model):
         a form for itself without losing the shipped version.
         """
         circular = (company.vn_accounting_circular or 'TT200').upper()
-        mapping = self.search([
+        candidates = self.search([
             ('report_type', '=', report_type),
             ('version', '=ilike', circular),
             '|', ('company_id', '=', False), ('company_id', '=', company.id),
-        ], order='company_id desc', limit=1)
+        ], order='company_id desc, sequence, id')
+        chosen = {
+            'balance_sheet': company.vn_balance_sheet_mapping_id,
+            'cash_flow': company.vn_cash_flow_mapping_id,
+        }.get(report_type)
+        # The company's choice counts only while it belongs to its circular:
+        # switching circulars must not leave it printing the old form.
+        mapping = chosen if chosen and chosen in candidates else candidates[:1]
         if not mapping:
             raise UserError(_(
                 "No %(report)s mapping found for %(circular)s. Check "
@@ -119,6 +145,23 @@ class VnReportMappingLine(models.Model):
     formula = fields.Char(
         help="References other item codes, never accounts: 10 - 11. "
              "A line has either an expression or a formula, not both.")
+    movement_side = fields.Selection(
+        [('net', 'Net movement'),
+         ('debit', 'Debit movement'),
+         ('credit', 'Credit movement')],
+        default='net', required=True,
+        help="For a statement of the period's movement: read the net change, "
+             "or only the debits or the credits. B02-DNN item 01 is the credit "
+             "movement of 511 and item 02 its debit movement.")
+    maturity = fields.Selection(
+        [('all', 'Whole balance'),
+         ('short', 'Short term'),
+         ('long', 'Long term')],
+        default='all', required=True,
+        help="B01b-DNN: keep only what falls due within twelve months of the "
+             "report date (short term) or after (long term), by the due dates "
+             "of the journal items. A payment reduces the short-term part "
+             "first.")
     sign = fields.Integer(
         default=1, required=True,
         help="Use -1 for accounts that carry a credit balance, such as "
@@ -156,10 +199,23 @@ class VnReportMappingLine(models.Model):
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
+    vn_balance_sheet_mapping_id = fields.Many2one(
+        'vn.report.mapping', string='Balance sheet form',
+        domain="[('report_type', '=', 'balance_sheet')]",
+        help="TT133 lets a company present B01b-DNN instead of B01a-DNN. "
+             "Leave empty for the circular's default form.")
+    vn_cash_flow_mapping_id = fields.Many2one(
+        'vn.report.mapping', string='Cash flow form',
+        domain="[('report_type', '=', 'cash_flow')]",
+        help="The direct or the indirect method. Leave empty for the "
+             "circular's default form.")
     vn_accounting_circular = fields.Selection(
         [('TT200', 'Thông tư 200/2014/TT-BTC'),
-         ('TT133', 'Thông tư 133/2016/TT-BTC')],
+         ('TT133', 'Thông tư 133/2016/TT-BTC'),
+         ('TT99', 'Thông tư 99/2025/TT-BTC')],
         string='Accounting circular', default='TT200', required=True,
-        help="Which circular this company reports under. Thông tư 133 applies "
-             "to small and medium enterprises and uses different statement "
-             "forms; the reports follow this setting.")
+        help="Which circular this company reports under. Thông tư 99/2025 "
+             "replaces Thông tư 200/2014 for fiscal years starting on or after "
+             "1 January 2026; small and medium enterprises may keep Thông tư "
+             "133/2016 or choose Thông tư 99. The reports follow this setting: "
+             "a fiscal year that began before 2026 stays on Thông tư 200.")

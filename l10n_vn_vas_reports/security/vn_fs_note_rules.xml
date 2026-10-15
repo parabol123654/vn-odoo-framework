@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 19.0 Community Edition -->
+<odoo noupdate="1">
+
+    <!--
+        Notes to the financial statements (B09): a user sees only the notes
+        of the companies currently selected. 20.0 puts these domains on the
+        ir.access lines; 19.0 has no such model, so they are global record
+        rules here. Every group granted access in ir.model.access.csv had the
+        same domain on 20.0, so a global rule restricts exactly as much.
+        The template items and rows carry no rule, as on 20.0.
+    -->
+    <record id="rule_vn_fs_note_company" model="ir.rule">
+        <field name="name">Notes to the Financial Statements: company</field>
+        <field name="model_id" ref="model_vn_fs_note"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_item_company" model="ir.rule">
+        <field name="name">Notes to the Financial Statements item: company</field>
+        <field name="model_id" ref="model_vn_fs_note_item"/>
+        <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_row_company" model="ir.rule">
+        <field name="name">Notes to the Financial Statements row: company</field>
+        <field name="model_id" ref="model_vn_fs_note_row"/>
+        <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_check_company" model="ir.rule">
+        <field name="name">Notes to the Financial Statements check: company</field>
+        <field name="model_id" ref="model_vn_fs_note_check"/>
+        <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_template_company" model="ir.rule">
+        <field name="name">Notes Template: shared or own company</field>
+        <field name="model_id" ref="model_vn_fs_note_template"/>
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>
