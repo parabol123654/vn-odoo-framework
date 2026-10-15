@@ -38,6 +38,7 @@ install Inventory or Manufacturing to get the accounting books.
 | Bảng cân đối kế toán / Báo cáo tình hình tài chính | B01-DN · B01a-DNN · B01b-DNN | Financial statements |
 | Báo cáo kết quả hoạt động kinh doanh | B02-DN · B02-DNN | Financial statements |
 | Báo cáo lưu chuyển tiền tệ | B03-DN direct · B03-DNN indirect or direct | Financial statements |
+| Bản thuyết minh báo cáo tài chính | B09-DNN | Financial statements |
 | Bảng kê hoá đơn bán ra / mua vào | 01/GTGT annex | Tax |
 | Tờ khai thuế giá trị gia tăng | 01/GTGT | Tax |
 | Bảng tổng hợp Nhập - Xuất - Tồn | S11-DN | Inventory |
