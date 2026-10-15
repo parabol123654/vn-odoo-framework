@@ -74,7 +74,7 @@ class VnSalesLedgerWizard(models.TransientModel):
         return _('Sales Ledger')
 
     def _report_form_code(self):
-        return 'S35-DN'
+        return self._by_circular({'TT200': 'S35-DN', 'TT133': 'S16-DNN'})
 
     def _report_form_title(self):
         return 'SỔ CHI TIẾT BÁN HÀNG'

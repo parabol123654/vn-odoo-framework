@@ -128,6 +128,16 @@
         <field name="paperformat_id" ref="paperformat_vn_book"/>
     </record>
 
+    <record id="action_report_fs_note" model="ir.actions.report">
+        <field name="name">Notes to the Financial Statements</field>
+        <field name="model">vn.fs.note</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_vn_vas_reports.report_fs_note</field>
+        <field name="report_file">l10n_vn_vas_reports.report_fs_note</field>
+        <field name="print_report_name">'Thuyet-minh-BCTC-%s' % (object.date_to.year)</field>
+        <field name="paperformat_id" ref="paperformat_vn_book"/>
+    </record>
+
     <record id="action_report_balance_sheet" model="ir.actions.report">
         <field name="name">Balance Sheet</field>
         <field name="model">vn.balance.sheet.wizard</field>

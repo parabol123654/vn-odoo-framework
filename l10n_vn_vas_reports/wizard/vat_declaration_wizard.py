@@ -64,6 +64,10 @@ class VnVatDeclarationWizard(models.TransientModel):
     def _report_form_title(self):
         return 'TỜ KHAI THUẾ GIÁ TRỊ GIA TĂNG'
 
+    def _form_legal_line(self):
+        # A tax return, not a form of either accounting circular.
+        return ()
+
     def _screen_template(self):
         return 'l10n_vn_vas_reports.vat_declaration_screen'
 
