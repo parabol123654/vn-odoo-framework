@@ -74,7 +74,7 @@ class VnExpenseLedgerWizard(models.TransientModel):
         return _('Expense Ledger')
 
     def _report_form_code(self):
-        return 'S36-DN'
+        return self._by_circular({'TT200': 'S36-DN', 'TT133': 'S17-DNN'})
 
     def _report_form_title(self):
         return 'SỔ CHI PHÍ SẢN XUẤT, KINH DOANH'

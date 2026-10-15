@@ -22,6 +22,10 @@ class GroupBy(Enum):
     JOURNAL = ('journal_id',)
     ANALYTIC = ('analytic_account_id',)
     ACCOUNT_PARTNER = ('account_id', 'partner_id')
+    #: ``long_term`` is not a journal item column: it is True when the item
+    #: falls due after ``LedgerFilter.long_term_after``. B01b-DNN needs it to
+    #: split receivables, payables and loans into short and long term.
+    ACCOUNT_PARTNER_TERM = ('account_id', 'partner_id', 'long_term')
     PARTNER_ACCOUNT = ('partner_id', 'account_id')
 
     @property

@@ -16,9 +16,14 @@
                             <field name="code"/>
                             <field name="report_type"/>
                             <field name="version"/>
+                            <field name="sequence"/>
+                            <field name="form_code"/>
+                            <field name="form_title"/>
                         </group>
                         <group>
                             <field name="basis"/>
+                            <field name="closing_expression"
+                                   invisible="basis != 'movement'"/>
                             <field name="company_id"
                                    groups="base.group_multi_company"
                                    options="{'no_create': True}"/>
@@ -38,6 +43,8 @@
                                     <field name="sign"/>
                                     <field name="side"/>
                                     <field name="split_by_partner"/>
+                                    <field name="movement_side" optional="hide"/>
+                                    <field name="maturity" optional="hide"/>
                                     <field name="level" optional="hide"/>
                                     <field name="parent_id" optional="hide"/>
                                     <field name="bold" optional="hide"/>
