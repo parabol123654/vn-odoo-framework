@@ -447,3 +447,93 @@ class TestFsNoteTT99(_NoteBooks):
         self.assertIn('NGƯỜI LẬP', html)
         self.assertIn('Nhà cửa, vật kiến trúc', html)
         self.assertIn('Số dư đầu năm trước', html)
+
+
+@tagged('post_install', '-at_install')
+class TestFsNoteTT200(_NoteBooks):
+    """B09-DN of Thông tư 200/2014 on the same two years of books.
+
+    For financial years that began before 2026. The TT200 chart uses the same
+    account numbers for everything these books touch.
+    """
+
+    CIRCULAR = 'TT200'
+    TEMPLATE = 'l10n_vn_vas_reports.fs_note_tt200_b09dn'
+
+    def test_template_has_the_forms_tables(self):
+        tables = self.template.item_ids.filtered(lambda i: i.kind == 'table')
+        self.assertEqual(len(tables), 49)
+        self.assertEqual(self.template.form_code, 'B09-DN')
+
+    def test_every_statement_check_names_a_real_line(self):
+        self._assert_checks_name_real_lines()
+
+    def test_the_company_gets_its_circulars_form(self):
+        note = self.env['vn.fs.note'].create({
+            'company_id': self.company.id,
+            'date_from': '2026-01-01', 'date_to': '2026-12-31'})
+        self.assertEqual(note.template_id, self.template)
+
+    def test_cash(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        bank = self._row(note, 'VI.1', 'bank')
+        self.assertEqual((bank.current, bank.comparative), (440.0, 800.0))
+        self.assertEqual(self._check(note, 'VI.1', 'total').state, 'ok')
+
+    def test_fixed_asset_matrix(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        current = lambda code: self._row(note, 'VI.9', code).current
+        self.assertEqual(
+            [current(c) for c in ('c_open_t', 'c_close_t', 'd_dep_t',
+                                  'd_close_t', 'nbv_close_t')],
+            [1200.0, 1500.0, 250.0, 450.0, 1050.0])
+        self.assertEqual(self._check(note, 'VI.9', 'c_close_t').state, 'ok')
+        self.assertEqual(self._check(note, 'VI.9', 'd_close_t').state, 'ok')
+
+    def test_tax_payable_and_paid(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._figures(note, 'VI.17', 'a33311'),
+                         (0.0, 100.0, 60.0, 40.0))
+
+    def test_revenue(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._row(note, 'VII.1', 'total').current, 1000.0)
+        self.assertEqual(self._check(note, 'VII.1', 'total').state, 'ok')
+
+    def test_everything_agrees_with_the_statements(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        statement = note.check_ids.filtered(lambda c: '↔' in c.name)
+        self.assertTrue(statement)
+        self.assertFalse(statement.filtered(
+            lambda c: c.state == 'mismatch').mapped('name'))
+
+    def test_statement_points_at_the_notes(self):
+        self.assertEqual(
+            self.env.ref('l10n_vn_vas_reports.b01dn_111').note_ref, 'VI.1')
+        self.assertEqual(
+            self.env.ref('l10n_vn_vas_reports.b02dn_01').note_ref, 'VII.1')
+
+    def test_pdf_renders_the_form(self):
+        self._books()
+        note = self._note(2026)
+        note.action_compute()
+        # 15.0: rendered from the report record, not by report name.
+        html = self.env.ref('l10n_vn_vas_reports.action_report_fs_note') \
+            ._render_qweb_html(note.ids)[0]
+        if isinstance(html, bytes):
+            html = html.decode('utf-8')
+        html = str(html)
+        self.assertIn('B09-DN', html)
+        self.assertIn('Ban hành theo Thông tư số 200/2014/TT-BTC', html)
+        self.assertIn('GIÁM ĐỐC', html)
+        self.assertIn('NGƯỜI LẬP BIỂU', html)
