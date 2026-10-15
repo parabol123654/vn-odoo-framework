@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-14 16:47+0000\n"
-"PO-Revision-Date: 2026-10-14 16:47+0000\n"
+"POT-Creation-Date: 2026-10-15 13:24+0000\n"
+"PO-Revision-Date: 2026-10-15 13:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -46,6 +46,13 @@ msgstr "Báo cáo lưu chuyển tiền tệ lập cho một kỳ, nên bắt bu�
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 msgid "A period cross-tab: what left 152, 153 and 242, by the\n                    account it was charged to. Built from the journal entries\n                    themselves, so each column reconciles to that account's\n                    credit total on the General Ledger."
 msgstr "Bảng chéo trong kỳ: giá trị xuất khỏi 152, 153, 242 chia theo tài khoản được ghi Nợ. Lập từ chính các bút toán, nên mỗi cột đối chiếu được với tổng phát sinh Có của tài khoản đó trên Sổ Cái."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "A total is computed from the rows above it; change those instead."
+msgstr "Dòng tổng được tính từ các dòng phía trên; hãy sửa các dòng đó."
 
 #. module: l10n_vn_vas_reports
 #. odoo-python
@@ -209,6 +216,13 @@ msgid "Both"
 msgstr "Cả hai"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "breakdown"
+msgstr "chi tiết"
+
+#. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_aging_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_balance_sheet_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_book_wizard_form
@@ -289,6 +303,11 @@ msgid "Check coverage"
 msgstr "Kiểm tra độ phủ ánh xạ"
 
 #. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Checks"
+msgstr "Kiểm tra"
+
+#. module: l10n_vn_vas_reports
 #. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/expense_ledger_wizard.py:0
 #, python-format
@@ -340,6 +359,23 @@ msgstr "Thu tất cả"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__company_id
 msgid "Company"
 msgstr "Công ty"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Compute figures"
+msgstr "Tính số liệu"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "Compute the figures before locking the notes."
+msgstr "Hãy tính số liệu trước khi khóa bản thuyết minh."
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Contents"
+msgstr "Nội dung"
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__carried_forward
@@ -443,6 +479,11 @@ msgid "Export Excel"
 msgstr "Xuất Excel"
 
 #. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Figures"
+msgstr "Số liệu"
+
+#. module: l10n_vn_vas_reports
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_reports_statements
 msgid "Financial Statements"
 msgstr "Báo cáo tài chính"
@@ -535,6 +576,13 @@ msgstr "Báo cáo kết quả hoạt động kinh doanh"
 
 #. module: l10n_vn_vas_reports
 #. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "Item %(code)s is not on %(form)s."
+msgstr "Chỉ tiêu %(code)s không có trên %(form)s."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
 #: code:addons/l10n_vn_vas_reports/wizard/base_report_wizard.py:0
 #, python-format
 msgid "Item %s is a heading or a figure the ledger cannot explain, so there is nothing to open."
@@ -577,6 +625,11 @@ msgid "Listing"
 msgstr "Loại bảng kê"
 
 #. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Lock"
+msgstr "Khóa"
+
+#. module: l10n_vn_vas_reports
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_balance_sheet_wizard__mapping_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_cash_flow_wizard__mapping_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__mapping_id
@@ -609,6 +662,13 @@ msgstr "Bảng phân bổ nguyên liệu, vật liệu, công cụ, dụng cụ"
 #, python-format
 msgid "No"
 msgstr "Không"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "No %(form)s statement under %(circular)s."
+msgstr "Không có báo cáo %(form)s theo %(circular)s."
 
 #. module: l10n_vn_vas_reports
 #. odoo-python
@@ -646,9 +706,69 @@ msgid "No spreadsheet layout named %s."
 msgstr "Không có bố cục bảng tính tên %s."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note_template.py:0
+#, python-format
+msgid "No template for the notes to the financial statements under %s. The module ships one for Thông tư 133/2016."
+msgstr "Chưa có mẫu thuyết minh báo cáo tài chính theo %s. Module kèm sẵn mẫu theo Thông tư 133/2016."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "Not broken down yet: fill in the rows below it."
+msgstr "Chưa tách chi tiết: hãy điền các dòng bên dưới."
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_item_form
+msgid "Notes item"
+msgstr "Mục thuyết minh"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_template_form
+msgid "Notes Template"
+msgstr "Mẫu thuyết minh"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_template_item_form
+msgid "Notes Template Item"
+msgstr "Mục của mẫu thuyết minh"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_template_list
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_fs_note_template
+msgid "Notes Templates"
+msgstr "Mẫu thuyết minh"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_fs_note_template
+msgid "Notes Templates (B09)"
+msgstr "Mẫu thuyết minh (B09)"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_list
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_fs_note
+#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_fs_note
+msgid "Notes to the Financial Statements"
+msgstr "Thuyết minh báo cáo tài chính"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_fs_note
+msgid "Notes to the Financial Statements (B09)"
+msgstr "Thuyết minh báo cáo tài chính (B09)"
+
+#. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_expense_ledger_wizard_form
 msgid "One page per account, debit detail with a breakdown by\n                    counterpart account: 152 is materials, 334 labour, 214\n                    depreciation. The credit side prints as a single closing\n                    transfer line, as the form prescribes."
 msgstr "Mỗi tài khoản một trang: chi tiết phát sinh Nợ kèm cột chia ra theo TK đối ứng — 152 là nguyên vật liệu, 334 nhân công, 214 khấu hao. Bên Có in thành một dòng kết chuyển duy nhất, đúng như mẫu quy định."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "Only an accounting manager can unlock notes."
+msgstr "Chỉ quản lý kế toán mới được mở khóa bản thuyết minh."
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
@@ -748,6 +868,7 @@ msgstr "In phiếu quỹ"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_listing_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
 #: code:addons/l10n_vn_vas_reports/static/src/xml/vn_report_viewer.xml:0
 #, python-format
 msgid "Print PDF"
@@ -810,6 +931,20 @@ msgstr "Giới hạn theo"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 msgid "Revenue per product from the 511 lines themselves,\n                    deductions from 521, closing transfers excluded — so the\n                    book adds up to account 511. VAT stays on the Bảng kê\n                    01/GTGT, where the tax lines live."
 msgstr "Doanh thu theo sản phẩm từ chính các dòng 511, khoản giảm trừ từ 521, loại kết chuyển cuối kỳ — nên sổ cộng ra đúng phát sinh TK 511. Thuế GTGT theo dõi trên Bảng kê 01/GTGT, nơi các dòng thuế thực sự nằm."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note_template.py:0
+#, python-format
+msgid "Row %s is a formula but has none."
+msgstr "Dòng %s là dòng công thức nhưng chưa có công thức."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note_template.py:0
+#, python-format
+msgid "Row %s reads the ledger but has no account expression."
+msgstr "Dòng %s lấy số từ sổ cái nhưng chưa có biểu thức tài khoản."
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_vat_listing_wizard__direction__sale
@@ -881,6 +1016,18 @@ msgid "Showing matching lines only. The totals below still cover the whole perio
 msgstr "Chỉ hiển thị các dòng khớp điều kiện tìm. Số tổng bên dưới vẫn tính cho cả kỳ."
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note_template.py:0
+#, python-format
+msgid "Sign must be 1 or -1."
+msgstr "Dấu phải là 1 hoặc -1."
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Signatures"
+msgstr "Chữ ký"
+
+#. module: l10n_vn_vas_reports
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_reports_detail
 msgid "Subsidiary Ledgers"
 msgstr "Sổ chi tiết"
@@ -891,9 +1038,23 @@ msgid "Suppliers (payable)"
 msgstr "Nhà cung cấp (phải trả)"
 
 #. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note_template.py:0
+#, python-format
+msgid "Table %s needs a layout."
+msgstr "Bảng %s cần chọn dạng cột."
+
+#. module: l10n_vn_vas_reports
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_reports_tax
 msgid "Tax"
 msgstr "Thuế"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "The company presents %(form)s instead."
+msgstr "Công ty đang trình bày mẫu %(form)s."
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_cash_flow_wizard_form
@@ -916,6 +1077,20 @@ msgstr "Mẫu TT200 đi kèm đã ánh xạ các chỉ tiêu mà doanh nghiệp 
 #, python-format
 msgid "The start date must precede the end date."
 msgstr "Ngày bắt đầu phải trước ngày kết thúc."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "The year must start before it ends."
+msgstr "Ngày đầu năm phải trước ngày cuối năm."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "These notes are locked. Unlock them first; only an accounting manager can."
+msgstr "Bản thuyết minh đã khóa. Cần mở khóa trước; chỉ quản lý kế toán được mở khóa."
 
 #. module: l10n_vn_vas_reports
 #. odoo-python
@@ -968,6 +1143,18 @@ msgstr "Bảng cân đối số phát sinh (S06-DN)"
 #: model:ir.model,name:l10n_vn_vas_reports.model_vn_trial_balance_wizard
 msgid "Trial Balance Report"
 msgstr "Báo cáo Bảng cân đối số phát sinh"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_form
+msgid "Unlock"
+msgstr "Mở khóa"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "Use the Lock and Unlock buttons."
+msgstr "Hãy dùng nút Khóa và Mở khóa."
 
 #. module: l10n_vn_vas_reports
 #. odoo-python

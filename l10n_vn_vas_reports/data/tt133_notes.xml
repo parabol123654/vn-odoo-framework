@@ -1,0 +1,2660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 17.0 Community Edition -->
+<odoo>
+    <!--
+        Mẫu B09-DNN — Bản thuyết minh Báo cáo tài chính (Thông tư 133/2016,
+        Phụ lục 2 phần I mục 6; hướng dẫn lập ở Điều 81 mục 2.5).
+
+        Tiêu đề các phần, mục và dòng chép nguyên văn từ bản .doc chính thức.
+        Nguồn số liệu của từng dòng ghi trong source_note; dòng nào luật không
+        nêu tài khoản thì để nhập tay và ghi lý do ở đó. Dòng printed=False là tổng mẫu không in,
+        chỉ dùng để đối chiếu với B01a-DNN / B02-DNN.
+
+        File này được sinh tự động; đừng sửa tay.
+    -->
+    <data noupdate="1">
+
+        <record id="fs_note_tt133_b09dnn" model="vn.fs.note.template">
+            <field name="name">Bản thuyết minh Báo cáo tài chính</field>
+            <field name="version">TT133</field>
+            <field name="form_code">B09-DNN</field>
+            <field name="form_title">BẢN THUYẾT MINH BÁO CÁO TÀI CHÍNH</field>
+            <field name="form_subtitle">(Áp dụng cho doanh nghiệp đáp ứng giả định hoạt động liên tục)</field>
+            <field name="closing_expression">911*,421*</field>
+            <field name="footnote">Ghi chú: Đối với trường hợp thuê dịch vụ làm kế toán, làm kế toán trưởng thì phải ghi rõ số Giấy chứng nhận đăng ký hành nghề dịch vụ kế toán, tên đơn vị cung cấp dịch vụ kế toán.</field>
+        </record>
+
+        <record id="b09dnn_s1" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">10</field>
+            <field name="number">I.</field>
+            <field name="name">Đặc điểm hoạt động của doanh nghiệp</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_i1" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">20</field>
+            <field name="number">1.</field>
+            <field name="reference">I.1</field>
+            <field name="name">Hình thức sở hữu vốn.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="guidance">Đ81 mục 2.5.4.1 a: công ty cổ phần, công ty trách nhiệm hữu hạn, công ty hợp danh hay doanh nghiệp tư nhân.</field>
+        </record>
+
+        <record id="b09dnn_i2" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">30</field>
+            <field name="number">2.</field>
+            <field name="reference">I.2</field>
+            <field name="name">Lĩnh vực kinh doanh.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="guidance">Đ81 mục 2.5.4.1 b: sản xuất công nghiệp, kinh doanh thương mại, dịch vụ, xây lắp hoặc tổng hợp nhiều lĩnh vực.</field>
+        </record>
+
+        <record id="b09dnn_i3" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">40</field>
+            <field name="number">3.</field>
+            <field name="reference">I.3</field>
+            <field name="name">Ngành nghề kinh doanh.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="guidance">Đ81 mục 2.5.4.1 c: hoạt động kinh doanh chính và đặc điểm sản phẩm sản xuất hoặc dịch vụ cung cấp.</field>
+        </record>
+
+        <record id="b09dnn_i4" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">50</field>
+            <field name="number">4.</field>
+            <field name="reference">I.4</field>
+            <field name="name">Chu kỳ sản xuất, kinh doanh thông thường.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="guidance">Đ81 mục 2.5.4.1 d: nếu dài hơn 12 tháng thì thuyết minh thêm chu kỳ sản xuất kinh doanh bình quân của ngành.</field>
+        </record>
+
+        <record id="b09dnn_i5" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">60</field>
+            <field name="number">5.</field>
+            <field name="reference">I.5</field>
+            <field name="name">Đặc điểm hoạt động của doanh nghiệp trong năm tài chính có ảnh hưởng đến Báo cáo tài chính.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="guidance">Đ81 mục 2.5.4.1 đ: môi trường pháp lý, diễn biến thị trường, sáp nhập, chia, tách, thay đổi quy mô…</field>
+        </record>
+
+        <record id="b09dnn_i6" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">70</field>
+            <field name="number">6.</field>
+            <field name="reference">I.6</field>
+            <field name="name">Tuyên bố về khả năng so sánh thông tin trên Báo cáo tài chính (có so sánh được hay không, nếu không so sánh được phải nêu rõ lý do như chuyển đổi hình thức sở hữu, chuyển đổi loại hình doanh nghiệp, chia, tách doanh nghiệp nêu độ dài về kỳ so sánh...)</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_s2" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">80</field>
+            <field name="number">II.</field>
+            <field name="name">Kỳ kế toán, đơn vị tiền tệ sử dụng trong kế toán</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_ii1" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">90</field>
+            <field name="number">1.</field>
+            <field name="reference">II.1</field>
+            <field name="name">Kỳ kế toán năm (bắt đầu từ ngày..../..../.... kết thúc vào ngày..../..../....).</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="default_text">&lt;p&gt;Kỳ kế toán năm bắt đầu từ ngày {date_from} kết thúc vào ngày {date_to}.&lt;/p&gt;</field>
+        </record>
+
+        <record id="b09dnn_ii2" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">100</field>
+            <field name="number">2.</field>
+            <field name="reference">II.2</field>
+            <field name="name">Đơn vị tiền tệ sử dụng trong kế toán. Trường hợp có sự thay đổi đơn vị tiền tệ trong kế toán so với năm trước, giải trình rõ lý do và ảnh hưởng của sự thay đổi.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="default_text">&lt;p&gt;Đơn vị tiền tệ sử dụng trong kế toán: {currency}.&lt;/p&gt;</field>
+        </record>
+
+        <record id="b09dnn_s3" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">110</field>
+            <field name="number">III.</field>
+            <field name="name">Chuẩn mực và Chế độ kế toán áp dụng</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_iii" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">120</field>
+            <field name="reference">III</field>
+            <field name="name">Tuyên bố về việc tuân thủ Chuẩn mực kế toán và Chế độ kế toán áp dụng</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+            <field name="guidance">Đ81 mục 2.5.4.3. Doanh nghiệp tự viết và chịu trách nhiệm về tuyên bố này; module không điền sẵn.</field>
+        </record>
+
+        <record id="b09dnn_s4" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">130</field>
+            <field name="number">IV.</field>
+            <field name="name">Các chính sách kế toán áp dụng (chi tiết theo các nội dung dưới đây nếu có phát sinh)</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+            <field name="guidance">Đ81 mục 2.5.4.4. Chỉ trình bày chính sách có phát sinh.</field>
+        </record>
+
+        <record id="b09dnn_iv01" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">140</field>
+            <field name="number">-</field>
+            <field name="reference">IV.1</field>
+            <field name="name">Tỷ giá hối đoái áp dụng trong kế toán.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv02" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">150</field>
+            <field name="number">-</field>
+            <field name="reference">IV.2</field>
+            <field name="name">Nguyên tắc chuyển đổi BCTC lập bằng ngoại tệ sang Đồng Việt Nam.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv03" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">160</field>
+            <field name="number">-</field>
+            <field name="reference">IV.3</field>
+            <field name="name">Nguyên tắc ghi nhận các khoản tiền và các khoản tương đương tiền.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv04" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">170</field>
+            <field name="number">-</field>
+            <field name="reference">IV.4</field>
+            <field name="name">Nguyên tắc kế toán các khoản đầu tư tài chính.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv05" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">180</field>
+            <field name="number">-</field>
+            <field name="reference">IV.5</field>
+            <field name="name">Nguyên tắc kế toán nợ phải thu.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv06" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">190</field>
+            <field name="number">-</field>
+            <field name="reference">IV.6</field>
+            <field name="name">Nguyên tắc ghi nhận hàng tồn kho.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv07" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">200</field>
+            <field name="number">-</field>
+            <field name="reference">IV.7</field>
+            <field name="name">Nguyên tắc ghi nhận và các phương pháp khấu hao TSCĐ, TSCĐ thuê tài chính, bất động sản đầu tư.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv08" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">210</field>
+            <field name="number">-</field>
+            <field name="reference">IV.8</field>
+            <field name="name">Nguyên tắc kế toán nợ phải trả.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv09" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">220</field>
+            <field name="number">-</field>
+            <field name="reference">IV.9</field>
+            <field name="name">Nguyên tắc ghi nhận và vốn hóa các khoản chi phí đi vay.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv10" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">230</field>
+            <field name="number">-</field>
+            <field name="reference">IV.10</field>
+            <field name="name">Nguyên tắc ghi nhận vốn chủ sở hữu.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv11" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">240</field>
+            <field name="number">-</field>
+            <field name="reference">IV.11</field>
+            <field name="name">Nguyên tắc và phương pháp ghi nhận doanh thu.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_iv12" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">250</field>
+            <field name="number">-</field>
+            <field name="reference">IV.12</field>
+            <field name="name">Nguyên tắc kế toán chi phí.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_s5" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">260</field>
+            <field name="number">V.</field>
+            <field name="name">Thông tin bổ sung cho các khoản mục trình bày trong Báo cáo tình hình tài chính</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+            <field name="show_unit" eval="True"/>
+        </record>
+
+        <record id="b09dnn_v1" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">270</field>
+            <field name="number">1.</field>
+            <field name="reference">V.1</field>
+            <field name="name">Tiền và tương đương tiền</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v1_cash" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v1"/>
+            <field name="sequence">10</field>
+            <field name="code">cash</field>
+            <field name="name">- Tiền mặt</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">111*</field>
+            <field name="source_note">Dư Nợ TK 111.</field>
+        </record>
+        <record id="b09dnn_v1_bank" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v1"/>
+            <field name="sequence">20</field>
+            <field name="code">bank</field>
+            <field name="name">- Tiền gửi ngân hàng không kỳ hạn</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">112*</field>
+            <field name="source_note">Dư Nợ TK 112.</field>
+        </record>
+        <record id="b09dnn_v1_equiv" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v1"/>
+            <field name="sequence">30</field>
+            <field name="code">equiv</field>
+            <field name="name">- Tương đương tiền</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">Phần 1281, 1288 đủ điều kiện tương đương tiền (kỳ hạn gốc không quá 3 tháng). Sổ không tự phân biệt được: nhập tay. Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v1_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v1"/>
+            <field name="sequence">40</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">formula</field>
+            <field name="formula">cash + bank + equiv</field>
+            <field name="statement_check">B01a-DNN:110</field>
+            <field name="source_note">Bằng B01a-DNN mã số 110. Ánh xạ 110 còn gồm TK 113 nếu công ty dùng: lệch ở đây là dấu hiệu cần xem.</field>
+        </record>
+
+        <record id="b09dnn_v2" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">280</field>
+            <field name="number">2.</field>
+            <field name="reference">V.2</field>
+            <field name="name">Các khoản đầu tư tài chính</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v2_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Chứng khoán kinh doanh</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v2_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">- Tổng giá trị cổ phiếu;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK cấp 2 của 121: tách theo TK chi tiết của công ty hoặc nhập tay.</field>
+        </record>
+        <record id="b09dnn_v2_a2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">30</field>
+            <field name="code">a2</field>
+            <field name="name">- Tổng giá trị trái phiếu;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v2_a3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">40</field>
+            <field name="code">a3</field>
+            <field name="name">- Các loại chứng khoán khác;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v2_a_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">50</field>
+            <field name="code">a_total</field>
+            <field name="name">Tổng chứng khoán kinh doanh</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">121*</field>
+            <field name="statement_check">B01a-DNN:121</field>
+            <field name="detail_formula">a1 + a2 + a3</field>
+            <field name="source_note">Không in (mẫu không có dòng cộng). Dùng để kiểm tra.</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v2_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">60</field>
+            <field name="code">b</field>
+            <field name="name">b) Đầu tư nắm giữ đến ngày đáo hạn</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v2_b1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">70</field>
+            <field name="code">b1</field>
+            <field name="name">- Tiền gửi có kỳ hạn</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">1281*</field>
+            <field name="source_note">Dư Nợ TK 1281.</field>
+        </record>
+        <record id="b09dnn_v2_b2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">80</field>
+            <field name="code">b2</field>
+            <field name="name">- Các khoản đầu tư khác nắm giữ đến ngày đáo hạn</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">1288*</field>
+            <field name="source_note">Dư Nợ TK 1288. Phần cho vay thuộc V.3 c) theo luật; ánh xạ B01a-DNN hiện để cả 1288 ở mã số 122. Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v2_b_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">90</field>
+            <field name="code">b_total</field>
+            <field name="name">Tổng đầu tư nắm giữ đến ngày đáo hạn</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">b1 + b2</field>
+            <field name="statement_check">B01a-DNN:122</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v2_c" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">100</field>
+            <field name="code">c</field>
+            <field name="name">c) Dự phòng tổn thất đầu tư tài chính</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v2_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">110</field>
+            <field name="code">c1</field>
+            <field name="name">- Dự phòng giảm giá chứng khoán kinh doanh</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2291*</field>
+            <field name="source_note">Dư Có TK 2291, ghi âm như B01a-DNN mã số 124.</field>
+        </record>
+        <record id="b09dnn_v2_c2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">120</field>
+            <field name="code">c2</field>
+            <field name="name">- Dự phòng tổn thất đầu tư vào đơn vị khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2292*</field>
+            <field name="source_note">Dư Có TK 2292, ghi âm.</field>
+        </record>
+        <record id="b09dnn_v2_c_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v2"/>
+            <field name="sequence">130</field>
+            <field name="code">c_total</field>
+            <field name="name">Tổng dự phòng</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">c1 + c2</field>
+            <field name="statement_check">B01a-DNN:124</field>
+            <field name="printed" eval="False"/>
+        </record>
+
+        <record id="b09dnn_v3" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">290</field>
+            <field name="number">3.</field>
+            <field name="reference">V.3</field>
+            <field name="name">Các khoản phải thu (Tùy theo yêu cầu quản lý của doanh nghiệp, có thể thuyết minh chi tiết ngắn hạn và dài hạn)</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v3_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Phải thu của khách hàng</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">131*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="statement_check">B01a-DNN:131</field>
+            <field name="source_note">Dư Nợ TK 131 theo từng khách hàng.</field>
+        </record>
+        <record id="b09dnn_v3_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">Trong đó: Phải thu của các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không định nghĩa bên liên quan (Q-B09-5): nhập tay.</field>
+        </record>
+        <record id="b09dnn_v3_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">30</field>
+            <field name="code">b</field>
+            <field name="name">b) Trả trước cho người bán</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">331*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="statement_check">B01a-DNN:132</field>
+            <field name="source_note">Dư Nợ TK 331 theo từng nhà cung cấp.</field>
+        </record>
+        <record id="b09dnn_v3_b1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">40</field>
+            <field name="code">b1</field>
+            <field name="name">Trong đó: Trả trước cho các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_c" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">50</field>
+            <field name="code">c</field>
+            <field name="name">c) Phải thu khác (Chi tiết theo yêu cầu quản lý):</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">60</field>
+            <field name="code">c1</field>
+            <field name="name">- Phải thu về cho vay</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">Phần cho vay của TK 1288. Ánh xạ B01a-DNN đang để 1288 ở mã số 122, nên dòng này nhập tay. Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v3_c2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">70</field>
+            <field name="code">c2</field>
+            <field name="name">- Tạm ứng</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">141*</field>
+            <field name="side">debit_only</field>
+            <field name="source_note">Dư Nợ TK 141.</field>
+        </record>
+        <record id="b09dnn_v3_c3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">80</field>
+            <field name="code">c3</field>
+            <field name="name">- Phải thu nội bộ khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">1368*</field>
+            <field name="side">debit_only</field>
+            <field name="source_note">Dư Nợ TK 1368.</field>
+        </record>
+        <record id="b09dnn_v3_c4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">90</field>
+            <field name="code">c4</field>
+            <field name="name">- Phải thu khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">1386*,1388*,334*,338*,244*</field>
+            <field name="side">debit_only</field>
+            <field name="source_note">Phần còn lại của B01a-DNN mã số 134: dư Nợ 1386, 1388, 334, 338 (và 244 nếu có). Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v3_c_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">100</field>
+            <field name="code">c_total</field>
+            <field name="name">Tổng phải thu khác</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">c1 + c2 + c3 + c4</field>
+            <field name="statement_check">B01a-DNN:134</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v3_d" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">110</field>
+            <field name="code">d</field>
+            <field name="name">d) Tài sản thiếu chờ xử lý</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_d1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">120</field>
+            <field name="code">d1</field>
+            <field name="name">- Tiền;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_d2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">130</field>
+            <field name="code">d2</field>
+            <field name="name">- Hàng tồn kho;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_d3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">140</field>
+            <field name="code">d3</field>
+            <field name="name">- TSCĐ;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_d4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">150</field>
+            <field name="code">d4</field>
+            <field name="name">- Tài sản khác.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v3_d_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">160</field>
+            <field name="code">d_total</field>
+            <field name="name">Tổng tài sản thiếu chờ xử lý</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">1381*</field>
+            <field name="statement_check">B01a-DNN:135</field>
+            <field name="detail_formula">d1 + d2 + d3 + d4</field>
+            <field name="source_note">Dư Nợ TK 1381. TT133 không có TK chi tiết theo loại tài sản: tách tay.</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v3_e" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v3"/>
+            <field name="sequence">170</field>
+            <field name="code">e</field>
+            <field name="name">đ) Nợ xấu (Tổng giá trị các khoản phải thu, cho vay quá hạn thanh toán hoặc chưa quá hạn nhưng khó có khả năng thu hồi)</field>
+            <field name="style">normal</field>
+            <field name="source">manual</field>
+            <field name="source_note">Cần đánh giá khả năng thu hồi (Q-B09-6).</field>
+        </record>
+
+        <record id="b09dnn_v4" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">300</field>
+            <field name="number">4.</field>
+            <field name="reference">V.4</field>
+            <field name="name">Hàng tồn kho (Mã số 141)</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v4_i151" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">10</field>
+            <field name="code">i151</field>
+            <field name="name">- Hàng đang đi trên đường;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">151*</field>
+        </record>
+        <record id="b09dnn_v4_i152" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">20</field>
+            <field name="code">i152</field>
+            <field name="name">- Nguyên liệu, vật liệu;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">152*</field>
+        </record>
+        <record id="b09dnn_v4_i153" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">30</field>
+            <field name="code">i153</field>
+            <field name="name">- Công cụ, dụng cụ;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">153*</field>
+        </record>
+        <record id="b09dnn_v4_i154" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">40</field>
+            <field name="code">i154</field>
+            <field name="name">- Chi phí sản xuất kinh doanh dở dang;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">154*</field>
+        </record>
+        <record id="b09dnn_v4_i155" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">50</field>
+            <field name="code">i155</field>
+            <field name="name">- Thành phẩm;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">155*</field>
+        </record>
+        <record id="b09dnn_v4_i156" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">60</field>
+            <field name="code">i156</field>
+            <field name="name">- Hàng hóa;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">156*</field>
+        </record>
+        <record id="b09dnn_v4_i157" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">70</field>
+            <field name="code">i157</field>
+            <field name="name">- Hàng gửi đi bán</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">157*</field>
+        </record>
+        <record id="b09dnn_v4_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">80</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">formula</field>
+            <field name="formula">i151 + i152 + i153 + i154 + i155 + i156 + i157</field>
+            <field name="statement_check">B01a-DNN:141</field>
+        </record>
+        <record id="b09dnn_v4_of" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">90</field>
+            <field name="code">of</field>
+            <field name="name">Trong đó:</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v4_slow" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">100</field>
+            <field name="code">slow</field>
+            <field name="name">- Giá trị hàng tồn kho ứ đọng, kém, mất phẩm chất không có khả năng tiêu thụ;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v4_pledged" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v4"/>
+            <field name="sequence">110</field>
+            <field name="code">pledged</field>
+            <field name="name">- Giá trị hàng tồn kho dùng để thế chấp, cầm cố bảo đảm các khoản nợ phải trả;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+
+        <record id="b09dnn_v4a" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">310</field>
+            <field name="number">-</field>
+            <field name="reference">V.4</field>
+            <field name="name">Nguyên nhân và hướng xử lý đối với hàng tồn kho ứ đọng, kém, mất phẩm chất.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v4b" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">320</field>
+            <field name="number">-</field>
+            <field name="reference">V.4</field>
+            <field name="name">Lý do dẫn đến việc trích lập thêm hoặc hoàn nhập dự phòng giảm giá hàng tồn kho.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v5" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">330</field>
+            <field name="number">5.</field>
+            <field name="reference">V.5</field>
+            <field name="name">Tăng, giảm tài sản cố định (Chi tiết từng loại tài sản theo yêu cầu quản lý của doanh nghiệp):</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">movement</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v5_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">A. TSCĐ hữu hình</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v5_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">Nguyên giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2111*</field>
+            <field name="source_note">TK 2111. Tăng/giảm là phát sinh Nợ/Có trong năm; điều chuyển giữa nhóm và bút toán đảo làm phồng cả hai cột (Q-B09-10).</field>
+        </record>
+        <record id="b09dnn_v5_a2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">30</field>
+            <field name="code">a2</field>
+            <field name="name">Giá trị hao mòn lũy kế</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2141*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 2141, dư Có. Tăng/giảm là phát sinh Nợ/Có trong năm; điều chuyển giữa nhóm và bút toán đảo làm phồng cả hai cột (Q-B09-10).</field>
+        </record>
+        <record id="b09dnn_v5_a3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">40</field>
+            <field name="code">a3</field>
+            <field name="name">Giá trị còn lại</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">formula</field>
+            <field name="formula">a1 - a2</field>
+        </record>
+        <record id="b09dnn_v5_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">50</field>
+            <field name="code">b</field>
+            <field name="name">B. TSCĐ vô hình</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v5_b1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">60</field>
+            <field name="code">b1</field>
+            <field name="name">Nguyên giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2113*,213*</field>
+            <field name="source_note">TK 2113 (và 213 nếu dùng hệ tài khoản kiểu TT200, như B01a-DNN mã số 151).</field>
+        </record>
+        <record id="b09dnn_v5_b2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">70</field>
+            <field name="code">b2</field>
+            <field name="name">Giá trị hao mòn lũy kế</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2143*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 2143 (Phụ lục 1 in nhầm "2141").</field>
+        </record>
+        <record id="b09dnn_v5_b3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">80</field>
+            <field name="code">b3</field>
+            <field name="name">Giá trị còn lại</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">formula</field>
+            <field name="formula">b1 - b2</field>
+        </record>
+        <record id="b09dnn_v5_c" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">90</field>
+            <field name="code">c</field>
+            <field name="name">C. TSCĐ thuê tài chính</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v5_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">100</field>
+            <field name="code">c1</field>
+            <field name="name">Nguyên giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2112*</field>
+            <field name="source_note">TK 2112.</field>
+        </record>
+        <record id="b09dnn_v5_c2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">110</field>
+            <field name="code">c2</field>
+            <field name="name">Giá trị hao mòn lũy kế</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2142*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 2142.</field>
+        </record>
+        <record id="b09dnn_v5_c3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">120</field>
+            <field name="code">c3</field>
+            <field name="name">Giá trị còn lại</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">formula</field>
+            <field name="formula">c1 - c2</field>
+        </record>
+        <record id="b09dnn_v5_cost" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">130</field>
+            <field name="code">cost</field>
+            <field name="name">Tổng nguyên giá</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">a1 + b1 + c1</field>
+            <field name="statement_check">B01a-DNN:151</field>
+            <field name="source_note">Bằng B01a-DNN mã số 151 (ánh xạ còn gồm TK 213 nếu dùng).</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v5_depr" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v5"/>
+            <field name="sequence">140</field>
+            <field name="code">depr</field>
+            <field name="name">Tổng hao mòn lũy kế</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">a2 + b2 + c2</field>
+            <field name="statement_check">B01a-DNN:-152</field>
+            <field name="printed" eval="False"/>
+        </record>
+
+        <record id="b09dnn_v5a" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">340</field>
+            <field name="number">-</field>
+            <field name="reference">V.5</field>
+            <field name="name">Giá trị còn lại cuối kỳ của TSCĐ dùng để thế chấp, cầm cố đảm bảo khoản vay;</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v5b" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">350</field>
+            <field name="number">-</field>
+            <field name="reference">V.5</field>
+            <field name="name">Nguyên giá TSCĐ cuối năm đã khấu hao hết nhưng vẫn còn sử dụng;</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v5c" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">360</field>
+            <field name="number">-</field>
+            <field name="reference">V.5</field>
+            <field name="name">Nguyên giá TSCĐ cuối năm chờ thanh lý;</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v5d" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">370</field>
+            <field name="number">-</field>
+            <field name="reference">V.5</field>
+            <field name="name">Đối với TSCĐ thuê tài chính:</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v5e" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">380</field>
+            <field name="number">-</field>
+            <field name="reference">V.5</field>
+            <field name="name">Thuyết minh số liệu và giải trình khác.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v6" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">390</field>
+            <field name="number">6.</field>
+            <field name="reference">V.6</field>
+            <field name="name">Tăng, giảm bất động sản đầu tư (Chi tiết theo yêu cầu quản lý của doanh nghiệp):</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">movement</field>
+            <field name="display">standard</field>
+            <field name="column_labels">Số đầu năm|Tăng trong năm|Giảm trong năm|Số cuối năm</field>
+        </record>
+        <record id="b09dnn_v6_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Bất động sản đầu tư cho thuê</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v6_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">- Nguyên giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">Phụ lục 1 không tách BĐSĐT cho thuê và chờ tăng giá: nhập tay (Q-B09-11).</field>
+        </record>
+        <record id="b09dnn_v6_a2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">30</field>
+            <field name="code">a2</field>
+            <field name="name">- Giá trị hao mòn lũy kế</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v6_a3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">40</field>
+            <field name="code">a3</field>
+            <field name="name">- Giá trị còn lại</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">formula</field>
+            <field name="formula">a1 - a2</field>
+        </record>
+        <record id="b09dnn_v6_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">50</field>
+            <field name="code">b</field>
+            <field name="name">b) Bất động sản đầu tư nắm giữ chờ tăng giá</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v6_b1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">60</field>
+            <field name="code">b1</field>
+            <field name="name">- Nguyên giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v6_b2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">70</field>
+            <field name="code">b2</field>
+            <field name="name">- Giá trị hao mòn lũy kế của BĐSĐT cho thuê/TSCĐ chuyển sang BĐSĐT nắm giữ chờ tăng giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v6_b3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">80</field>
+            <field name="code">b3</field>
+            <field name="name">- Tổn thất do suy giảm giá trị</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v6_b4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">90</field>
+            <field name="code">b4</field>
+            <field name="name">- Giá trị còn lại</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">formula</field>
+            <field name="formula">b1 - b2 - b3</field>
+        </record>
+        <record id="b09dnn_v6_cost" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">100</field>
+            <field name="code">cost</field>
+            <field name="name">Tổng nguyên giá BĐSĐT</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">217*</field>
+            <field name="statement_check">B01a-DNN:161</field>
+            <field name="detail_formula">a1 + b1</field>
+            <field name="source_note">TK 217.</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v6_depr" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v6"/>
+            <field name="sequence">110</field>
+            <field name="code">depr</field>
+            <field name="name">Tổng hao mòn BĐSĐT</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2147*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B01a-DNN:-162</field>
+            <field name="detail_formula">a2 + b2</field>
+            <field name="source_note">TK 2147.</field>
+            <field name="printed" eval="False"/>
+        </record>
+
+        <record id="b09dnn_v6a" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">400</field>
+            <field name="number">-</field>
+            <field name="reference">V.6</field>
+            <field name="name">Giá trị còn lại cuối kỳ của BĐSĐT dùng để thế chấp, cầm cố đảm bảo khoản vay;</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v6b" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">410</field>
+            <field name="number">-</field>
+            <field name="reference">V.6</field>
+            <field name="name">Nguyên giá BĐSĐT đã khấu hao hết nhưng vẫn cho thuê hoặc nắm giữ chờ tăng giá;</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v6c" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">420</field>
+            <field name="number">-</field>
+            <field name="reference">V.6</field>
+            <field name="name">Thuyết minh số liệu và giải trình khác.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v7" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">430</field>
+            <field name="number">7.</field>
+            <field name="reference">V.7</field>
+            <field name="name">Xây dựng cơ bản dở dang</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v7_buy" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v7"/>
+            <field name="sequence">10</field>
+            <field name="code">buy</field>
+            <field name="name">- Mua sắm</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2411*</field>
+        </record>
+        <record id="b09dnn_v7_build" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v7"/>
+            <field name="sequence">20</field>
+            <field name="code">build</field>
+            <field name="name">- XDCB</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">241*,-2411*,-2413*</field>
+            <field name="source_note">TK 2412 và phần TK 241 không ghi vào tài khoản cấp 2.</field>
+        </record>
+        <record id="b09dnn_v7_repair" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v7"/>
+            <field name="sequence">30</field>
+            <field name="code">repair</field>
+            <field name="name">- Sửa chữa lớn TSCĐ</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">2413*</field>
+        </record>
+        <record id="b09dnn_v7_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v7"/>
+            <field name="sequence">40</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">formula</field>
+            <field name="formula">buy + build + repair</field>
+            <field name="statement_check">B01a-DNN:170</field>
+        </record>
+
+        <record id="b09dnn_v8" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">440</field>
+            <field name="number">8.</field>
+            <field name="reference">V.8</field>
+            <field name="name">Tài sản khác</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v8_prepaid" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v8"/>
+            <field name="sequence">10</field>
+            <field name="code">prepaid</field>
+            <field name="name">- Chi phí trả trước (chi tiết ngắn hạn, dài hạn theo yêu cầu quản lý của doanh nghiệp)</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">242*</field>
+            <field name="side">debit_only</field>
+            <field name="source_note">Dư Nợ TK 242.</field>
+        </record>
+        <record id="b09dnn_v8_state" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v8"/>
+            <field name="sequence">20</field>
+            <field name="code">state</field>
+            <field name="name">- Các khoản phải thu của Nhà nước</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">333*</field>
+            <field name="side">debit_only</field>
+            <field name="source_note">Dư Nợ các TK chi tiết của 333.</field>
+        </record>
+        <record id="b09dnn_v8_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v8"/>
+            <field name="sequence">30</field>
+            <field name="code">total</field>
+            <field name="name">Tổng tài sản khác</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">prepaid + state</field>
+            <field name="statement_check">B01a-DNN:182</field>
+            <field name="source_note">Bằng B01a-DNN mã số 182 (ánh xạ còn gồm TK 243 nếu dùng).</field>
+            <field name="printed" eval="False"/>
+        </record>
+
+        <record id="b09dnn_v9" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">450</field>
+            <field name="number">9.</field>
+            <field name="reference">V.9</field>
+            <field name="name">Các khoản phải trả (Tùy theo yêu cầu quản lý của doanh nghiệp, có thể thuyết minh chi tiết ngắn hạn và dài hạn)</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v9_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Phải trả người bán</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">331*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="statement_check">B01a-DNN:311</field>
+        </record>
+        <record id="b09dnn_v9_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">Trong đó: Phải trả các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v9_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">30</field>
+            <field name="code">b</field>
+            <field name="name">b) Người mua trả tiền trước</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">131*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="statement_check">B01a-DNN:312</field>
+        </record>
+        <record id="b09dnn_v9_b1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">40</field>
+            <field name="code">b1</field>
+            <field name="name">Trong đó: Nhận trước của các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v9_c" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">50</field>
+            <field name="code">c</field>
+            <field name="name">c) Phải trả khác (Chi tiết theo yêu cầu quản lý):</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v9_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">60</field>
+            <field name="code">c1</field>
+            <field name="name">- Chi phí phải trả</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">335*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+        </record>
+        <record id="b09dnn_v9_c2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">70</field>
+            <field name="code">c2</field>
+            <field name="name">- Phải trả nội bộ khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3368*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+        </record>
+        <record id="b09dnn_v9_c3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">80</field>
+            <field name="code">c3</field>
+            <field name="name">- Phải trả, phải nộp khác</field>
+            <field name="style">heading</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v9_c31" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">90</field>
+            <field name="code">c31</field>
+            <field name="name">+ Tài sản thừa chờ xử lý</field>
+            <field name="style">normal</field>
+            <field name="indent">2</field>
+            <field name="source">ledger</field>
+            <field name="expression">3381*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+        </record>
+        <record id="b09dnn_v9_c32" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">100</field>
+            <field name="code">c32</field>
+            <field name="name">+ Các khoản phải nộp theo lương</field>
+            <field name="style">normal</field>
+            <field name="indent">2</field>
+            <field name="source">ledger</field>
+            <field name="expression">3382*,3383*,3384*,3385*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="source_note">TK 3382–3385 (KPCĐ, BHXH, BHYT, BHTN). Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v9_c33" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">110</field>
+            <field name="code">c33</field>
+            <field name="name">+ Các khoản khác</field>
+            <field name="style">normal</field>
+            <field name="indent">2</field>
+            <field name="source">ledger</field>
+            <field name="expression">338*,-3381*,-3382*,-3383*,-3384*,-3385*,1388*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="source_note">Dư Có 3386, 3387, 3388, phần TK 338 không ghi vào tài khoản cấp 2, và 1388. Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v9_c_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">120</field>
+            <field name="code">c_total</field>
+            <field name="name">Tổng phải trả khác</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">c1 + c2 + c31 + c32 + c33</field>
+            <field name="statement_check">B01a-DNN:315</field>
+            <field name="printed" eval="False"/>
+        </record>
+        <record id="b09dnn_v9_d" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v9"/>
+            <field name="sequence">130</field>
+            <field name="code">d</field>
+            <field name="name">d) Nợ quá hạn chưa thanh toán</field>
+            <field name="style">normal</field>
+            <field name="source">manual</field>
+            <field name="source_note">Cần ngày đến hạn của từng khoản (Q-B09-6).</field>
+        </record>
+
+        <record id="b09dnn_v10" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">460</field>
+            <field name="number">10.</field>
+            <field name="reference">V.10</field>
+            <field name="name">Thuế và các khoản phải nộp nhà nước</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="guidance">Mẫu ghi "(Chi tiết cho từng loại thuế)". Đầu năm/cuối năm là số dư ròng (Có − Nợ); số phải nộp là phát sinh Có, số đã nộp là phát sinh Nợ, kể cả bù trừ thuế GTGT đầu vào (Q-B09-1). Cần kế toán xác nhận.</field>
+            <field name="layout">movement</field>
+            <field name="display">tax</field>
+        </record>
+        <record id="b09dnn_v10_t33311" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">10</field>
+            <field name="code">t33311</field>
+            <field name="name">- Thuế GTGT đầu ra</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3331*,-33312*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 33311 và phần TK 3331 không ghi vào tài khoản cấp 3. Đầu năm/cuối năm là số dư ròng (Có − Nợ); số phải nộp là phát sinh Có, số đã nộp là phát sinh Nợ, kể cả bù trừ thuế GTGT đầu vào (Q-B09-1). Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v10_t33312" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">20</field>
+            <field name="code">t33312</field>
+            <field name="name">- Thuế GTGT hàng nhập khẩu</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">33312*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3332" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">30</field>
+            <field name="code">t3332</field>
+            <field name="name">- Thuế tiêu thụ đặc biệt</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3332*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3333" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">40</field>
+            <field name="code">t3333</field>
+            <field name="name">- Thuế xuất, nhập khẩu</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3333*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3334" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">50</field>
+            <field name="code">t3334</field>
+            <field name="name">- Thuế thu nhập doanh nghiệp</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3334*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3335" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">60</field>
+            <field name="code">t3335</field>
+            <field name="name">- Thuế thu nhập cá nhân</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3335*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3336" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">70</field>
+            <field name="code">t3336</field>
+            <field name="name">- Thuế tài nguyên</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3336*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3337" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">80</field>
+            <field name="code">t3337</field>
+            <field name="name">- Thuế nhà đất, tiền thuê đất</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3337*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t33381" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">90</field>
+            <field name="code">t33381</field>
+            <field name="name">- Thuế bảo vệ môi trường</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">33381*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t33382" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">100</field>
+            <field name="code">t33382</field>
+            <field name="name">- Các loại thuế khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">33382*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_t3339" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">110</field>
+            <field name="code">t3339</field>
+            <field name="name">- Phí, lệ phí và các khoản phải nộp khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3339*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v10_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v10"/>
+            <field name="sequence">120</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">333*</field>
+            <field name="sign">-1</field>
+            <field name="detail_formula">t33311 + t33312 + t3332 + t3333 + t3334 + t3335 + t3336 + t3337 + t33381 + t33382 + t3339</field>
+            <field name="source_note">Toàn bộ TK 333: lệch với các dòng trên nghĩa là có số dư ở TK 333 chưa thuộc dòng nào.</field>
+        </record>
+
+        <record id="b09dnn_v11" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">470</field>
+            <field name="number">11.</field>
+            <field name="reference">V.11</field>
+            <field name="name">Vay và nợ thuê tài chính</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">movement</field>
+            <field name="display">loan</field>
+        </record>
+        <record id="b09dnn_v11_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Vay ngắn hạn</field>
+            <field name="style">normal</field>
+            <field name="source">manual</field>
+            <field name="source_note">TK 3411 không tách ngắn hạn, dài hạn: cần kỳ hạn từng hợp đồng vay (Q-R1). Nhập tay.</field>
+        </record>
+        <record id="b09dnn_v11_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">Trong đó: Vay từ các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v11_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">30</field>
+            <field name="code">b</field>
+            <field name="name">b) Vay dài hạn</field>
+            <field name="style">normal</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v11_b1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">40</field>
+            <field name="code">b1</field>
+            <field name="name">Trong đó: Vay từ các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v11_c" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">50</field>
+            <field name="code">c</field>
+            <field name="name">c) Các khoản nợ gốc thuê tài chính</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">3412*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 3412.</field>
+        </record>
+        <record id="b09dnn_v11_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">60</field>
+            <field name="code">c1</field>
+            <field name="name">Trong đó: Nợ thuê tài chính từ các bên liên quan</field>
+            <field name="style">italic</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_v11_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v11"/>
+            <field name="sequence">70</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">341*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B01a-DNN:316</field>
+            <field name="detail_formula">a + b + c</field>
+            <field name="source_note">Toàn bộ TK 341, bằng B01a-DNN mã số 316.</field>
+        </record>
+
+        <record id="b09dnn_v12" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">480</field>
+            <field name="number">12.</field>
+            <field name="reference">V.12</field>
+            <field name="name">Dự phòng phải trả</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">balance</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_v12_w1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v12"/>
+            <field name="sequence">10</field>
+            <field name="code">w1</field>
+            <field name="name">- Dự phòng bảo hành sản phẩm hàng hóa;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3521*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v12_w2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v12"/>
+            <field name="sequence">20</field>
+            <field name="code">w2</field>
+            <field name="name">- Dự phòng bảo hành công trình xây dựng;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">3522*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v12_w3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v12"/>
+            <field name="sequence">30</field>
+            <field name="code">w3</field>
+            <field name="name">- Dự phòng phải trả khác.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">352*,-3521*,-3522*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 3524 và phần TK 352 không ghi vào tài khoản cấp 2.</field>
+        </record>
+        <record id="b09dnn_v12_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v12"/>
+            <field name="sequence">40</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">formula</field>
+            <field name="formula">w1 + w2 + w3</field>
+            <field name="statement_check">B01a-DNN:318</field>
+        </record>
+
+        <record id="b09dnn_v13h" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">490</field>
+            <field name="number">13.</field>
+            <field name="reference">V.13</field>
+            <field name="name">Vốn chủ sở hữu</field>
+            <field name="level">1</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_v13" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">500</field>
+            <field name="reference">V.13</field>
+            <field name="name">a) Bảng đối chiếu biến động của vốn chủ sở hữu</field>
+            <field name="level">2</field>
+            <field name="kind">table</field>
+            <field name="guidance">Tăng là phát sinh Có, giảm là phát sinh Nợ trong năm, kể cả bút toán kết chuyển lợi nhuận (Q-B09-2). Cần kế toán xác nhận.</field>
+            <field name="layout">movement</field>
+            <field name="display">equity</field>
+        </record>
+        <record id="b09dnn_v13_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">10</field>
+            <field name="code">c1</field>
+            <field name="name">Vốn góp của chủ sở hữu</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">4111*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">Tăng là phát sinh Có, giảm là phát sinh Nợ trong năm, kể cả bút toán kết chuyển lợi nhuận (Q-B09-2). Cần kế toán xác nhận.</field>
+        </record>
+        <record id="b09dnn_v13_c2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">20</field>
+            <field name="code">c2</field>
+            <field name="name">Thặng dư vốn cổ phần</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">4112*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v13_c3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">30</field>
+            <field name="code">c3</field>
+            <field name="name">Vốn khác của chủ sở hữu</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">4118*</field>
+            <field name="sign">-1</field>
+        </record>
+        <record id="b09dnn_v13_c4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">40</field>
+            <field name="code">c4</field>
+            <field name="name">Cổ phiếu quỹ</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">419*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 419, dư Nợ, ra số âm như B01a-DNN mã số 414.</field>
+        </record>
+        <record id="b09dnn_v13_c5" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">50</field>
+            <field name="code">c5</field>
+            <field name="name">Chênh lệch tỷ giá</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">413*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 413, như ánh xạ B01a-DNN mã số 415 (Q-R4, Q-B09-4).</field>
+        </record>
+        <record id="b09dnn_v13_c6" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">60</field>
+            <field name="code">c6</field>
+            <field name="name">LNST thuế chưa phân phối và các quỹ</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">421*,418*,414*</field>
+            <field name="sign">-1</field>
+            <field name="source_note">TK 421 và các quỹ 418 (414 nếu dùng), như B01a-DNN mã số 416 và 417 (Q-B09-3).</field>
+        </record>
+        <record id="b09dnn_v13_c7" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_v13"/>
+            <field name="sequence">70</field>
+            <field name="code">c7</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">formula</field>
+            <field name="formula">c1 + c2 + c3 + c4 + c5 + c6</field>
+            <field name="statement_check">B01a-DNN:400</field>
+        </record>
+
+        <record id="b09dnn_v13a" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">510</field>
+            <field name="number">-</field>
+            <field name="reference">V.13</field>
+            <field name="name">Thuyết minh và giải trình khác về vốn chủ sở hữu (nguyên nhân biến động và các thông tin khác).</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v14h" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">520</field>
+            <field name="number">14.</field>
+            <field name="reference">V.14</field>
+            <field name="name">Các khoản mục ngoài Báo cáo tình hình tài chính</field>
+            <field name="level">1</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_v14a" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">530</field>
+            <field name="number">a)</field>
+            <field name="reference">V.14</field>
+            <field name="name">Tài sản thuê ngoài (Chi tiết số lượng, chủng loại và các thông tin quan trọng khác đối với các tài sản thuê ngoài chủ yếu)</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v14b" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">540</field>
+            <field name="number">b)</field>
+            <field name="reference">V.14</field>
+            <field name="name">Tài sản nhận giữ hộ (Doanh nghiệp phải thuyết minh chi tiết về số lượng, chủng loại, quy cách, phẩm chất của từng loại tài sản tại thời điểm cuối kỳ).</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+            <field name="default_text">&lt;ul&gt;&lt;li&gt;Vật tư hàng hóa nhận giữ hộ, gia công, nhận ủy thác.&lt;/li&gt;&lt;li&gt;Hàng hóa nhận bán hộ, nhận ký gửi, nhận cầm cố, thế chấp.&lt;/li&gt;&lt;/ul&gt;</field>
+        </record>
+
+        <record id="b09dnn_v14c" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">550</field>
+            <field name="number">c)</field>
+            <field name="reference">V.14</field>
+            <field name="name">Ngoại tệ các loại: (Thuyết minh chi tiết số lượng từng loại nguyên tệ).</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v14d" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">560</field>
+            <field name="number">d)</field>
+            <field name="reference">V.14</field>
+            <field name="name">Nợ khó đòi đã xử lý.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v14e" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">570</field>
+            <field name="number">đ)</field>
+            <field name="reference">V.14</field>
+            <field name="name">Thông tin về các khoản tiền phạt, phải thu về lãi trả chậm,... phát sinh từ các khoản nợ quá hạn nhưng không được ghi nhận doanh thu.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v14f" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">580</field>
+            <field name="number">e)</field>
+            <field name="reference">V.14</field>
+            <field name="name">Các thông tin khác về các khoản mục ngoài Báo cáo tình hình tài chính.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v15" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">590</field>
+            <field name="number">15.</field>
+            <field name="reference">V.15</field>
+            <field name="name">Thuyết minh về các bên liên quan (danh sách các bên liên quan, giao dịch và các thông tin khác về các bên liên quan chưa được trình bày ở các nội dung nêu trên)</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_v16" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">600</field>
+            <field name="number">16.</field>
+            <field name="reference">V.16</field>
+            <field name="name">Ngoài các nội dung đã trình bày trên, các doanh nghiệp được giải trình, thuyết minh các thông tin khác nếu thấy cần thiết</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_s6" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">610</field>
+            <field name="number">VI.</field>
+            <field name="name">Thông tin bổ sung cho các khoản mục trình bày trong Báo cáo kết quả hoạt động kinh doanh</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+            <field name="show_unit" eval="True"/>
+        </record>
+
+        <record id="b09dnn_vi1" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">620</field>
+            <field name="number">1.</field>
+            <field name="reference">VI.1</field>
+            <field name="name">Tổng doanh thu bán hàng và cung cấp dịch vụ</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi1_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Doanh thu</field>
+            <field name="style">heading</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi1_a1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">20</field>
+            <field name="code">a1</field>
+            <field name="name">- Doanh thu bán hàng hóa</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">5111*</field>
+            <field name="sign">-1</field>
+            <field name="movement_side">credit</field>
+            <field name="source_note">Phát sinh Có TK 5111, không kể kết chuyển.</field>
+        </record>
+        <record id="b09dnn_vi1_a2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">30</field>
+            <field name="code">a2</field>
+            <field name="name">- Doanh thu bán thành phẩm</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">5112*</field>
+            <field name="sign">-1</field>
+            <field name="movement_side">credit</field>
+        </record>
+        <record id="b09dnn_vi1_a3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">40</field>
+            <field name="code">a3</field>
+            <field name="name">- Doanh thu cung cấp dịch vụ</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">5113*</field>
+            <field name="sign">-1</field>
+            <field name="movement_side">credit</field>
+            <field name="source_note">TK 5113 (Phụ lục 1 in nhầm "5111", Q-L2).</field>
+        </record>
+        <record id="b09dnn_vi1_a4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">50</field>
+            <field name="code">a4</field>
+            <field name="name">- Doanh thu khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">511*,-5111*,-5112*,-5113*</field>
+            <field name="sign">-1</field>
+            <field name="movement_side">credit</field>
+            <field name="source_note">TK 5118 và phần TK 511 không ghi vào tài khoản cấp 2, để dòng Cộng luôn bằng B02-DNN mã số 01.</field>
+        </record>
+        <record id="b09dnn_vi1_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">60</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">formula</field>
+            <field name="formula">a1 + a2 + a3 + a4</field>
+            <field name="statement_check">B02-DNN:01</field>
+        </record>
+        <record id="b09dnn_vi1_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi1"/>
+            <field name="sequence">70</field>
+            <field name="code">b</field>
+            <field name="name">b) Doanh thu từ các bên liên quan (chi tiết cho từng đối tượng)</field>
+            <field name="style">normal</field>
+            <field name="source">manual</field>
+            <field name="source_note">Tổng cộng; chi tiết từng đối tượng ghi ở mục V.15.</field>
+        </record>
+
+        <record id="b09dnn_vi1c" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">630</field>
+            <field name="number">c)</field>
+            <field name="reference">VI.1</field>
+            <field name="name">Trường hợp ghi nhận doanh thu cho thuê tài sản là tổng số tiền nhận trước, doanh nghiệp phải thuyết minh thêm để so sánh sự khác biệt giữa việc ghi nhận doanh thu theo phương pháp phân bổ dần theo thời gian cho thuê; Khả năng suy giảm lợi nhuận và luồng tiền trong tương lai do đã ghi nhận doanh thu đối với toàn bộ số tiền nhận trước.</field>
+            <field name="level">2</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_vi2" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">640</field>
+            <field name="number">2.</field>
+            <field name="reference">VI.2</field>
+            <field name="name">Các khoản giảm trừ doanh thu</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi2_ck" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi2"/>
+            <field name="sequence">10</field>
+            <field name="code">ck</field>
+            <field name="name">- Chiết khấu thương mại;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi2_gg" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi2"/>
+            <field name="sequence">20</field>
+            <field name="code">gg</field>
+            <field name="name">- Giảm giá hàng bán;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi2_tl" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi2"/>
+            <field name="sequence">30</field>
+            <field name="code">tl</field>
+            <field name="name">- Hàng bán bị trả lại.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi2_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi2"/>
+            <field name="sequence">40</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">511*</field>
+            <field name="movement_side">debit</field>
+            <field name="statement_check">B02-DNN:02</field>
+            <field name="detail_formula">ck + gg + tl</field>
+            <field name="source_note">Phát sinh Nợ TK 511, như B02-DNN mã số 02.</field>
+        </record>
+
+        <record id="b09dnn_vi3" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">650</field>
+            <field name="number">3.</field>
+            <field name="reference">VI.3</field>
+            <field name="name">Giá vốn hàng bán</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi3_g1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">10</field>
+            <field name="code">g1</field>
+            <field name="name">- Giá vốn của hàng hóa đã bán;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi3_g2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">20</field>
+            <field name="code">g2</field>
+            <field name="name">- Giá vốn của thành phẩm đã bán;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi3_g3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">30</field>
+            <field name="code">g3</field>
+            <field name="name">- Giá vốn của dịch vụ đã cung cấp;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi3_g4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">40</field>
+            <field name="code">g4</field>
+            <field name="name">- Giá vốn khác;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi3_g5" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">50</field>
+            <field name="code">g5</field>
+            <field name="name">- Các khoản chi phí khác được tính vào giá vốn;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi3_g6" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">60</field>
+            <field name="code">g6</field>
+            <field name="name">- Các khoản ghi giảm giá vốn hàng bán.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">Nhập số dương; dòng Cộng trừ đi.</field>
+        </record>
+        <record id="b09dnn_vi3_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi3"/>
+            <field name="sequence">70</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">632*</field>
+            <field name="statement_check">B02-DNN:11</field>
+            <field name="detail_formula">g1 + g2 + g3 + g4 + g5 - g6</field>
+        </record>
+
+        <record id="b09dnn_vi4" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">660</field>
+            <field name="number">4.</field>
+            <field name="reference">VI.4</field>
+            <field name="name">Doanh thu hoạt động tài chính</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi4_f1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">10</field>
+            <field name="code">f1</field>
+            <field name="name">- Lãi tiền gửi, tiền cho vay;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi4_f2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">20</field>
+            <field name="code">f2</field>
+            <field name="name">- Lãi bán các khoản đầu tư tài chính;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi4_f3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">30</field>
+            <field name="code">f3</field>
+            <field name="name">- Cổ tức, lợi nhuận được chia;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi4_f4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">40</field>
+            <field name="code">f4</field>
+            <field name="name">- Lãi chênh lệch tỷ giá;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi4_f5" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">50</field>
+            <field name="code">f5</field>
+            <field name="name">- Lãi bán hàng trả chậm, chiết khấu thanh toán;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi4_f6" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">60</field>
+            <field name="code">f6</field>
+            <field name="name">- Doanh thu hoạt động tài chính khác.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi4_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi4"/>
+            <field name="sequence">70</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">515*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B02-DNN:21</field>
+            <field name="detail_formula">f1 + f2 + f3 + f4 + f5 + f6</field>
+        </record>
+
+        <record id="b09dnn_vi5" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">670</field>
+            <field name="number">5.</field>
+            <field name="reference">VI.5</field>
+            <field name="name">Chi phí tài chính</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi5_e1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">10</field>
+            <field name="code">e1</field>
+            <field name="name">- Lãi tiền vay;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi5_e2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">20</field>
+            <field name="code">e2</field>
+            <field name="name">- Chiết khấu thanh toán, lãi mua hàng trả chậm;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi5_e3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">30</field>
+            <field name="code">e3</field>
+            <field name="name">- Lỗ do bán các khoản đầu tư tài chính;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi5_e4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">40</field>
+            <field name="code">e4</field>
+            <field name="name">- Lỗ chênh lệch tỷ giá;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi5_e5" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">50</field>
+            <field name="code">e5</field>
+            <field name="name">- Dự phòng giảm giá chứng khoán kinh doanh và tổn thất đầu tư vào đơn vị khác;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi5_e6" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">60</field>
+            <field name="code">e6</field>
+            <field name="name">- Chi phí tài chính khác;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi5_e7" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">70</field>
+            <field name="code">e7</field>
+            <field name="name">- Các khoản ghi giảm chi phí tài chính.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">Nhập số dương; tổng kiểm tra trừ đi.</field>
+        </record>
+        <record id="b09dnn_vi5_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi5"/>
+            <field name="sequence">80</field>
+            <field name="code">total</field>
+            <field name="name">Tổng chi phí tài chính</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">635*</field>
+            <field name="statement_check">B02-DNN:22</field>
+            <field name="detail_formula">e1 + e2 + e3 + e4 + e5 + e6 - e7</field>
+            <field name="source_note">Không in (mẫu không có dòng cộng, Q-B09-16).</field>
+            <field name="printed" eval="False"/>
+        </record>
+
+        <record id="b09dnn_vi6" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">680</field>
+            <field name="number">6.</field>
+            <field name="reference">VI.6</field>
+            <field name="name">Chi phí quản lý kinh doanh</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi6_a" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi6"/>
+            <field name="sequence">10</field>
+            <field name="code">a</field>
+            <field name="name">a) Các khoản chi phí quản lý doanh nghiệp phát sinh trong kỳ</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">642*,-6421*</field>
+            <field name="movement_side">debit</field>
+            <field name="source_note">Phát sinh Nợ TK 6422 (và phần TK 642 không ghi vào tài khoản cấp 2), không kể kết chuyển.</field>
+        </record>
+        <record id="b09dnn_vi6_b" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi6"/>
+            <field name="sequence">20</field>
+            <field name="code">b</field>
+            <field name="name">b) Các khoản chi phí bán hàng phát sinh trong kỳ</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">6421*,641*</field>
+            <field name="movement_side">debit</field>
+            <field name="source_note">Phát sinh Nợ TK 6421 (và 641 nếu dùng).</field>
+        </record>
+        <record id="b09dnn_vi6_c" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi6"/>
+            <field name="sequence">30</field>
+            <field name="code">c</field>
+            <field name="name">c) Các khoản ghi giảm chi phí quản lý kinh doanh</field>
+            <field name="style">normal</field>
+            <field name="source">ledger</field>
+            <field name="expression">642*,641*</field>
+            <field name="sign">-1</field>
+            <field name="movement_side">credit</field>
+            <field name="detail_formula">c1 + c2</field>
+            <field name="source_note">Phát sinh Có TK 642 không phải kết chuyển.</field>
+        </record>
+        <record id="b09dnn_vi6_c1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi6"/>
+            <field name="sequence">40</field>
+            <field name="code">c1</field>
+            <field name="name">- Hoàn nhập các khoản dự phòng;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi6_c2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi6"/>
+            <field name="sequence">50</field>
+            <field name="code">c2</field>
+            <field name="name">- Các khoản ghi giảm khác</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi6_net" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi6"/>
+            <field name="sequence">60</field>
+            <field name="code">net</field>
+            <field name="name">Chi phí quản lý kinh doanh</field>
+            <field name="style">normal</field>
+            <field name="source">formula</field>
+            <field name="formula">a + b - c</field>
+            <field name="statement_check">B02-DNN:24</field>
+            <field name="source_note">Không in. a + b − c bằng B02-DNN mã số 24.</field>
+            <field name="printed" eval="False"/>
+        </record>
+
+        <record id="b09dnn_vi7" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">690</field>
+            <field name="number">7.</field>
+            <field name="reference">VI.7</field>
+            <field name="name">Thu nhập khác</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi7_o1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi7"/>
+            <field name="sequence">10</field>
+            <field name="code">o1</field>
+            <field name="name">- Lãi thanh lý, nhượng bán TSCĐ;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi7_o2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi7"/>
+            <field name="sequence">20</field>
+            <field name="code">o2</field>
+            <field name="name">- Lãi do đánh giá lại tài sản;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi7_o3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi7"/>
+            <field name="sequence">30</field>
+            <field name="code">o3</field>
+            <field name="name">- Tiền phạt thu được;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi7_o4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi7"/>
+            <field name="sequence">40</field>
+            <field name="code">o4</field>
+            <field name="name">- Thuế được giảm, được hoàn;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi7_o5" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi7"/>
+            <field name="sequence">50</field>
+            <field name="code">o5</field>
+            <field name="name">- Các khoản khác.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi7_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi7"/>
+            <field name="sequence">60</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">711*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B02-DNN:31</field>
+            <field name="detail_formula">o1 + o2 + o3 + o4 + o5</field>
+        </record>
+
+        <record id="b09dnn_vi8" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">700</field>
+            <field name="number">8.</field>
+            <field name="reference">VI.8</field>
+            <field name="name">Chi phí khác</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi8_x1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi8"/>
+            <field name="sequence">10</field>
+            <field name="code">x1</field>
+            <field name="name">- Lỗ thanh lý, nhượng bán TSCĐ;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi8_x2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi8"/>
+            <field name="sequence">20</field>
+            <field name="code">x2</field>
+            <field name="name">- Lỗ do đánh giá lại tài sản;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi8_x3" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi8"/>
+            <field name="sequence">30</field>
+            <field name="code">x3</field>
+            <field name="name">- Các khoản bị phạt;</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi8_x4" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi8"/>
+            <field name="sequence">40</field>
+            <field name="code">x4</field>
+            <field name="name">- Các khoản khác.</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi8_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi8"/>
+            <field name="sequence">50</field>
+            <field name="code">total</field>
+            <field name="name">Cộng</field>
+            <field name="style">bold</field>
+            <field name="source">ledger</field>
+            <field name="expression">811*</field>
+            <field name="statement_check">B02-DNN:32</field>
+            <field name="detail_formula">x1 + x2 + x3 + x4</field>
+        </record>
+
+        <record id="b09dnn_vi9" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">710</field>
+            <field name="number">9.</field>
+            <field name="reference">VI.9</field>
+            <field name="name">Chi phí thuế thu nhập doanh nghiệp hiện hành</field>
+            <field name="level">1</field>
+            <field name="kind">table</field>
+            <field name="layout">period</field>
+            <field name="display">standard</field>
+        </record>
+        <record id="b09dnn_vi9_t1" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi9"/>
+            <field name="sequence">10</field>
+            <field name="code">t1</field>
+            <field name="name">- Chi phí thuế thu nhập doanh nghiệp tính trên thu nhập chịu thuế năm hiện hành</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+            <field name="source_note">TT133 không có TK chi tiết cho khoản này: tách theo TK chi tiết của công ty hoặc nhập tay (Q-B09-7).</field>
+        </record>
+        <record id="b09dnn_vi9_t2" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi9"/>
+            <field name="sequence">20</field>
+            <field name="code">t2</field>
+            <field name="name">- Điều chỉnh chi phí thuế thu nhập doanh nghiệp của các năm trước vào chi phí thuế thu nhập năm hiện hành</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">manual</field>
+        </record>
+        <record id="b09dnn_vi9_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dnn_vi9"/>
+            <field name="sequence">30</field>
+            <field name="code">total</field>
+            <field name="name">- Tổng chi phí thuế thu nhập doanh nghiệp hiện hành</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">821*</field>
+            <field name="statement_check">B02-DNN:51</field>
+            <field name="detail_formula">t1 + t2</field>
+        </record>
+
+        <record id="b09dnn_s7" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">720</field>
+            <field name="number">VII.</field>
+            <field name="name">Thông tin bổ sung cho các khoản mục trình bày trong Báo cáo lưu chuyển tiền tệ</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_vii" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">730</field>
+            <field name="reference">VII</field>
+            <field name="name">Các khoản tiền do doanh nghiệp nắm giữ nhưng không được sử dụng: Trình bày giá trị và lý do của các khoản tiền và tương đương tiền lớn do doanh nghiệp nắm giữ nhưng không được sử dụng do có sự hạn chế của pháp luật hoặc các ràng buộc khác mà doanh nghiệp phải thực hiện.</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_s8" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">740</field>
+            <field name="number">VIII.</field>
+            <field name="name">Những thông tin khác</field>
+            <field name="level">0</field>
+            <field name="kind">heading</field>
+        </record>
+
+        <record id="b09dnn_viii1" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">750</field>
+            <field name="number">1.</field>
+            <field name="reference">VIII.1</field>
+            <field name="name">Những khoản nợ tiềm tàng, khoản cam kết và những thông tin tài chính khác:</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_viii2" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">760</field>
+            <field name="number">2.</field>
+            <field name="reference">VIII.2</field>
+            <field name="name">Những sự kiện phát sinh sau ngày kết thúc kỳ kế toán năm:</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_viii3" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">770</field>
+            <field name="number">3.</field>
+            <field name="reference">VIII.3</field>
+            <field name="name">Thông tin so sánh (những thay đổi về thông tin trong Báo cáo tài chính của các niên độ kế toán trước):</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_viii4" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">780</field>
+            <field name="number">4.</field>
+            <field name="reference">VIII.4</field>
+            <field name="name">Thông tin về hoạt động liên tục:</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+        <record id="b09dnn_viii5" model="vn.fs.note.template.item">
+            <field name="template_id" ref="fs_note_tt133_b09dnn"/>
+            <field name="sequence">790</field>
+            <field name="number">5.</field>
+            <field name="reference">VIII.5</field>
+            <field name="name">Những thông tin khác</field>
+            <field name="level">1</field>
+            <field name="kind">text</field>
+        </record>
+
+    </data>
+</odoo>

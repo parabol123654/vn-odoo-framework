@@ -44,6 +44,7 @@
             <field name="name">I. Tiền và các khoản tương đương tiền</field>
             <field name="expression">111*,112*,113*</field>
             <field name="level">1</field>
+            <field name="note_ref">V.1</field>
         </record>
         <record id="b01adnn_120" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -58,6 +59,7 @@
             <field name="name">1. Chứng khoán kinh doanh</field>
             <field name="expression">121*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2</field>
         </record>
         <record id="b01adnn_122" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -65,6 +67,7 @@
             <field name="name">2. Đầu tư nắm giữ đến ngày đáo hạn</field>
             <field name="expression">1281*,1288*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2</field>
         </record>
         <record id="b01adnn_123" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -79,6 +82,7 @@
             <field name="name">4. Dự phòng tổn thất đầu tư tài chính (*)</field>
             <field name="expression">2291*,2292*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2</field>
         </record>
         <record id="b01adnn_130" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -93,6 +97,7 @@
             <field name="name">1. Phải thu của khách hàng</field>
             <field name="expression">131*</field>
             <field name="side">debit_only</field><field name="split_by_partner" eval="True"/><field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01adnn_132" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -100,6 +105,7 @@
             <field name="name">2. Trả trước cho người bán</field>
             <field name="expression">331*</field>
             <field name="side">debit_only</field><field name="split_by_partner" eval="True"/><field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01adnn_133" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -114,6 +120,7 @@
             <field name="name">4. Phải thu khác</field>
             <field name="expression">1368*,1386*,1388*,334*,338*,141*,244*</field>
             <field name="side">debit_only</field><field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01adnn_135" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -121,6 +128,7 @@
             <field name="name">5. Tài sản thiếu chờ xử lý</field>
             <field name="expression">1381*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01adnn_136" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -142,6 +150,7 @@
             <field name="name">1. Hàng tồn kho</field>
             <field name="expression">151*,152*,153*,154*,155*,156*,157*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.4</field>
         </record>
         <record id="b01adnn_142" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -163,6 +172,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">211*,213*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.5</field>
         </record>
         <record id="b01adnn_152" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -170,6 +180,7 @@
             <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2141*,2142*,2143*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.5</field>
         </record>
         <record id="b01adnn_160" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -184,6 +195,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">217*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.6</field>
         </record>
         <record id="b01adnn_162" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -191,6 +203,7 @@
             <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2147*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.6</field>
         </record>
         <record id="b01adnn_170" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -198,6 +211,7 @@
             <field name="name">VII. XDCB dở dang</field>
             <field name="expression">241*</field>
             <field name="level">1</field>
+            <field name="note_ref">V.7</field>
         </record>
         <record id="b01adnn_180" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -219,6 +233,7 @@
             <field name="name">2. Tài sản khác</field>
             <field name="expression">242*,243*,333*</field>
             <field name="side">debit_only</field><field name="level">2</field>
+            <field name="note_ref">V.8</field>
         </record>
         <record id="b01adnn_200" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -246,6 +261,7 @@
             <field name="name">1. Phải trả người bán</field>
             <field name="expression">331*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="split_by_partner" eval="True"/><field name="level">2</field>
+            <field name="note_ref">V.9</field>
         </record>
         <record id="b01adnn_312" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -253,6 +269,7 @@
             <field name="name">2. Người mua trả tiền trước</field>
             <field name="expression">131*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="split_by_partner" eval="True"/><field name="level">2</field>
+            <field name="note_ref">V.9</field>
         </record>
         <record id="b01adnn_313" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -260,6 +277,7 @@
             <field name="name">3. Thuế và các khoản phải nộp Nhà nước</field>
             <field name="expression">333*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="level">2</field>
+            <field name="note_ref">V.10</field>
         </record>
         <record id="b01adnn_314" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -274,6 +292,7 @@
             <field name="name">5. Phải trả khác</field>
             <field name="expression">335*,3368*,338*,1388*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="level">2</field>
+            <field name="note_ref">V.9</field>
         </record>
         <record id="b01adnn_316" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -281,6 +300,7 @@
             <field name="name">6. Vay và nợ thuê tài chính</field>
             <field name="expression">341*</field>
             <field name="sign">-1</field><field name="level">2</field>
+            <field name="note_ref">V.11</field>
         </record>
         <record id="b01adnn_317" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -295,6 +315,7 @@
             <field name="name">8. Dự phòng phải trả</field>
             <field name="expression">352*</field>
             <field name="sign">-1</field><field name="level">2</field>
+            <field name="note_ref">V.12</field>
         </record>
         <record id="b01adnn_319" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>
@@ -316,6 +337,7 @@
             <field name="name">II. Vốn chủ sở hữu</field>
             <field name="formula">411 + 412 + 413 + 414 + 415 + 416 + 417</field>
             <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="note_ref">V.13</field>
         </record>
         <record id="b01adnn_411" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b01adnn"/>

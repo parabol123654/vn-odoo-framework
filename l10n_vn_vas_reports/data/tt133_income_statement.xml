@@ -36,6 +36,7 @@
             <field name="name">1. Doanh thu bán hàng và cung cấp dịch vụ</field>
             <field name="expression">511*</field>
             <field name="sign">-1</field><field name="movement_side">credit</field>
+            <field name="note_ref">VI.1</field>
         </record>
         <record id="b02dnn_02" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
@@ -43,6 +44,7 @@
             <field name="name">2. Các khoản giảm trừ doanh thu</field>
             <field name="expression">511*</field>
             <field name="movement_side">debit</field>
+            <field name="note_ref">VI.2</field>
         </record>
         <record id="b02dnn_10" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
@@ -56,6 +58,7 @@
             <field name="sequence">40</field><field name="code">11</field>
             <field name="name">4. Giá vốn hàng bán</field>
             <field name="expression">632*</field>
+            <field name="note_ref">VI.3</field>
         </record>
         <record id="b02dnn_20" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
@@ -70,12 +73,14 @@
             <field name="name">6. Doanh thu hoạt động tài chính</field>
             <field name="expression">515*</field>
             <field name="sign">-1</field>
+            <field name="note_ref">VI.4</field>
         </record>
         <record id="b02dnn_22" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
             <field name="sequence">70</field><field name="code">22</field>
             <field name="name">7. Chi phí tài chính</field>
             <field name="expression">635*</field>
+            <field name="note_ref">VI.5</field>
         </record>
         <record id="b02dnn_23" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
@@ -88,6 +93,7 @@
             <field name="sequence">90</field><field name="code">24</field>
             <field name="name">8. Chi phí quản lý kinh doanh</field>
             <field name="expression">641*,642*</field>
+            <field name="note_ref">VI.6</field>
         </record>
         <record id="b02dnn_30" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
@@ -102,12 +108,14 @@
             <field name="name">10. Thu nhập khác</field>
             <field name="expression">711*</field>
             <field name="sign">-1</field>
+            <field name="note_ref">VI.7</field>
         </record>
         <record id="b02dnn_32" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
             <field name="sequence">120</field><field name="code">32</field>
             <field name="name">11. Chi phí khác</field>
             <field name="expression">811*</field>
+            <field name="note_ref">VI.8</field>
         </record>
         <record id="b02dnn_40" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>
@@ -128,6 +136,7 @@
             <field name="sequence">150</field><field name="code">51</field>
             <field name="name">14. Chi phí thuế TNDN</field>
             <field name="expression">821*</field>
+            <field name="note_ref">VI.9</field>
         </record>
         <record id="b02dnn_60" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt133_b02dnn"/>

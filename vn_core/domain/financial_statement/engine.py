@@ -130,6 +130,16 @@ class FinancialStatementEngine:
             balance_check=diagnostics[1],
         )
 
+    def amounts_for(self, ledger_filter, mapping):
+        """-> ``{line_code: amount}`` for a mapping built by the caller.
+
+        ``compute`` loads its mapping by code from the repository. The notes
+        to the financial statements (B09) build theirs from the note's own
+        table rows instead, and read the same balances the same way.
+        """
+        self._validate(mapping)
+        return self._amounts(ledger_filter, mapping)
+
     # ==================================================================
     # Diagnostics
     # ==================================================================
