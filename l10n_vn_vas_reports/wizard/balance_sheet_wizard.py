@@ -91,10 +91,12 @@ class VnBalanceSheetWizard(models.TransientModel):
         return _('Balance Sheet')
 
     def _report_form_code(self):
-        return 'B01-DN'
+        return (self.mapping_id or self._default_mapping()).form_code \
+            or 'B01-DN'
 
     def _report_form_title(self):
-        return 'BẢNG CÂN ĐỐI KẾ TOÁN'
+        return (self.mapping_id or self._default_mapping()).form_title \
+            or 'BẢNG CÂN ĐỐI KẾ TOÁN'
 
     def _screen_template(self):
         return 'l10n_vn_vas_reports.balance_sheet_screen'

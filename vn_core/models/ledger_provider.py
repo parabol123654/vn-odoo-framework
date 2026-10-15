@@ -17,6 +17,7 @@ from odoo import models
 
 from ..domain.cash_flow.engine import CashFlowEngine
 from ..domain.financial_statement.engine import FinancialStatementEngine
+from ..domain.financial_statement.notes import NotesCalculator
 from ..domain.ledger.engine import LedgerEngine
 from ..domain.tax.declaration import VatDeclarationEngine
 from ..domain.tax.engine import TaxEngine
@@ -60,6 +61,14 @@ class LedgerProvider(models.AbstractModel):
         """
         return self.financial_statement_engine_class()(
             self.build_ledger_engine(), self.build_mapping_repository())
+
+    def notes_calculator_class(self):
+        return NotesCalculator
+
+    def build_notes_calculator(self):
+        """Figures for the tables of the notes (B09), read like statements."""
+        return self.notes_calculator_class()(
+            self.build_financial_statement_engine())
 
     # -- tax -----------------------------------------------------------
     def tax_repository_class(self):

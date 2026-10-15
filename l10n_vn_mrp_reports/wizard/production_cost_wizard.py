@@ -74,7 +74,9 @@ class VnProductionCostWizard(models.TransientModel):
     def _report_form_code(self):
         # The production cost summary is a management report; TT200 prescribes
         # no form for it. The cost card is mẫu S37-DN.
-        return 'S37-DN' if self.layout == 'cost_card' else ''
+        if self.layout != 'cost_card':
+            return ''
+        return self._by_circular({'TT200': 'S37-DN', 'TT133': 'S18-DNN'})
 
     def _report_form_title(self):
         return ('THẺ TÍNH GIÁ THÀNH SẢN PHẨM, DỊCH VỤ'
