@@ -32,6 +32,8 @@
             <field name="basis">movement</field>
             <field name="version">TT200</field>
             <field name="cash_expression">111*,112*,113*</field>
+            <field name="form_code">B03-DN</field>
+            <field name="form_title">BÁO CÁO LƯU CHUYỂN TIỀN TỆ</field>
         </record>
 
         <!-- ============ I. Hoạt động kinh doanh ============ -->

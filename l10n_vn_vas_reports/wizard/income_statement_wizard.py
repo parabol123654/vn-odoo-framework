@@ -70,10 +70,12 @@ class VnIncomeStatementWizard(models.TransientModel):
         return _('Income Statement')
 
     def _report_form_code(self):
-        return 'B02-DN'
+        return (self.mapping_id or self._default_mapping()).form_code \
+            or 'B02-DN'
 
     def _report_form_title(self):
-        return 'BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH'
+        return (self.mapping_id or self._default_mapping()).form_title \
+            or 'BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH'
 
     def _screen_template(self):
         return 'l10n_vn_vas_reports.income_statement_screen'

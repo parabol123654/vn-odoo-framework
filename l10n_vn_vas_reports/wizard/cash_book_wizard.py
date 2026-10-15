@@ -86,11 +86,16 @@ class VnCashBookWizard(models.TransientModel):
         return _('Cash Book') if self.book_type == 'cash' else _('Bank Book')
 
     def _report_form_code(self):
-        return 'S07-DN' if self.book_type == 'cash' else 'S08-DN'
+        if self.book_type == 'cash':
+            return self._by_circular({'TT200': 'S07-DN', 'TT133': 'S04a-DNN'})
+        return self._by_circular({'TT200': 'S08-DN', 'TT133': 'S05-DNN'})
 
     def _report_form_title(self):
-        return ('SỔ QUỸ TIỀN MẶT' if self.book_type == 'cash'
-                else 'SỔ TIỀN GỬI NGÂN HÀNG')
+        if self.book_type == 'cash':
+            return 'SỔ QUỸ TIỀN MẶT'
+        # TT99 renamed S08-DN (Phụ lục III, Công báo 1575+1576).
+        return self._by_circular({'TT200': 'SỔ TIỀN GỬI NGÂN HÀNG',
+                                  'TT99': 'SỔ TIỀN GỬI KHÔNG KỲ HẠN'})
 
     def _screen_template(self):
         return 'l10n_vn_vas_reports.cash_book_screen'
