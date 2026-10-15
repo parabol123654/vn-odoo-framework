@@ -43,6 +43,11 @@ LAYOUT_PERIOD = 'period'
 LAYOUT_MOVEMENT = 'movement'
 LAYOUTS = (LAYOUT_BALANCE, LAYOUT_PERIOD, LAYOUT_MOVEMENT)
 
+FIGURE_CLOSING = 'closing'
+FIGURE_OPENING = 'opening'
+FIGURE_NET = 'net'
+FIGURES = (FIGURE_CLOSING, FIGURE_OPENING, FIGURE_NET, 'debit', 'credit')
+
 
 class NotesCalculator:
 
@@ -65,9 +70,9 @@ class NotesCalculator:
         rows = tuple(r for r in table.rows if r.expression)
         if not rows:
             return {}
-        if table.layout == LAYOUT_PERIOD:
-            return self._period(table, rows, ledger_filter, previous_filter)
-        return self._balances(table, rows, ledger_filter)
+        if table.layout == LAYOUT_MOVEMENT:
+            return self._balances(table, rows, ledger_filter)
+        return self._figures(table, rows, ledger_filter, previous_filter)
 
     @classmethod
     def apply_formulas(cls, table, values, rounding=None):
@@ -113,7 +118,7 @@ class NotesCalculator:
     # Ledger reads
     # ==================================================================
     def _balances(self, table, rows, ledger_filter):
-        """Closing and opening balance, and for 'movement' both sides."""
+        """Opening, increase, decrease and closing of a 'movement' table."""
         if ledger_filter.date_from is None:
             raise MappingException(
                 "Table %r needs the first day of the year." % table.code)
@@ -121,28 +126,20 @@ class NotesCalculator:
         closing = self._engine.amounts_for(
             ledger_filter.replace(date_from=None), mapping)
         opening = self._engine.amounts_for(
-            ledger_filter.replace(
-                date_from=None,
-                date_to=ledger_filter.date_from - timedelta(days=1)),
-            mapping)
-
-        debit = credit = {}
-        if table.layout == LAYOUT_MOVEMENT:
-            debit = self._engine.amounts_for(
-                ledger_filter, self._mapping(table, rows, 'movement', 'debit'))
-            credit = self._engine.amounts_for(
-                ledger_filter, self._mapping(table, rows, 'movement', 'credit'))
+            self._day_before(ledger_filter), mapping)
+        debit = self._engine.amounts_for(
+            ledger_filter, self._mapping(table, rows, 'movement', 'debit'))
+        credit = self._engine.amounts_for(
+            ledger_filter, self._mapping(table, rows, 'movement', 'credit'))
 
         values = {}
         for row in rows:
-            increase = decrease = None
-            if table.layout == LAYOUT_MOVEMENT:
-                # Both reads used sign 1: debits come back positive, credits
-                # negative (see FinancialStatementEngine._value).
-                debits = debit.get(row.code, 0.0)
-                credits = -credit.get(row.code, 0.0)
-                increase, decrease = ((debits, credits) if row.sign >= 0
-                                      else (credits, debits))
+            # Both reads used sign 1: debits come back positive, credits
+            # negative (see FinancialStatementEngine._value).
+            debits = debit.get(row.code, 0.0)
+            credits = -credit.get(row.code, 0.0)
+            increase, decrease = ((debits, credits) if row.sign >= 0
+                                  else (credits, debits))
             values[row.code] = NoteRowValueDTO(
                 code=row.code,
                 current=closing.get(row.code, 0.0),
@@ -150,43 +147,87 @@ class NotesCalculator:
                 increase=increase, decrease=decrease)
         return values
 
-    def _period(self, table, rows, ledger_filter, previous_filter):
-        mapping = self._mapping(table, rows, basis='movement')
-        current = self._engine.amounts_for(ledger_filter, mapping)
-        previous = (self._engine.amounts_for(previous_filter, mapping)
-                    if previous_filter is not None else {})
-        return {
-            row.code: NoteRowValueDTO(
-                code=row.code,
-                current=current.get(row.code, 0.0),
-                opening=(previous.get(row.code, 0.0)
-                         if previous_filter is not None else None))
-            for row in rows
-        }
+    def _figures(self, table, rows, ledger_filter, previous_filter):
+        """Rows of a 'balance' or 'period' table, each by its own figure.
+
+        ``opening`` is what the comparative column falls back to: for a
+        balance, the same balance a year earlier; for a movement, the
+        previous year's movement.
+        """
+        if ledger_filter.date_from is None:
+            raise MappingException(
+                "Table %r needs the first day of the year." % table.code)
+        default = FIGURE_CLOSING if table.layout == LAYOUT_BALANCE \
+            else FIGURE_NET
+        groups = {}
+        for row in rows:
+            groups.setdefault(row.figure or default, []).append(row)
+
+        values = {}
+        for figure, group in groups.items():
+            group = tuple(group)
+            if figure in (FIGURE_CLOSING, FIGURE_OPENING):
+                mapping = self._mapping(table, group, basis='closing')
+                if figure == FIGURE_CLOSING:
+                    current_filter = ledger_filter.replace(date_from=None)
+                    earlier_filter = self._day_before(ledger_filter)
+                else:
+                    current_filter = self._day_before(ledger_filter)
+                    earlier_filter = (self._day_before(previous_filter)
+                                      if previous_filter is not None
+                                      else None)
+            else:
+                side = None if figure == FIGURE_NET else figure
+                mapping = self._mapping(table, group, 'movement', side,
+                                        keep_sign=True)
+                current_filter, earlier_filter = ledger_filter, previous_filter
+            current = self._engine.amounts_for(current_filter, mapping)
+            earlier = (self._engine.amounts_for(earlier_filter, mapping)
+                       if earlier_filter is not None else None)
+            for row in group:
+                values[row.code] = NoteRowValueDTO(
+                    code=row.code,
+                    current=current.get(row.code, 0.0),
+                    opening=(earlier.get(row.code, 0.0)
+                             if earlier is not None else None))
+        return values
 
     @staticmethod
-    def _mapping(table, rows, basis, movement_side=None):
+    def _day_before(ledger_filter):
+        """As-at filter for the day before ``ledger_filter``'s year."""
+        return ledger_filter.replace(
+            date_from=None,
+            date_to=ledger_filter.date_from - timedelta(days=1))
+
+    @staticmethod
+    def _mapping(table, rows, basis, movement_side=None, keep_sign=False):
         """A one-off statement mapping made of the table's ledger rows.
 
         For the two one-sided reads of a 'movement' table the sign is forced
         to 1 and the side to 'both': the caller assigns debit and credit to
-        increase and decrease itself, by the row's sign.
+        increase and decrease itself, by the row's sign. A row that asks for
+        one side of the movement as its figure (``keep_sign``) keeps both.
         """
         lines = []
         for sequence, row in enumerate(rows):
-            one_sided = movement_side is not None
+            one_sided = movement_side is not None and not keep_sign
             lines.append(MappingLineDTO(
                 code=row.code, name=row.code, sequence=sequence,
                 expression=row.expression,
                 sign=1 if one_sided else row.sign,
                 side='both' if one_sided else row.side,
                 split_by_partner=row.split_by_partner,
-                movement_side=movement_side or row.movement_side))
+                movement_side=movement_side or row.movement_side,
+                maturity=row.maturity))
         return MappingDTO(
             code='notes:%s' % table.code, name=table.code,
             report_type='notes', basis=basis,
+            # The year-end transfer is left out of every movement a row
+            # reads, as on B02, but not out of a 'movement' table: there the
+            # transfer of the year's profit to 421 is a real increase.
             closing_expression=(table.closing_expression
-                                if table.layout == LAYOUT_PERIOD else ''),
+                                if basis == 'movement'
+                                and table.layout != LAYOUT_MOVEMENT else ''),
             lines=tuple(lines))
 
     # ==================================================================
@@ -237,5 +278,9 @@ class NotesCalculator:
                 raise MappingException(
                     "Row %r has both an expression and a formula; it must "
                     "have one or the other." % row.code)
+            if row.figure and row.figure not in FIGURES:
+                raise MappingException(
+                    "Row %r has an unknown figure %r." % (row.code,
+                                                          row.figure))
         FormulaEvaluator.resolution_order(
             {r.code: r.formula for r in table.rows if r.formula})

@@ -21,9 +21,44 @@
         <t t-set="rows" t-value="item.row_ids.filtered(lambda r: r.printed)"/>
         <t t-set="columns" t-value="item.print_columns()"/>
 
-        <!-- Vốn chủ sở hữu: mẫu xoay bảng, dòng thành cột. -->
-        <table t-if="item.display == 'equity' and item.layout == 'movement'"
+        <!--
+            Nhiều chỉ tiêu trên một dòng (TT99: Giá gốc / Giá trị hợp lý / Dự
+            phòng; bảng TSCĐ theo nhóm tài sản). Mỗi ô là một dòng mẫu.
+        -->
+        <t t-if="item.measures">
+            <t t-set="grid" t-value="item.print_grid()"/>
+            <table class="table table-sm o_vn_table o_vn_note_table">
+                <thead>
+                    <tr t-if="grid[0]">
+                        <th t-att-rowspan="2"/>
+                        <th t-foreach="grid[0]" t-as="period" class="text-center"
+                            t-att-colspan="period[1]" t-esc="period[0]"/>
+                    </tr>
+                    <tr>
+                        <th t-if="not grid[0]"/>
+                        <th t-foreach="grid[1]" t-as="measure"
+                            class="o_vn_col_amount" t-esc="measure"/>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="grid[2]" t-as="line"
+                        t-att-class="'o_vn_row_bold' if line[0].style in ('bold', 'heading') else 'o_vn_row_italic' if line[0].style == 'italic' else ''">
+                        <td t-att-style="'padding-left: %dem' % (line[0].indent + 0.3)"
+                            t-esc="line[0].name"/>
+                        <td t-foreach="line[1]" t-as="cell" class="o_vn_col_amount">
+                            <t t-if="cell[0]">
+                                <t t-set="row" t-value="cell[0]"/>
+                                <t t-set="column" t-value="cell[1]"/>
+                                <t t-call="l10n_vn_vas_reports.fs_note_amount"/>
+                            </t>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </t>
+        <table t-elif="item.display == 'equity' and item.layout == 'movement'"
                class="table table-sm o_vn_table o_vn_note_table">
+            <!-- Vốn chủ sở hữu (TT133): mẫu xoay bảng, dòng thành cột. -->
             <thead>
                 <tr>
                     <th rowspan="2">Nội dung</th>
@@ -147,11 +182,11 @@
                         <div class="col-4 text-center">
                             <div class="o_vn_signature_date">
                                 <t t-if="doc.report_date">
-                                    Lập, ngày <t t-esc="doc.report_date.day"/>
+                                    <t t-esc="doc.template_id.date_label or 'Lập'"/>, ngày <t t-esc="doc.report_date.day"/>
                                     tháng <t t-esc="doc.report_date.month"/>
                                     năm <t t-esc="doc.report_date.year"/>
                                 </t>
-                                <t t-else="">Lập, ngày ... tháng ... năm ...</t>
+                                <t t-else=""><t t-esc="doc.template_id.date_label or 'Lập'"/>, ngày ... tháng ... năm ...</t>
                             </div>
                             <div class="o_vn_signature_role" t-esc="form_signer.upper()"/>
                             <div class="o_vn_signature_hint">(Ký, họ tên, đóng dấu)</div>

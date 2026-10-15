@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-15 13:25+0000\n"
-"PO-Revision-Date: 2026-10-15 13:25+0000\n"
+"POT-Creation-Date: 2026-10-15 15:17+0000\n"
+"PO-Revision-Date: 2026-10-15 15:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -692,6 +692,12 @@ msgstr "Chưa có mẫu thuyết minh báo cáo tài chính theo %s. Module kèm
 #, python-format
 msgid "Not broken down yet: fill in the rows below it."
 msgstr "Chưa tách chi tiết: hãy điền các dòng bên dưới."
+
+#. module: l10n_vn_vas_reports
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note.py:0
+#, python-format
+msgid "Not filled in yet."
+msgstr "Chưa điền."
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fs_note_item_form
