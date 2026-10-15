@@ -50,6 +50,7 @@
             <field name="name">I. Tiền và các khoản tương đương tiền</field>
             <field name="formula">111 + 112</field>
             <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="note_ref">V.1</field>
         </record>
         <record id="b01dn99_111" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -57,12 +58,14 @@
             <field name="name">1. Tiền</field>
             <field name="expression">111*,112*,113*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.1</field>
         </record>
         <record id="b01dn99_112" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
             <field name="sequence">50</field><field name="code">112</field>
             <field name="name">2. Các khoản tương đương tiền</field>
             <field name="level">2</field>
+            <field name="note_ref">V.1</field>
         </record>
         <record id="b01dn99_120" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -77,6 +80,7 @@
             <field name="name">1. Chứng khoán kinh doanh</field>
             <field name="expression">121*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2a</field>
         </record>
         <record id="b01dn99_122" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -84,6 +88,7 @@
             <field name="name">2. Dự phòng giảm giá chứng khoán kinh doanh (*)</field>
             <field name="expression">2291*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2a</field>
         </record>
         <record id="b01dn99_123" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -91,12 +96,14 @@
             <field name="name">3. Đầu tư nắm giữ đến ngày đáo hạn ngắn hạn</field>
             <field name="expression">128*</field>
             <field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.2b</field>
         </record>
         <record id="b01dn99_124" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
             <field name="sequence">100</field><field name="code">124</field>
             <field name="name">4. Dự phòng đầu tư nắm giữ đến ngày đáo hạn ngắn hạn (*)</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2b</field>
         </record>
         <record id="b01dn99_125" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -104,6 +111,7 @@
             <field name="name">5. Đầu tư ngắn hạn khác</field>
             <field name="expression">2281*</field>
             <field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.2c</field>
         </record>
         <record id="b01dn99_126" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -124,6 +132,7 @@
             <field name="name">1. Phải thu ngắn hạn của khách hàng</field>
             <field name="expression">131*</field>
             <field name="side">debit_only</field><field name="split_by_partner" eval="True"/><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01dn99_132" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -152,6 +161,7 @@
             <field name="name">5. Phải thu ngắn hạn khác</field>
             <field name="expression">1385*,1388*,334*,338*,141*,244*</field>
             <field name="side">debit_only</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.4</field>
         </record>
         <record id="b01dn99_136" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -159,6 +169,7 @@
             <field name="name">6. Dự phòng phải thu ngắn hạn khó đòi (*)</field>
             <field name="expression">2293*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01dn99_137" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -166,6 +177,7 @@
             <field name="name">7. Tài sản thiếu chờ xử lý</field>
             <field name="expression">1381*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.5</field>
         </record>
         <record id="b01dn99_140" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -180,6 +192,7 @@
             <field name="name">1. Hàng tồn kho</field>
             <field name="expression">151*,152*,153*,154*,155*,156*,157*,158*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.7</field>
         </record>
         <record id="b01dn99_142" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -187,6 +200,7 @@
             <field name="name">2. Dự phòng giảm giá hàng tồn kho (*)</field>
             <field name="expression">2294*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.7</field>
         </record>
         <record id="b01dn99_150" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -201,6 +215,7 @@
             <field name="name">1. Súc vật nuôi lấy sản phẩm một lần ngắn hạn</field>
             <field name="expression">2152*</field>
             <field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.12.1</field>
         </record>
         <record id="b01dn99_152" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -208,6 +223,7 @@
             <field name="name">2. Cây trồng theo mùa vụ hoặc lấy sản phẩm một lần ngắn hạn</field>
             <field name="expression">2153*</field>
             <field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.12.1</field>
         </record>
         <record id="b01dn99_153" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -228,6 +244,7 @@
             <field name="sequence">290</field><field name="code">161</field>
             <field name="name">1. Chi phí chờ phân bổ ngắn hạn</field>
             <field name="level">2</field>
+            <field name="note_ref">V.14</field>
         </record>
         <record id="b01dn99_162" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -242,6 +259,7 @@
             <field name="name">3. Thuế và các khoản khác phải thu Nhà nước</field>
             <field name="expression">1383*,333*</field>
             <field name="side">debit_only</field><field name="level">2</field>
+            <field name="note_ref">V.19</field>
         </record>
         <record id="b01dn99_164" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -256,6 +274,7 @@
             <field name="name">5. Tài sản ngắn hạn khác</field>
             <field name="expression">2288*</field>
             <field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.15</field>
         </record>
         <record id="b01dn99_200" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -277,6 +296,7 @@
             <field name="name">1. Phải thu dài hạn của khách hàng</field>
             <field name="expression">131*</field>
             <field name="side">debit_only</field><field name="split_by_partner" eval="True"/><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01dn99_212" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -305,12 +325,14 @@
             <field name="name">5. Phải thu dài hạn khác</field>
             <field name="expression">1385*,1388*,334*,338*,141*,244*</field>
             <field name="side">debit_only</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.4</field>
         </record>
         <record id="b01dn99_216" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
             <field name="sequence">410</field><field name="code">216</field>
             <field name="name">6. Dự phòng phải thu dài hạn khó đòi (*)</field>
             <field name="level">2</field>
+            <field name="note_ref">V.3</field>
         </record>
         <record id="b01dn99_220" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -332,6 +354,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">211*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.9</field>
         </record>
         <record id="b01dn99_223" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -339,6 +362,7 @@
             <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2141*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.9</field>
         </record>
         <record id="b01dn99_224" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -353,6 +377,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">212*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.11</field>
         </record>
         <record id="b01dn99_226" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -360,6 +385,7 @@
             <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2142*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.11</field>
         </record>
         <record id="b01dn99_227" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -374,6 +400,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">213*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.10</field>
         </record>
         <record id="b01dn99_229" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -381,6 +408,7 @@
             <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2143*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.10</field>
         </record>
         <record id="b01dn99_230" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -402,6 +430,7 @@
             <field name="name">a) Súc vật nuôi cho sản phẩm định kỳ chưa đến giai đoạn trưởng thành</field>
             <field name="expression">21511*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.12.1</field>
         </record>
         <record id="b01dn99_233" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -416,6 +445,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">215121*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.12.2</field>
         </record>
         <record id="b01dn99_235" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -423,6 +453,7 @@
             <field name="name">- Giá trị khấu hao lũy kế (*)</field>
             <field name="expression">215122*</field>
             <field name="level">3</field>
+            <field name="note_ref">V.12.2</field>
         </record>
         <record id="b01dn99_236" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -430,6 +461,7 @@
             <field name="name">2. Súc vật nuôi lấy sản phẩm một lần dài hạn</field>
             <field name="expression">2152*</field>
             <field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.12.1</field>
         </record>
         <record id="b01dn99_237" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -437,6 +469,7 @@
             <field name="name">3. Cây trồng theo mùa vụ hoặc lấy sản phẩm một lần dài hạn</field>
             <field name="expression">2153*</field>
             <field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.12.1</field>
         </record>
         <record id="b01dn99_238" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -457,6 +490,7 @@
             <field name="name">- Nguyên giá</field>
             <field name="expression">217*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.13</field>
         </record>
         <record id="b01dn99_242" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -464,6 +498,7 @@
             <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2147*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.13</field>
         </record>
         <record id="b01dn99_250" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -477,6 +512,7 @@
             <field name="sequence">650</field><field name="code">251</field>
             <field name="name">1. Chi phí sản xuất, kinh doanh dở dang dài hạn</field>
             <field name="level">2</field>
+            <field name="note_ref">V.8</field>
         </record>
         <record id="b01dn99_252" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -484,6 +520,7 @@
             <field name="name">2. Chi phí xây dựng cơ bản dở dang</field>
             <field name="expression">241*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.8</field>
         </record>
         <record id="b01dn99_260" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -498,6 +535,7 @@
             <field name="name">1. Đầu tư vào công ty con</field>
             <field name="expression">221*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2c</field>
         </record>
         <record id="b01dn99_262" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -505,6 +543,7 @@
             <field name="name">2. Đầu tư vào công ty liên doanh, liên kết</field>
             <field name="expression">222*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2c</field>
         </record>
         <record id="b01dn99_263" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -512,6 +551,7 @@
             <field name="name">3. Đầu tư góp vốn vào đơn vị khác</field>
             <field name="expression">2281*</field>
             <field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.2c</field>
         </record>
         <record id="b01dn99_264" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -519,6 +559,7 @@
             <field name="name">4. Dự phòng tổn thất đầu tư vào đơn vị khác dài hạn (*)</field>
             <field name="expression">2292*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2c</field>
         </record>
         <record id="b01dn99_265" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -526,12 +567,14 @@
             <field name="name">5. Đầu tư nắm giữ đến ngày đáo hạn dài hạn</field>
             <field name="expression">128*</field>
             <field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.2b</field>
         </record>
         <record id="b01dn99_266" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
             <field name="sequence">730</field><field name="code">266</field>
             <field name="name">6. Dự phòng đầu tư nắm giữ đến ngày đáo hạn dài hạn (*)</field>
             <field name="level">2</field>
+            <field name="note_ref">V.2b</field>
         </record>
         <record id="b01dn99_270" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -546,6 +589,7 @@
             <field name="name">1. Chi phí chờ phân bổ dài hạn</field>
             <field name="expression">242*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.14</field>
         </record>
         <record id="b01dn99_272" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -553,6 +597,7 @@
             <field name="name">2. Tài sản thuế thu nhập hoãn lại</field>
             <field name="expression">243*</field>
             <field name="level">2</field>
+            <field name="note_ref">V.26a</field>
         </record>
         <record id="b01dn99_273" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -566,6 +611,7 @@
             <field name="name">4. Tài sản dài hạn khác</field>
             <field name="expression">2288*</field>
             <field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.15</field>
         </record>
         <record id="b01dn99_280" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -600,6 +646,7 @@
             <field name="name">1. Phải trả người bán ngắn hạn</field>
             <field name="expression">331*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="split_by_partner" eval="True"/><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.17</field>
         </record>
         <record id="b01dn99_312" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -614,6 +661,7 @@
             <field name="name">3. Phải trả cổ tức, lợi nhuận</field>
             <field name="expression">332*</field>
             <field name="sign">-1</field><field name="level">2</field>
+            <field name="note_ref">V.18</field>
         </record>
         <record id="b01dn99_314" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -621,6 +669,7 @@
             <field name="name">4. Thuế và các khoản phải nộp Nhà nước ngắn hạn</field>
             <field name="expression">333*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.19</field>
         </record>
         <record id="b01dn99_315" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -635,6 +684,7 @@
             <field name="name">6. Chi phí phải trả ngắn hạn</field>
             <field name="expression">335*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.20</field>
         </record>
         <record id="b01dn99_317" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -656,6 +706,7 @@
             <field name="name">9. Doanh thu chờ phân bổ ngắn hạn</field>
             <field name="expression">3387*</field>
             <field name="sign">-1</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.22</field>
         </record>
         <record id="b01dn99_320" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -663,6 +714,7 @@
             <field name="name">10. Phải trả ngắn hạn khác</field>
             <field name="expression">338*,-3387*,1385*,1388*,344*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.21</field>
         </record>
         <record id="b01dn99_321" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -670,6 +722,7 @@
             <field name="name">11. Vay và nợ thuê tài chính ngắn hạn</field>
             <field name="expression">341*,343*,-3432*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.16</field>
         </record>
         <record id="b01dn99_322" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -677,6 +730,7 @@
             <field name="name">12. Dự phòng phải trả ngắn hạn</field>
             <field name="expression">352*</field>
             <field name="sign">-1</field><field name="maturity">short</field><field name="level">2</field>
+            <field name="note_ref">V.25</field>
         </record>
         <record id="b01dn99_323" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -712,6 +766,7 @@
             <field name="name">1. Phải trả người bán dài hạn</field>
             <field name="expression">331*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="split_by_partner" eval="True"/><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.17</field>
         </record>
         <record id="b01dn99_332" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -726,6 +781,7 @@
             <field name="name">3. Thuế và các khoản phải nộp Nhà nước dài hạn</field>
             <field name="expression">333*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.19</field>
         </record>
         <record id="b01dn99_334" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -733,6 +789,7 @@
             <field name="name">4. Chi phí phải trả dài hạn</field>
             <field name="expression">335*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.20</field>
         </record>
         <record id="b01dn99_335" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -754,6 +811,7 @@
             <field name="name">7. Doanh thu chờ phân bổ dài hạn</field>
             <field name="expression">3387*</field>
             <field name="sign">-1</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.22</field>
         </record>
         <record id="b01dn99_338" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -761,6 +819,7 @@
             <field name="name">8. Phải trả dài hạn khác</field>
             <field name="expression">338*,-3387*,1385*,1388*,344*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.21</field>
         </record>
         <record id="b01dn99_339" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -768,6 +827,7 @@
             <field name="name">9. Vay và nợ thuê tài chính dài hạn</field>
             <field name="expression">341*,343*,-3432*</field>
             <field name="sign">-1</field><field name="side">credit_only</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.16</field>
         </record>
         <record id="b01dn99_340" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -775,12 +835,14 @@
             <field name="name">10. Trái phiếu chuyển đổi</field>
             <field name="expression">3432*</field>
             <field name="sign">-1</field><field name="level">2</field>
+            <field name="note_ref">V.23.2</field>
         </record>
         <record id="b01dn99_341" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
             <field name="sequence">1090</field><field name="code">341</field>
             <field name="name">11. Cổ phiếu ưu đãi</field>
             <field name="level">2</field>
+            <field name="note_ref">V.24</field>
         </record>
         <record id="b01dn99_342" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -788,6 +850,7 @@
             <field name="name">12. Thuế thu nhập hoãn lại phải trả</field>
             <field name="expression">347*</field>
             <field name="sign">-1</field><field name="level">2</field>
+            <field name="note_ref">V.26b</field>
         </record>
         <record id="b01dn99_343" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -795,6 +858,7 @@
             <field name="name">13. Dự phòng phải trả dài hạn</field>
             <field name="expression">352*</field>
             <field name="sign">-1</field><field name="maturity">long</field><field name="level">2</field>
+            <field name="note_ref">V.25</field>
         </record>
         <record id="b01dn99_344" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -809,6 +873,7 @@
             <field name="name">D - VỐN CHỦ SỞ HỮU</field>
             <field name="formula">411 + 412 + 413 + 414 + 415 + 416 + 417 + 418 + 419 + 420</field>
             <field name="bold" eval="True"/>
+            <field name="note_ref">V.27a</field>
         </record>
         <record id="b01dn99_411" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -816,6 +881,7 @@
             <field name="name">1. Vốn góp của chủ sở hữu</field>
             <field name="formula">411a + 411b</field>
             <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="note_ref">V.27a</field>
         </record>
         <record id="b01dn99_411a" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -837,6 +903,7 @@
             <field name="name">2. Thặng dư vốn</field>
             <field name="expression">4112*</field>
             <field name="sign">-1</field><field name="level">1</field>
+            <field name="note_ref">V.27a</field>
         </record>
         <record id="b01dn99_413" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -844,6 +911,7 @@
             <field name="name">3. Quyền chọn chuyển đổi trái phiếu</field>
             <field name="expression">4113*</field>
             <field name="sign">-1</field><field name="level">1</field>
+            <field name="note_ref">V.27a</field>
         </record>
         <record id="b01dn99_414" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -851,6 +919,7 @@
             <field name="name">4. Vốn khác của chủ sở hữu</field>
             <field name="expression">4118*</field>
             <field name="sign">-1</field><field name="level">1</field>
+            <field name="note_ref">V.27a</field>
         </record>
         <record id="b01dn99_415" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -858,6 +927,7 @@
             <field name="name">5. Cổ phiếu mua lại của chính mình (*)</field>
             <field name="expression">419*</field>
             <field name="sign">-1</field><field name="level">1</field>
+            <field name="note_ref">V.27a</field>
         </record>
         <record id="b01dn99_416" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -865,6 +935,7 @@
             <field name="name">6. Chênh lệch đánh giá lại tài sản</field>
             <field name="expression">412*</field>
             <field name="sign">-1</field><field name="level">1</field>
+            <field name="note_ref">V.28</field>
         </record>
         <record id="b01dn99_417" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
@@ -872,6 +943,7 @@
             <field name="name">7. Chênh lệch tỷ giá hối đoái</field>
             <field name="expression">413*</field>
             <field name="sign">-1</field><field name="level">1</field>
+            <field name="note_ref">V.29</field>
         </record>
         <record id="b01dn99_418" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt99_b01dn"/>
