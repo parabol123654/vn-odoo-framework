@@ -4,7 +4,8 @@
 
     <!--
         Statutory furniture shared by every VAS book. The headings here are
-        fixed by Thông tư 200/2014/TT-BTC and are deliberately written in
+        fixed by the circular the company reports under (Thông tư 200/2014 or
+        133/2016, see FORM_LEGAL_LINE in base_report_wizard) and written in
         Vietnamese rather than passed through the translation system: this is
         the form a Vietnamese inspector expects to see, not a UI label.
     -->
@@ -26,9 +27,8 @@
                 -->
                 <div class="col-5 text-right o_vn_form_code" t-if="form_code">
                     <div>Mẫu số: <strong t-out="form_code"/></div>
-                    <div class="o_vn_form_legal">
-                        (Ban hành theo Thông tư số 200/2014/TT-BTC<br/>
-                        ngày 22/12/2014 của Bộ Tài chính)
+                    <div class="o_vn_form_legal" t-if="form_legal">
+                        <t t-out="form_legal[0]"/><br/><t t-out="form_legal[1]"/>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
     <template id="vn_form_signature">
         <div class="row o_vn_signature">
             <div class="col-4 text-center">
-                <div class="o_vn_signature_role">Người lập biểu</div>
+                <div class="o_vn_signature_role" t-out="form_preparer or 'Người lập biểu'"/>
                 <div class="o_vn_signature_hint">(Ký, họ tên)</div>
             </div>
             <div class="col-4 text-center">
@@ -115,7 +115,7 @@
                     tháng <span t-out="doc.date_to.month"/>
                     năm <span t-out="doc.date_to.year"/>
                 </div>
-                <div class="o_vn_signature_role">Giám đốc</div>
+                <div class="o_vn_signature_role" t-out="form_signer or 'Giám đốc'"/>
                 <div class="o_vn_signature_hint">(Ký, họ tên, đóng dấu)</div>
             </div>
         </div>

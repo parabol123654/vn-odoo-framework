@@ -33,6 +33,13 @@ class MappingLineDTO(NamedTuple):
     note_ref: str = ''              # "Thuyết minh" column
     visible: bool = True
     bold: bool = False
+    #: Which part of the period's movement a 'movement' line reads: the net
+    #: change, or only its debit or credit side. B02-DNN item 01 is "lũy kế
+    #: phát sinh bên Có TK 511" and item 02 the debit side of the same account.
+    movement_side: str = 'net'      # net | debit | credit
+    #: B01b-DNN splits a balance by remaining term: 'short' keeps what falls
+    #: due within twelve months of the report date, 'long' the rest.
+    maturity: str = 'all'           # all | short | long
 
 
 class MappingDTO(NamedTuple):
@@ -47,6 +54,12 @@ class MappingDTO(NamedTuple):
     cash_expression: str = ''
     #: 'direct' or 'indirect'. Decides which engine builds the statement.
     cash_flow_method: str = 'direct'
+    #: Accounts of the year-end transfer (911, 421). Journal entries touching
+    #: them are left out of a 'movement' statement; see LedgerFilter.
+    closing_expression: str = ''
+    #: Form number and heading printed on the statement, e.g. B01a-DNN.
+    form_code: str = ''
+    form_title: str = ''
     lines: Tuple[MappingLineDTO, ...] = ()
 
 

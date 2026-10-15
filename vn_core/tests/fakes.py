@@ -61,7 +61,8 @@ class FakeLedgerRepository(ILedgerRepository):
         result = {}
         for line in self._select(ledger_filter, date_from, date_to,
                                 account_ids, company_ids):
-            key = tuple(getattr(line, field) for field in group_by)
+            key = tuple(self._group_value(ledger_filter, line, field)
+                        for field in group_by)
             current = result.get(key, BalanceDTO())
             result[key] = BalanceDTO(
                 current.debit + line.debit,
@@ -96,12 +97,27 @@ class FakeLedgerRepository(ILedgerRepository):
                 if line_id in tuple(line_ids)}
 
     # -- internals -----------------------------------------------------
+    @staticmethod
+    def _group_value(ledger_filter, line, field):
+        if field == 'long_term':
+            limit = ledger_filter.long_term_after
+            return bool(limit and line.date_maturity
+                        and line.date_maturity > limit)
+        return getattr(line, field)
+
     def _select(self, ledger_filter, date_from, date_to, account_ids,
                 company_ids):
         companies = tuple(company_ids or ledger_filter.company_ids)
         accounts = (tuple(account_ids) if account_ids is not None
                     else tuple(ledger_filter.account_ids))
+        excluded_moves = set()
+        if ledger_filter.exclude_move_account_ids:
+            excluded_moves = {
+                line.move_id for line in self.lines
+                if line.account_id in ledger_filter.exclude_move_account_ids}
         for line in self.lines:
+            if line.move_id in excluded_moves:
+                continue
             if line.company_id not in companies:
                 continue
             if ledger_filter.posted_only and line.state != 'posted':

@@ -62,10 +62,16 @@ class VnCashFlowWizard(models.TransientModel):
         return _('Cash Flow Statement')
 
     def _report_form_code(self):
-        return 'B03-DN'
+        return (self.mapping_id or self._default_mapping()).form_code \
+            or 'B03-DN'
 
     def _report_form_title(self):
-        return 'BÁO CÁO LƯU CHUYỂN TIỀN TỆ (Theo phương pháp trực tiếp)'
+        mapping = self.mapping_id or self._default_mapping()
+        method = ('(Theo phương pháp gián tiếp)'
+                  if mapping.cash_flow_method == 'indirect'
+                  else '(Theo phương pháp trực tiếp)')
+        return '%s %s' % (mapping.form_title or 'BÁO CÁO LƯU CHUYỂN TIỀN TỆ',
+                          method)
 
     def _screen_template(self):
         return 'l10n_vn_vas_reports.cash_flow_screen'

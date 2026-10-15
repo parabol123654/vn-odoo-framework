@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 17.0 Community Edition -->
+<odoo>
+    <!--
+        Mẫu B03-DN, phương pháp trực tiếp (Thông tư 99/2025/TT-BTC, Phụ lục IV Mục 2
+        phần D, mục 4.1.1, 4.2, 4.3).
+
+        Dòng tiền của mỗi bút toán quy về tài khoản đối ứng; mỗi chỉ tiêu nhặt các tài
+        khoản "đối chiếu với sổ TK ..." của văn bản, tách thu (debit_only) và chi
+        (credit_only). Một tài khoản chỉ ở một dòng cho mỗi chiều: 711, 811 ở mã 22
+        (thuần); 3334 ở mã 05; 171 ở 23/24. Tài khoản đối ứng có dòng tiền mà chưa
+        chỉ tiêu nào nhặt được báo cáo liệt kê. Công ty muốn phương pháp gián tiếp chọn
+        "Cash flow form" trên form công ty.
+    -->
+    <data noupdate="1">
+
+        <record id="mapping_tt99_b03dn" model="vn.report.mapping">
+            <field name="code">tt99_b03dn</field>
+            <field name="name">Báo cáo lưu chuyển tiền tệ (trực tiếp)</field>
+            <field name="report_type">cash_flow</field>
+            <field name="basis">movement</field>
+            <field name="version">TT99</field>
+            <field name="cash_flow_method">direct</field>
+            <field name="cash_expression">111*,112*,113*</field>
+            <field name="form_code">B03-DN</field>
+            <field name="form_title">BÁO CÁO LƯU CHUYỂN TIỀN TỆ</field>
+        </record>
+
+        <record id="b03dn99tt_i" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">10</field><field name="code">I</field>
+            <field name="name">I. Lưu chuyển tiền từ hoạt động kinh doanh</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_01" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">20</field><field name="code">01</field>
+            <field name="name">1. Tiền thu từ bán hàng, cung cấp dịch vụ và doanh thu khác</field>
+            <field name="expression">511*,131*,3331*,3387*,121*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_02" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">30</field><field name="code">02</field>
+            <field name="name">2. Tiền chi trả cho người cung cấp hàng hóa và dịch vụ</field>
+            <field name="expression">331*,151*,152*,153*,154*,155*,156*,157*,158*,121*,133*,632*,641*,642*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_03" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">40</field><field name="code">03</field>
+            <field name="name">3. Tiền chi trả cho người lao động</field>
+            <field name="expression">334*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_04" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">50</field><field name="code">04</field>
+            <field name="name">4. Chi phí đi vay đã trả</field>
+            <field name="expression">635*,335*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_05" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">60</field><field name="code">05</field>
+            <field name="name">5. Thuế thu nhập doanh nghiệp đã nộp</field>
+            <field name="expression">3334*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_06" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">70</field><field name="code">06</field>
+            <field name="name">6. Tiền thu khác từ hoạt động kinh doanh</field>
+            <field name="expression">133*,1383*,141*,244*,333*,-3334*,344*,338*,353*,356*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_07" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">80</field><field name="code">07</field>
+            <field name="name">7. Tiền chi khác cho hoạt động kinh doanh</field>
+            <field name="expression">244*,333*,-3334*,338*,344*,352*,353*,356*,141*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_20" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">90</field><field name="code">20</field>
+            <field name="name">Lưu chuyển tiền thuần từ hoạt động kinh doanh</field>
+            <field name="formula">01 + 02 + 03 + 04 + 05 + 06 + 07</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_ii" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">100</field><field name="code">II</field>
+            <field name="name">II. Lưu chuyển tiền từ hoạt động đầu tư</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_21" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">110</field><field name="code">21</field>
+            <field name="name">1. Tiền chi để mua sắm, xây dựng TSCĐ và các tài sản dài hạn khác</field>
+            <field name="expression">211*,212*,213*,215*,217*,241*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_22" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">120</field><field name="code">22</field>
+            <field name="name">2. Tiền thu từ thanh lý, nhượng bán TSCĐ và các tài sản dài hạn khác</field>
+            <field name="expression">711*,811*</field>
+            <field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_23" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">130</field><field name="code">23</field>
+            <field name="name">3. Tiền chi cho vay, mua các công cụ nợ của đơn vị khác</field>
+            <field name="expression">128*,171*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_24" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">140</field><field name="code">24</field>
+            <field name="name">4. Tiền thu hồi cho vay, bán lại các công cụ nợ của đơn vị khác</field>
+            <field name="expression">128*,171*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_25" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">150</field><field name="code">25</field>
+            <field name="name">5. Tiền chi đầu tư góp vốn vào đơn vị khác</field>
+            <field name="expression">221*,222*,228*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_26" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">160</field><field name="code">26</field>
+            <field name="name">6. Tiền thu hồi đầu tư góp vốn vào đơn vị khác</field>
+            <field name="expression">221*,222*,228*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_27" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">170</field><field name="code">27</field>
+            <field name="name">7. Tiền thu lãi cho vay, cổ tức và lợi nhuận được chia</field>
+            <field name="expression">515*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_30" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">180</field><field name="code">30</field>
+            <field name="name">Lưu chuyển tiền thuần từ hoạt động đầu tư</field>
+            <field name="formula">21 + 22 + 23 + 24 + 25 + 26 + 27</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_iii" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">190</field><field name="code">III</field>
+            <field name="name">III. Lưu chuyển tiền từ hoạt động tài chính</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_31" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">200</field><field name="code">31</field>
+            <field name="name">1. Tiền thu từ phát hành cổ phiếu, nhận vốn góp của chủ sở hữu</field>
+            <field name="expression">411*,419*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_32" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">210</field><field name="code">32</field>
+            <field name="name">2. Tiền trả lại vốn góp cho các chủ sở hữu, mua lại cổ phiếu của doanh nghiệp đã phát hành</field>
+            <field name="expression">411*,419*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_33" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">220</field><field name="code">33</field>
+            <field name="name">3. Tiền thu từ đi vay</field>
+            <field name="expression">3411*,343*</field>
+            <field name="side">debit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_34" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">230</field><field name="code">34</field>
+            <field name="name">4. Tiền trả nợ gốc vay</field>
+            <field name="expression">3411*,343*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_35" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">240</field><field name="code">35</field>
+            <field name="name">5. Tiền trả nợ gốc thuê tài chính</field>
+            <field name="expression">3412*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_36" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">250</field><field name="code">36</field>
+            <field name="name">6. Cổ tức, lợi nhuận đã trả cho chủ sở hữu</field>
+            <field name="expression">421*,332*</field>
+            <field name="side">credit_only</field><field name="level">1</field>
+        </record>
+        <record id="b03dn99tt_40" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">260</field><field name="code">40</field>
+            <field name="name">Lưu chuyển tiền thuần từ hoạt động tài chính</field>
+            <field name="formula">31 + 32 + 33 + 34 + 35 + 36</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_50" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">270</field><field name="code">50</field>
+            <field name="name">Lưu chuyển tiền thuần trong kỳ (50 = 20 + 30 + 40)</field>
+            <field name="formula">20 + 30 + 40</field>
+            <field name="bold" eval="True"/>
+        </record>
+        <record id="b03dn99tt_60" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">280</field><field name="code">60</field>
+            <field name="name">Tiền và tương đương tiền đầu kỳ</field>
+            <field name="formula">__opening_cash__</field>
+        </record>
+        <record id="b03dn99tt_61" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">290</field><field name="code">61</field>
+            <field name="name">Ảnh hưởng của thay đổi tỷ giá hối đoái quy đổi ngoại tệ</field>
+        </record>
+        <record id="b03dn99tt_70" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt99_b03dn"/>
+            <field name="sequence">300</field><field name="code">70</field>
+            <field name="name">Tiền và tương đương tiền cuối kỳ (70 = 50 + 60 + 61)</field>
+            <field name="formula">50 + 60 + 61</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+    </data>
+</odoo>
