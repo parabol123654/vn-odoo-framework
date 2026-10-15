@@ -51,6 +51,10 @@ class VnFsNoteTemplate(models.Model):
              "đáp ứng giả định hoạt động liên tục)\".")
     footnote = fields.Text(
         help="The form's own footnote, printed under the signatures.")
+    date_label = fields.Char(
+        default='Lập',
+        help="The word before the date at the signatures: TT133 prints "
+             "\"Lập, ngày …\", TT99 \"Phê duyệt, ngày …\".")
     closing_expression = fields.Char(
         string='Year-end transfer accounts', default='911*,421*',
         help="Journal entries touching these accounts are left out of the "
@@ -115,6 +119,19 @@ class VnFsNoteTemplateItem(models.Model):
              "at the start of the balance sheet and income statement parts.")
     layout = fields.Selection(LAYOUTS, help="Columns of a table.")
     display = fields.Selection(DISPLAYS, default='standard')
+    measures = fields.Char(
+        help="Several figures per row and period, separated by |, as the form "
+             "heads them: Giá gốc|Giá trị hợp lý|Giá trị dự phòng. A row of the "
+             "table then has one template row per figure, sharing a Line. For "
+             "a matrix such as TT99's fixed assets, the measures are the asset "
+             "classes. Leave empty for one figure.")
+    periods = fields.Selection(
+        [('both', 'This period and the comparative'),
+         ('current', 'One column per measure')],
+        default='both', required=True,
+        help="A matrix whose rows already carry the time (\"Số dư đầu năm\", "
+             "\"Khấu hao trong năm\", \"Số dư đầu năm trước\") prints one "
+             "column per measure, with no comparative column.")
     column_labels = fields.Char(
         help="Column headings exactly as the form prints them, separated by "
              "|, e.g. Số đầu năm|Tăng trong năm|Giảm trong năm|Số cuối năm. "
@@ -153,8 +170,37 @@ class VnFsNoteTemplateRow(models.Model):
     source = fields.Selection(
         [('ledger', 'From the ledger'),
          ('formula', 'Formula'),
+         ('previous', "Another row's comparative"),
          ('manual', 'Filled in by hand')],
-        default='manual', required=True)
+        default='manual', required=True,
+        help="'Another row's comparative' shows, in this row, the comparative "
+             "figure of the row named in Formula: TT99's equity table prints "
+             "last year's movements as rows of their own (\"Tăng vốn trong năm "
+             "trước\"), and they come from last year's notes like any "
+             "comparative.")
+    figure = fields.Selection(
+        [('closing', 'Closing balance'),
+         ('opening', 'Opening balance'),
+         ('net', 'Net movement of the year'),
+         ('debit', 'Debit movement of the year'),
+         ('credit', 'Credit movement of the year')],
+        help="What a ledger row reads, when not the table's usual figure "
+             "(closing balance, or the year's net movement). Ignored in an "
+             "opening, increase, decrease, closing table.")
+    maturity = fields.Selection(
+        [('all', 'Whole balance'),
+         ('short', 'Short term'),
+         ('long', 'Long term')],
+        default='all', required=True,
+        help="Keep only the part due within twelve months of the report date "
+             "(short term) or after (long term), as the statement line it "
+             "explains does.")
+    measure = fields.Integer(
+        default=0,
+        help="Which of the table's measures this row is, counting from 0.")
+    line = fields.Char(
+        help="Rows with the same line print side by side, one per measure. "
+             "Leave empty for a table with one measure.")
     expression = fields.Char(string='Account expression')
     formula = fields.Char(help="Other row codes of the table: a + b - c.")
     sign = fields.Integer(
@@ -199,7 +245,7 @@ class VnFsNoteTemplateRow(models.Model):
                 raise ValidationError(_(
                     "Row %s reads the ledger but has no account "
                     "expression.") % row.code)
-            if row.source == 'formula' and not row.formula:
+            if row.source in ('formula', 'previous') and not row.formula:
                 raise ValidationError(_(
                     "Row %s is a formula but has none.") % row.code)
 

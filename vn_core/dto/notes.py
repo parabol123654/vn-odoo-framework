@@ -19,6 +19,18 @@ class NoteRowDTO(NamedTuple):
     side: str = 'both'              # both | debit_only | credit_only
     split_by_partner: bool = False
     movement_side: str = 'net'      # net | debit | credit
+    #: Which figure the row reads, when it is not the table's usual one:
+    #: 'closing' or 'opening' balance, or the year's 'net', 'debit' or
+    #: 'credit' movement. Empty means the layout's default (closing for a
+    #: 'balance' table, net movement for a 'period' one). TT99's fixed
+    #: asset tables need it: "Số dư đầu năm", "Khấu hao trong năm" and
+    #: "Số dư cuối năm" are rows of one table. Ignored in 'movement'
+    #: tables, whose columns already are opening, increase, decrease and
+    #: closing.
+    figure: str = ''
+    #: 'short' or 'long' keeps the part due within, or after, twelve months
+    #: of the report date, as B01-DN's short- and long-term items do.
+    maturity: str = 'all'
 
 
 class NoteTableDTO(NamedTuple):

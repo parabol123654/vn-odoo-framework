@@ -100,18 +100,20 @@
                                     <field name="item_id" readonly="1"
                                            options="{'no_open': True}"/>
                                     <field name="name" readonly="1"/>
+                                    <field name="line" optional="hide" readonly="1"/>
+                                    <field name="measure" optional="hide" readonly="1"/>
                                     <field name="style" invisible="1"/>
                                     <field name="printed" invisible="1"/>
                                     <field name="source"/>
                                     <field name="currency_id" invisible="1"/>
                                     <field name="comparative"
-                                           attrs="{'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                           attrs="{'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                                     <field name="increase" optional="show"
-                                           attrs="{'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                           attrs="{'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                                     <field name="decrease" optional="show"
-                                           attrs="{'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                           attrs="{'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                                     <field name="current"
-                                           attrs="{'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                           attrs="{'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                                     <field name="comparative_origin" optional="show"/>
                                     <field name="manual"/>
                                     <field name="source_note" optional="hide"/>
@@ -195,18 +197,21 @@
                               decoration-muted="not printed"
                               decoration-info="manual">
                             <field name="name" readonly="1"/>
+                            <field name="line" optional="hide" readonly="1"/>
+                            <field name="measure" optional="show" readonly="1"
+                                   attrs="{'column_invisible': [('parent.measures', '=', False)]}"/>
                             <field name="style" invisible="1"/>
                             <field name="printed" invisible="1"/>
                             <field name="source"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="comparative"
-                                   attrs="{'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                   attrs="{'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                             <field name="increase"
-                                   attrs="{'column_invisible': [('parent.layout', '!=', 'movement')], 'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                   attrs="{'column_invisible': [('parent.layout', '!=', 'movement')], 'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                             <field name="decrease"
-                                   attrs="{'column_invisible': [('parent.layout', '!=', 'movement')], 'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                   attrs="{'column_invisible': [('parent.layout', '!=', 'movement')], 'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                             <field name="current"
-                                   attrs="{'readonly': ['|', ('source', '=', 'formula'), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
+                                   attrs="{'readonly': ['|', ('source', 'in', ('formula', 'previous')), ('style', '=', 'heading')], 'invisible': [('style', '=', 'heading')]}"/>
                             <field name="manual"/>
                             <field name="source_note" optional="show"/>
                             <button name="action_reset" type="object"
@@ -215,6 +220,7 @@
                         </tree>
                     </field>
                     <field name="layout" invisible="1"/>
+                    <field name="measures" invisible="1"/>
                     <field name="content"
                            attrs="{'readonly': [('state', '=', 'locked')]}"
                            placeholder="Text printed under this heading"/>
@@ -277,6 +283,7 @@
                         </group>
                         <group>
                             <field name="closing_expression"/>
+                            <field name="date_label"/>
                             <field name="sequence"/>
                             <field name="company_id"
                                    groups="base.group_multi_company"
@@ -321,6 +328,9 @@
                                    attrs="{'invisible': [('kind', '!=', 'table')], 'required': [('kind', '=', 'table')]}"/>
                             <field name="display"
                                    attrs="{'invisible': [('layout', '!=', 'movement')]}"/>
+                            <field name="measures"/>
+                            <field name="periods"/>
+                            <field name="column_labels"/>
                         </group>
                     </group>
                     <field name="guidance" placeholder="What the circular asks for here (not printed)"/>
@@ -340,6 +350,10 @@
                             <field name="side" optional="hide"/>
                             <field name="split_by_partner" optional="hide"/>
                             <field name="movement_side" optional="hide"/>
+                            <field name="figure" optional="hide"/>
+                            <field name="maturity" optional="hide"/>
+                            <field name="measure" optional="hide"/>
+                            <field name="line" optional="hide"/>
                             <field name="statement_check" optional="show"/>
                             <field name="detail_formula" optional="show"/>
                             <field name="printed" optional="hide"/>
