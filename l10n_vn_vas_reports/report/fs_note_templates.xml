@@ -12,7 +12,13 @@
     -->
     <template id="fs_note_amount">
         <t t-if="row.style != 'heading'">
-            <span t-esc="row[column]"
+            <!-- Thuế suất, lãi suất in theo %; số lượng cổ phiếu, kỳ hạn in số
+                 thường; còn lại là số tiền. -->
+            <t t-if="row.value_kind == 'percent'"><span t-esc="row[column]"
+                  t-options="{'widget': 'float', 'precision': 2}"/>%</t>
+            <span t-elif="row.value_kind == 'quantity'" t-esc="row[column]"
+                  t-options="{'widget': 'float', 'precision': 0}"/>
+            <span t-else="" t-esc="row[column]"
                   t-options="{'widget': 'monetary', 'display_currency': currency}"/>
         </t>
     </template>
@@ -147,7 +153,7 @@
                              t-esc="doc.template_id.form_subtitle"/>
                     </div>
 
-                    <t t-foreach="doc.item_ids.filtered(lambda i: not i.hidden)" t-as="item">
+                    <t t-foreach="doc.item_ids.filtered(lambda i: not i.hidden and not i.print_skip())" t-as="item">
                         <div t-att-class="'o_vn_note_item o_vn_note_level_%d' % item.level">
                             <div t-if="item.level == 0" class="o_vn_note_section">
                                 <strong><t t-esc="item.number"/> <t t-esc="item.name"/></strong>
