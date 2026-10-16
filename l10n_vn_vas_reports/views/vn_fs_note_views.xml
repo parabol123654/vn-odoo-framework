@@ -354,6 +354,9 @@
                             <field name="maturity" optional="hide"/>
                             <field name="measure" optional="hide"/>
                             <field name="line" optional="hide"/>
+                            <field name="configurable" optional="hide"/>
+                            <field name="auto_kind" optional="hide"/>
+                            <field name="value_kind" optional="hide"/>
                             <field name="statement_check" optional="show"/>
                             <field name="detail_formula" optional="show"/>
                             <field name="printed" optional="hide"/>
