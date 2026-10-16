@@ -520,13 +520,19 @@ class _RegimeBooks(AccountTestInvoicingCommon):
         cls.journal = cls.company_data['default_journal_misc']
 
     def _post(self, day, *pairs):
+        """Post (account, amount[, partner[, due date]]) lines."""
+        def line(acc, amount, partner=None, due=None):
+            values = {'account_id': acc.id, 'name': 'x',
+                      'debit': amount if amount > 0 else 0.0,
+                      'credit': -amount if amount < 0 else 0.0}
+            if partner:
+                values['partner_id'] = partner.id
+            if due:
+                values['date_maturity'] = due
+            return (0, 0, values)
         move = self.env['account.move'].create({
             'move_type': 'entry', 'date': day, 'journal_id': self.journal.id,
-            'line_ids': [
-                (0, 0, {'account_id': acc.id, 'name': 'x',
-                        'debit': amount if amount > 0 else 0.0,
-                        'credit': -amount if amount < 0 else 0.0})
-                for acc, amount in pairs],
+            'line_ids': [line(*pair) for pair in pairs],
         })
         move.action_post()
 
@@ -563,6 +569,109 @@ class TestTT200BalanceSheetFigures(_RegimeBooks):
         report = self.engine.compute(self._filter('2026-01-01'), 'tt200_b02dn')
         self.assertEqual(report.by_code('01').amount, 1000.0)
         self.assertEqual(report.by_code('11').amount, 600.0)
+
+    def _account(self, code, account_type, reconcile=False):
+        return self.env['account.account'].create({
+            'code': code, 'name': 'VN %s' % code,
+            'account_type': account_type, 'reconcile': reconcile})
+
+    def test_every_equity_line_counts_in_400(self):
+        """Điều 112: 400 = 410 + 430, 410 = 411 + ... + 422, 431 = 461 - 161.
+
+        On top of the books (cash 300, receivable 1,000 less 100, capital
+        900, 421 300), cash 1,050 comes in against other capital (4118) 300,
+        the development fund (414) 200, other funds (418) 200, the
+        construction fund (441) 100, grants (461) 150 and grants spent on
+        fixed assets (466) 100; then 50 of the grant is spent (161).
+
+            cash  300 + 1,050 - 50 = 1,300;  270 = 1,300 + 900 = 2,200
+            410 = 900 + 300 + 200 + 200 + 300 + 100 = 2,000
+            431 = 150 - 50 = 100;  432 = 100;  430 = 200
+            400 = 2,200 = 440, the form balances.
+        """
+        self._books()
+        other_capital = self._account('411899', 'equity')
+        fund = self._account('414199', 'equity')
+        other_fund = self._account('418199', 'equity')
+        construction = self._account('441199', 'equity')
+        grant = self._account('461199', 'equity')
+        grant_spent = self._account('161199', 'asset_current')
+        grant_assets = self._account('466199', 'equity')
+        self._post('2026-06-01', (self.bank, 1050.0),
+                   (other_capital, -300.0), (fund, -200.0),
+                   (other_fund, -200.0), (construction, -100.0),
+                   (grant, -150.0), (grant_assets, -100.0))
+        self._post('2026-07-01', (grant_spent, 50.0), (self.bank, -50.0))
+        report = self.engine.compute(self._filter(), 'tt200_b01dn')
+        amount = lambda code: report.by_code(code).amount
+        self.assertEqual(
+            [amount(c) for c in ('411', '411a', '414', '418', '420', '421',
+                                 '421b', '422', '410')],
+            [900.0, 900.0, 300.0, 200.0, 200.0, 300.0, 300.0, 100.0, 2000.0])
+        self.assertEqual([amount(c) for c in ('431', '432', '430', '400')],
+                         [100.0, 100.0, 200.0, 2200.0])
+        self.assertEqual(amount('270'), 2200.0)
+        self.assertEqual(amount('440'), 2200.0)
+        self.assertTrue(report.balance_check.is_balanced)
+
+    def test_revenue_credit_and_deductions_debit(self):
+        """Điều 113: 01 is the credit side of 511, 02 its debit side (the
+        deductions, once 521 has been transferred into 511).
+
+        Sale 1,000 on credit; trade discount 100 booked on 521 and moved into
+        511 on 30/12; a return of 50 booked straight on 511.
+
+            01 = 1,000;  02 = 100 + 50 = 150;  10 = 850.
+
+        Read to 29/12, before the 521 transfer, 02 holds only the return
+        (50) and 10 is 950: a deduction still sitting on 521 is not on the
+        form (the specification says why).
+        """
+        customer = self._account('131299', 'asset_receivable', True)
+        discount = self._account('521199', 'income')
+        self._post('2026-03-01', (customer, 1000.0), (self.revenue, -1000.0))
+        self._post('2026-04-01', (discount, 100.0), (customer, -100.0))
+        self._post('2026-05-01', (self.revenue, 50.0), (customer, -50.0))
+        self._post('2026-12-30', (self.revenue, 100.0), (discount, -100.0))
+        year = LedgerFilter(date_from=date(2026, 1, 1),
+                            date_to=date(2026, 12, 31),
+                            company_ids=(self.company.id,))
+        report = self.engine.compute(year, 'tt200_b02dn')
+        self.assertEqual(
+            [report.by_code(c).amount for c in ('01', '02', '10')],
+            [1000.0, 150.0, 850.0])
+        early = year.replace(date_to=date(2026, 12, 29))
+        report = self.engine.compute(early, 'tt200_b02dn')
+        self.assertEqual(
+            [report.by_code(c).amount for c in ('01', '02', '10')],
+            [1000.0, 50.0, 950.0])
+
+    def test_receivable_split_by_due_date(self):
+        """Điều 112 mã số 131, 211, 312: by remaining term, per customer.
+
+        Customer A owes 700 due 31/03/2027 and 400 due 30/06/2028; customer
+        B paid 200 in advance. Revenue 1,100 is closed to 421. At 31/12/2026
+        the boundary is 31/12/2027:
+
+            131 = 700;  211 = 400;  312 = 200;  332 = 0
+            270 = cash 200 + 700 + 400 = 1,300 = 312 200 + 421 1,100.
+        """
+        partner_a = self.env['res.partner'].create({'name': 'Customer A'})
+        partner_b = self.env['res.partner'].create({'name': 'Customer B'})
+        self._post('2026-06-01',
+                   (self.customer, 700.0, partner_a, '2027-03-31'),
+                   (self.customer, 400.0, partner_a, '2028-06-30'),
+                   (self.revenue, -1100.0, partner_a))
+        self._post('2026-07-01', (self.bank, 200.0),
+                   (self.customer, -200.0, partner_b))
+        self._post('2026-12-31', (self.revenue, 1100.0),
+                   (self.retained, -1100.0))
+        report = self.engine.compute(self._filter(), 'tt200_b01dn')
+        self.assertEqual(
+            [report.by_code(c).amount for c in ('131', '211', '312', '332')],
+            [700.0, 400.0, 200.0, 0.0])
+        self.assertEqual(report.by_code('270').amount, 1300.0)
+        self.assertTrue(report.balance_check.is_balanced)
 
 
 @tagged('post_install', '-at_install')

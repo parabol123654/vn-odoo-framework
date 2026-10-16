@@ -2,7 +2,7 @@
 # Target: Odoo 18.0 Community Edition
 {
     'name': 'Vietnam ERP Framework - Core',
-    'version': '18.0.1.5.0',
+    'version': '18.0.1.6.0',
     'category': 'Technical',
     'summary': 'Domain engines, repositories, services and DTOs for VAS reporting',
     'author': 'Manh Nguyen',

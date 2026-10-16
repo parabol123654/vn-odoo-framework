@@ -31,6 +31,11 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Changed
 
+- TT200 balance sheet B01-DN and income statement B02-DN now follow Điều 112 and 113 of the circular line by line: all 115 codes of the printed form with their printed names; receivables, payables, provisions, inventory, loans and bonds split into short and long term by the due date of the journal items; 400 = 410 + 430, with every equity line counted. **Figures of companies on TT200 change.**
+- B02-DN: line 01 is the credit side of 511 and line 02 its debit side (deductions, once 521 is transferred to 511). Line 23 (interest expense) is left for the company to map to its own sub-account of 635, since 6351 is not a TT200 account; an upgrade keeps 6351* where the database has such an account.
+- The TT200 notes (B09-DN) check against the new lines.
+- On upgrade, shipped lines and notes rows still at their old values are corrected; those the company edited are kept and listed in the log.
+
 - The TT133 balance sheet B01a-DNN, income statement B02-DNN and cash flow statement B03-DNN now follow the line numbers and line definitions of the circular's appendix.
 - Liabilities are split into short and long term by the due date of the journal item (more than twelve months after the report date is long term).
 
