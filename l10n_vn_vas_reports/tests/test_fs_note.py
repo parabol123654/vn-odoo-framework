@@ -59,13 +59,19 @@ class _NoteBooks(AccountTestInvoicingCommon):
 
     # -- helpers -------------------------------------------------------
     def _post(self, day, *pairs):
+        """Post (account, amount[, partner[, due date]]) lines."""
+        def line(account, amount, partner=None, due=None):
+            values = {'account_id': account.id, 'name': 'x',
+                      'debit': amount if amount > 0 else 0.0,
+                      'credit': -amount if amount < 0 else 0.0}
+            if partner:
+                values['partner_id'] = partner.id
+            if due:
+                values['date_maturity'] = due
+            return (0, 0, values)
         move = self.env['account.move'].create({
             'move_type': 'entry', 'date': day, 'journal_id': self.journal.id,
-            'line_ids': [
-                (0, 0, {'account_id': account.id, 'name': 'x',
-                        'debit': amount if amount > 0 else 0.0,
-                        'credit': -amount if amount < 0 else 0.0})
-                for account, amount in pairs],
+            'line_ids': [line(*pair) for pair in pairs],
         })
         move.action_post()
         return move
@@ -541,3 +547,126 @@ class TestFsNoteTT200(_NoteBooks):
         self.assertIn('Ban hành theo Thông tư số 200/2014/TT-BTC', html)
         self.assertIn('GIÁM ĐỐC', html)
         self.assertIn('NGƯỜI LẬP BIỂU', html)
+
+
+@tagged('post_install', '-at_install')
+class TestFsNoteCompanySettings(_NoteBooks):
+    """What a company sets on its own form: accounts and policies (TT133).
+
+    These tests post their own small books, not the two years above.
+    """
+
+    CIRCULAR = 'TT133'
+    TEMPLATE = 'l10n_vn_vas_reports.fs_note_tt133_b09dnn'
+
+    @classmethod
+    def setUpClass(cls, chart_template_ref=None):
+        super().setUpClass(chart_template_ref=chart_template_ref)
+        Account = cls.env['account.account']
+        cls.shares = Account.create({'code': '121199', 'name': 'VN 121199',
+                                     'account_type': 'asset_current'})
+        cls.loan = Account.create({'code': '341199', 'name': 'VN 341199',
+                                   'account_type': 'liability_non_current'})
+        Partner = cls.env['res.partner']
+        cls.sister = Partner.create({'name': 'Sister company',
+                                     'vn_related_party': True})
+        cls.stranger = Partner.create({'name': 'Unrelated customer'})
+
+    def _template_row(self, reference, code, template=None):
+        return self.env['vn.fs.note.template.row'].search([
+            ('item_id.template_id', '=', (template or self.template).id),
+            ('item_id.reference', '=', reference), ('code', '=', code)])
+
+    def test_which_rows_the_company_can_set(self):
+        self.assertTrue(self._template_row('V.1', 'equiv').configurable)
+        self.assertTrue(self._template_row('V.3', 'c4').configurable)
+        self.assertTrue(self._template_row('VI.3', 'g1').configurable)
+        self.assertFalse(self._template_row('V.1', 'cash').configurable)
+        self.assertEqual(self._template_row('V.3', 'a1').auto_kind, 'related')
+        self.assertEqual(self._template_row('V.3', 'e').auto_kind, 'overdue')
+        self.assertEqual(self._template_row('V.11', 'a').auto_kind, 'loan')
+
+    def test_rates_and_counts_are_not_amounts(self):
+        tt99 = self.env.ref('l10n_vn_vas_reports.fs_note_tt99_b09dn')
+        self.assertEqual(self._template_row('V.26a', 'rate', tt99).value_kind,
+                         'percent')
+        self.assertEqual(self._template_row('V.27d', 'reg', tt99).value_kind,
+                         'quantity')
+        self.assertEqual(self._template_row('V.1', 'cash').value_kind, 'money')
+
+    def test_company_accounts_for_a_breakdown_row(self):
+        """Shares bought for 100: "Tổng giá trị cổ phiếu" reads the
+        company's 1211 once it says so, and agrees with item 121."""
+        self._post('2026-02-01', (self.shares, 100.0), (self.bank, -100.0))
+        note = self._note(2026)
+        note.action_compute()
+        detail = note.check_ids.filtered(
+            lambda c: c.row_id == self._row(note, 'V.2', 'a_total')
+            and '↔' not in c.name)
+        self.assertEqual(detail.state, 'info')
+        self.company.action_vn_fs_note_load_rows()
+        config = self.company.vn_fs_note_config_ids.filtered(
+            lambda c: c.template_row_id == self._template_row('V.2', 'a1'))
+        self.assertTrue(config)
+        config.expression = '1211*'
+        note.action_compute()
+        self.assertEqual(self._row(note, 'V.2', 'a1').current, 100.0)
+        detail = note.check_ids.filtered(
+            lambda c: c.row_id == self._row(note, 'V.2', 'a_total')
+            and '↔' not in c.name)
+        self.assertEqual(detail.state, 'ok')
+
+    def test_related_parties(self):
+        """Sales of 200 to a related party and 50 to a stranger."""
+        self._post('2026-05-01', (self.customer, 200.0, self.sister),
+                   (self.revenue, -200.0, self.sister))
+        self._post('2026-05-02', (self.customer, 50.0, self.stranger),
+                   (self.revenue, -50.0, self.stranger))
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._row(note, 'V.3', 'a1').current, 0.0)
+        self.company.vn_fs_note_related_auto = True
+        note.action_compute()
+        self.assertEqual(self._row(note, 'V.3', 'a').current, 250.0)
+        self.assertEqual(self._row(note, 'V.3', 'a1').current, 200.0)
+        self.assertEqual(self._row(note, 'VI.1', 'b').current, 200.0)
+
+    def test_overdue_receivables(self):
+        """At 31/12/2026 with 90 days: 300 due 31/3 is overdue, 100 due
+        20/12 is not."""
+        self._post('2026-03-01', (self.customer, 300.0, self.stranger,
+                                  '2026-03-31'),
+                   (self.revenue, -300.0, self.stranger))
+        self._post('2026-12-01', (self.customer, 100.0, self.sister,
+                                  '2026-12-20'),
+                   (self.revenue, -100.0, self.sister))
+        self.company.vn_fs_note_overdue_days = 90
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._row(note, 'V.3', 'e').current, 300.0)
+
+    def test_loans_by_due_date(self):
+        """800 borrowed: 500 due within a year, 300 after; together item
+        316."""
+        self._post('2026-07-01', (self.bank, 800.0),
+                   (self.loan, -500.0, self.stranger, '2027-06-30'),
+                   (self.loan, -300.0, self.stranger, '2028-06-30'))
+        self.company.vn_fs_note_loan_split = True
+        note = self._note(2026)
+        note.action_compute()
+        self.assertEqual(self._row(note, 'V.11', 'a').current, 500.0)
+        self.assertEqual(self._row(note, 'V.11', 'b').current, 300.0)
+        self.assertEqual(self._check(note, 'V.11', 'total').state, 'ok')
+
+    def test_empty_items_left_out_of_the_print(self):
+        self._post('2026-02-01', (self.bank, 100.0), (self.capital, -100.0))
+        self.company.vn_fs_note_hide_zero = True
+        note = self._note(2026)
+        note.action_compute()
+        html = self.env['ir.actions.report']._render_qweb_html(
+            'l10n_vn_vas_reports.report_fs_note', note.ids)[0]
+        if isinstance(html, bytes):
+            html = html.decode('utf-8')
+        html = str(html)
+        self.assertIn('Tiền và tương đương tiền', html)
+        self.assertNotIn('Tăng, giảm bất động sản đầu tư', html)
