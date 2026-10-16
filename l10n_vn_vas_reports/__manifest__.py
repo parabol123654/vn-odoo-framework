@@ -2,7 +2,7 @@
 # Target: Odoo 15.0 Community Edition
 {
     'name': 'Vietnam VAS Reports',
-    'version': '15.0.1.4.0',
+    'version': '15.0.1.5.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese statutory books, financial statements, VAT returns '
                'and cash vouchers (TT200)',
