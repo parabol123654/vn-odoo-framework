@@ -1028,7 +1028,7 @@
             <field name="name">Đầu tư nắm giữ đến ngày đáo hạn</field>
             <field name="level">2</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 62. Giá gốc đọc TK 1281, 1282, 1288 tách theo hạn thanh toán (Điều 112 mã số 123 ngắn hạn, 255 dài hạn); hai mã số này chưa có ánh xạ mặc định trong B01-DN TT200 nên không đối chiếu. Giá trị ghi sổ do doanh nghiệp xác định: nhập tay.</field>
+            <field name="guidance">Mẫu tr. 62. Giá gốc đọc TK 1281, 1282, 1288 tách theo hạn thanh toán (Điều 112 mã số 123 ngắn hạn, 255 dài hạn); cộng ngắn hạn, dài hạn đối chiếu với hai mã số này. Giá trị ghi sổ do doanh nghiệp xác định: nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá gốc|Giá trị ghi sổ</field>
@@ -1063,6 +1063,8 @@
             <field name="indent">1</field>
             <field name="source">formula</field>
             <field name="formula">s1281_cost + s1282_cost + s1288_cost</field>
+            <field name="statement_check">B01-DN:123</field>
+            <field name="source_note">Bằng B01-DN mã số 123 (TK 128 trừ 1283, ngắn hạn).</field>
             <field name="line">st</field>
         </record>
         <record id="b09dn200_vi2b_st_bv" model="vn.fs.note.template.row">
@@ -1086,7 +1088,7 @@
             <field name="indent">2</field>
             <field name="source">ledger</field>
             <field name="expression">1281*</field>
-            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây). B01-DN mã số 123 chưa có ánh xạ mặc định nên không đối chiếu. Cần kế toán xác nhận.</field>
+            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây, như ánh xạ B01-DN). Cần kế toán xác nhận.</field>
             <field name="line">s1281</field>
             <field name="maturity">short</field>
         </record>
@@ -1110,7 +1112,7 @@
             <field name="indent">2</field>
             <field name="source">ledger</field>
             <field name="expression">1282*</field>
-            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây). B01-DN mã số 123 chưa có ánh xạ mặc định nên không đối chiếu. Cần kế toán xác nhận.</field>
+            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây, như ánh xạ B01-DN). Cần kế toán xác nhận.</field>
             <field name="line">s1282</field>
             <field name="maturity">short</field>
         </record>
@@ -1158,6 +1160,8 @@
             <field name="indent">1</field>
             <field name="source">formula</field>
             <field name="formula">l1281_cost + l1282_cost + l1288_cost</field>
+            <field name="statement_check">B01-DN:255</field>
+            <field name="source_note">Bằng B01-DN mã số 255 (TK 128 trừ 1283, dài hạn).</field>
             <field name="line">lt</field>
         </record>
         <record id="b09dn200_vi2b_lt_bv" model="vn.fs.note.template.row">
@@ -1181,7 +1185,7 @@
             <field name="indent">2</field>
             <field name="source">ledger</field>
             <field name="expression">1281*</field>
-            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây). B01-DN mã số 123 chưa có ánh xạ mặc định nên không đối chiếu. Cần kế toán xác nhận.</field>
+            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây, như ánh xạ B01-DN). Cần kế toán xác nhận.</field>
             <field name="line">l1281</field>
             <field name="maturity">long</field>
         </record>
@@ -1205,7 +1209,7 @@
             <field name="indent">2</field>
             <field name="source">ledger</field>
             <field name="expression">1282*</field>
-            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây). B01-DN mã số 123 chưa có ánh xạ mặc định nên không đối chiếu. Cần kế toán xác nhận.</field>
+            <field name="source_note">Tên dòng trùng tên TK cấp 2 của 128 (Phụ lục 1); Điều 112 mã số 123, 255 nêu TK 1281, 1282, 1288 theo kỳ hạn còn lại, loại phần là tương đương tiền (chưa loại ở đây, như ánh xạ B01-DN). Cần kế toán xác nhận.</field>
             <field name="line">l1282</field>
             <field name="maturity">long</field>
         </record>
@@ -1253,7 +1257,7 @@
             <field name="name">Đầu tư góp vốn vào đơn vị khác (chi tiết từng khoản đầu tư theo tỷ lệ vốn nắm giữ và tỷ lệ quyền biểu quyết)</field>
             <field name="level">2</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 62. Mẫu in số liệu ngay trên dòng tiêu đề c): ở đây là dòng đầu bảng. Giá gốc theo Điều 112 mã số 251 (TK 221), 252 (TK 222), 253 (TK 2281); dự phòng mã số 254 (dư Có TK 2292). B01-DN mã số 250 chưa có ánh xạ mặc định trong TT200 nên không đối chiếu. Tỷ lệ vốn, quyền biểu quyết, giá trị hợp lý: doanh nghiệp bổ sung.</field>
+            <field name="guidance">Mẫu tr. 62. Mẫu in số liệu ngay trên dòng tiêu đề c): ở đây là dòng đầu bảng. Giá gốc theo Điều 112 mã số 251 (TK 221), 252 (TK 222), 253 (TK 2281); dự phòng mã số 254 (dư Có TK 2292); từng dòng đối chiếu với mã số tương ứng. Tỷ lệ vốn, quyền biểu quyết, giá trị hợp lý: doanh nghiệp bổ sung.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá gốc|Dự phòng|Giá trị hợp lý</field>
@@ -1277,6 +1281,7 @@
             <field name="source">ledger</field>
             <field name="expression">2292*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:-254</field>
             <field name="detail_formula">sub_prov + jv_prov + oth_prov</field>
             <field name="source_note">Số dư Có TK 2292, ghi dương (Điều 112 mã số 254).</field>
             <field name="measure">1</field>
@@ -1302,6 +1307,7 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">221*</field>
+            <field name="statement_check">B01-DN:251</field>
             <field name="source_note">Số dư TK 221 (Điều 112 mã số 251).</field>
             <field name="line">sub</field>
         </record>
@@ -1337,6 +1343,7 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">222*</field>
+            <field name="statement_check">B01-DN:252</field>
             <field name="source_note">Số dư TK 222 (Điều 112 mã số 252).</field>
             <field name="line">jv</field>
         </record>
@@ -1371,6 +1378,7 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">2281*</field>
+            <field name="statement_check">B01-DN:253</field>
             <field name="source_note">Số dư TK 2281 (Điều 112 mã số 253).</field>
             <field name="line">oth</field>
         </record>
@@ -1435,7 +1443,7 @@
             <field name="name">Phải thu của khách hàng</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 62; mẫu không in dòng Cộng. Điều 112 mã số 131, 211: dư Nợ chi tiết TK 131 theo từng khách hàng, tách theo kỳ hạn. Ánh xạ B01-DN TT200 mã số 131 đọc dư Nợ TK 131 theo khách hàng nhưng không tách kỳ hạn, và mã số 211 chưa có ánh xạ: dòng a) đọc như mã số 131 (gồm cả phần dài hạn), dòng b) nhập tay. Bên liên quan: Odoo không đánh dấu bên liên quan: nhập tay.</field>
+            <field name="guidance">Mẫu tr. 62; mẫu không in dòng Cộng. Điều 112 mã số 131, 211: dư Nợ chi tiết TK 131 theo từng khách hàng, tách theo kỳ hạn. Dòng a), b) đọc như B01-DN mã số 131, 211 (ngắn hạn / dài hạn theo ngày đến hạn của bút toán). Bên liên quan: Odoo không đánh dấu bên liên quan: nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
         </record>
@@ -1451,7 +1459,8 @@
             <field name="split_by_partner" eval="True"/>
             <field name="statement_check">B01-DN:131</field>
             <field name="detail_formula">a1 + a2</field>
-            <field name="source_note">Dư Nợ TK 131 theo từng khách hàng, như ánh xạ B01-DN mã số 131 (không tách kỳ hạn, khác Điều 112). Cần kế toán xác nhận.</field>
+            <field name="source_note">Dư Nợ TK 131 theo từng khách hàng, phần đến hạn trong 12 tháng, như B01-DN mã số 131.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi3_a1" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi3"/>
@@ -1478,8 +1487,13 @@
             <field name="code">b</field>
             <field name="name">b) Phải thu của khách hàng dài hạn (tương tự ngắn hạn)</field>
             <field name="style">bold</field>
-            <field name="source">manual</field>
-            <field name="source_note">B01-DN mã số 211 chưa có ánh xạ mặc định (TT200): nhập tay.</field>
+            <field name="source">ledger</field>
+            <field name="expression">131*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="statement_check">B01-DN:211</field>
+            <field name="source_note">Dư Nợ TK 131 theo từng khách hàng, phần đến hạn sau 12 tháng, như B01-DN mã số 211.</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi3_c" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi3"/>
@@ -1499,7 +1513,7 @@
             <field name="name">Phải thu khác</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 62. Điều 112 mã số 136: dư Nợ chi tiết TK 1385, 1388, 334, 338, 141, 244. Ánh xạ B01-DN TT200 mã số 136 chỉ đọc dư Nợ TK 1385, 1388, 141 (thiếu 334, 338, 244) và không tách kỳ hạn; mã số 216 chưa có ánh xạ. Dòng a) đọc như ánh xạ mã số 136. Chỉ dòng "Phải thu về cổ phần hóa" trùng tên một tài khoản (1385); các dòng khác nhập tay.</field>
+            <field name="guidance">Mẫu tr. 62. Điều 112 mã số 136, 216: dư Nợ chi tiết TK 1385, 1388, 334, 338, 141, 244, tách theo kỳ hạn. Dòng a), b) đọc như B01-DN mã số 136, 216 (không gồm TK 3387, đã ở mã số 318, 336). Dòng "Phải thu về cổ phần hóa" (1385) và "Ký cược, ký quỹ" (244) đọc tài khoản trùng tên; các dòng khác nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá trị|Dự phòng</field>
@@ -1511,12 +1525,13 @@
             <field name="name">a) Ngắn hạn</field>
             <field name="style">bold</field>
             <field name="source">ledger</field>
-            <field name="expression">1385*,1388*,141*</field>
+            <field name="expression">1385*,1388*,334*,338*,-3387*,141*,244*</field>
             <field name="side">debit_only</field>
             <field name="statement_check">B01-DN:136</field>
             <field name="detail_formula">a1 + a2 + a3 + a4 + a5 + a6 + a7</field>
-            <field name="source_note">Dư Nợ TK 1385, 1388, 141, như ánh xạ B01-DN mã số 136 (khác Điều 112: thiếu 334, 338, 244). Cần kế toán xác nhận.</field>
+            <field name="source_note">Dư Nợ TK 1385, 1388, 334, 338 (trừ 3387), 141, 244 phần ngắn hạn, như B01-DN mã số 136.</field>
             <field name="line">a</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi4_a_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi4"/>
@@ -1541,6 +1556,7 @@
             <field name="side">debit_only</field>
             <field name="source_note">Dư Nợ TK 1385 "Phải thu về cổ phần hóa". Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
             <field name="line">a1</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi4_a1_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi4"/>
@@ -1550,7 +1566,7 @@
             <field name="style">normal</field>
             <field name="indent">1</field>
             <field name="source">manual</field>
-            <field name="source_note">Ánh xạ B01-DN mã số 137 đọc toàn bộ TK 2293, kể cả dự phòng phải thu khách hàng; Phụ lục 1 không tách theo khoản: nhập tay, không đối chiếu.</field>
+            <field name="source_note">B01-DN mã số 137, 219 đọc TK 2293 (cả dự phòng phải thu khách hàng); Phụ lục 1 không tách theo khoản: nhập tay, không đối chiếu.</field>
             <field name="measure">1</field>
             <field name="line">a1</field>
         </record>
@@ -1584,7 +1600,7 @@
             <field name="style">normal</field>
             <field name="indent">1</field>
             <field name="source">manual</field>
-            <field name="source_note">Dư Nợ TK 334 và phần TK 141, 1388 liên quan người lao động: văn bản không nêu tài khoản cho dòng này; ánh xạ mã số 136 không đọc TK 334. Nhập tay.</field>
+            <field name="source_note">Dư Nợ TK 334 và phần TK 141, 1388 liên quan người lao động: văn bản không nêu tài khoản cho dòng này. Nhập tay.</field>
             <field name="line">a3</field>
         </record>
         <record id="b09dn200_vi4_a3_prov" model="vn.fs.note.template.row">
@@ -1605,9 +1621,12 @@
             <field name="name">- Ký cược, ký quỹ;</field>
             <field name="style">normal</field>
             <field name="indent">1</field>
-            <field name="source">manual</field>
-            <field name="source_note">TK 244 có trong Điều 112 mã số 136 nhưng ánh xạ B01-DN TT200 không đọc: nhập tay. Cần kế toán xác nhận.</field>
+            <field name="source">ledger</field>
+            <field name="expression">244*</field>
+            <field name="side">debit_only</field>
+            <field name="source_note">Dư Nợ TK 244 "Cầm cố, thế chấp, ký quỹ, ký cược" phần ngắn hạn. Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
             <field name="line">a4</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi4_a4_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi4"/>
@@ -1672,6 +1691,7 @@
             <field name="style">normal</field>
             <field name="indent">1</field>
             <field name="source">manual</field>
+            <field name="source_note">Dư Nợ TK 334, 338 (trừ 3387), 141 và phần TK 1388 chưa ghi ở các dòng trên: nhập tay.</field>
             <field name="line">a7</field>
         </record>
         <record id="b09dn200_vi4_a7_prov" model="vn.fs.note.template.row">
@@ -1691,9 +1711,13 @@
             <field name="code">b</field>
             <field name="name">b) Dài hạn (tương tự các khoản mục ngắn hạn)</field>
             <field name="style">bold</field>
-            <field name="source">manual</field>
-            <field name="source_note">B01-DN mã số 216 chưa có ánh xạ mặc định (TT200): nhập tay.</field>
+            <field name="source">ledger</field>
+            <field name="expression">1385*,1388*,334*,338*,-3387*,141*,244*</field>
+            <field name="side">debit_only</field>
+            <field name="statement_check">B01-DN:216</field>
+            <field name="source_note">Như B01-DN mã số 216 (phần dài hạn).</field>
             <field name="line">b</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi4_b_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi4"/>
@@ -1832,6 +1856,7 @@
             <field name="style">normal</field>
             <field name="source">ledger</field>
             <field name="expression">1381*</field>
+            <field name="side">debit_only</field>
             <field name="statement_check">B01-DN:139</field>
             <field name="detail_formula">a_val + b_val + c_val + d_val</field>
             <field name="source_note">Không in. Số dư TK 1381, như B01-DN mã số 139.</field>
@@ -1945,7 +1970,7 @@
             <field name="name">Hàng tồn kho</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 63; mẫu không in dòng Cộng. Tám dòng ứng với tám tài khoản 151-158 nêu ở Điều 112 mã số 141; tổng giá gốc (không in) = B01-DN mã số 141. Điều 112 loại khỏi mã số 141 phần chi phí SXKD dở dang dài hạn và thiết bị, vật tư, phụ tùng dài hạn; ánh xạ TT200 chưa tách nên toàn bộ ở mã số 141. Dự phòng tổng = B01-DN mã số 149 (TK 2294, ghi dương ở đây); tách theo loại: nhập tay. Giá gốc trên sổ có thể khác báo cáo tồn kho của Odoo: đối chiếu định giá kho riêng.</field>
+            <field name="guidance">Mẫu tr. 63; mẫu không in dòng Cộng. Tám dòng ứng với tám tài khoản 151-158 nêu ở Điều 112 mã số 141; tổng giá gốc (không in) = B01-DN mã số 141. Điều 112 loại khỏi mã số 141 phần chi phí SXKD dở dang dài hạn (mã số 241) và thiết bị, vật tư, phụ tùng dài hạn (mã số 263); như ánh xạ B01-DN, phần dài hạn là bút toán có ngày đến hạn sau 12 tháng (không ghi ngày đến hạn là ngắn hạn). Dự phòng tổng = B01-DN mã số 149 (TK 2294 ngắn hạn, ghi dương ở đây); tách theo loại: nhập tay. Giá gốc trên sổ có thể khác báo cáo tồn kho của Odoo: đối chiếu định giá kho riêng.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá gốc|Dự phòng</field>
@@ -1959,8 +1984,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">151*</field>
-            <field name="source_note">Số dư TK 151 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 151 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i151</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i151_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -1982,8 +2008,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">152*</field>
-            <field name="source_note">Số dư TK 152 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 152 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i152</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i152_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2005,8 +2032,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">153*</field>
-            <field name="source_note">Số dư TK 153 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 153 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i153</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i153_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2028,8 +2056,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">154*</field>
-            <field name="source_note">Số dư TK 154 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 154 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i154</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i154_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2051,8 +2080,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">155*</field>
-            <field name="source_note">Số dư TK 155 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 155 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i155</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i155_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2074,8 +2104,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">156*</field>
-            <field name="source_note">Số dư TK 156 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 156 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i156</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i156_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2097,8 +2128,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">157*</field>
-            <field name="source_note">Số dư TK 157 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 157 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i157</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i157_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2120,8 +2152,9 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">158*</field>
-            <field name="source_note">Số dư TK 158 (Điều 112 mã số 141).</field>
+            <field name="source_note">Số dư TK 158 phần ngắn hạn (Điều 112 mã số 141).</field>
             <field name="line">i158</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi7_i158_prov" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi7"/>
@@ -2158,10 +2191,11 @@
             <field name="sign">-1</field>
             <field name="statement_check">B01-DN:-149</field>
             <field name="detail_formula">i151_prov + i152_prov + i153_prov + i154_prov + i155_prov + i156_prov + i157_prov + i158_prov</field>
-            <field name="source_note">Không in. Số dư Có TK 2294, ghi dương; B01-DN mã số 149 ghi âm.</field>
+            <field name="source_note">Không in. Số dư Có TK 2294 ngắn hạn, ghi dương; B01-DN mã số 149 ghi âm.</field>
             <field name="printed" eval="False"/>
             <field name="measure">1</field>
             <field name="line">total</field>
+            <field name="maturity">short</field>
         </record>
 
         <record id="b09dn200_vi7_1" model="vn.fs.note.template.item">
@@ -2202,7 +2236,7 @@
             <field name="name">Tài sản dở dang dài hạn</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 64. a) ứng với B01-DN mã số 241 (Điều 112: dư Nợ chi tiết TK 154 và dư Có chi tiết TK 2294 dài hạn), chưa có ánh xạ mặc định: nhập tay, doanh nghiệp thêm dòng chi tiết từng loại. Mục b) in cột khác (chỉ Cuối năm | Đầu năm) nên là bảng riêng.</field>
+            <field name="guidance">Mẫu tr. 64. a) ứng với B01-DN mã số 241 (Điều 112: dư Nợ chi tiết TK 154 và dư Có chi tiết TK 2294 dài hạn). Giá gốc đọc TK 154 phần có ngày đến hạn sau 12 tháng (như ánh xạ mã số 241, chưa trừ dự phòng); doanh nghiệp thêm dòng chi tiết từng loại. Mục b) in cột khác (chỉ Cuối năm | Đầu năm) nên là bảng riêng.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá gốc|Giá trị có thể thu hồi</field>
@@ -2213,9 +2247,11 @@
             <field name="code">a_cost</field>
             <field name="name">a) Chi phí sản xuất, kinh doanh dở dang dài hạn (Chi tiết cho từng loại, nêu lý do vì sao không hoàn thành trong một chu kỳ sản xuất, kinh doanh thông thường)</field>
             <field name="style">normal</field>
-            <field name="source">manual</field>
-            <field name="source_note">B01-DN mã số 241 chưa có ánh xạ mặc định (TT200): nhập tay.</field>
+            <field name="source">ledger</field>
+            <field name="expression">154*</field>
+            <field name="source_note">Dư Nợ TK 154 dài hạn (theo ngày đến hạn của bút toán); B01-DN mã số 241 trừ thêm dự phòng 2294 dài hạn. Cần kế toán xác nhận.</field>
             <field name="line">a</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi8_a_rec" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi8"/>
@@ -6485,7 +6521,7 @@
             <field name="name">Tài sản khác</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 67. Điều 112 mã số 155 (ngắn hạn) và 268 (dài hạn): số dư chi tiết TK 2288. Hai mã số này chưa có ánh xạ mặc định trong B01-DN TT200 nên không đối chiếu.</field>
+            <field name="guidance">Mẫu tr. 67. Điều 112 mã số 155 (ngắn hạn) và 268 (dài hạn): số dư chi tiết TK 2288; a), b) đối chiếu với hai mã số này.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
         </record>
@@ -6497,7 +6533,8 @@
             <field name="style">normal</field>
             <field name="source">ledger</field>
             <field name="expression">2288*</field>
-            <field name="source_note">TK 2288 ngắn hạn (Điều 112 mã số 155). Cần kế toán xác nhận.</field>
+            <field name="statement_check">B01-DN:155</field>
+            <field name="source_note">TK 2288 ngắn hạn, như B01-DN mã số 155. Cần kế toán xác nhận.</field>
             <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi14_b" model="vn.fs.note.template.row">
@@ -6508,7 +6545,8 @@
             <field name="style">normal</field>
             <field name="source">ledger</field>
             <field name="expression">2288*</field>
-            <field name="source_note">TK 2288 dài hạn (Điều 112 mã số 268). Cần kế toán xác nhận.</field>
+            <field name="statement_check">B01-DN:268</field>
+            <field name="source_note">TK 2288 dài hạn, như B01-DN mã số 268. Cần kế toán xác nhận.</field>
             <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi14_total" model="vn.fs.note.template.row">
@@ -6529,7 +6567,7 @@
             <field name="name">Vay và nợ thuê tài chính</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 67: sáu cột Cuối năm (Giá trị, Số có khả năng trả nợ), Trong năm (Tăng, Giảm), Đầu năm (Giá trị, Số có khả năng trả nợ). Kiểu "loan" chỉ có bốn cột nên bảng in một cột cho mỗi chỉ tiêu; tiêu đề cột ghép nhóm và chỉ tiêu. a), b) đọc như B01-DN mã số 320, 338 (TK 341 tách theo hạn thanh toán). Tăng = phát sinh Có, Giảm = phát sinh Nợ trong năm (đề xuất). Một khoản vay chuyển từ dài hạn sang ngắn hạn trong năm làm Đầu năm + Tăng - Giảm khác Cuối năm của từng dòng. "Số có khả năng trả nợ": ngoài sổ, nhập tay.</field>
+            <field name="guidance">Mẫu tr. 67: sáu cột Cuối năm (Giá trị, Số có khả năng trả nợ), Trong năm (Tăng, Giảm), Đầu năm (Giá trị, Số có khả năng trả nợ). Kiểu "loan" chỉ có bốn cột nên bảng in một cột cho mỗi chỉ tiêu; tiêu đề cột ghép nhóm và chỉ tiêu. a), b) đọc như B01-DN mã số 320, 338 (TK 341, 3431 tách theo hạn thanh toán). Tăng = phát sinh Có, Giảm = phát sinh Nợ trong năm (đề xuất). Một khoản vay chuyển từ dài hạn sang ngắn hạn trong năm làm Đầu năm + Tăng - Giảm khác Cuối năm của từng dòng. "Số có khả năng trả nợ": ngoài sổ, nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Cuối năm: Giá trị|Cuối năm: Số có khả năng trả nợ|Trong năm: Tăng|Trong năm: Giảm|Đầu năm: Giá trị|Đầu năm: Số có khả năng trả nợ</field>
@@ -6542,10 +6580,10 @@
             <field name="name">a) Vay ngắn hạn</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*,3431*</field>
             <field name="sign">-1</field>
             <field name="statement_check">B01-DN:320</field>
-            <field name="source_note">Như ánh xạ B01-DN mã số 320. Điều 112 mã số 320: dư Có TK 341 và 34311 phần đến hạn trong 12 tháng; mã số 338: TK 341 và 34311 - 34312 + 34313 dài hạn. Ánh xạ B01-DN TT200 chỉ đọc TK 341 (không có 3431).</field>
+            <field name="source_note">Như ánh xạ B01-DN mã số 320. Điều 112 mã số 320: dư Có TK 341 và 34311 phần đến hạn trong 12 tháng; mã số 338: TK 341 và 34311 - 34312 + 34313 dài hạn. Ánh xạ B01-DN đọc TK 341, 3431 tách theo ngày đến hạn của bút toán.</field>
             <field name="figure">closing</field>
             <field name="line">a</field>
             <field name="maturity">short</field>
@@ -6568,9 +6606,9 @@
             <field name="name">a) Vay ngắn hạn</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*,3431*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Phát sinh Có TK 341 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
+            <field name="source_note">Phát sinh Có TK 341, 3431 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
             <field name="figure">credit</field>
             <field name="measure">2</field>
             <field name="line">a</field>
@@ -6583,8 +6621,8 @@
             <field name="name">a) Vay ngắn hạn</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
-            <field name="source_note">Phát sinh Nợ TK 341 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
+            <field name="expression">341*,3431*</field>
+            <field name="source_note">Phát sinh Nợ TK 341, 3431 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
             <field name="figure">debit</field>
             <field name="measure">3</field>
             <field name="line">a</field>
@@ -6597,7 +6635,7 @@
             <field name="name">a) Vay ngắn hạn</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*,3431*</field>
             <field name="sign">-1</field>
             <field name="source_note">Số dư đầu năm trên sổ.</field>
             <field name="figure">opening</field>
@@ -6622,10 +6660,10 @@
             <field name="name">b) Vay dài hạn (Chi tiết theo kỳ hạn)</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*,3431*</field>
             <field name="sign">-1</field>
             <field name="statement_check">B01-DN:338</field>
-            <field name="source_note">Như ánh xạ B01-DN mã số 338. Điều 112 mã số 320: dư Có TK 341 và 34311 phần đến hạn trong 12 tháng; mã số 338: TK 341 và 34311 - 34312 + 34313 dài hạn. Ánh xạ B01-DN TT200 chỉ đọc TK 341 (không có 3431).</field>
+            <field name="source_note">Như ánh xạ B01-DN mã số 338. Điều 112 mã số 320: dư Có TK 341 và 34311 phần đến hạn trong 12 tháng; mã số 338: TK 341 và 34311 - 34312 + 34313 dài hạn. Ánh xạ B01-DN đọc TK 341, 3431 tách theo ngày đến hạn của bút toán.</field>
             <field name="figure">closing</field>
             <field name="line">b</field>
             <field name="maturity">long</field>
@@ -6648,9 +6686,9 @@
             <field name="name">b) Vay dài hạn (Chi tiết theo kỳ hạn)</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*,3431*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Phát sinh Có TK 341 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
+            <field name="source_note">Phát sinh Có TK 341, 3431 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
             <field name="figure">credit</field>
             <field name="measure">2</field>
             <field name="line">b</field>
@@ -6663,8 +6701,8 @@
             <field name="name">b) Vay dài hạn (Chi tiết theo kỳ hạn)</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
-            <field name="source_note">Phát sinh Nợ TK 341 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
+            <field name="expression">341*,3431*</field>
+            <field name="source_note">Phát sinh Nợ TK 341, 3431 trong năm (đề xuất, chưa kiểm chứng; Q-B09-2). Cần kế toán xác nhận.</field>
             <field name="figure">debit</field>
             <field name="measure">3</field>
             <field name="line">b</field>
@@ -6677,7 +6715,7 @@
             <field name="name">b) Vay dài hạn (Chi tiết theo kỳ hạn)</field>
             <field name="style">normal</field>
             <field name="source">ledger</field>
-            <field name="expression">341*</field>
+            <field name="expression">341*,3431*</field>
             <field name="sign">-1</field>
             <field name="source_note">Số dư đầu năm trên sổ.</field>
             <field name="figure">opening</field>
@@ -6987,7 +7025,7 @@
             <field name="name">Phải trả người bán</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 68. Điều 112 mã số 311, 331: dư Có chi tiết TK 331 theo từng người bán, tách kỳ hạn. Ánh xạ B01-DN TT200 mã số 311 không tách kỳ hạn và mã số 331 chưa có ánh xạ: dòng a) đọc như mã số 311 (gồm cả phần dài hạn), dòng b) nhập tay. "Số có khả năng trả nợ", nợ quá hạn, bên liên quan: nhập tay. Mẫu đánh số "c)" hai lần (chép đúng).</field>
+            <field name="guidance">Mẫu tr. 68. Điều 112 mã số 311, 331: dư Có chi tiết TK 331 theo từng người bán, tách kỳ hạn. Dòng a), b) đọc như B01-DN mã số 311, 331 (theo ngày đến hạn của bút toán). "Số có khả năng trả nợ", nợ quá hạn, bên liên quan: nhập tay. Mẫu đánh số "c)" hai lần (chép đúng).</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá trị|Số có khả năng trả nợ</field>
@@ -7005,8 +7043,9 @@
             <field name="split_by_partner" eval="True"/>
             <field name="statement_check">B01-DN:311</field>
             <field name="detail_formula">a1 + a2</field>
-            <field name="source_note">Dư Có TK 331 theo từng người bán, như ánh xạ B01-DN mã số 311 (không tách kỳ hạn, khác Điều 112). Cần kế toán xác nhận.</field>
+            <field name="source_note">Dư Có TK 331 theo từng người bán, phần đến hạn trong 12 tháng, như B01-DN mã số 311.</field>
             <field name="line">a</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi16_a_cap" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi16"/>
@@ -7068,9 +7107,15 @@
             <field name="code">b</field>
             <field name="name">b) Các khoản phải trả người bán dài hạn (chi tiết tương tự ngắn hạn)</field>
             <field name="style">bold</field>
-            <field name="source">manual</field>
-            <field name="source_note">B01-DN mã số 331 chưa có ánh xạ mặc định (TT200): nhập tay.</field>
+            <field name="source">ledger</field>
+            <field name="expression">331*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="statement_check">B01-DN:331</field>
+            <field name="source_note">Dư Có TK 331 theo từng người bán, phần đến hạn sau 12 tháng, như B01-DN mã số 331.</field>
             <field name="line">b</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi16_b_cap" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi16"/>
@@ -7550,7 +7595,7 @@
             <field name="name">Chi phí phải trả</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 69. Điều 112 mã số 315, 333: dư Có chi tiết TK 335 theo kỳ hạn. Ánh xạ B01-DN TT200 để toàn bộ TK 335 ở mã số 315 (mã số 333 chưa có ánh xạ), nên dòng Cộng đọc như mã số 315; các dòng chi tiết theo bản chất nhập tay.</field>
+            <field name="guidance">Mẫu tr. 69. Điều 112 mã số 315, 333: dư Có chi tiết TK 335 theo kỳ hạn. Hai dòng không in đọc TK 335 ngắn hạn / dài hạn như B01-DN mã số 315, 333; dòng Cộng là toàn bộ TK 335. Các dòng chi tiết theo bản chất nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
         </record>
@@ -7624,18 +7669,49 @@
             <field name="indent">1</field>
             <field name="source">manual</field>
         </record>
-        <record id="b09dn200_vi18_total" model="vn.fs.note.template.row">
+        <record id="b09dn200_vi18_st" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi18"/>
             <field name="sequence">90</field>
+            <field name="code">st</field>
+            <field name="name">Chi phí phải trả ngắn hạn</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">335*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:315</field>
+            <field name="detail_formula">a1 + a2 + a3 + a4</field>
+            <field name="source_note">Không in. Số dư Có TK 335 ngắn hạn, như B01-DN mã số 315.</field>
+            <field name="printed" eval="False"/>
+            <field name="maturity">short</field>
+        </record>
+        <record id="b09dn200_vi18_lt" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dn200_vi18"/>
+            <field name="sequence">100</field>
+            <field name="code">lt</field>
+            <field name="name">Chi phí phải trả dài hạn</field>
+            <field name="style">normal</field>
+            <field name="indent">1</field>
+            <field name="source">ledger</field>
+            <field name="expression">335*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:333</field>
+            <field name="detail_formula">b1 + b2</field>
+            <field name="source_note">Không in. Số dư Có TK 335 dài hạn, như B01-DN mã số 333.</field>
+            <field name="printed" eval="False"/>
+            <field name="maturity">long</field>
+        </record>
+        <record id="b09dn200_vi18_total" model="vn.fs.note.template.row">
+            <field name="item_id" ref="b09dn200_vi18"/>
+            <field name="sequence">110</field>
             <field name="code">total</field>
             <field name="name">Cộng</field>
             <field name="style">bold</field>
             <field name="source">ledger</field>
             <field name="expression">335*</field>
             <field name="sign">-1</field>
-            <field name="statement_check">B01-DN:315</field>
             <field name="detail_formula">a1 + a2 + a3 + a4 + b1 + b2</field>
-            <field name="source_note">Số dư Có TK 335, như ánh xạ B01-DN mã số 315 (gồm cả phần dài hạn, Điều 112 mã số 333).</field>
+            <field name="source_note">Số dư Có TK 335 (B01-DN mã số 315 + 333).</field>
         </record>
 
         <record id="b09dn200_vi19" model="vn.fs.note.template.item">
@@ -7646,7 +7722,7 @@
             <field name="name">Phải trả khác</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 69. Điều 112 mã số 319: dư Có chi tiết TK 338, 138, 344 ngắn hạn; mã số 337: TK 338, 344 dài hạn. Ánh xạ B01-DN TT200 mã số 319 đọc "338*,-3387,344*" dư Có, không tách kỳ hạn và không gồm TK 138; mã số 337 chưa có ánh xạ. Dòng a) và các dòng chi tiết đọc như mã số 319 (kể cả phần dài hạn), b) nhập tay. Ánh xạ trừ "3387" không có dấu *, nên chỉ trừ đúng tài khoản mã 3387; các dòng ở đây giữ nguyên cách đó.</field>
+            <field name="guidance">Mẫu tr. 69. Điều 112 mã số 319: dư Có chi tiết TK 338, 138, 344 ngắn hạn; mã số 337: TK 338, 344 dài hạn (ánh xạ B01-DN thêm dư Có 138 dài hạn để không bỏ sót). Dòng a), b) và các dòng chi tiết đọc như B01-DN mã số 319, 337, tách theo ngày đến hạn của bút toán; TK 3387 ở VI.20.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
         </record>
@@ -7657,12 +7733,13 @@
             <field name="name">a) Ngắn hạn</field>
             <field name="style">bold</field>
             <field name="source">ledger</field>
-            <field name="expression">338*,-3387,344*</field>
+            <field name="expression">338*,-3387*,138*,344*</field>
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="statement_check">B01-DN:319</field>
             <field name="detail_formula">a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8 + a9</field>
-            <field name="source_note">Như ánh xạ B01-DN mã số 319.</field>
+            <field name="source_note">Như B01-DN mã số 319.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a1" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7676,6 +7753,7 @@
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a2" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7689,6 +7767,7 @@
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a3" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7702,6 +7781,7 @@
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a4" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7715,6 +7795,7 @@
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a5" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7728,6 +7809,7 @@
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a6" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7741,6 +7823,7 @@
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a7" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7753,7 +7836,8 @@
             <field name="expression">344*</field>
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
-            <field name="source_note">Dư Có TK 344; ánh xạ mã số 319 không tách kỳ hạn nên gồm cả phần dài hạn. Cần kế toán xác nhận.</field>
+            <field name="source_note">Dư Có TK 344 phần ngắn hạn. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a8" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7773,10 +7857,11 @@
             <field name="style">normal</field>
             <field name="indent">1</field>
             <field name="source">ledger</field>
-            <field name="expression">338*,-3381*,-3382*,-3383*,-3384*,-3385*,-3386*,-3387</field>
+            <field name="expression">338*,-3381*,-3382*,-3383*,-3384*,-3385*,-3386*,-3387*,138*</field>
             <field name="sign">-1</field>
             <field name="side">credit_only</field>
-            <field name="source_note">TK 3388 và phần TK 338 không ghi vào tài khoản cấp 2, để các dòng luôn cộng bằng B01-DN mã số 319. Cần kế toán xác nhận.</field>
+            <field name="source_note">TK 3388, dư Có TK 138 và phần TK 338 không ghi vào tài khoản cấp 2, để các dòng luôn cộng bằng B01-DN mã số 319. Cần kế toán xác nhận.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi19_a_total" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7793,9 +7878,14 @@
             <field name="code">b</field>
             <field name="name">b) Dài hạn (chi tiết từng khoản mục)</field>
             <field name="style">bold</field>
-            <field name="source">formula</field>
-            <field name="formula">b1 + b2</field>
-            <field name="source_note">B01-DN mã số 337 chưa có ánh xạ mặc định (TT200): nhập tay.</field>
+            <field name="source">ledger</field>
+            <field name="expression">338*,-3387*,138*,344*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="statement_check">B01-DN:337</field>
+            <field name="detail_formula">b1 + b2</field>
+            <field name="source_note">Như B01-DN mã số 337.</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi19_b1" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7804,7 +7894,12 @@
             <field name="name">- Nhận ký quỹ, ký cược dài hạn</field>
             <field name="style">normal</field>
             <field name="indent">1</field>
-            <field name="source">manual</field>
+            <field name="source">ledger</field>
+            <field name="expression">344*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="source_note">Dư Có TK 344 phần dài hạn. Cần kế toán xác nhận.</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi19_b2" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7813,7 +7908,12 @@
             <field name="name">- Các khoản phải trả, phải nộp khác</field>
             <field name="style">normal</field>
             <field name="indent">1</field>
-            <field name="source">manual</field>
+            <field name="source">ledger</field>
+            <field name="expression">338*,-3387*,138*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="source_note">Dư Có TK 338 (trừ 3387), 138 phần dài hạn. Cần kế toán xác nhận.</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi19_c" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi19"/>
@@ -7833,7 +7933,7 @@
             <field name="name">Doanh thu chưa thực hiện</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 69. Điều 112 mã số 318, 336: dư Có chi tiết TK 3387 theo kỳ hạn. Ánh xạ B01-DN TT200 mã số 318 đọc toàn bộ TK 3387, mã số 336 chưa có ánh xạ: dòng a) đọc như mã số 318, b) nhập tay. Phân loại theo bản chất: nhập tay.</field>
+            <field name="guidance">Mẫu tr. 69. Điều 112 mã số 318, 336: dư Có chi tiết TK 3387 theo kỳ hạn. Dòng a), b) đọc như B01-DN mã số 318, 336 (theo ngày đến hạn của bút toán). Phân loại theo bản chất: nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
         </record>
@@ -7848,7 +7948,8 @@
             <field name="sign">-1</field>
             <field name="statement_check">B01-DN:318</field>
             <field name="detail_formula">a1 + a2 + a3</field>
-            <field name="source_note">Số dư Có TK 3387, như ánh xạ B01-DN mã số 318 (gồm cả phần dài hạn).</field>
+            <field name="source_note">Số dư Có TK 3387 ngắn hạn, như B01-DN mã số 318.</field>
+            <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi20_a1" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi20"/>
@@ -7892,8 +7993,12 @@
             <field name="code">b</field>
             <field name="name">b) Dài hạn (chi tiết từng khoản mục như ngắn hạn)</field>
             <field name="style">normal</field>
-            <field name="source">manual</field>
-            <field name="source_note">B01-DN mã số 336 chưa có ánh xạ mặc định (TT200): nhập tay.</field>
+            <field name="source">ledger</field>
+            <field name="expression">3387*</field>
+            <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:336</field>
+            <field name="source_note">Số dư Có TK 3387 dài hạn, như B01-DN mã số 336.</field>
+            <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi20_c" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vi20"/>
@@ -7922,7 +8027,7 @@
             <field name="name">Trái phiếu thường (chi tiết theo từng loại)</field>
             <field name="level">2</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 70. Dòng a) đọc dư Có TK 3431 (34311 − 34312 + 34313, Phụ lục 1), là phần trái phiếu Điều 112 cộng vào mã số 338; ánh xạ B01-DN TT200 mã số 338 chỉ đọc TK 341 nên không đối chiếu. Ba loại trái phiếu (theo mệnh giá, có chiết khấu, có phụ trội) không phải ba tài khoản 34311-34313: nhập tay. Lãi suất, kỳ hạn in trong ô số. Mẫu in hai dòng "Cộng" mà không nói dòng thứ hai cộng những dòng nào: nhập tay.</field>
+            <field name="guidance">Mẫu tr. 70. Dòng a) đọc dư Có TK 3431 (34311 − 34312 + 34313, Phụ lục 1), là phần trái phiếu Điều 112 cộng vào mã số 320, 338 cùng TK 341, nên không đối chiếu riêng. Ba loại trái phiếu (theo mệnh giá, có chiết khấu, có phụ trội) không phải ba tài khoản 34311-34313: nhập tay. Lãi suất, kỳ hạn in trong ô số. Mẫu in hai dòng "Cộng" mà không nói dòng thứ hai cộng những dòng nào: nhập tay.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Giá trị|Lãi suất|Kỳ hạn</field>
@@ -8095,7 +8200,7 @@
             <field name="name">Trái phiếu chuyển đổi:</field>
             <field name="level">2</field>
             <field name="kind">heading</field>
-            <field name="guidance">Mẫu tr. 70-71: các mục a)-g). Các gạch đầu dòng mẫu in được điền sẵn làm khung lời văn. Liên quan Điều 112 mã số 339 (TK 3432) và 413 (TK 4113); ánh xạ B01-DN TT200 chưa có hai dòng này.</field>
+            <field name="guidance">Mẫu tr. 70-71: các mục a)-g). Các gạch đầu dòng mẫu in được điền sẵn làm khung lời văn. Liên quan B01-DN mã số 339 (TK 3432) và 413 (TK 4113).</field>
         </record>
 
         <record id="b09dn200_vi21_2_1" model="vn.fs.note.template.item">
@@ -8171,7 +8276,7 @@
             <field name="name">Cổ phiếu ưu đãi phân loại là nợ phải trả</field>
             <field name="level">1</field>
             <field name="kind">heading</field>
-            <field name="guidance">Mẫu tr. 71. Liên quan Điều 112 mã số 340 (dư Có chi tiết TK 41112, phần phân loại là nợ); ánh xạ B01-DN TT200 chưa có dòng này.</field>
+            <field name="guidance">Mẫu tr. 71. Liên quan Điều 112 mã số 340 (dư Có chi tiết TK 41112, phần phân loại là nợ); sổ cái không tách phần này nên ánh xạ B01-DN để trống mã số 340 (toàn bộ 41112 ở 411b).</field>
         </record>
 
         <record id="b09dn200_vi22_1" model="vn.fs.note.template.item">
@@ -8232,7 +8337,7 @@
             <field name="name">Dự phòng phải trả</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 71. Điều 112 mã số 321 (ngắn hạn), 342 (dài hạn): dư Có chi tiết TK 352. Ánh xạ B01-DN TT200 không có mã số 321 và để toàn bộ TK 352 ở mã số 342; dòng tổng không in đọc như mã số 342 và phải bằng a) + b). Các dòng chi tiết theo TK cấp 2 của 352 (Phụ lục 1).</field>
+            <field name="guidance">Mẫu tr. 71. Điều 112 mã số 321 (ngắn hạn), 342 (dài hạn): dư Có chi tiết TK 352; a), b) đối chiếu với hai mã số này (theo ngày đến hạn của bút toán). Dòng tổng không in phải bằng a) + b). Các dòng chi tiết theo TK cấp 2 của 352 (Phụ lục 1).</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
         </record>
@@ -8245,8 +8350,9 @@
             <field name="source">ledger</field>
             <field name="expression">352*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:321</field>
             <field name="detail_formula">a3521 + a3522 + a3523 + a3524</field>
-            <field name="source_note">Dư Có TK 352 phần ngắn hạn (Điều 112 mã số 321, chưa có ánh xạ). Cần kế toán xác nhận.</field>
+            <field name="source_note">Dư Có TK 352 phần ngắn hạn, như B01-DN mã số 321.</field>
             <field name="maturity">short</field>
         </record>
         <record id="b09dn200_vi23_a3521" model="vn.fs.note.template.row">
@@ -8319,7 +8425,8 @@
             <field name="source">ledger</field>
             <field name="expression">352*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Dư Có TK 352 phần dài hạn (Điều 112 mã số 342). Cần kế toán xác nhận.</field>
+            <field name="statement_check">B01-DN:342</field>
+            <field name="source_note">Dư Có TK 352 phần dài hạn, như B01-DN mã số 342.</field>
             <field name="maturity">long</field>
         </record>
         <record id="b09dn200_vi23_total" model="vn.fs.note.template.row">
@@ -8332,9 +8439,8 @@
             <field name="source">ledger</field>
             <field name="expression">352*</field>
             <field name="sign">-1</field>
-            <field name="statement_check">B01-DN:342</field>
             <field name="detail_formula">a + b</field>
-            <field name="source_note">Không in. Số dư Có TK 352, như ánh xạ B01-DN mã số 342 (đọc cả phần ngắn hạn, khác Điều 112).</field>
+            <field name="source_note">Không in. Số dư Có TK 352 (B01-DN mã số 321 + 342).</field>
             <field name="printed" eval="False"/>
         </record>
 
@@ -8495,7 +8601,7 @@
             <field name="name">Bảng đối chiếu biến động của vốn chủ sở hữu</field>
             <field name="level">2</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 72; mẫu đánh số cột A, 1-8, cột Cộng không đánh số; các cột nằm dưới tiêu đề chung "Các khoản mục thuộc vốn chủ sở hữu". Số dư đầu năm nay và cuối năm nay đọc sổ (cột 1-6: TK 4111, 4112, 4113, 4118, 412, 413; cột 7: 421, 414, 417, 418; cột 8: 419); chỉ cột 1, 2 có dòng ánh xạ B01-DN TT200 để đối chiếu (mã số 411, 412); Cộng cuối năm = B01-DN mã số 400. Các dòng tăng, giảm, lãi, lỗ nhập tay; số dư cuối năm báo lệch khi chúng không khớp với sổ. Các dòng "năm trước" lấy từ Bản thuyết minh năm trước (khoản 4.6). Phân loại cột 7, 8: Q-B09-3.</field>
+            <field name="guidance">Mẫu tr. 72; mẫu đánh số cột A, 1-8, cột Cộng không đánh số; các cột nằm dưới tiêu đề chung "Các khoản mục thuộc vốn chủ sở hữu". Số dư đầu năm nay và cuối năm nay đọc sổ (cột 1-6: TK 4111, 4112, 4113, 4118, 412, 413; cột 7: 421, 414, 417, 418; cột 8: 419); cột 1-6 và 8 đối chiếu với B01-DN mã số 411, 412, 413, 414, 416, 417, 415; Cộng cuối năm = B01-DN mã số 410. Các dòng tăng, giảm, lãi, lỗ nhập tay; số dư cuối năm báo lệch khi chúng không khớp với sổ. Các dòng "năm trước" lấy từ Bản thuyết minh năm trước (khoản 4.6). Phân loại cột 7, 8: Q-B09-3.</field>
             <field name="layout">balance</field>
             <field name="display">standard</field>
             <field name="measures">Vốn góp của chủ sở hữu|Thặng dư vốn cổ phần|Quyền chọn chuyển đổi trái phiếu|Vốn khác của chủ sở hữu|Chênh lệch đánh giá lại tài sản|Chênh lệch tỷ giá|LNST thuế chưa phân phối và các quỹ|Các khoản mục khác ...|Cộng</field>
@@ -9277,7 +9383,7 @@
             <field name="source">ledger</field>
             <field name="expression">4113*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Số dư đầu năm. TK 4113 (Điều 112 mã số 413); ánh xạ B01-DN TT200 chưa có dòng 413.</field>
+            <field name="source_note">Số dư đầu năm. TK 4113, như B01-DN mã số 413.</field>
             <field name="figure">opening</field>
             <field name="measure">2</field>
             <field name="line">cy_open</field>
@@ -9291,7 +9397,7 @@
             <field name="source">ledger</field>
             <field name="expression">4118*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Số dư đầu năm. TK 4118 (Điều 112 mã số 414); ánh xạ B01-DN TT200 chưa có dòng 414.</field>
+            <field name="source_note">Số dư đầu năm. TK 4118, như B01-DN mã số 414.</field>
             <field name="figure">opening</field>
             <field name="measure">3</field>
             <field name="line">cy_open</field>
@@ -9305,7 +9411,7 @@
             <field name="source">ledger</field>
             <field name="expression">412*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Số dư đầu năm. TK 412 (Điều 112 mã số 416); ánh xạ B01-DN TT200 chưa có dòng 416.</field>
+            <field name="source_note">Số dư đầu năm. TK 412, như B01-DN mã số 416.</field>
             <field name="figure">opening</field>
             <field name="measure">4</field>
             <field name="line">cy_open</field>
@@ -9319,7 +9425,7 @@
             <field name="source">ledger</field>
             <field name="expression">413*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Số dư đầu năm. TK 413 (Điều 112 mã số 417); ánh xạ B01-DN TT200 chưa có dòng 417.</field>
+            <field name="source_note">Số dư đầu năm. TK 413, như B01-DN mã số 417.</field>
             <field name="figure">opening</field>
             <field name="measure">5</field>
             <field name="line">cy_open</field>
@@ -9333,7 +9439,7 @@
             <field name="source">ledger</field>
             <field name="expression">421*,414*,417*,418*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Số dư đầu năm. TK 421, 414, 417, 418 (Điều 112 mã số 421, 418, 419, 420); ánh xạ B01-DN TT200 có 421 và 418, chưa có 419, 420. Văn bản không nói "các quỹ" gồm quỹ nào (Q-B09-3). Cần kế toán xác nhận.</field>
+            <field name="source_note">Số dư đầu năm. TK 421, 414, 417, 418 (B01-DN mã số 421, 418, 419, 420; không có một mã số tổng để đối chiếu). Văn bản không nói "các quỹ" gồm quỹ nào (Q-B09-3). Cần kế toán xác nhận.</field>
             <field name="figure">opening</field>
             <field name="measure">6</field>
             <field name="line">cy_open</field>
@@ -9347,7 +9453,7 @@
             <field name="source">ledger</field>
             <field name="expression">419*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Số dư đầu năm. TK 419 cổ phiếu quỹ (dư Nợ, ra số âm; Điều 112 mã số 415). Văn bản không nói cột này gồm gì; TK 441 (mã số 422) chưa đưa vào (Q-B09-3). Cần kế toán xác nhận.</field>
+            <field name="source_note">Số dư đầu năm. TK 419 cổ phiếu quỹ (dư Nợ, ra số âm), như B01-DN mã số 415. Văn bản không nói cột này gồm gì; TK 441 (mã số 422) chưa đưa vào (Q-B09-3). Cần kế toán xác nhận.</field>
             <field name="figure">opening</field>
             <field name="measure">7</field>
             <field name="line">cy_open</field>
@@ -9998,8 +10104,9 @@
             <field name="source">ledger</field>
             <field name="expression">4113*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:413</field>
             <field name="detail_formula">cy_open_3 + cy_inc_3 + cy_profit_3 + cy_oinc_3 - cy_dec_3 - cy_loss_3 - cy_odec_3</field>
-            <field name="source_note">Số dư cuối năm. TK 4113 (Điều 112 mã số 413); ánh xạ B01-DN TT200 chưa có dòng 413.</field>
+            <field name="source_note">Số dư cuối năm. TK 4113, như B01-DN mã số 413.</field>
             <field name="figure">closing</field>
             <field name="measure">2</field>
             <field name="line">cy_close</field>
@@ -10013,8 +10120,9 @@
             <field name="source">ledger</field>
             <field name="expression">4118*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:414</field>
             <field name="detail_formula">cy_open_4 + cy_inc_4 + cy_profit_4 + cy_oinc_4 - cy_dec_4 - cy_loss_4 - cy_odec_4</field>
-            <field name="source_note">Số dư cuối năm. TK 4118 (Điều 112 mã số 414); ánh xạ B01-DN TT200 chưa có dòng 414.</field>
+            <field name="source_note">Số dư cuối năm. TK 4118, như B01-DN mã số 414.</field>
             <field name="figure">closing</field>
             <field name="measure">3</field>
             <field name="line">cy_close</field>
@@ -10028,8 +10136,9 @@
             <field name="source">ledger</field>
             <field name="expression">412*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:416</field>
             <field name="detail_formula">cy_open_5 + cy_inc_5 + cy_profit_5 + cy_oinc_5 - cy_dec_5 - cy_loss_5 - cy_odec_5</field>
-            <field name="source_note">Số dư cuối năm. TK 412 (Điều 112 mã số 416); ánh xạ B01-DN TT200 chưa có dòng 416.</field>
+            <field name="source_note">Số dư cuối năm. TK 412, như B01-DN mã số 416.</field>
             <field name="figure">closing</field>
             <field name="measure">4</field>
             <field name="line">cy_close</field>
@@ -10043,8 +10152,9 @@
             <field name="source">ledger</field>
             <field name="expression">413*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:417</field>
             <field name="detail_formula">cy_open_6 + cy_inc_6 + cy_profit_6 + cy_oinc_6 - cy_dec_6 - cy_loss_6 - cy_odec_6</field>
-            <field name="source_note">Số dư cuối năm. TK 413 (Điều 112 mã số 417); ánh xạ B01-DN TT200 chưa có dòng 417.</field>
+            <field name="source_note">Số dư cuối năm. TK 413, như B01-DN mã số 417.</field>
             <field name="figure">closing</field>
             <field name="measure">5</field>
             <field name="line">cy_close</field>
@@ -10059,7 +10169,7 @@
             <field name="expression">421*,414*,417*,418*</field>
             <field name="sign">-1</field>
             <field name="detail_formula">cy_open_7 + cy_inc_7 + cy_profit_7 + cy_oinc_7 - cy_dec_7 - cy_loss_7 - cy_odec_7</field>
-            <field name="source_note">Số dư cuối năm. TK 421, 414, 417, 418 (Điều 112 mã số 421, 418, 419, 420); ánh xạ B01-DN TT200 có 421 và 418, chưa có 419, 420. Văn bản không nói "các quỹ" gồm quỹ nào (Q-B09-3). Cần kế toán xác nhận.</field>
+            <field name="source_note">Số dư cuối năm. TK 421, 414, 417, 418 (B01-DN mã số 421, 418, 419, 420; không có một mã số tổng để đối chiếu). Văn bản không nói "các quỹ" gồm quỹ nào (Q-B09-3). Cần kế toán xác nhận.</field>
             <field name="figure">closing</field>
             <field name="measure">6</field>
             <field name="line">cy_close</field>
@@ -10073,8 +10183,9 @@
             <field name="source">ledger</field>
             <field name="expression">419*</field>
             <field name="sign">-1</field>
+            <field name="statement_check">B01-DN:415</field>
             <field name="detail_formula">cy_open_8 + cy_inc_8 + cy_profit_8 + cy_oinc_8 - cy_dec_8 - cy_loss_8 - cy_odec_8</field>
-            <field name="source_note">Số dư cuối năm. TK 419 cổ phiếu quỹ (dư Nợ, ra số âm; Điều 112 mã số 415). Văn bản không nói cột này gồm gì; TK 441 (mã số 422) chưa đưa vào (Q-B09-3). Cần kế toán xác nhận.</field>
+            <field name="source_note">Số dư cuối năm. TK 419 cổ phiếu quỹ (dư Nợ, ra số âm), như B01-DN mã số 415. Văn bản không nói cột này gồm gì; TK 441 (mã số 422) chưa đưa vào (Q-B09-3). Cần kế toán xác nhận.</field>
             <field name="figure">closing</field>
             <field name="measure">7</field>
             <field name="line">cy_close</field>
@@ -10087,8 +10198,8 @@
             <field name="style">bold</field>
             <field name="source">formula</field>
             <field name="formula">cy_close_1 + cy_close_2 + cy_close_3 + cy_close_4 + cy_close_5 + cy_close_6 + cy_close_7 + cy_close_8</field>
-            <field name="statement_check">B01-DN:400</field>
-            <field name="source_note">Bằng B01-DN mã số 400. Ánh xạ TT200 mã số 400 chỉ cộng 411, 412, 418, 421: số dư ở các tài khoản vốn khác làm kiểm tra này báo lệch.</field>
+            <field name="statement_check">B01-DN:410</field>
+            <field name="source_note">Bằng B01-DN mã số 410 nếu không có số dư TK 441 (mã số 422, chưa có cột: Q-B09-3). Không đối chiếu với mã số 400 vì 400 gồm cả nguồn kinh phí (430).</field>
             <field name="measure">8</field>
             <field name="line">cy_close</field>
         </record>
@@ -10523,7 +10634,7 @@
             <field name="name">Nguồn kinh phí</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 73; cột Năm nay | Năm trước. Điều 112 mã số 431: dư Có TK 461 trừ dư Nợ TK 161; ánh xạ B01-DN TT200 chưa có dòng này nên không đối chiếu. Văn bản không nêu tài khoản cho "được cấp trong năm" và "Chi sự nghiệp": nhập tay.</field>
+            <field name="guidance">Mẫu tr. 73; cột Năm nay | Năm trước. Điều 112 mã số 431: dư Có TK 461 trừ dư Nợ TK 161; dòng còn lại cuối năm đối chiếu với mã số này. Văn bản không nêu tài khoản cho "được cấp trong năm" và "Chi sự nghiệp": nhập tay.</field>
             <field name="layout">period</field>
             <field name="display">standard</field>
         </record>
@@ -10556,7 +10667,8 @@
             <field name="source">ledger</field>
             <field name="expression">461*,161*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Dư Có TK 461 trừ dư Nợ TK 161 cuối năm (Điều 112 mã số 431). Cần kế toán xác nhận.</field>
+            <field name="statement_check">B01-DN:431</field>
+            <field name="source_note">Dư Có TK 461 trừ dư Nợ TK 161 cuối năm, như B01-DN mã số 431. Cần kế toán xác nhận.</field>
             <field name="figure">closing</field>
         </record>
 
@@ -10708,7 +10820,7 @@
             <field name="name">Tổng doanh thu bán hàng và cung cấp dịch vụ</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 74. Cộng = B02-DN mã số 01 (TK 511). Ánh xạ B02-DN TT200 mã số 01 đọc phát sinh thuần TK 511 (trừ bút toán kết chuyển với 911, 421), không phải lũy kế phát sinh Có như Điều 113: nếu doanh nghiệp kết chuyển 521 sang 511 thì mã số 01 đã trừ giảm trừ doanh thu. Hai dòng đầu đọc TK cấp 2 trùng tên (Phụ lục 1: 5111, 5112 bán hàng hóa, thành phẩm; 5113 cung cấp dịch vụ); TK 5114, 5117, 5118 không có dòng trên mẫu nên kiểm tra dòng Cộng báo lệch khi chúng có số: thêm dòng hoặc sửa tay. Doanh thu hợp đồng xây dựng không có tài khoản riêng: nhập tay, và nếu đã ghi vào 5112, 5113 thì sửa tay dòng tương ứng. Doanh thu lũy kế hợp đồng xây dựng không cộng vào dòng Cộng.</field>
+            <field name="guidance">Mẫu tr. 74. Cộng = B02-DN mã số 01 (TK 511). B02-DN mã số 01 là lũy kế phát sinh Có TK 511 (Điều 113), không kể bút toán kết chuyển với 911, 421; giảm trừ doanh thu ghi Nợ 511 nằm ở mã số 02 (VII.2). Hai dòng đầu đọc TK cấp 2 trùng tên (Phụ lục 1: 5111, 5112 bán hàng hóa, thành phẩm; 5113 cung cấp dịch vụ); TK 5114, 5117, 5118 không có dòng trên mẫu nên kiểm tra dòng Cộng báo lệch khi chúng có số: thêm dòng hoặc sửa tay. Doanh thu hợp đồng xây dựng không có tài khoản riêng: nhập tay, và nếu đã ghi vào 5112, 5113 thì sửa tay dòng tương ứng. Doanh thu lũy kế hợp đồng xây dựng không cộng vào dòng Cộng.</field>
             <field name="layout">period</field>
             <field name="display">standard</field>
         </record>
@@ -10731,7 +10843,8 @@
             <field name="source">ledger</field>
             <field name="expression">5111*,5112*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Phát sinh thuần TK 5111, 5112, cách đọc như B02-DN mã số 01. Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="movement_side">credit</field>
+            <field name="source_note">Phát sinh Có TK 5111, 5112, cách đọc như B02-DN mã số 01. Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
         </record>
         <record id="b09dn200_vii1_service" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vii1"/>
@@ -10743,7 +10856,8 @@
             <field name="source">ledger</field>
             <field name="expression">5113*</field>
             <field name="sign">-1</field>
-            <field name="source_note">Phát sinh thuần TK 5113. Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
+            <field name="movement_side">credit</field>
+            <field name="source_note">Phát sinh Có TK 5113. Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
         </record>
         <record id="b09dn200_vii1_build" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vii1"/>
@@ -10784,9 +10898,10 @@
             <field name="source">ledger</field>
             <field name="expression">511*</field>
             <field name="sign">-1</field>
+            <field name="movement_side">credit</field>
             <field name="statement_check">B02-DN:01</field>
             <field name="detail_formula">goods + service + build</field>
-            <field name="source_note">Như B02-DN mã số 01. Ánh xạ B02-DN TT200 mã số 01 đọc phát sinh thuần TK 511 (trừ bút toán kết chuyển với 911, 421), không phải lũy kế phát sinh Có như Điều 113: nếu doanh nghiệp kết chuyển 521 sang 511 thì mã số 01 đã trừ giảm trừ doanh thu.</field>
+            <field name="source_note">Như B02-DN mã số 01. B02-DN mã số 01 là lũy kế phát sinh Có TK 511 (Điều 113), không kể bút toán kết chuyển với 911, 421; giảm trừ doanh thu ghi Nợ 511 nằm ở mã số 02 (VII.2).</field>
         </record>
         <record id="b09dn200_vii1_related" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vii1"/>
@@ -10816,7 +10931,7 @@
             <field name="name">Các khoản giảm trừ doanh thu</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 74-75; mẫu in số trên dòng tiêu đề rồi "Trong đó:", không in dòng Cộng: ở đây dòng đầu bảng là tổng. Tổng = B02-DN mã số 02. Điều 113: phát sinh Nợ TK 511 đối ứng Có TK 521; ánh xạ TT200 đọc phát sinh thuần TK 521, bằng 0 nếu doanh nghiệp đã kết chuyển 521 sang 511 trong kỳ. Ba dòng đọc TK cấp 2 trùng tên (Phụ lục 1: 5211, 5212, 5213). Cần kế toán xác nhận.</field>
+            <field name="guidance">Mẫu tr. 74-75; mẫu in số trên dòng tiêu đề rồi "Trong đó:", không in dòng Cộng: ở đây dòng đầu bảng là tổng. Tổng = B02-DN mã số 02: phát sinh Nợ TK 511 (Điều 113: đối ứng Có TK 521), không kể kết chuyển sang 911. Ba dòng đọc phát sinh Nợ TK cấp 2 trùng tên (Phụ lục 1: 5211, 5212, 5213); khoản giảm trừ ghi thẳng Nợ 511 (như phiếu giảm giá, trả hàng của Odoo) không qua 521 làm kiểm tra chi tiết báo khác: sửa tay dòng tương ứng. Cần kế toán xác nhận.</field>
             <field name="layout">period</field>
             <field name="display">standard</field>
         </record>
@@ -10827,10 +10942,11 @@
             <field name="name">Các khoản giảm trừ doanh thu</field>
             <field name="style">bold</field>
             <field name="source">ledger</field>
-            <field name="expression">521*</field>
+            <field name="expression">511*</field>
+            <field name="movement_side">debit</field>
             <field name="statement_check">B02-DN:02</field>
             <field name="detail_formula">ck + gg + tl</field>
-            <field name="source_note">Phát sinh thuần TK 521, như ánh xạ B02-DN mã số 02.</field>
+            <field name="source_note">Phát sinh Nợ TK 511, như B02-DN mã số 02.</field>
         </record>
         <record id="b09dn200_vii2_of" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vii2"/>
@@ -10849,6 +10965,7 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">5211*</field>
+            <field name="movement_side">debit</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
         </record>
         <record id="b09dn200_vii2_gg" model="vn.fs.note.template.row">
@@ -10860,6 +10977,7 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">5212*</field>
+            <field name="movement_side">debit</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
         </record>
         <record id="b09dn200_vii2_tl" model="vn.fs.note.template.row">
@@ -10871,6 +10989,7 @@
             <field name="indent">1</field>
             <field name="source">ledger</field>
             <field name="expression">5213*</field>
+            <field name="movement_side">debit</field>
             <field name="source_note">Tên dòng trùng tên tài khoản trong Phụ lục 1 TT200; văn bản B09 không nêu tài khoản. Cần kế toán xác nhận.</field>
         </record>
 
@@ -11117,7 +11236,7 @@
             <field name="name">Chi phí tài chính</field>
             <field name="level">1</field>
             <field name="kind">table</field>
-            <field name="guidance">Mẫu tr. 75. Cộng = B02-DN mã số 22 (TK 635). Dòng "Lãi tiền vay" đọc như ánh xạ B02-DN mã số 23 (TK 6351*): Phụ lục 1 TT200 không có TK 6351, Điều 113 lấy số này từ sổ chi tiết TK 635, nên công ty phải mở tài khoản chi tiết lãi vay dưới 635. Các dòng khác nhập tay. Phụ lục 1 TT200 không có tài khoản cấp 2 cho khoản này: nhập tay hoặc theo tài khoản chi tiết công ty mở.</field>
+            <field name="guidance">Mẫu tr. 75. Cộng = B02-DN mã số 22 (TK 635). Dòng "Lãi tiền vay" đối chiếu với B02-DN mã số 23: Điều 113 lấy số này từ sổ chi tiết TK 635, Phụ lục 1 TT200 không có tài khoản cấp 2, nên mã số 23 để trống cho tới khi công ty khai báo tài khoản chi tiết lãi vay của mình. Phụ lục 1 TT200 không có tài khoản cấp 2 cho khoản này: nhập tay hoặc theo tài khoản chi tiết công ty mở.</field>
             <field name="layout">period</field>
             <field name="display">standard</field>
         </record>
@@ -11128,10 +11247,9 @@
             <field name="name">- Lãi tiền vay;</field>
             <field name="style">normal</field>
             <field name="indent">1</field>
-            <field name="source">ledger</field>
-            <field name="expression">6351*</field>
+            <field name="source">manual</field>
             <field name="statement_check">B02-DN:23</field>
-            <field name="source_note">Phát sinh thuần TK 6351, như ánh xạ B02-DN mã số 23 (tài khoản do công ty mở). Cần kế toán xác nhận.</field>
+            <field name="source_note">Phụ lục 1 TT200 không có tài khoản cấp 2 cho khoản này: nhập tay hoặc theo tài khoản chi tiết công ty mở. Bằng B02-DN mã số 23.</field>
         </record>
         <record id="b09dn200_vii5_e2" model="vn.fs.note.template.row">
             <field name="item_id" ref="b09dn200_vii5"/>
