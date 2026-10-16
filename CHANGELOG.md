@@ -6,6 +6,13 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Added
 
+- Company settings for the notes (Settings → company → "Notes to the Financial Statements (B09)", accounting managers): the company's own accounts for notes rows the circular gives no account for (cost of sales by kind, cash equivalents, payroll contributions…); a list button fills in every row that can be set.
+- Related parties: a flag on the partner form. With "Compute related-party rows" on, the notes' "of which: related parties" rows are read from the ledger for those partners.
+- Overdue after N days: overdue and bad-debt rows are read from the due dates of the journal items. Loans can be split into short and long term by their due dates (TT133).
+- "Leave out empty items when printing": tables with only zeros and empty text items are not printed.
+- Tax and interest rates print as percentages, share counts and terms as plain numbers.
+- Notes to the financial statements for Thông tư 200/2014: form B09-DN (Phụ lục 2 mục 5), with the 49 tables of the printed form, for financial years that began before 2026. A company on TT200 gets this form automatically.
+- The "Thuyết minh" column of TT200's B01-DN and B02-DN now points at the matching note. On upgrade it is filled only where it is empty.
 - Notes to the financial statements for Thông tư 99/2025: form B09-DN (Phụ lục IV Mục 1 điểm 5), with all 53 tables of the printed form. A company on TT99 gets this form automatically.
 - The notes support the layouts TT99 prints: several figures per row (cost / fair value / provision…), fixed assets by asset class, and the two-year equity reconciliation, whose last-year lines come from last year's locked notes.
 - The "Thuyết minh" column of TT99's B01-DN and B02-DN now points at the matching note. On upgrade it is filled only where it is empty.
@@ -23,6 +30,11 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 - Lint configuration: pre-commit, black, isort, flake8, pylint-odoo, .editorconfig.
 
 ### Changed
+
+- TT200 balance sheet B01-DN and income statement B02-DN now follow Điều 112 and 113 of the circular line by line: all 115 codes of the printed form with their printed names; receivables, payables, provisions, inventory, loans and bonds split into short and long term by the due date of the journal items; 400 = 410 + 430, with every equity line counted. **Figures of companies on TT200 change.**
+- B02-DN: line 01 is the credit side of 511 and line 02 its debit side (deductions, once 521 is transferred to 511). Line 23 (interest expense) is left for the company to map to its own sub-account of 635, since 6351 is not a TT200 account; an upgrade keeps 6351* where the database has such an account.
+- The TT200 notes (B09-DN) check against the new lines.
+- On upgrade, shipped lines and notes rows still at their old values are corrected; those the company edited are kept and listed in the log.
 
 - The TT133 balance sheet B01a-DNN, income statement B02-DNN and cash flow statement B03-DNN now follow the line numbers and line definitions of the circular's appendix.
 - Liabilities are split into short and long term by the due date of the journal item (more than twelve months after the report date is long term).
