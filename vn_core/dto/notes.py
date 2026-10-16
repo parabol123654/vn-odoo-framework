@@ -29,8 +29,12 @@ class NoteRowDTO(NamedTuple):
     #: closing.
     figure: str = ''
     #: 'short' or 'long' keeps the part due within, or after, twelve months
-    #: of the report date, as B01-DN's short- and long-term items do.
+    #: of the report date, as B01-DN's short- and long-term items do;
+    #: 'overdue' the part due more than the table's ``overdue_days`` ago.
     maturity: str = 'all'
+    #: 'related' reads only the partners the table names as related parties
+    #: (the notes' "Trong đó: … các bên liên quan" rows).
+    partner_scope: str = ''
 
 
 class NoteTableDTO(NamedTuple):
@@ -49,6 +53,11 @@ class NoteTableDTO(NamedTuple):
     #: Accounts of the year-end transfer, left out of a 'period' table the
     #: way they are left out of the income statement.
     closing_expression: str = ''
+    #: Partners that are related parties, for rows with partner_scope
+    #: 'related'. Empty: those rows read nothing.
+    related_partner_ids: Tuple[int, ...] = ()
+    #: Days past the due date after which an item counts as overdue.
+    overdue_days: int = 0
 
 
 class NoteRowValueDTO(NamedTuple):

@@ -13,6 +13,7 @@ from ..domain.financial_statement.engine import FinancialStatementEngine
 from ..domain.financial_statement.notes import NotesCalculator
 from ..domain.ledger.engine import LedgerEngine
 from ..dto.filters import LedgerFilter
+from ..dto.ledger import MoveLineDTO
 from ..dto.notes import NoteRowDTO, NoteRowValueDTO, NoteTableDTO
 from .fakes import FakeLedgerRepository
 from .test_financial_statement import ACME, FakeMappingRepository, _account, _line
@@ -256,5 +257,75 @@ class TestRowFigures(_Base):
     def test_unknown_figure(self):
         table = NoteTableDTO('x', 'balance', rows=(
             NoteRowDTO('a', expression='111*', figure='sideways'),))
+        with self.assertRaises(MappingException):
+            self.calc.compute(table, YEAR)
+
+
+class TestOverdueAndRelatedParties(unittest.TestCase):
+    """Receivables at 31/12/2026, overdue after 90 days (cut-off 2/10/2026).
+
+    Customer 7: invoice 100 due 30/6/2026, paid 30 → owes 70, all overdue.
+    Customer 8: invoice 50 due 20/12/2026 → owes 50, not overdue yet.
+    Customer 9 (a related party): invoice 40 due 1/5/2026 and 20 due
+                15/1/2027 → owes 60, of which 40 overdue.
+    """
+
+    def setUp(self):
+        def item(line_id, amount, due, partner):
+            return MoveLineDTO(
+                id=line_id, date=date(2026, 3, 1), account_id=20,
+                journal_id=1, move_id=line_id, move_name='JE/%s' % line_id,
+                debit=amount if amount > 0 else 0.0,
+                credit=-amount if amount < 0 else 0.0, balance=amount,
+                partner_id=partner, company_id=1, date_maturity=due)
+        lines = (
+            item(1, 100.0, date(2026, 6, 30), 7),
+            item(2, -30.0, date(2026, 8, 1), 7),
+            item(3, 50.0, date(2026, 12, 20), 8),
+            item(4, 40.0, date(2026, 5, 1), 9),
+            item(5, 20.0, date(2027, 1, 15), 9),
+        )
+        repo = FakeLedgerRepository(
+            companies=(ACME,), accounts=CHART + (_account(20, '1311', 'KH'),),
+            lines=lines)
+        self.calc = NotesCalculator(FinancialStatementEngine(
+            LedgerEngine(repo), FakeMappingRepository([])))
+
+    def _table(self, related=(), overdue_days=90):
+        rows = (
+            NoteRowDTO('all', expression='131*', side='debit_only',
+                       split_by_partner=True),
+            NoteRowDTO('overdue', expression='131*', side='debit_only',
+                       split_by_partner=True, maturity='overdue'),
+            NoteRowDTO('related', expression='131*', side='debit_only',
+                       split_by_partner=True, partner_scope='related'),
+        )
+        return NoteTableDTO('V3', 'balance', rows=rows,
+                            related_partner_ids=related,
+                            overdue_days=overdue_days)
+
+    def test_overdue_part(self):
+        """70 from customer 7 and 40 from customer 9."""
+        values = self.calc.compute(self._table(), YEAR)
+        self.assertEqual(values['all'].current, 180.0)
+        self.assertEqual(values['overdue'].current, 110.0)
+
+    def test_fewer_days_more_overdue(self):
+        """At 10 days (cut-off 21/12/2026) customer 8's 50 is overdue too."""
+        values = self.calc.compute(self._table(overdue_days=10), YEAR)
+        self.assertEqual(values['overdue'].current, 160.0)
+
+    def test_related_parties_only(self):
+        values = self.calc.compute(self._table(related=(9,)), YEAR)
+        self.assertEqual(values['related'].current, 60.0)
+
+    def test_no_related_party_reads_nothing(self):
+        """Not the whole account: with nobody marked, the row is zero."""
+        values = self.calc.compute(self._table(), YEAR)
+        self.assertEqual(values['related'].current, 0.0)
+
+    def test_unknown_partner_scope(self):
+        table = NoteTableDTO('x', 'balance', rows=(
+            NoteRowDTO('a', expression='131*', partner_scope='friends'),))
         with self.assertRaises(MappingException):
             self.calc.compute(table, YEAR)
