@@ -6,6 +6,11 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Added
 
+- Company settings for the notes (Settings → company → "Notes to the Financial Statements (B09)", accounting managers): the company's own accounts for notes rows the circular gives no account for (cost of sales by kind, cash equivalents, payroll contributions…); a list button fills in every row that can be set.
+- Related parties: a flag on the partner form. With "Compute related-party rows" on, the notes' "of which: related parties" rows are read from the ledger for those partners.
+- Overdue after N days: overdue and bad-debt rows are read from the due dates of the journal items. Loans can be split into short and long term by their due dates (TT133).
+- "Leave out empty items when printing": tables with only zeros and empty text items are not printed.
+- Tax and interest rates print as percentages, share counts and terms as plain numbers.
 - Notes to the financial statements for Thông tư 200/2014: form B09-DN (Phụ lục 2 mục 5), with the 49 tables of the printed form, for financial years that began before 2026. A company on TT200 gets this form automatically.
 - The "Thuyết minh" column of TT200's B01-DN and B02-DN now points at the matching note. On upgrade it is filled only where it is empty.
 - Notes to the financial statements for Thông tư 99/2025: form B09-DN (Phụ lục IV Mục 1 điểm 5), with all 53 tables of the printed form. A company on TT99 gets this form automatically.

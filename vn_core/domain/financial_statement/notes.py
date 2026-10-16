@@ -43,6 +43,8 @@ LAYOUT_PERIOD = 'period'
 LAYOUT_MOVEMENT = 'movement'
 LAYOUTS = (LAYOUT_BALANCE, LAYOUT_PERIOD, LAYOUT_MOVEMENT)
 
+SCOPE_RELATED = 'related'
+
 FIGURE_CLOSING = 'closing'
 FIGURE_OPENING = 'opening'
 FIGURE_NET = 'net'
@@ -70,9 +72,29 @@ class NotesCalculator:
         rows = tuple(r for r in table.rows if r.expression)
         if not rows:
             return {}
-        if table.layout == LAYOUT_MOVEMENT:
-            return self._balances(table, rows, ledger_filter)
-        return self._figures(table, rows, ledger_filter, previous_filter)
+        values = {}
+        for scope in sorted({r.partner_scope for r in rows}):
+            group = tuple(r for r in rows if r.partner_scope == scope)
+            year, previous = ledger_filter, previous_filter
+            if scope == SCOPE_RELATED:
+                if not table.related_partner_ids:
+                    # No partner is marked as a related party: nothing to
+                    # read, and certainly not the whole account.
+                    values.update({r.code: NoteRowValueDTO(
+                        r.code, 0.0, 0.0,
+                        0.0 if table.layout == LAYOUT_MOVEMENT else None,
+                        0.0 if table.layout == LAYOUT_MOVEMENT else None)
+                        for r in group})
+                    continue
+                ids = tuple(table.related_partner_ids)
+                year = ledger_filter.replace(partner_ids=ids)
+                if previous is not None:
+                    previous = previous.replace(partner_ids=ids)
+            if table.layout == LAYOUT_MOVEMENT:
+                values.update(self._balances(table, group, year))
+            else:
+                values.update(self._figures(table, group, year, previous))
+        return values
 
     @classmethod
     def apply_formulas(cls, table, values, rounding=None):
@@ -222,6 +244,7 @@ class NotesCalculator:
         return MappingDTO(
             code='notes:%s' % table.code, name=table.code,
             report_type='notes', basis=basis,
+            overdue_days=table.overdue_days,
             # The year-end transfer is left out of every movement a row
             # reads, as on B02, but not out of a 'movement' table: there the
             # transfer of the year's profit to 421 is a real increase.
@@ -278,6 +301,10 @@ class NotesCalculator:
                 raise MappingException(
                     "Row %r has both an expression and a formula; it must "
                     "have one or the other." % row.code)
+            if row.partner_scope not in ('', SCOPE_RELATED):
+                raise MappingException(
+                    "Row %r has an unknown partner scope %r."
+                    % (row.code, row.partner_scope))
             if row.figure and row.figure not in FIGURES:
                 raise MappingException(
                     "Row %r has an unknown figure %r." % (row.code,
