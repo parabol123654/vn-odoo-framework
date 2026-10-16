@@ -22,4 +22,64 @@
         </field>
     </record>
 
+    <!--
+        Thuyết minh B09: những gì tùy công ty, không phải cách hiểu văn bản.
+        Tài khoản chi tiết công ty tự mở cho các dòng mẫu không nêu tài khoản,
+        và vài chính sách (bên liên quan, số ngày quá hạn, tách vay, in mục
+        trống). Cách hiểu văn bản là mặc định chung của mẫu, không đặt ở đây.
+    -->
+    <record id="view_company_form_vn_fs_note" model="ir.ui.view">
+        <field name="name">res.company.form.vn.fs.note</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Notes to the Financial Statements (B09)" name="vn_fs_note"
+                      groups="account.group_account_manager">
+                    <group>
+                        <group string="Filled from the ledger">
+                            <field name="vn_fs_note_related_auto"/>
+                            <field name="vn_fs_note_overdue_days"/>
+                            <field name="vn_fs_note_loan_split"/>
+                        </group>
+                        <group string="Printing">
+                            <field name="vn_fs_note_hide_zero"/>
+                        </group>
+                    </group>
+                    <div class="text-muted mb8">
+                        Related parties are marked on each partner's form.
+                        Below: the company's own accounts for notes rows the
+                        circular gives no account for. A row left empty keeps
+                        its default, typed in by hand.
+                    </div>
+                    <button name="action_vn_fs_note_load_rows" type="object"
+                            string="List the rows that can be set" class="btn-secondary"/>
+                    <field name="vn_fs_note_config_ids">
+                        <list editable="bottom">
+                            <field name="template_id" optional="show"/>
+                            <field name="item_reference"/>
+                            <field name="template_row_id" options="{'no_create': True}"/>
+                            <field name="default_expression" optional="show"/>
+                            <field name="expression"/>
+                            <field name="sign" optional="hide"/>
+                            <field name="movement_side" optional="hide"/>
+                            <field name="source_note" optional="hide"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_form_vn_related_party" model="ir.ui.view">
+        <field name="name">res.partner.form.vn.related.party</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="vn_related_party"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

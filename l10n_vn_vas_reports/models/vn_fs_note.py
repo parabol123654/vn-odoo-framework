@@ -321,7 +321,8 @@ class VnFsNote(models.Model):
         Row = self.env['vn.fs.note.row'].with_context(vn_fs_note_compute=True)
 
         for item in self.item_ids.filtered(lambda i: i.kind == 'table'):
-            table = item._table_dto()
+            specs = item._row_specs()
+            table = item._table_dto(specs)
             ledger = calculator.compute(table, year, previous_year)
             values, updates = {}, []
             for row in item.row_ids:
@@ -331,7 +332,7 @@ class VnFsNote(models.Model):
                     # Typed in by hand: every column stays as typed.
                     values[row.code] = row._value_dto()
                     continue
-                if row.source == 'ledger':
+                if specs[row.code]['source'] == 'ledger':
                     figure = ledger.get(row.code, NoteRowValueDTO(row.code))
                     origin = 'ledger' if figure.opening is not None else 'none'
                 else:
@@ -531,31 +532,134 @@ class VnFsNoteItem(models.Model):
         self.note_id._check_editable()
         return super().write(vals)
 
-    def _table_dto(self):
+    def _row_specs(self):
+        """-> ``{code: spec}``: how each row of this table reads the ledger.
+
+        The template's row, unless the company changed it: its own accounts
+        for a configurable row, or a setting that fills a row from the
+        ledger (related parties, overdue amounts, loans by due date).
+        """
+        self.ensure_one()
+        from .vn_fs_note_settings import AUTO_ROWS
+        company = self.note_id.company_id
+        version = (self.note_id.template_id.version or '').upper()
+        configs = {c.template_row_id.id: c
+                   for c in company.vn_fs_note_config_ids if c.expression}
+        enabled = {
+            'related': company.vn_fs_note_related_auto,
+            'overdue': company.vn_fs_note_overdue_days > 0,
+            'loan': company.vn_fs_note_loan_split,
+        }
+        rows = self.row_ids.mapped('template_row_id')
+        specs = {}
+        for row in rows.sorted(lambda r: (r.sequence, r.id)):
+            spec = {
+                'source': row.source, 'expression': row.expression or '',
+                'formula': row.formula or '', 'sign': row.sign,
+                'side': row.side, 'split': row.split_by_partner,
+                'movement_side': row.movement_side,
+                'figure': row.figure or '', 'maturity': row.maturity or 'all',
+                'partner_scope': '',
+            }
+            config = configs.get(row.id)
+            auto = AUTO_ROWS.get((version, self.reference, row.code))
+            if config:
+                if row.source == 'manual':
+                    # Read like the total it breaks down.
+                    anchor = rows.filtered(
+                        lambda r: r.source == 'ledger' and r.detail_formula
+                        and row.code in FormulaEvaluator.referenced_codes(
+                            r.detail_formula))[:1]
+                    if anchor:
+                        spec.update(sign=anchor.sign, side=anchor.side,
+                                    split=anchor.split_by_partner,
+                                    movement_side=anchor.movement_side,
+                                    figure=anchor.figure or '',
+                                    maturity=anchor.maturity or 'all')
+                spec.update(source='ledger', expression=config.expression)
+                if config.sign:
+                    spec['sign'] = int(config.sign)
+                if config.movement_side:
+                    spec['movement_side'] = config.movement_side
+            elif auto and enabled[auto['kind']]:
+                base = specs.get(auto.get('copy')) if auto.get('copy') else {
+                    'expression': auto['expression'], 'sign': 1,
+                    'side': 'both', 'split': False, 'movement_side': 'net',
+                    'figure': '', 'maturity': 'all'}
+                if base and base.get('expression') and \
+                        base.get('source', 'ledger') == 'ledger':
+                    spec.update({k: base[k] for k in (
+                        'expression', 'sign', 'side', 'split',
+                        'movement_side', 'figure', 'maturity')})
+                    for key, field in (('sign', 'sign'), ('side', 'side'),
+                                       ('split', 'split'),
+                                       ('movement_side', 'movement_side'),
+                                       ('maturity', 'maturity')):
+                        if key in auto:
+                            spec[field] = auto[key]
+                    spec['source'] = 'ledger'
+                    if auto['kind'] == 'related':
+                        spec['partner_scope'] = 'related'
+                    elif auto['kind'] == 'overdue':
+                        spec['maturity'] = 'overdue'
+            specs[row.code] = spec
+        return specs
+
+    def _table_dto(self, specs=None):
         """The table as the Domain sees it."""
         self.ensure_one()
+        specs = specs or self._row_specs()
         rows = []
         for row in self.row_ids:
-            template_row = row.template_row_id
+            spec = specs[row.code]
+            ledger = spec['source'] == 'ledger'
             rows.append(NoteRowDTO(
-                code=template_row.code,
-                expression=(template_row.expression
-                            if template_row.source == 'ledger' else ''),
-                formula=(template_row.formula
-                         if template_row.source == 'formula' else ''),
-                sign=template_row.sign,
-                side=template_row.side,
-                split_by_partner=template_row.split_by_partner,
-                movement_side=template_row.movement_side,
-                figure=(template_row.figure or ''
-                        if template_row.source == 'ledger' else ''),
-                maturity=template_row.maturity or 'all'))
+                code=row.code,
+                expression=spec['expression'] if ledger else '',
+                formula=spec['formula'] if spec['source'] == 'formula' else '',
+                sign=spec['sign'], side=spec['side'],
+                split_by_partner=spec['split'],
+                movement_side=spec['movement_side'],
+                figure=spec['figure'] if ledger else '',
+                maturity=spec['maturity'],
+                partner_scope=spec['partner_scope']))
+        company = self.note_id.company_id
+        related = ()
+        if company.vn_fs_note_related_auto:
+            flagged = self.env['res.partner'].with_context(
+                active_test=False).search([('vn_related_party', '=', True)])
+            # Journal items carry the commercial partner; a contact marked
+            # as a related party brings its company along, and the other
+            # way round.
+            related = tuple(self.env['res.partner'].with_context(
+                active_test=False).search([
+                    ('commercial_partner_id', 'in',
+                     flagged.mapped('commercial_partner_id').ids)]).ids)
         return NoteTableDTO(
             code=self.reference or str(self.template_item_id.id),
             layout=self.layout, rows=tuple(rows),
             closing_expression=self.note_id.template_id.closing_expression
-            or '')
+            or '',
+            related_partner_ids=related,
+            overdue_days=max(company.vn_fs_note_overdue_days, 0))
 
+    def print_skip(self):
+        """True when the company leaves out empty items and this one is."""
+        self.ensure_one()
+        if not self.note_id.company_id.vn_fs_note_hide_zero:
+            return False
+        if self.kind == 'text':
+            return not (self.content or '').strip() or \
+                str(self.content).strip() in ('<p><br></p>', '<p></p>')
+        if self.kind == 'table':
+            rounding = self.note_id.currency_id.rounding
+            return all(
+                is_zero(row[field] or 0.0, rounding)
+                for row in self.row_ids.filtered(
+                    lambda r: r.printed and r.style != 'heading')
+                for field in ('current', 'comparative', 'increase',
+                              'decrease'))
+        return False
 
     #: Column headings the forms print, per layout and display.
     DEFAULT_LABELS = {
@@ -639,6 +743,7 @@ class VnFsNoteRow(models.Model):
     style = fields.Selection(related='template_row_id.style')
     printed = fields.Boolean(related='template_row_id.printed')
     measure = fields.Integer(related='template_row_id.measure')
+    value_kind = fields.Selection(related='template_row_id.value_kind')
     line = fields.Char(related='template_row_id.line')
     indent = fields.Integer(related='template_row_id.indent')
     source = fields.Selection(related='template_row_id.source')
