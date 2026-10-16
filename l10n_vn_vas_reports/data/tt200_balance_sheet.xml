@@ -2,25 +2,35 @@
 <!-- Target: Odoo 14.0 Community Edition -->
 <odoo>
     <!--
-        Mẫu B01-DN — Bảng cân đối kế toán (Thông tư 200/2014).
+        Mẫu B01-DN — Bảng cân đối kế toán (Thông tư 200/2014/TT-BTC). Tên chỉ
+        tiêu chép từ Phụ lục 2 mục 1 (Công báo 289+290, tr. 47-50); nguồn số
+        liệu theo Điều 112 khoản 1.4 (Công báo 287+288, tr. 63-83).
 
-        Đọc kỹ đoạn này trước khi dùng cho báo cáo nộp thuế.
+        File này được sinh tự động; đừng sửa tay.
 
-        Cấu trúc chỉ tiêu, mã số, thứ bậc và công thức cộng dồn là đầy đủ theo
-        biểu mẫu. Phần **biểu thức tài khoản** thì chỉ điền cho những chỉ tiêu
-        phổ biến với doanh nghiệp SME; các chỉ tiêu ít gặp cố ý để trống, chứ
-        không đoán bừa — ánh xạ sai trên báo cáo tài chính tệ hơn là chưa ánh xạ.
+        noupdate="1": công ty đã chỉnh dòng nào cho hệ thống tài khoản của mình
+        thì nâng cấp module không ghi đè. Sửa ánh xạ mặc định phải đi kèm
+        migration.
 
-        Chỉ tiêu để trống sẽ hiện số 0, và mọi tài khoản có số dư mà chưa chỉ
-        tiêu nào nhặt sẽ được liệt kê trong khối "Tài khoản chưa được ánh xạ" ở
-        cuối báo cáo. Kế toán mở Kế toán → Cấu hình → Statement Mappings để điền
-        nốt, không cần sửa mã nguồn.
+        * Chỉ tiêu (*) là số dư Có (hoặc Nợ với 415) ghi số âm: dự phòng và hao
+          mòn dùng sign = 1 để số dư Có ra số âm và được cộng vào dòng tổng.
+        * Ngắn hạn / dài hạn theo ngày đến hạn của bút toán (maturity), mốc
+          12 tháng kể từ ngày báo cáo. Bút toán không có ngày đến hạn là ngắn
+          hạn.
+        * 131 và 331 tách dư Nợ / dư Có theo từng đối tượng (split_by_partner)
+          rồi mới cộng: 131/211 và 312/332 từ TK 131; 132/212 và 311/331 từ
+          TK 331.
+        * Dự phòng 2293, 2294 và hàng tồn kho cũng tách theo ngày đến hạn:
+          bút toán không ghi ngày đến hạn ở lại 137, 141, 149. Hàng tồn kho dài
+          hạn: 154 sang 241, các tài khoản khác sang 263; 2294 dài hạn trừ ở
+          241 (quyết định kỹ thuật, xem đặc tả).
+        * Để trống những chỉ tiêu văn bản đòi chi tiết mà số dư tài khoản không
+          phân biệt được (112, 151, 340): công ty mở tài khoản chi tiết rồi
+          ánh xạ riêng. Toàn bộ 242 ở 261, toàn bộ 41112 ở 411b.
+        * 411 và 421 đọc cả tài khoản; 411a/411b, 421a/421b là chi tiết, không
+          cộng lại vào 410.
 
-        Kiểm tra bắt buộc: 270 = 440. Lệch là báo cáo sai, và báo cáo tự nói ra.
-
-        Hai chỗ dùng tách nợ/có theo từng đối tượng (side + split_by_partner):
-        TK 131 tách thành chỉ tiêu 131 và 312, TK 331 tách thành 132 và 311.
-        Bù trừ trên tài khoản trước rồi mới tách sẽ làm cả bốn chỉ tiêu sai.
+        Báo cáo tự kiểm 270 = 440.
     -->
     <data noupdate="1">
 
@@ -35,37 +45,40 @@
             <field name="form_title">BẢNG CÂN ĐỐI KẾ TOÁN</field>
         </record>
 
-        <!-- ============================ TÀI SẢN ============================ -->
-
         <record id="b01dn_100" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">10</field><field name="code">100</field>
-            <field name="name">A - TÀI SẢN NGẮN HẠN</field>
+            <field name="sequence">10</field>
+            <field name="code">100</field>
+            <field name="name">A. TÀI SẢN NGẮN HẠN</field>
             <field name="formula">110 + 120 + 130 + 140 + 150</field>
             <field name="bold" eval="True"/>
         </record>
 
         <record id="b01dn_110" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">20</field><field name="code">110</field>
+            <field name="sequence">20</field>
+            <field name="code">110</field>
             <field name="name">I. Tiền và các khoản tương đương tiền</field>
             <field name="formula">111 + 112</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
             <field name="note_ref">VI.1</field>
         </record>
+
         <record id="b01dn_111" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">30</field><field name="code">111</field>
+            <field name="sequence">30</field>
+            <field name="code">111</field>
             <field name="name">1. Tiền</field>
             <field name="expression">111*,112*,113*</field>
             <field name="level">2</field>
             <field name="note_ref">VI.1</field>
         </record>
-        <!-- Tương đương tiền là phần đầu tư ngắn hạn dưới 3 tháng nằm trong
-             1281/1288; không tách được bằng mã tài khoản nên để kế toán điền. -->
+
         <record id="b01dn_112" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">40</field><field name="code">112</field>
+            <field name="sequence">40</field>
+            <field name="code">112</field>
             <field name="name">2. Các khoản tương đương tiền</field>
             <field name="level">2</field>
             <field name="note_ref">VI.1</field>
@@ -73,519 +86,1178 @@
 
         <record id="b01dn_120" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">50</field><field name="code">120</field>
+            <field name="sequence">50</field>
+            <field name="code">120</field>
             <field name="name">II. Đầu tư tài chính ngắn hạn</field>
             <field name="formula">121 + 122 + 123</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_121" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">60</field><field name="code">121</field>
+            <field name="sequence">60</field>
+            <field name="code">121</field>
             <field name="name">1. Chứng khoán kinh doanh</field>
-            <field name="expression">121*</field><field name="level">2</field>
+            <field name="expression">121*</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.2a</field>
         </record>
+
         <record id="b01dn_122" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">70</field><field name="code">122</field>
-            <field name="name">2. Dự phòng giảm giá chứng khoán kinh doanh</field>
+            <field name="sequence">70</field>
+            <field name="code">122</field>
+            <field name="name">2. Dự phòng giảm giá chứng khoán kinh doanh (*)</field>
             <field name="expression">2291*</field>
             <field name="level">2</field>
             <field name="note_ref">VI.2a</field>
         </record>
+
         <record id="b01dn_123" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">80</field><field name="code">123</field>
+            <field name="sequence">80</field>
+            <field name="code">123</field>
             <field name="name">3. Đầu tư nắm giữ đến ngày đáo hạn</field>
+            <field name="expression">128*,-1283*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
             <field name="note_ref">VI.2b</field>
         </record>
 
         <record id="b01dn_130" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">90</field><field name="code">130</field>
+            <field name="sequence">90</field>
+            <field name="code">130</field>
             <field name="name">III. Các khoản phải thu ngắn hạn</field>
             <field name="formula">131 + 132 + 133 + 134 + 135 + 136 + 137 + 139</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
-        <!-- Dư Nợ 131, tính theo từng khách hàng. -->
+
         <record id="b01dn_131" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">100</field><field name="code">131</field>
+            <field name="sequence">100</field>
+            <field name="code">131</field>
             <field name="name">1. Phải thu ngắn hạn của khách hàng</field>
             <field name="expression">131*</field>
             <field name="side">debit_only</field>
             <field name="split_by_partner" eval="True"/>
+            <field name="maturity">short</field>
             <field name="level">2</field>
             <field name="note_ref">VI.3</field>
         </record>
-        <!-- Dư Nợ 331, tính theo từng nhà cung cấp. -->
+
         <record id="b01dn_132" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">110</field><field name="code">132</field>
+            <field name="sequence">110</field>
+            <field name="code">132</field>
             <field name="name">2. Trả trước cho người bán ngắn hạn</field>
             <field name="expression">331*</field>
             <field name="side">debit_only</field>
             <field name="split_by_partner" eval="True"/>
+            <field name="maturity">short</field>
             <field name="level">2</field>
         </record>
+
         <record id="b01dn_133" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">120</field><field name="code">133</field>
+            <field name="sequence">120</field>
+            <field name="code">133</field>
             <field name="name">3. Phải thu nội bộ ngắn hạn</field>
+            <field name="expression">1362*,1363*,1368*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
         </record>
+
         <record id="b01dn_134" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">130</field><field name="code">134</field>
+            <field name="sequence">130</field>
+            <field name="code">134</field>
             <field name="name">4. Phải thu theo tiến độ kế hoạch hợp đồng xây dựng</field>
+            <field name="expression">337*</field>
+            <field name="side">debit_only</field>
             <field name="level">2</field>
         </record>
+
         <record id="b01dn_135" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">140</field><field name="code">135</field>
+            <field name="sequence">140</field>
+            <field name="code">135</field>
             <field name="name">5. Phải thu về cho vay ngắn hạn</field>
+            <field name="expression">1283*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
         </record>
+
         <record id="b01dn_136" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">150</field><field name="code">136</field>
+            <field name="sequence">150</field>
+            <field name="code">136</field>
             <field name="name">6. Phải thu ngắn hạn khác</field>
-            <field name="expression">1385*,1388*,141*</field>
+            <field name="expression">1385*,1388*,334*,338*,-3387*,141*,244*</field>
             <field name="side">debit_only</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
             <field name="note_ref">VI.4</field>
         </record>
+
         <record id="b01dn_137" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">160</field><field name="code">137</field>
-            <field name="name">7. Dự phòng phải thu ngắn hạn khó đòi</field>
+            <field name="sequence">160</field>
+            <field name="code">137</field>
+            <field name="name">7. Dự phòng phải thu ngắn hạn khó đòi (*)</field>
             <field name="expression">2293*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
             <field name="note_ref">VI.3</field>
         </record>
+
         <record id="b01dn_139" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">170</field><field name="code">139</field>
+            <field name="sequence">170</field>
+            <field name="code">139</field>
             <field name="name">8. Tài sản thiếu chờ xử lý</field>
-            <field name="expression">1381*</field><field name="level">2</field>
+            <field name="expression">1381*</field>
+            <field name="side">debit_only</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.5</field>
         </record>
 
         <record id="b01dn_140" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">180</field><field name="code">140</field>
+            <field name="sequence">180</field>
+            <field name="code">140</field>
             <field name="name">IV. Hàng tồn kho</field>
             <field name="formula">141 + 149</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_141" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">190</field><field name="code">141</field>
+            <field name="sequence">190</field>
+            <field name="code">141</field>
             <field name="name">1. Hàng tồn kho</field>
-            <field name="expression">151*,152*,153*,154*,155*,156*,157*,158*</field>
+            <field name="expression">151*,152*,153*,155*,156*,157*,158*,154*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
             <field name="note_ref">VI.7</field>
         </record>
+
         <record id="b01dn_149" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">200</field><field name="code">149</field>
-            <field name="name">2. Dự phòng giảm giá hàng tồn kho</field>
+            <field name="sequence">200</field>
+            <field name="code">149</field>
+            <field name="name">2. Dự phòng giảm giá hàng tồn kho (*)</field>
             <field name="expression">2294*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
             <field name="note_ref">VI.7</field>
         </record>
 
         <record id="b01dn_150" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">210</field><field name="code">150</field>
+            <field name="sequence">210</field>
+            <field name="code">150</field>
             <field name="name">V. Tài sản ngắn hạn khác</field>
             <field name="formula">151 + 152 + 153 + 154 + 155</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
-        <!-- 242 tách ngắn hạn / dài hạn theo kỳ phân bổ, không tách được bằng
-             mã tài khoản. Mặc định dồn vào chỉ tiêu dài hạn 261. -->
+
         <record id="b01dn_151" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">220</field><field name="code">151</field>
+            <field name="sequence">220</field>
+            <field name="code">151</field>
             <field name="name">1. Chi phí trả trước ngắn hạn</field>
             <field name="level">2</field>
         </record>
+
         <record id="b01dn_152" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">230</field><field name="code">152</field>
+            <field name="sequence">230</field>
+            <field name="code">152</field>
             <field name="name">2. Thuế GTGT được khấu trừ</field>
-            <field name="expression">133*</field><field name="level">2</field>
-        </record>
-        <record id="b01dn_153" model="vn.report.mapping.line">
-            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">240</field><field name="code">153</field>
-            <field name="name">3. Thuế và các khoản khác phải thu Nhà nước</field>
-            <field name="expression">333*</field>
-            <field name="side">debit_only</field><field name="level">2</field>
-            <field name="note_ref">VI.17</field>
-        </record>
-        <record id="b01dn_154" model="vn.report.mapping.line">
-            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">250</field><field name="code">154</field>
-            <field name="name">4. Giao dịch mua bán lại trái phiếu Chính phủ</field>
+            <field name="expression">133*</field>
             <field name="level">2</field>
         </record>
+
+        <record id="b01dn_153" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">240</field>
+            <field name="code">153</field>
+            <field name="name">3. Thuế và các khoản khác phải thu Nhà nước</field>
+            <field name="expression">333*</field>
+            <field name="side">debit_only</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.17</field>
+        </record>
+
+        <record id="b01dn_154" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">250</field>
+            <field name="code">154</field>
+            <field name="name">4. Giao dịch mua bán lại trái phiếu Chính phủ</field>
+            <field name="expression">171*</field>
+            <field name="side">debit_only</field>
+            <field name="level">2</field>
+        </record>
+
         <record id="b01dn_155" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">260</field><field name="code">155</field>
+            <field name="sequence">260</field>
+            <field name="code">155</field>
             <field name="name">5. Tài sản ngắn hạn khác</field>
+            <field name="expression">2288*</field>
+            <field name="maturity">short</field>
             <field name="level">2</field>
         </record>
 
         <record id="b01dn_200" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">270</field><field name="code">200</field>
-            <field name="name">B - TÀI SẢN DÀI HẠN</field>
+            <field name="sequence">270</field>
+            <field name="code">200</field>
+            <field name="name">B. TÀI SẢN DÀI HẠN</field>
             <field name="formula">210 + 220 + 230 + 240 + 250 + 260</field>
             <field name="bold" eval="True"/>
         </record>
 
         <record id="b01dn_210" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">280</field><field name="code">210</field>
+            <field name="sequence">280</field>
+            <field name="code">210</field>
             <field name="name">I. Các khoản phải thu dài hạn</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="formula">211 + 212 + 213 + 214 + 215 + 216 + 219</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b01dn_211" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">290</field>
+            <field name="code">211</field>
+            <field name="name">1. Phải thu dài hạn của khách hàng</field>
+            <field name="expression">131*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.3</field>
+        </record>
+
+        <record id="b01dn_212" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">300</field>
+            <field name="code">212</field>
+            <field name="name">2. Trả trước cho người bán dài hạn</field>
+            <field name="expression">331*</field>
+            <field name="side">debit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_213" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">310</field>
+            <field name="code">213</field>
+            <field name="name">3. Vốn kinh doanh ở đơn vị trực thuộc</field>
+            <field name="expression">1361*</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_214" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">320</field>
+            <field name="code">214</field>
+            <field name="name">4. Phải thu nội bộ dài hạn</field>
+            <field name="expression">1362*,1363*,1368*</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_215" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">330</field>
+            <field name="code">215</field>
+            <field name="name">5. Phải thu về cho vay dài hạn</field>
+            <field name="expression">1283*</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_216" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">340</field>
+            <field name="code">216</field>
+            <field name="name">6. Phải thu dài hạn khác</field>
+            <field name="expression">1385*,1388*,334*,338*,-3387*,141*,244*</field>
+            <field name="side">debit_only</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.4</field>
+        </record>
+
+        <record id="b01dn_219" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">350</field>
+            <field name="code">219</field>
+            <field name="name">7. Dự phòng phải thu dài hạn khó đòi (*)</field>
+            <field name="expression">2293*</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.3</field>
         </record>
 
         <record id="b01dn_220" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">290</field><field name="code">220</field>
+            <field name="sequence">360</field>
+            <field name="code">220</field>
             <field name="name">II. Tài sản cố định</field>
             <field name="formula">221 + 224 + 227</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_221" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">300</field><field name="code">221</field>
+            <field name="sequence">370</field>
+            <field name="code">221</field>
             <field name="name">1. Tài sản cố định hữu hình</field>
-            <field name="formula">222 + 223</field><field name="level">2</field>
+            <field name="formula">222 + 223</field>
+            <field name="level">2</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_222" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">310</field><field name="code">222</field>
+            <field name="sequence">380</field>
+            <field name="code">222</field>
             <field name="name">- Nguyên giá</field>
-            <field name="expression">211*</field><field name="level">3</field>
+            <field name="expression">211*</field>
+            <field name="level">3</field>
             <field name="note_ref">VI.9</field>
         </record>
+
         <record id="b01dn_223" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">320</field><field name="code">223</field>
-            <field name="name">- Giá trị hao mòn luỹ kế</field>
+            <field name="sequence">390</field>
+            <field name="code">223</field>
+            <field name="name">- Giá trị hao mòn lũy kế (*)</field>
             <field name="expression">2141*</field>
             <field name="level">3</field>
             <field name="note_ref">VI.9</field>
         </record>
+
         <record id="b01dn_224" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">330</field><field name="code">224</field>
+            <field name="sequence">400</field>
+            <field name="code">224</field>
             <field name="name">2. Tài sản cố định thuê tài chính</field>
-            <field name="formula">225 + 226</field><field name="level">2</field>
+            <field name="formula">225 + 226</field>
+            <field name="level">2</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_225" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">340</field><field name="code">225</field>
+            <field name="sequence">410</field>
+            <field name="code">225</field>
             <field name="name">- Nguyên giá</field>
-            <field name="expression">212*</field><field name="level">3</field>
+            <field name="expression">212*</field>
+            <field name="level">3</field>
             <field name="note_ref">VI.11</field>
         </record>
+
         <record id="b01dn_226" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">350</field><field name="code">226</field>
-            <field name="name">- Giá trị hao mòn luỹ kế</field>
-            <field name="expression">2142*</field><field name="level">3</field>
+            <field name="sequence">420</field>
+            <field name="code">226</field>
+            <field name="name">- Giá trị hao mòn lũy kế (*)</field>
+            <field name="expression">2142*</field>
+            <field name="level">3</field>
             <field name="note_ref">VI.11</field>
         </record>
+
         <record id="b01dn_227" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">360</field><field name="code">227</field>
+            <field name="sequence">430</field>
+            <field name="code">227</field>
             <field name="name">3. Tài sản cố định vô hình</field>
-            <field name="formula">228 + 229</field><field name="level">2</field>
+            <field name="formula">228 + 229</field>
+            <field name="level">2</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_228" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">370</field><field name="code">228</field>
+            <field name="sequence">440</field>
+            <field name="code">228</field>
             <field name="name">- Nguyên giá</field>
-            <field name="expression">213*</field><field name="level">3</field>
+            <field name="expression">213*</field>
+            <field name="level">3</field>
             <field name="note_ref">VI.10</field>
         </record>
+
         <record id="b01dn_229" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">380</field><field name="code">229</field>
-            <field name="name">- Giá trị hao mòn luỹ kế</field>
-            <field name="expression">2143*</field><field name="level">3</field>
+            <field name="sequence">450</field>
+            <field name="code">229</field>
+            <field name="name">- Giá trị hao mòn lũy kế (*)</field>
+            <field name="expression">2143*</field>
+            <field name="level">3</field>
             <field name="note_ref">VI.10</field>
         </record>
 
         <record id="b01dn_230" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">390</field><field name="code">230</field>
+            <field name="sequence">460</field>
+            <field name="code">230</field>
             <field name="name">III. Bất động sản đầu tư</field>
             <field name="formula">231 + 232</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_231" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">400</field><field name="code">231</field>
+            <field name="sequence">470</field>
+            <field name="code">231</field>
             <field name="name">- Nguyên giá</field>
-            <field name="expression">217*</field><field name="level">2</field>
+            <field name="expression">217*</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.12</field>
         </record>
+
         <record id="b01dn_232" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">410</field><field name="code">232</field>
-            <field name="name">- Giá trị hao mòn luỹ kế</field>
-            <field name="expression">2147*</field><field name="level">2</field>
+            <field name="sequence">480</field>
+            <field name="code">232</field>
+            <field name="name">- Giá trị hao mòn lũy kế (*)</field>
+            <field name="expression">2147*</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.12</field>
         </record>
 
         <record id="b01dn_240" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">420</field><field name="code">240</field>
+            <field name="sequence">490</field>
+            <field name="code">240</field>
             <field name="name">IV. Tài sản dở dang dài hạn</field>
             <field name="formula">241 + 242</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_241" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">430</field><field name="code">241</field>
+            <field name="sequence">500</field>
+            <field name="code">241</field>
             <field name="name">1. Chi phí sản xuất, kinh doanh dở dang dài hạn</field>
+            <field name="expression">154*,2294*</field>
+            <field name="maturity">long</field>
             <field name="level">2</field>
         </record>
+
         <record id="b01dn_242" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">440</field><field name="code">242</field>
+            <field name="sequence">510</field>
+            <field name="code">242</field>
             <field name="name">2. Chi phí xây dựng cơ bản dở dang</field>
-            <field name="expression">241*</field><field name="level">2</field>
+            <field name="expression">241*</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.8</field>
         </record>
 
         <record id="b01dn_250" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">450</field><field name="code">250</field>
+            <field name="sequence">520</field>
+            <field name="code">250</field>
             <field name="name">V. Đầu tư tài chính dài hạn</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="formula">251 + 252 + 253 + 254 + 255</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b01dn_251" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">530</field>
+            <field name="code">251</field>
+            <field name="name">1. Đầu tư vào công ty con</field>
+            <field name="expression">221*</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.2c</field>
+        </record>
+
+        <record id="b01dn_252" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">540</field>
+            <field name="code">252</field>
+            <field name="name">2. Đầu tư vào công ty liên doanh, liên kết</field>
+            <field name="expression">222*</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.2c</field>
+        </record>
+
+        <record id="b01dn_253" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">550</field>
+            <field name="code">253</field>
+            <field name="name">3. Đầu tư góp vốn vào đơn vị khác</field>
+            <field name="expression">2281*</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.2c</field>
+        </record>
+
+        <record id="b01dn_254" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">560</field>
+            <field name="code">254</field>
+            <field name="name">4. Dự phòng đầu tư tài chính dài hạn (*)</field>
+            <field name="expression">2292*</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.2c</field>
+        </record>
+
+        <record id="b01dn_255" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">570</field>
+            <field name="code">255</field>
+            <field name="name">5. Đầu tư nắm giữ đến ngày đáo hạn</field>
+            <field name="expression">128*,-1283*</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.2b</field>
         </record>
 
         <record id="b01dn_260" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">460</field><field name="code">260</field>
+            <field name="sequence">580</field>
+            <field name="code">260</field>
             <field name="name">VI. Tài sản dài hạn khác</field>
-            <field name="formula">261 + 262 + 268</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="formula">261 + 262 + 263 + 268</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_261" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">470</field><field name="code">261</field>
+            <field name="sequence">590</field>
+            <field name="code">261</field>
             <field name="name">1. Chi phí trả trước dài hạn</field>
-            <field name="expression">242*</field><field name="level">2</field>
+            <field name="expression">242*</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.13</field>
         </record>
+
         <record id="b01dn_262" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">480</field><field name="code">262</field>
+            <field name="sequence">600</field>
+            <field name="code">262</field>
             <field name="name">2. Tài sản thuế thu nhập hoãn lại</field>
-            <field name="expression">243*</field><field name="level">2</field>
+            <field name="expression">243*</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.24a</field>
         </record>
+
+        <record id="b01dn_263" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">610</field>
+            <field name="code">263</field>
+            <field name="name">3. Thiết bị, vật tư, phụ tùng thay thế dài hạn</field>
+            <field name="expression">151*,152*,153*,155*,156*,157*,158*</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+        </record>
+
         <record id="b01dn_268" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">490</field><field name="code">268</field>
-            <field name="name">3. Tài sản dài hạn khác</field>
+            <field name="sequence">620</field>
+            <field name="code">268</field>
+            <field name="name">4. Tài sản dài hạn khác</field>
+            <field name="expression">2288*</field>
+            <field name="maturity">long</field>
             <field name="level">2</field>
         </record>
 
         <record id="b01dn_270" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">500</field><field name="code">270</field>
-            <field name="name">TỔNG CỘNG TÀI SẢN</field>
+            <field name="sequence">630</field>
+            <field name="code">270</field>
+            <field name="name">TỔNG CỘNG TÀI SẢN (270 = 100 + 200)</field>
             <field name="formula">100 + 200</field>
             <field name="bold" eval="True"/>
         </record>
 
-        <!-- =========================== NGUỒN VỐN =========================== -->
-
         <record id="b01dn_300" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">510</field><field name="code">300</field>
-            <field name="name">C - NỢ PHẢI TRẢ</field>
+            <field name="sequence">640</field>
+            <field name="code">300</field>
+            <field name="name">C. NỢ PHẢI TRẢ</field>
             <field name="formula">310 + 330</field>
             <field name="bold" eval="True"/>
         </record>
 
         <record id="b01dn_310" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">520</field><field name="code">310</field>
+            <field name="sequence">650</field>
+            <field name="code">310</field>
             <field name="name">I. Nợ ngắn hạn</field>
-            <field name="formula">311 + 312 + 313 + 314 + 315 + 318 + 319 + 320 + 322</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="formula">311 + 312 + 313 + 314 + 315 + 316 + 317 + 318 + 319 + 320 + 321 + 322 + 323 + 324</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
-        <!-- Dư Có 331, theo từng nhà cung cấp. -->
+
         <record id="b01dn_311" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">530</field><field name="code">311</field>
+            <field name="sequence">660</field>
+            <field name="code">311</field>
             <field name="name">1. Phải trả người bán ngắn hạn</field>
             <field name="expression">331*</field>
+            <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="split_by_partner" eval="True"/>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.16</field>
         </record>
-        <!-- Dư Có 131, theo từng khách hàng. -->
+
         <record id="b01dn_312" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">540</field><field name="code">312</field>
+            <field name="sequence">670</field>
+            <field name="code">312</field>
             <field name="name">2. Người mua trả tiền trước ngắn hạn</field>
             <field name="expression">131*</field>
+            <field name="sign">-1</field>
             <field name="side">credit_only</field>
             <field name="split_by_partner" eval="True"/>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
         </record>
+
         <record id="b01dn_313" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">550</field><field name="code">313</field>
+            <field name="sequence">680</field>
+            <field name="code">313</field>
             <field name="name">3. Thuế và các khoản phải nộp Nhà nước</field>
             <field name="expression">333*</field>
+            <field name="sign">-1</field>
             <field name="side">credit_only</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.17</field>
         </record>
+
         <record id="b01dn_314" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">560</field><field name="code">314</field>
+            <field name="sequence">690</field>
+            <field name="code">314</field>
             <field name="name">4. Phải trả người lao động</field>
             <field name="expression">334*</field>
+            <field name="sign">-1</field>
             <field name="side">credit_only</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="level">2</field>
         </record>
+
         <record id="b01dn_315" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">570</field><field name="code">315</field>
+            <field name="sequence">700</field>
+            <field name="code">315</field>
             <field name="name">5. Chi phí phải trả ngắn hạn</field>
             <field name="expression">335*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.18</field>
         </record>
+
+        <record id="b01dn_316" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">710</field>
+            <field name="code">316</field>
+            <field name="name">6. Phải trả nội bộ ngắn hạn</field>
+            <field name="expression">3362*,3363*,3368*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_317" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">720</field>
+            <field name="code">317</field>
+            <field name="name">7. Phải trả theo tiến độ kế hoạch hợp đồng xây dựng</field>
+            <field name="expression">337*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="level">2</field>
+        </record>
+
         <record id="b01dn_318" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">580</field><field name="code">318</field>
-            <field name="name">6. Doanh thu chưa thực hiện ngắn hạn</field>
+            <field name="sequence">730</field>
+            <field name="code">318</field>
+            <field name="name">8. Doanh thu chưa thực hiện ngắn hạn</field>
             <field name="expression">3387*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.20</field>
         </record>
+
         <record id="b01dn_319" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">590</field><field name="code">319</field>
-            <field name="name">7. Phải trả ngắn hạn khác</field>
-            <field name="expression">338*,-3387,344*</field>
+            <field name="sequence">740</field>
+            <field name="code">319</field>
+            <field name="name">9. Phải trả ngắn hạn khác</field>
+            <field name="expression">338*,-3387*,138*,344*</field>
+            <field name="sign">-1</field>
             <field name="side">credit_only</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.19</field>
         </record>
+
         <record id="b01dn_320" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">600</field><field name="code">320</field>
-            <field name="name">8. Vay và nợ thuê tài chính ngắn hạn</field>
-            <field name="expression">341*</field><field name="maturity">short</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sequence">750</field>
+            <field name="code">320</field>
+            <field name="name">10. Vay và nợ thuê tài chính ngắn hạn</field>
+            <field name="expression">341*,3431*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.15</field>
         </record>
+
+        <record id="b01dn_321" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">760</field>
+            <field name="code">321</field>
+            <field name="name">11. Dự phòng phải trả ngắn hạn</field>
+            <field name="expression">352*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">short</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.23</field>
+        </record>
+
         <record id="b01dn_322" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">610</field><field name="code">322</field>
-            <field name="name">9. Quỹ khen thưởng, phúc lợi</field>
+            <field name="sequence">770</field>
+            <field name="code">322</field>
+            <field name="name">12. Quỹ khen thưởng, phúc lợi</field>
             <field name="expression">353*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_323" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">780</field>
+            <field name="code">323</field>
+            <field name="name">13. Quỹ bình ổn giá</field>
+            <field name="expression">357*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_324" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">790</field>
+            <field name="code">324</field>
+            <field name="name">14. Giao dịch mua bán lại trái phiếu Chính phủ</field>
+            <field name="expression">171*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="level">2</field>
         </record>
 
         <record id="b01dn_330" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">620</field><field name="code">330</field>
+            <field name="sequence">800</field>
+            <field name="code">330</field>
             <field name="name">II. Nợ dài hạn</field>
-            <field name="formula">338 + 341 + 342</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="formula">331 + 332 + 333 + 334 + 335 + 336 + 337 + 338 + 339 + 340 + 341 + 342 + 343</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
+        <record id="b01dn_331" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">810</field>
+            <field name="code">331</field>
+            <field name="name">1. Phải trả người bán dài hạn</field>
+            <field name="expression">331*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.16</field>
+        </record>
+
+        <record id="b01dn_332" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">820</field>
+            <field name="code">332</field>
+            <field name="name">2. Người mua trả tiền trước dài hạn</field>
+            <field name="expression">131*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="split_by_partner" eval="True"/>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_333" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">830</field>
+            <field name="code">333</field>
+            <field name="name">3. Chi phí phải trả dài hạn</field>
+            <field name="expression">335*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.18</field>
+        </record>
+
+        <record id="b01dn_334" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">840</field>
+            <field name="code">334</field>
+            <field name="name">4. Phải trả nội bộ về vốn kinh doanh</field>
+            <field name="expression">3361*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_335" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">850</field>
+            <field name="code">335</field>
+            <field name="name">5. Phải trả nội bộ dài hạn</field>
+            <field name="expression">3362*,3363*,3368*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_336" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">860</field>
+            <field name="code">336</field>
+            <field name="name">6. Doanh thu chưa thực hiện dài hạn</field>
+            <field name="expression">3387*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.20</field>
+        </record>
+
+        <record id="b01dn_337" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">870</field>
+            <field name="code">337</field>
+            <field name="name">7. Phải trả dài hạn khác</field>
+            <field name="expression">338*,-3387*,138*,344*</field>
+            <field name="sign">-1</field>
+            <field name="side">credit_only</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.19</field>
+        </record>
+
         <record id="b01dn_338" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">630</field><field name="code">338</field>
-            <field name="name">1. Vay và nợ thuê tài chính dài hạn</field>
-            <field name="expression">341*</field><field name="maturity">long</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sequence">880</field>
+            <field name="code">338</field>
+            <field name="name">8. Vay và nợ thuê tài chính dài hạn</field>
+            <field name="expression">341*,3431*</field>
+            <field name="sign">-1</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.15</field>
         </record>
+
+        <record id="b01dn_339" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">890</field>
+            <field name="code">339</field>
+            <field name="name">9. Trái phiếu chuyển đổi</field>
+            <field name="expression">3432*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.21.2</field>
+        </record>
+
+        <record id="b01dn_340" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">900</field>
+            <field name="code">340</field>
+            <field name="name">10. Cổ phiếu ưu đãi</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.22</field>
+        </record>
+
         <record id="b01dn_341" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">640</field><field name="code">341</field>
-            <field name="name">2. Thuế thu nhập hoãn lại phải trả</field>
+            <field name="sequence">910</field>
+            <field name="code">341</field>
+            <field name="name">11. Thuế thu nhập hoãn lại phải trả</field>
             <field name="expression">347*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.24b</field>
         </record>
+
         <record id="b01dn_342" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">650</field><field name="code">342</field>
-            <field name="name">3. Dự phòng phải trả dài hạn</field>
+            <field name="sequence">920</field>
+            <field name="code">342</field>
+            <field name="name">12. Dự phòng phải trả dài hạn</field>
             <field name="expression">352*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="maturity">long</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.23</field>
+        </record>
+
+        <record id="b01dn_343" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">930</field>
+            <field name="code">343</field>
+            <field name="name">13. Quỹ phát triển khoa học và công nghệ</field>
+            <field name="expression">356*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
         </record>
 
         <record id="b01dn_400" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">660</field><field name="code">400</field>
-            <field name="name">D - VỐN CHỦ SỞ HỮU</field>
-            <field name="formula">410</field>
+            <field name="sequence">940</field>
+            <field name="code">400</field>
+            <field name="name">D. VỐN CHỦ SỞ HỮU</field>
+            <field name="formula">410 + 430</field>
             <field name="bold" eval="True"/>
             <field name="note_ref">VI.25a</field>
         </record>
+
         <record id="b01dn_410" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">670</field><field name="code">410</field>
+            <field name="sequence">950</field>
+            <field name="code">410</field>
             <field name="name">I. Vốn chủ sở hữu</field>
-            <field name="formula">411 + 412 + 418 + 421</field>
-            <field name="level">1</field><field name="bold" eval="True"/>
+            <field name="formula">411 + 412 + 413 + 414 + 415 + 416 + 417 + 418 + 419 + 420 + 421 + 422</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
         </record>
+
         <record id="b01dn_411" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">680</field><field name="code">411</field>
+            <field name="sequence">960</field>
+            <field name="code">411</field>
             <field name="name">1. Vốn góp của chủ sở hữu</field>
             <field name="expression">4111*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.25a</field>
         </record>
+
+        <record id="b01dn_411a" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">970</field>
+            <field name="code">411a</field>
+            <field name="name">- Cổ phiếu phổ thông có quyền biểu quyết</field>
+            <field name="expression">4111*,-41112*</field>
+            <field name="sign">-1</field>
+            <field name="level">3</field>
+        </record>
+
+        <record id="b01dn_411b" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">980</field>
+            <field name="code">411b</field>
+            <field name="name">- Cổ phiếu ưu đãi</field>
+            <field name="expression">41112*</field>
+            <field name="sign">-1</field>
+            <field name="level">3</field>
+        </record>
+
         <record id="b01dn_412" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">690</field><field name="code">412</field>
+            <field name="sequence">990</field>
+            <field name="code">412</field>
             <field name="name">2. Thặng dư vốn cổ phần</field>
             <field name="expression">4112*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
             <field name="note_ref">VI.25a</field>
         </record>
+
+        <record id="b01dn_413" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1000</field>
+            <field name="code">413</field>
+            <field name="name">3. Quyền chọn chuyển đổi trái phiếu</field>
+            <field name="expression">4113*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.25a</field>
+        </record>
+
+        <record id="b01dn_414" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1010</field>
+            <field name="code">414</field>
+            <field name="name">4. Vốn khác của chủ sở hữu</field>
+            <field name="expression">4118*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.25a</field>
+        </record>
+
+        <record id="b01dn_415" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1020</field>
+            <field name="code">415</field>
+            <field name="name">5. Cổ phiếu quỹ (*)</field>
+            <field name="expression">419*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.25a</field>
+        </record>
+
+        <record id="b01dn_416" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1030</field>
+            <field name="code">416</field>
+            <field name="name">6. Chênh lệch đánh giá lại tài sản</field>
+            <field name="expression">412*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.26</field>
+        </record>
+
+        <record id="b01dn_417" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1040</field>
+            <field name="code">417</field>
+            <field name="name">7. Chênh lệch tỷ giá hối đoái</field>
+            <field name="expression">413*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.27</field>
+        </record>
+
         <record id="b01dn_418" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">700</field><field name="code">418</field>
-            <field name="name">3. Quỹ đầu tư phát triển</field>
+            <field name="sequence">1050</field>
+            <field name="code">418</field>
+            <field name="name">8. Quỹ đầu tư phát triển</field>
             <field name="expression">414*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
         </record>
+
+        <record id="b01dn_419" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1060</field>
+            <field name="code">419</field>
+            <field name="name">9. Quỹ hỗ trợ sắp xếp doanh nghiệp</field>
+            <field name="expression">417*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.25e</field>
+        </record>
+
+        <record id="b01dn_420" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1070</field>
+            <field name="code">420</field>
+            <field name="name">10. Quỹ khác thuộc vốn chủ sở hữu</field>
+            <field name="expression">418*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.25e</field>
+        </record>
+
         <record id="b01dn_421" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">710</field><field name="code">421</field>
-            <field name="name">4. Lợi nhuận sau thuế chưa phân phối</field>
+            <field name="sequence">1080</field>
+            <field name="code">421</field>
+            <field name="name">11. Lợi nhuận sau thuế chưa phân phối</field>
             <field name="expression">421*</field>
-            <field name="sign">-1</field><field name="level">2</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_421a" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1090</field>
+            <field name="code">421a</field>
+            <field name="name">- LNST chưa phân phối lũy kế đến cuối kỳ trước</field>
+            <field name="expression">4211*</field>
+            <field name="sign">-1</field>
+            <field name="level">3</field>
+        </record>
+
+        <record id="b01dn_421b" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1100</field>
+            <field name="code">421b</field>
+            <field name="name">- LNST chưa phân phối kỳ này</field>
+            <field name="expression">421*,-4211*</field>
+            <field name="sign">-1</field>
+            <field name="level">3</field>
+        </record>
+
+        <record id="b01dn_422" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1110</field>
+            <field name="code">422</field>
+            <field name="name">12. Nguồn vốn đầu tư XDCB</field>
+            <field name="expression">441*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+        </record>
+
+        <record id="b01dn_430" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1120</field>
+            <field name="code">430</field>
+            <field name="name">II. Nguồn kinh phí và quỹ khác</field>
+            <field name="formula">431 + 432</field>
+            <field name="level">1</field>
+            <field name="bold" eval="True"/>
+        </record>
+
+        <record id="b01dn_431" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1130</field>
+            <field name="code">431</field>
+            <field name="name">1. Nguồn kinh phí</field>
+            <field name="expression">461*,161*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
+            <field name="note_ref">VI.28</field>
+        </record>
+
+        <record id="b01dn_432" model="vn.report.mapping.line">
+            <field name="mapping_id" ref="mapping_tt200_b01dn"/>
+            <field name="sequence">1140</field>
+            <field name="code">432</field>
+            <field name="name">2. Nguồn kinh phí đã hình thành TSCĐ</field>
+            <field name="expression">466*</field>
+            <field name="sign">-1</field>
+            <field name="level">2</field>
         </record>
 
         <record id="b01dn_440" model="vn.report.mapping.line">
             <field name="mapping_id" ref="mapping_tt200_b01dn"/>
-            <field name="sequence">720</field><field name="code">440</field>
-            <field name="name">TỔNG CỘNG NGUỒN VỐN</field>
+            <field name="sequence">1150</field>
+            <field name="code">440</field>
+            <field name="name">Tổng cộng nguồn vốn (440 = 300 + 400)</field>
             <field name="formula">300 + 400</field>
             <field name="bold" eval="True"/>
         </record>
