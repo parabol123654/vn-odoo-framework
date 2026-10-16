@@ -39,7 +39,9 @@ class MappingLineDTO(NamedTuple):
     movement_side: str = 'net'      # net | debit | credit
     #: B01b-DNN splits a balance by remaining term: 'short' keeps what falls
     #: due within twelve months of the report date, 'long' the rest.
-    maturity: str = 'all'           # all | short | long
+    #: 'overdue' keeps what fell due more than the mapping's
+    #: ``overdue_days`` before the report date (the notes' "nợ quá hạn").
+    maturity: str = 'all'           # all | short | long | overdue
 
 
 class MappingDTO(NamedTuple):
@@ -60,6 +62,9 @@ class MappingDTO(NamedTuple):
     #: Form number and heading printed on the statement, e.g. B01a-DNN.
     form_code: str = ''
     form_title: str = ''
+    #: For 'overdue' lines: an item is overdue once its due date is more
+    #: than this many days before the report date.
+    overdue_days: int = 0
     lines: Tuple[MappingLineDTO, ...] = ()
 
 

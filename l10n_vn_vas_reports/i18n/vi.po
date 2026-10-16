@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-15 16:34+0000\n"
-"PO-Revision-Date: 2026-10-15 16:34+0000\n"
+"POT-Creation-Date: 2026-10-16 11:14+0000\n"
+"PO-Revision-Date: 2026-10-16 11:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "Language: vi\n"
@@ -484,6 +484,11 @@ msgid "Figures"
 msgstr "Số liệu"
 
 #. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_company_form_vn_fs_note
+msgid "Filled from the ledger"
+msgstr "Tự điền từ sổ cái"
+
+#. module: l10n_vn_vas_reports
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_reports_statements
 msgid "Financial Statements"
 msgstr "Báo cáo tài chính"
@@ -618,6 +623,11 @@ msgstr "Sổ nhật ký"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
 msgid "Layout"
 msgstr "Trình bày"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_company_form_vn_fs_note
+msgid "List the rows that can be set"
+msgstr "Liệt kê các dòng có thể khai báo"
 
 #. module: l10n_vn_vas_reports
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__direction
@@ -762,6 +772,7 @@ msgstr "Thuyết minh báo cáo tài chính"
 
 #. module: l10n_vn_vas_reports
 #: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_fs_note
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_company_form_vn_fs_note
 msgid "Notes to the Financial Statements (B09)"
 msgstr "Thuyết minh báo cáo tài chính (B09)"
 
@@ -882,6 +893,11 @@ msgid "Print PDF"
 msgstr "In PDF"
 
 #. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_company_form_vn_fs_note
+msgid "Printing"
+msgstr "In"
+
+#. module: l10n_vn_vas_reports
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__product_ids
 msgid "Products"
 msgstr "Sản phẩm, hàng hoá"
@@ -938,6 +954,13 @@ msgstr "Giới hạn theo"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 msgid "Revenue per product from the 511 lines themselves,\n                    deductions from 521, closing transfers excluded — so the\n                    book adds up to account 511. VAT stays on the Bảng kê\n                    01/GTGT, where the tax lines live."
 msgstr "Doanh thu theo sản phẩm từ chính các dòng 511, khoản giảm trừ từ 521, loại kết chuyển cuối kỳ — nên sổ cộng ra đúng phát sinh TK 511. Thuế GTGT theo dõi trên Bảng kê 01/GTGT, nơi các dòng thuế thực sự nằm."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/models/vn_fs_note_settings.py:0
+#, python-format
+msgid "Row %(row)s: %(error)s"
+msgstr "Dòng %(row)s: %(error)s"
 
 #. module: l10n_vn_vas_reports
 #. odoo-python

@@ -23,3 +23,5 @@ access_vn_fs_note_template_item_user,vn.fs.note.template.item.read,vn.fs.note.te
 access_vn_fs_note_template_item_manager,vn.fs.note.template.item.manage,vn.fs.note.template.item,account.group_account_manager,crud,
 access_vn_fs_note_template_row_user,vn.fs.note.template.row.read,vn.fs.note.template.row,l10n_vn_vas_reports.group_vn_report_financial_statement,r,
 access_vn_fs_note_template_row_manager,vn.fs.note.template.row.manage,vn.fs.note.template.row,account.group_account_manager,crud,
+access_vn_fs_note_row_config_user,vn.fs.note.row.config.read,vn.fs.note.row.config,l10n_vn_vas_reports.group_vn_report_financial_statement,r,"[('company_id', 'in', company_ids)]"
+access_vn_fs_note_row_config_manager,vn.fs.note.row.config.manage,vn.fs.note.row.config,account.group_account_manager,crud,"[('company_id', 'in', company_ids)]"
