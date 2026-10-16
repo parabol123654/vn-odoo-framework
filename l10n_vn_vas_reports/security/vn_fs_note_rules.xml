@@ -8,7 +8,9 @@
         ir.access lines; 19.0 has no such model, so they are global record
         rules here. Every group granted access in ir.model.access.csv had the
         same domain on 20.0, so a global rule restricts exactly as much.
-        The template items and rows carry no rule, as on 20.0.
+        The template items and rows carry no rule, as on 20.0. A company's
+        accounts for notes rows (vn.fs.note.row.config) are restricted to
+        the selected companies, as their ir.access lines are on 20.0.
     -->
     <record id="rule_vn_fs_note_company" model="ir.rule">
         <field name="name">Notes to the Financial Statements: company</field>
@@ -32,6 +34,12 @@
         <field name="name">Notes to the Financial Statements check: company</field>
         <field name="model_id" ref="model_vn_fs_note_check"/>
         <field name="domain_force">[('note_id.company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_vn_fs_note_row_config_company" model="ir.rule">
+        <field name="name">Notes to the Financial Statements row accounts: company</field>
+        <field name="model_id" ref="model_vn_fs_note_row_config"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
 
     <record id="rule_vn_fs_note_template_company" model="ir.rule">

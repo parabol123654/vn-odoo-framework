@@ -30,6 +30,8 @@ engine.
 Pure Python: no Odoo, no database.
 """
 
+from datetime import timedelta
+
 from ...core.enums import GroupBy
 from ...core.exceptions import MappingException
 from ...core.utils.number import round_amount
@@ -49,6 +51,7 @@ from .formula import FormulaEvaluator
 TERM_ALL = 'all'
 TERM_SHORT = 'short'
 TERM_LONG = 'long'
+TERM_OVERDUE = 'overdue'
 
 MOVEMENT_NET = 'net'
 MOVEMENT_DEBIT = 'debit'
@@ -257,6 +260,15 @@ class FinancialStatementEngine:
                 measured.replace(
                     long_term_after=self._one_year_after(measured.date_to)),
                 GroupBy.ACCOUNT_PARTNER_TERM)
+        by_overdue = None
+        if any(l.maturity == TERM_OVERDUE for l in mapping.lines):
+            # The same split as short and long term, cut at the overdue
+            # date instead: what is due after it is not overdue yet, and a
+            # payment settles the earliest items first.
+            by_overdue = self._ledger.compute_balances(
+                measured.replace(long_term_after=measured.date_to - timedelta(
+                    days=max(mapping.overdue_days, 0))),
+                GroupBy.ACCOUNT_PARTNER_TERM)
 
         amounts = {}
         for line in mapping.lines:
@@ -266,6 +278,9 @@ class FinancialStatementEngine:
             if line.maturity in (TERM_SHORT, TERM_LONG):
                 value = self._sum_by_term(line, selected, mapping.basis,
                                           by_term)
+            elif line.maturity == TERM_OVERDUE:
+                value = self._sum_by_term(line, selected, mapping.basis,
+                                          by_overdue)
             else:
                 value = self._sum(line, selected, mapping.basis,
                                   by_account, by_account_partner)
@@ -394,6 +409,7 @@ class FinancialStatementEngine:
                 long_part = max(min(long_, 0.0), net)
             else:
                 long_part = 0.0
+            # Overdue is the early part, like short term.
             part = long_part if line.maturity == TERM_LONG else net - long_part
             key = (account_id, partner_id) if line.split_by_partner \
                 else (account_id,)
@@ -452,7 +468,8 @@ class FinancialStatementEngine:
                 raise MappingException(
                     "Line %r has an unknown movement side %r."
                     % (line.code, line.movement_side))
-            if line.maturity not in (TERM_ALL, TERM_SHORT, TERM_LONG):
+            if line.maturity not in (TERM_ALL, TERM_SHORT, TERM_LONG,
+                                     TERM_OVERDUE):
                 raise MappingException(
                     "Line %r has an unknown maturity %r."
                     % (line.code, line.maturity))
