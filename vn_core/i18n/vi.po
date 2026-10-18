@@ -293,6 +293,7 @@ msgstr "Chọn tài khoản theo mã: 111*, 111*\\,112*, 111*\\,-1113. Để tr�
 
 #. module: vn_core
 #: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__sequence
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__sequence
 msgid "Sequence"
 msgstr "Thứ tự"
 
@@ -387,3 +388,103 @@ msgid ""
 "one starts from profit and adjusts it with balance movements. Ignored by the"
 " other statements."
 msgstr "Phương pháp của mẫu báo cáo lưu chuyển tiền tệ này. Phương pháp trực tiếp đọc bút toán và phân loại từng dòng tiền theo tài khoản đối ứng; phương pháp gián tiếp đi từ lợi nhuận rồi điều chỉnh theo biến động số dư. Các báo cáo khác bỏ qua trường này."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__closing_expression
+msgid "Accounts of the year-end closing entry, e.g. 911*,421*. Journal entries touching them are left out of a statement of the period's movement: a closing entry moves revenue and expense, it is not itself revenue or expense. Ignored by balance sheets."
+msgstr "Tài khoản của bút toán kết chuyển cuối năm, ví dụ 911*,421*. Bút toán có các tài khoản này không được tính vào báo cáo phát sinh trong kỳ: bút toán kết chuyển chỉ chuyển doanh thu, chi phí, bản thân nó không phải doanh thu hay chi phí. Bảng cân đối bỏ qua trường này."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__maturity
+msgid "B01b-DNN: keep only what falls due within twelve months of the report date (short term) or after (long term), by the due dates of the journal items. A payment reduces the short-term part first."
+msgstr "B01b-DNN: chỉ lấy phần đến hạn trong vòng 12 tháng kể từ ngày báo cáo (ngắn hạn) hoặc sau đó (dài hạn), theo hạn thanh toán của bút toán. Khoản thanh toán trừ vào phần ngắn hạn trước."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_res_company__vn_balance_sheet_mapping_id
+msgid "Balance sheet form"
+msgstr "Mẫu bảng cân đối"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_res_company__vn_cash_flow_mapping_id
+msgid "Cash flow form"
+msgstr "Mẫu lưu chuyển tiền tệ"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__movement_side__credit
+msgid "Credit movement"
+msgstr "Phát sinh Có"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__movement_side__debit
+msgid "Debit movement"
+msgstr "Phát sinh Nợ"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping_line__movement_side
+msgid "For a statement of the period's movement: read the net change, or only the debits or the credits. B02-DNN item 01 is the credit movement of 511 and item 02 its debit movement."
+msgstr "Với báo cáo phát sinh trong kỳ: đọc phát sinh thuần, hoặc chỉ phát sinh Nợ hay chỉ phát sinh Có. Chỉ tiêu 01 của B02-DNN là phát sinh Có TK 511, chỉ tiêu 02 là phát sinh Nợ."
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__form_title
+msgid "Form heading"
+msgstr "Tiêu đề mẫu"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__form_code
+msgid "Form number"
+msgstr "Mẫu số"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__maturity__long
+msgid "Long term"
+msgstr "Dài hạn"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__maturity
+msgid "Maturity"
+msgstr "Kỳ hạn"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping_line__movement_side
+msgid "Movement Side"
+msgstr "Bên phát sinh"
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__movement_side__net
+msgid "Net movement"
+msgstr "Phát sinh thuần"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__form_code
+msgid "Printed top right of the statement, e.g. B01a-DNN. Leave empty to print the report's own default."
+msgstr "In ở góc trên bên phải báo cáo, ví dụ B01a-DNN. Để trống để in mặc định của báo cáo."
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__maturity__short
+msgid "Short term"
+msgstr "Ngắn hạn"
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_res_company__vn_balance_sheet_mapping_id
+msgid "TT133 lets a company present B01b-DNN instead of B01a-DNN. Leave empty for the circular's default form."
+msgstr "TT133 cho phép doanh nghiệp trình bày B01b-DNN thay cho B01a-DNN. Để trống để dùng mẫu mặc định của thông tư."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_res_company__vn_cash_flow_mapping_id
+msgid "The direct or the indirect method. Leave empty for the circular's default form."
+msgstr "Phương pháp trực tiếp hoặc gián tiếp. Để trống để dùng mẫu mặc định của thông tư."
+
+#. module: vn_core
+#: model:ir.model.fields,help:vn_core.field_vn_report_mapping__sequence
+msgid "When a circular offers several forms of one statement (B01a-DNN or B01b-DNN, the direct or the indirect cash flow), the lowest sequence is the default. A company picks another on its form."
+msgstr "Khi thông tư có nhiều mẫu cho một báo cáo (B01a-DNN hoặc B01b-DNN, lưu chuyển tiền tệ trực tiếp hoặc gián tiếp), mẫu có thứ tự nhỏ nhất là mặc định. Công ty chọn mẫu khác trên form công ty."
+
+#. module: vn_core
+#: model:ir.model.fields.selection,name:vn_core.selection__vn_report_mapping_line__maturity__all
+msgid "Whole balance"
+msgstr "Toàn bộ số dư"
+
+#. module: vn_core
+#: model:ir.model.fields,field_description:vn_core.field_vn_report_mapping__closing_expression
+msgid "Year-end transfer accounts"
+msgstr "Tài khoản kết chuyển cuối năm"
