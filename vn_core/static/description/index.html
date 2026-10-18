@@ -1,8 +1,8 @@
 <section class="oe_container">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
-            <h2 class="oe_slogan">Vietnam VAS Reporting Framework (Core)</h2>
-            <h3 class="oe_slogan">Domain engines, DTO v&#224; &#273;i&#7875;m m&#7903; r&#7897;ng cho b&#7897; b&#225;o c&#225;o VAS &#8212; module k&#7929; thu&#7853;t, c&#224;i l&#224;m n&#7873;n cho l10n_vn_vas_reports</h3>
+            <h2 class="oe_slogan">N&#7873;n t&#7843;ng b&#225;o c&#225;o k&#7871; to&#225;n Vi&#7879;t Nam (VAS)</h2>
+            <h3 class="oe_slogan">B&#7897; m&#225;y t&#237;nh to&#225;n, &#273;&#7889;i t&#432;&#7907;ng d&#7919; li&#7879;u v&#224; &#273;i&#7875;m m&#7903; r&#7897;ng cho b&#7897; b&#225;o c&#225;o VAS &#8212; module k&#7929; thu&#7853;t, c&#224;i l&#224;m n&#7873;n cho l10n_vn_vas_reports</h3>
         </div>
         <div class="oe_span12">
             <img class="oe_picture oe_screenshot" src="banner.png"/>
@@ -13,10 +13,10 @@
 <section class="oe_container">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
-            <h3>&#7842;nh m&#224;n h&#236;nh / Screenshots</h3>
-            <p>Accounting &#8594; Configuration &#8594; Statement Mappings, on the TT200 data that l10n_vn_vas_reports installs.</p>
-            <h4 class="oe_mt32 mt32">Statement mapping (B01-DN)</h4>
-            <p>Each line of a financial statement is data: an account expression or a formula over other lines, edited in the UI.</p>
+            <h3>&#7842;nh m&#224;n h&#236;nh</h3>
+            <p>K&#7871; to&#225;n &#8594; C&#7845;u h&#236;nh &#8594; Statement Mappings, tr&#234;n d&#7919; li&#7879;u TT200 do l10n_vn_vas_reports c&#224;i s&#7861;n.</p>
+            <h4 class="oe_mt32 mt32">&#193;nh x&#7841; ch&#7881; ti&#234;u b&#225;o c&#225;o (B01-DN)</h4>
+            <p>M&#7895;i ch&#7881; ti&#234;u b&#225;o c&#225;o t&#224;i ch&#237;nh l&#224; d&#7919; li&#7879;u: m&#7897;t bi&#7875;u th&#7913;c t&#224;i kho&#7843;n ho&#7863;c m&#7897;t c&#244;ng th&#7913;c t&#7915; c&#225;c ch&#7881; ti&#234;u kh&#225;c, s&#7917;a ngay tr&#234;n giao di&#7879;n.</p>
             <img class="img img-fluid oe_screenshot" src="core_mapping.png"/>
         </div>
     </div>
@@ -26,18 +26,11 @@
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
 <ul>
-<li><b>Technical module</b> &#8212; install as a dependency of
-    <code>l10n_vn_vas_reports</code>; it adds no menu of its own.</li>
-<li>Pure-Python domain engines: general ledger, trial balance, aged balance,
-    financial statement mapping &amp; formula engine, VAT listing and
-    declaration, inventory, manufacturing cost, fixed assets.</li>
-<li>Every engine talks to a repository <i>interface</i>; the Odoo ORM/SQL
-    implementation lives in one folder. Hundreds of unit tests run without
-    Odoo or PostgreSQL.</li>
-<li>Extension point <code>vn.ledger.provider</code>: a custom module can swap
-    any engine or repository per database with one <code>_inherit</code>.</li>
-<li>Statement mappings are data, edited in the UI, evaluated by a purpose-built
-    parser &#8212; <b>never</b> by <code>eval</code>.</li>
+<li><b>Module k&#7929; thu&#7853;t</b> &#8212; &#273;&#432;&#7907;c c&#224;i c&#249;ng <code>l10n_vn_vas_reports</code>, kh&#244;ng th&#234;m menu ri&#234;ng.</li>
+<li>B&#7897; m&#225;y t&#237;nh to&#225;n vi&#7871;t b&#7857;ng Python thu&#7847;n: s&#7893; c&#225;i, b&#7843;ng c&#226;n &#273;&#7889;i s&#7889; ph&#225;t sinh, tu&#7893;i n&#7907;, &#225;nh x&#7841; v&#224; c&#244;ng th&#7913;c b&#225;o c&#225;o t&#224;i ch&#237;nh, thuy&#7871;t minh, b&#7843;ng k&#234; v&#224; t&#7901; khai thu&#7871; GTGT, kho, chi ph&#237; s&#7843;n xu&#7845;t, t&#224;i s&#7843;n c&#7889; &#273;&#7883;nh.</li>
+<li>M&#7895;i b&#7897; m&#225;y ch&#7881; &#273;&#7885;c d&#7919; li&#7879;u qua m&#7897;t <i>giao di&#7879;n</i>; ph&#7847;n &#273;&#7885;c b&#7857;ng ORM/SQL c&#7911;a Odoo n&#7857;m g&#7885;n trong m&#7897;t th&#432; m&#7909;c. H&#224;ng tr&#259;m unit test ch&#7841;y kh&#244;ng c&#7847;n Odoo hay PostgreSQL.</li>
+<li>&#272;i&#7875;m m&#7903; r&#7897;ng <code>vn.ledger.provider</code>: module ri&#234;ng thay &#273;&#432;&#7907;c b&#7845;t k&#7923; b&#7897; m&#225;y hay ngu&#7891;n d&#7919; li&#7879;u n&#224;o cho t&#7915;ng database ch&#7881; b&#7857;ng m&#7897;t <code>_inherit</code>.</li>
+<li>&#193;nh x&#7841; b&#225;o c&#225;o l&#224; d&#7919; li&#7879;u, s&#7917;a tr&#234;n giao di&#7879;n, &#273;&#432;&#7907;c t&#237;nh b&#7857;ng b&#7897; ph&#226;n t&#237;ch vi&#7871;t ri&#234;ng &#8212; <b>kh&#244;ng bao gi&#7901;</b> d&#249;ng <code>eval</code>.</li>
 </ul>
         </div>
     </div>
@@ -46,14 +39,8 @@
 <section class="oe_container">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
-            <h3>Vietnam VAS Reports suite</h3>
-            <p>Part of the <b>Vietnam VAS Reports</b> suite for Odoo 17
-                Community: accounting books and financial statements
-                (<code>l10n_vn_vas_reports</code>), inventory
-                (<code>l10n_vn_stock_reports</code>), manufacturing
-                (<code>l10n_vn_mrp_reports</code>) and fixed assets
-                (<code>l10n_vn_asset_reports</code>) on the shared framework
-                <code>vn_core</code>. Free and open source, AGPL-3.</p>
+            <h3>B&#7897; module b&#225;o c&#225;o VAS</h3>
+            <p>Thu&#7897;c b&#7897; <b>Vietnam VAS Reports</b> cho Odoo 17 Community: s&#7893; s&#225;ch v&#224; b&#225;o c&#225;o t&#224;i ch&#237;nh (<code>l10n_vn_vas_reports</code>), kho (<code>l10n_vn_stock_reports</code>), s&#7843;n xu&#7845;t (<code>l10n_vn_mrp_reports</code>) v&#224; t&#224;i s&#7843;n c&#7889; &#273;&#7883;nh (<code>l10n_vn_asset_reports</code>), d&#249;ng chung n&#7873;n <code>vn_core</code>. H&#7895; tr&#7907; Th&#244;ng t&#432; 200/2014, 133/2016 v&#224; 99/2025. Mi&#7877;n ph&#237;, m&#227; ngu&#7891;n m&#7903;, gi&#7845;y ph&#233;p AGPL-3.</p>
         </div>
     </div>
 </section>
