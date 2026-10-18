@@ -1,8 +1,8 @@
 <section class="oe_container">
     <div class="oe_row oe_spaced">
         <div class="oe_span12">
-            <h2 class="oe_slogan">Vietnam VAS Reports (TT200 / TT133)</h2>
-            <h3 class="oe_slogan">S&#7893; s&#225;ch k&#7871; to&#225;n, b&#225;o c&#225;o t&#224;i ch&#237;nh, b&#7843;ng k&#234; thu&#7871; GTGT v&#224; phi&#7871;u thu chi
+            <h2 class="oe_slogan">Vietnam VAS Reports (TT200 / TT133 / TT99)</h2>
+            <h3 class="oe_slogan">S&#7893; s&#225;ch k&#7871; to&#225;n, b&#225;o c&#225;o t&#224;i ch&#237;nh, thuy&#7871;t minh B09, b&#7843;ng k&#234; thu&#7871; GTGT v&#224; phi&#7871;u thu chi
                 theo Chu&#7849;n m&#7921;c K&#7871; to&#225;n Vi&#7879;t Nam &#8212; cho Odoo 19 Community</h3>
         </div>
         <div class="oe_span12">
@@ -20,13 +20,27 @@
             <p>Collapsible accounts, search, and a click on any line opens the journal entry.</p>
             <img class="img img-fluid oe_screenshot" src="vas_general_ledger.png"/>
 
-            <h4 class="oe_mt32 mt32">B&#7843;ng c&#226;n &#273;&#7889;i k&#7871; to&#225;n (B01-DN)</h4>
-            <p>Click a line to open the general ledger for exactly the accounts behind it.</p>
+            <h4 class="oe_mt32 mt32">B&#7843;ng c&#226;n &#273;&#7889;i k&#7871; to&#225;n (B01-DN, Th&#244;ng t&#432; 200/2014)</h4>
+            <p>Every code of the printed form, with the source accounts of &#272;i&#7873;u 112. Click a line to open the general ledger for exactly the accounts behind it; the "Thuy&#7871;t minh" column points at the note that explains it.</p>
             <img class="img img-fluid oe_screenshot" src="vas_balance_sheet.png"/>
 
             <h4 class="oe_mt32 mt32">B&#225;o c&#225;o k&#7871;t qu&#7843; ho&#7841;t &#273;&#7897;ng kinh doanh (B02-DN)</h4>
             <p>Current year against the previous one.</p>
             <img class="img img-fluid oe_screenshot" src="vas_income_statement.png"/>
+
+            <h4 class="oe_mt32 mt32">B&#225;o c&#225;o t&#236;nh h&#236;nh t&#224;i ch&#237;nh (B01-DN, Th&#244;ng t&#432; 99/2025)</h4>
+            <p>The same books on the forms of Th&#244;ng t&#432; 99/2025, for financial years from 2026: choose the regime on the company.</p>
+            <img class="img img-fluid oe_screenshot" src="vas_tt99_balance_sheet.png"/>
+
+            <h4 class="oe_mt32 mt32">B&#7843;n thuy&#7871;t minh b&#225;o c&#225;o t&#224;i ch&#237;nh (B09)</h4>
+            <p>Kept per company and year, and locked once filed. The tables are read from the ledger with the accounts of the balance sheet and income statement; next year's comparatives come from this year's locked notes.</p>
+            <img class="img img-fluid oe_screenshot" src="vas_notes.png"/>
+            <p>Every total is checked against the statement line it explains.</p>
+            <img class="img img-fluid oe_screenshot" src="vas_notes_checks.png"/>
+
+            <h4 class="oe_mt32 mt32">Thuy&#7871;t minh: c&#224;i &#273;&#7863;t theo c&#244;ng ty</h4>
+            <p>Related parties, overdue debts, loans by due date and the company's own accounts for the rows the circular gives no account for.</p>
+            <img class="img img-fluid oe_screenshot" src="vas_note_settings.png"/>
 
             <h4 class="oe_mt32 mt32">B&#7843;ng c&#226;n &#273;&#7889;i s&#7889; ph&#225;t sinh (S06-DN)</h4>
             <img class="img img-fluid oe_screenshot" src="vas_trial_balance.png"/>
@@ -47,16 +61,17 @@
             <h3>B&#225;o c&#225;o trong module n&#224;y / Reports included</h3>
             <ul>
                 <li><b>S&#7893; k&#7871; to&#225;n:</b> S&#7893; Nh&#7853;t k&#253; chung (S03a-DN), S&#7893; C&#225;i (S03b-DN),
-                    B&#7843;ng c&#226;n &#273;&#7889;i s&#7889; ph&#225;t sinh (S06-DN)</li>
+                    B&#7843;ng c&#226;n &#273;&#7889;i s&#7889; ph&#225;t sinh (S06-DN &#183; F01-DNN)</li>
                 <li><b>S&#7893; chi ti&#7871;t:</b> S&#7893; chi ti&#7871;t thanh to&#225;n v&#7899;i ng&#432;&#7901;i mua, ng&#432;&#7901;i b&#225;n (S31-DN),
                     S&#7893; qu&#7929; ti&#7873;n m&#7863;t / ti&#7873;n g&#7917;i ng&#226;n h&#224;ng (S07-DN / S08-DN),
                     S&#7893; chi ti&#7871;t b&#225;n h&#224;ng (S35-DN),
                     S&#7893; chi ph&#237; s&#7843;n xu&#7845;t, kinh doanh (S36-DN),
                     B&#7843;ng ph&#226;n b&#7893; nguy&#234;n li&#7879;u, v&#7853;t li&#7879;u, c&#244;ng c&#7909;, d&#7909;ng c&#7909; (07-VT),
                     B&#7843;ng t&#7893;ng h&#7907;p c&#244;ng n&#7907; theo tu&#7893;i n&#7907;</li>
-                <li><b>B&#225;o c&#225;o t&#224;i ch&#237;nh:</b> B&#7843;ng c&#226;n &#273;&#7889;i k&#7871; to&#225;n (B01-DN &#183; B01a-DNN),
-                    B&#225;o c&#225;o k&#7871;t qu&#7843; ho&#7841;t &#273;&#7897;ng kinh doanh (B02-DN &#183; B02-DNN),
-                    B&#225;o c&#225;o l&#432;u chuy&#7875;n ti&#7873;n t&#7879; (B03-DN tr&#7921;c ti&#7871;p &#183; B03-DNN gi&#225;n ti&#7871;p)</li>
+                <li><b>B&#225;o c&#225;o t&#224;i ch&#237;nh &#8212; Th&#244;ng t&#432; 200/2014:</b> B01-DN, B02-DN, B03-DN, thuy&#7871;t minh B09-DN</li>
+                <li><b>B&#225;o c&#225;o t&#224;i ch&#237;nh &#8212; Th&#244;ng t&#432; 133/2016:</b> B01a-DNN, B01b-DNN (kh&#244;ng &#273;&#225;p &#7913;ng gi&#7843; &#273;&#7883;nh ho&#7841;t &#273;&#7897;ng li&#234;n t&#7909;c),
+                    B02-DNN, B03-DNN (tr&#7921;c ti&#7871;p &#183; gi&#225;n ti&#7871;p), thuy&#7871;t minh B09-DNN</li>
+                <li><b>B&#225;o c&#225;o t&#224;i ch&#237;nh &#8212; Th&#244;ng t&#432; 99/2025:</b> B01-DN, B02-DN, B03-DN (tr&#7921;c ti&#7871;p &#183; gi&#225;n ti&#7871;p), thuy&#7871;t minh B09-DN</li>
                 <li><b>Thu&#7871; GTGT:</b> B&#7843;ng k&#234; ho&#225; &#273;&#417;n b&#225;n ra / mua v&#224;o (ph&#7909; l&#7909;c 01/GTGT),
                     T&#7901; khai thu&#7871; GTGT (m&#7851;u 01/GTGT)</li>
                 <li><b>Ch&#7913;ng t&#7915;:</b> Phi&#7871;u thu (01-TT), Phi&#7871;u chi (02-TT) in th&#7859;ng t&#7915; b&#250;t to&#225;n</li>
@@ -70,18 +85,23 @@
         <div class="oe_span12">
             <h3>&#272;i&#7875;m &#273;&#225;ng tin c&#7853;y / Why the numbers hold up</h3>
             <ul>
+                <li><b>Theo &#273;&#250;ng v&#259;n b&#7843;n:</b> m&#227; s&#7889;, t&#234;n ch&#7881; ti&#234;u v&#224; t&#224;i kho&#7843;n ngu&#7891;n c&#7911;a t&#7915;ng ch&#7881; ti&#234;u
+                    l&#7845;y t&#7915; ph&#7909; l&#7909;c v&#224; h&#432;&#7899;ng d&#7851;n l&#7853;p c&#7911;a th&#244;ng t&#432;; phi&#7871;u in ghi m&#7851;u s&#7889; v&#224; d&#242;ng
+                    "Ban h&#224;nh theo Th&#244;ng t&#432;&#8230;" c&#7911;a ch&#7871; &#273;&#7897; c&#244;ng ty &#225;p d&#7909;ng.</li>
                 <li><b>M&#7897;t QWeb template cho c&#7843; m&#224;n h&#236;nh v&#224; PDF</b> &#8212; b&#7843;n xem v&#224; b&#7843;n in
                     kh&#244;ng bao gi&#7901; l&#7879;ch nhau. Xu&#7845;t Excel cho m&#7885;i b&#225;o c&#225;o, k&#232;m &#273;&#417;n v&#7883;,
                     k&#7923; v&#224; &#273;i&#7873;u ki&#7879;n l&#7885;c.</li>
                 <li><b>S&#7889; d&#432; &#273;&#7847;u k&#7923; theo n&#259;m t&#224;i ch&#237;nh:</b> t&#224;i kho&#7843;n b&#7843;ng c&#226;n &#273;&#7889;i lu&#7929; k&#7871;
                     t&#7915; khi th&#224;nh l&#7853;p, t&#224;i kho&#7843;n k&#7871;t qu&#7843; kinh doanh reset &#273;&#7847;u n&#259;m.</li>
-                <li><b>T&#225;ch d&#432; N&#7907; / d&#432; C&#243; theo t&#7915;ng &#273;&#7889;i t&#432;&#7907;ng</b> tr&#234;n B&#7843;ng c&#226;n &#273;&#7889;i k&#7871; to&#225;n
-                    (TK 131, 331) &#8212; t&#237;nh theo t&#7915;ng kh&#225;ch h&#224;ng r&#7891;i m&#7899;i c&#7897;ng.</li>
+                <li><b>T&#225;ch d&#432; N&#7907; / d&#432; C&#243; theo t&#7915;ng &#273;&#7889;i t&#432;&#7907;ng</b> (TK 131, 331) v&#224;
+                    <b>t&#225;ch ng&#7855;n h&#7841;n / d&#224;i h&#7841;n</b> theo ng&#224;y &#273;&#7871;n h&#7841;n c&#7911;a b&#250;t to&#225;n.</li>
+                <li><b>Thuy&#7871;t minh B09 t&#7921; &#273;&#7889;i chi&#7871;u</b> v&#7899;i B01, B02: d&#242;ng n&#224;o l&#7879;ch &#273;&#432;&#7907;c ch&#7881; ra tr&#432;&#7899;c khi kh&#243;a.</li>
                 <li><b>Tu&#7893;i n&#7907; t&#7841;i m&#7897;t ng&#224;y trong qu&#225; kh&#7913;</b> c&#7897;ng ng&#432;&#7907;c c&#225;c kho&#7843;n
                     &#273;&#7889;i tr&#7915; ph&#225;t sinh sau ng&#224;y ch&#7889;t.</li>
-                <li><b>TT200 hay TT133 l&#224; thu&#7897;c t&#237;nh c&#7911;a c&#244;ng ty</b> (C&#7845;u h&#236;nh &#8594; C&#244;ng ty);
+                <li><b>TT200, TT133 hay TT99 l&#224; thu&#7897;c t&#237;nh c&#7911;a c&#244;ng ty</b> (C&#7845;u h&#236;nh &#8594; C&#244;ng ty);
                     ch&#7881; ti&#234;u b&#225;o c&#225;o l&#224; d&#7919; li&#7879;u &#225;nh x&#7841; s&#7917;a &#273;&#432;&#7907;c qua giao di&#7879;n,
-                    kh&#244;ng ph&#7843;i m&#227; Python, v&#224; <b>kh&#244;ng d&#249;ng eval</b>.</li>
+                    kh&#244;ng ph&#7843;i m&#227; Python, v&#224; <b>kh&#244;ng d&#249;ng eval</b>. N&#226;ng c&#7845;p module kh&#244;ng ghi &#273;&#232;
+                    d&#242;ng &#225;nh x&#7841; c&#244;ng ty &#273;&#227; s&#7917;a.</li>
                 <li><b>Truy v&#7871;t ng&#432;&#7907;c:</b> b&#7845;m m&#7897;t ch&#7881; ti&#234;u tr&#234;n B01/B02 m&#7903; &#273;&#250;ng S&#7893; C&#225;i
                     c&#225;c t&#224;i kho&#7843;n c&#7845;u th&#224;nh, r&#7891;i t&#7899;i t&#7915;ng b&#250;t to&#225;n v&#224; ch&#7913;ng t&#7915; g&#7889;c.</li>
                 <li>To&#224;n b&#7897; nghi&#7879;p v&#7909; n&#7857;m trong domain Python thu&#7847;n (module
