@@ -31,6 +31,7 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Changed
 
+- Vietnamese for the screens of the B09 notes, the company settings for the notes and the statement mappings: field labels, help, choices and view text (about 270 terms). Store screenshots now show the Vietnamese interface.
 - Store pages of all five modules in Vietnamese, banners naming TT99, and a comparison of TT200, TT133 and TT99 on the Vietnam VAS Reports page.
 - Store page of Vietnam VAS Reports: new screenshots (TT200 B01-DN as the circular prints it, TT99 B01-DN, the B09 notes and their checks, the company settings for the notes) and a description covering TT99 and the notes of all three circulars.
 - TT200 balance sheet B01-DN and income statement B02-DN now follow Điều 112 and 113 of the circular line by line: all 115 codes of the printed form with their printed names; receivables, payables, provisions, inventory, loans and bonds split into short and long term by the due date of the journal items; 400 = 410 + 430, with every equity line counted. **Figures of companies on TT200 change.**
