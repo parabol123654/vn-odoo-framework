@@ -24,13 +24,14 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 - Printed in the form's layout (PDF). Items with nothing to report can be left out.
 - The notes forms of Thông tư 99/2025 and 200/2014 are not included yet.
 - Thông tư 99/2025/TT-BTC (in force for financial years starting on or after 1 January 2026): balance sheet B01-DN, income statement B02-DN, and cash flow statement B03-DN by the direct and the indirect method. Choose "Thông tư 99/2025" as the company's accounting regime.
-- TT133: the balance sheet B01b-DNN (for companies that do not meet the going-concern assumption), the cash flow statement B03-DNN by the direct method, and the account balance sheet printed as F01-DNN.
+- TT133: the balance sheet B01b-DNN (short-term / long-term presentation, which the circular lets a company use instead of B01a-DNN), the cash flow statement B03-DNN by the direct method, and the account balance sheet printed as F01-DNN.
 - Each company can choose which balance sheet and which cash flow method its regime uses (Settings → company).
 - Statement mappings carry the official form number and title; printed reports show the form number, the "issued with Circular …" line, and the signers that the company's circular prescribes.
 - Lint configuration: pre-commit, black, isort, flake8, pylint-odoo, .editorconfig.
 
 ### Changed
 
+- Store pages of all five modules in Vietnamese, banners naming TT99, and a comparison of TT200, TT133 and TT99 on the Vietnam VAS Reports page.
 - Store page of Vietnam VAS Reports: new screenshots (TT200 B01-DN as the circular prints it, TT99 B01-DN, the B09 notes and their checks, the company settings for the notes) and a description covering TT99 and the notes of all three circulars.
 - TT200 balance sheet B01-DN and income statement B02-DN now follow Điều 112 and 113 of the circular line by line: all 115 codes of the printed form with their printed names; receivables, payables, provisions, inventory, loans and bonds split into short and long term by the due date of the journal items; 400 = 410 + 430, with every equity line counted. **Figures of companies on TT200 change.**
 - B02-DN: line 01 is the credit side of 511 and line 02 its debit side (deductions, once 521 is transferred to 511). Line 23 (interest expense) is left for the company to map to its own sub-account of 635, since 6351 is not a TT200 account; an upgrade keeps 6351* where the database has such an account.
