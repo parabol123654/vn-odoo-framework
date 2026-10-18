@@ -31,6 +31,7 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Changed
 
+- Vietnamese for the wizard fields, help text, report and module names of the inventory, manufacturing and fixed-asset modules. Their summaries name TT200, TT133 and TT99.
 - Vietnamese for the screens of the B09 notes, the company settings for the notes and the statement mappings: field labels, help, choices and view text (about 270 terms). Store screenshots now show the Vietnamese interface.
 - Store pages of all five modules in Vietnamese, banners naming TT99, and a comparison of TT200, TT133 and TT99 on the Vietnam VAS Reports page.
 - Store page of Vietnam VAS Reports: new screenshots (TT200 B01-DN as the circular prints it, TT99 B01-DN, the B09 notes and their checks, the company settings for the notes) and a description covering TT99 and the notes of all three circulars.

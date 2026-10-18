@@ -5,7 +5,7 @@
     'version': '16.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese inventory books: stock card S12-DN, '
-               'stock ledger S10-DN, summary S11-DN (TT200)',
+               'stock ledger S10-DN, summary S11-DN (TT200, TT133, TT99)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
     'website': 'https://github.com/parabol123654/vn-odoo-framework',
