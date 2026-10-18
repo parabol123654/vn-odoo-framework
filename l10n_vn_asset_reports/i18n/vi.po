@@ -148,3 +148,109 @@ msgstr "Báo cáo Việt Nam / Tài sản cố định"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.view_vn_asset_report_wizard_form
 msgid "View"
 msgstr "Xem"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,help:l10n_vn_asset_reports.field_vn_asset_report_wizard__include_unposted
+msgid "By default only depreciation that reached the ledger counts (posted entries, plus declared initial balances). Tick to widen the report to the full schedule."
+msgstr "Mặc định chỉ tính khấu hao đã vào sổ (bút toán đã ghi sổ và số dư đầu kỳ đã khai báo). Đánh dấu để báo cáo lấy cả kế hoạch khấu hao."
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__company_id
+msgid "Company"
+msgstr "Công ty"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__target_move
+msgid "Entries"
+msgstr "Bút toán"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model,name:l10n_vn_asset_reports.model_report_l10n_vn_asset_reports_report_vn_asset
+msgid "Fixed Asset QWeb Report"
+msgstr "Báo cáo QWeb tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__date_from
+msgid "From"
+msgstr "Từ ngày"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__journal_ids
+msgid "Journals"
+msgstr "Sổ nhật ký"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Người cập nhật"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lúc"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,help:l10n_vn_asset_reports.field_vn_asset_report_wizard__profile_ids
+msgid "Leave empty to include every asset group."
+msgstr "Để trống để lấy mọi nhóm tài sản."
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,help:l10n_vn_asset_reports.field_vn_asset_report_wizard__asset_ids
+msgid "Leave empty to include every asset in scope."
+msgstr "Để trống để lấy mọi tài sản trong phạm vi."
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,help:l10n_vn_asset_reports.field_vn_asset_report_wizard__journal_ids
+msgid "Leave empty to include every journal."
+msgstr "Để trống để lấy mọi sổ nhật ký."
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.asset_allocation_table
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.asset_register_table
+msgid "STT"
+msgstr "STT"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__date_to
+msgid "To"
+msgstr "Đến ngày"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model,name:l10n_vn_asset_reports.model_vn_demo_asset_generator
+msgid "Vietnam VAS Demo Data - Fixed Assets"
+msgstr "Dữ liệu demo VAS - Tài sản cố định"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__xlsx_file
+msgid "Xlsx File"
+msgstr "File Excel"
+
+#. module: l10n_vn_asset_reports
+#: model:ir.model.fields,field_description:l10n_vn_asset_reports.field_vn_asset_report_wizard__xlsx_filename
+msgid "Xlsx Filename"
+msgstr "Tên file Excel"
+
+#. module: l10n_vn_asset_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_asset_reports.asset_register_table
+msgid "— TK"
+msgstr "— TK"
