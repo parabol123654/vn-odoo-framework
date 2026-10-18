@@ -137,3 +137,101 @@ msgstr "Báo cáo Việt Nam / Sản xuất"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_mrp_reports.view_vn_production_cost_wizard_form
 msgid "View"
 msgstr "Xem"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__company_id
+msgid "Company"
+msgstr "Công ty"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__target_move
+msgid "Entries"
+msgstr "Bút toán"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__date_from
+msgid "From"
+msgstr "Từ ngày"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_report_l10n_vn_mrp_reports_report_production_cost__id
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_demo_mrp_generator__id
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_ledger_provider__id
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__journal_ids
+msgid "Journals"
+msgstr "Sổ nhật ký"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Người cập nhật"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lúc"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,help:l10n_vn_mrp_reports.field_vn_production_cost_wizard__journal_ids
+msgid "Leave empty to include every journal."
+msgstr "Để trống để lấy mọi sổ nhật ký."
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,help:l10n_vn_mrp_reports.field_vn_production_cost_wizard__product_ids
+msgid "Leave empty to include everything manufactured in the period."
+msgstr "Để trống để lấy mọi sản phẩm sản xuất trong kỳ."
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model,name:l10n_vn_mrp_reports.model_report_l10n_vn_mrp_reports_report_production_cost
+msgid "Production Cost QWeb Report"
+msgstr "Báo cáo QWeb chi phí sản xuất và giá thành"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,help:l10n_vn_mrp_reports.field_vn_production_cost_wizard__include_open
+msgid "Report the materials already issued to orders that had not finished by the reporting date. When the production location carries the work-in-progress account (154), Odoo 20 posts them there, so the figure can be checked against that balance."
+msgstr "Báo cáo nguyên vật liệu đã xuất cho các lệnh sản xuất chưa hoàn thành tại ngày báo cáo. Khi địa điểm sản xuất gắn tài khoản chi phí sản xuất dở dang (154), Odoo 20 ghi các khoản này vào đó, nên có thể đối chiếu số này với số dư tài khoản 154."
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__date_to
+msgid "To"
+msgstr "Đến ngày"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model,name:l10n_vn_mrp_reports.model_vn_demo_mrp_generator
+msgid "Vietnam VAS Demo Data - Manufacturing"
+msgstr "Dữ liệu demo VAS - Sản xuất"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.module.module,shortdesc:base.module_l10n_vn_mrp_reports
+msgid "Vietnam VAS Reports - Manufacturing"
+msgstr "Báo cáo sản xuất, giá thành theo chế độ kế toán Việt Nam"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.module.module,summary:base.module_l10n_vn_mrp_reports
+msgid "Vietnamese production cost reports and the cost card S37-DN (TT200, TT133, TT99)"
+msgstr "Báo cáo chi phí sản xuất, giá thành và thẻ tính giá thành S37-DN theo TT200, TT133, TT99"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__xlsx_file
+msgid "Xlsx File"
+msgstr "File Excel"
+
+#. module: l10n_vn_mrp_reports
+#: model:ir.model.fields,field_description:l10n_vn_mrp_reports.field_vn_production_cost_wizard__xlsx_filename
+msgid "Xlsx Filename"
+msgstr "Tên file Excel"
