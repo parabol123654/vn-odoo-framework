@@ -5,7 +5,7 @@
     'version': '17.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese production cost reports and the cost card '
-               'S37-DN (TT200)',
+               'S37-DN (TT200, TT133, TT99)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
     'website': 'https://github.com/parabol123654/vn-odoo-framework',
