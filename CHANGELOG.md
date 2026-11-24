@@ -49,6 +49,8 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Fixed
 
+- Balance sheet "Số đầu năm" and the B09 notes' default period and comparative year follow the company's fiscal year. Odoo 14.0's own helper always returned the calendar year, so a fiscal year ending in March or June was split wrongly.
+- Books (S03a, S03b, S31, S32, S07/S08, S35, S36, S10, S21) are signed "Người ghi sổ" under TT200 and TT99, as those forms print; under TT133 every book keeps "Người lập biểu".
 - VAT listings and form 01/GTGT now include 0% and exempt sales and purchases. Odoo posts no tax line for a zero tax, so these invoices were missing from the listings and from items 26, 29 and 34.
 - 01/GTGT: exempt sales (taxes flagged "VAT exempt", new field on the tax form) are declared on item 26, 0% sales on item 29. Sales at the reduced 8% rate are declared on items 32 and 33 with the 10% sales.
 - Phiếu thu / phiếu chi: each company now has its own series, numbered in the year of the entry's date and restarted every year. Before, all companies shared one series and the year in the number was the day of posting. The first voucher of a year continues after the highest number the company already issued with the same prefix.
