@@ -2,10 +2,10 @@
 load-plugins=pylint_odoo
 
 [ODOOLINT]
-valid_odoo_versions=16.0
-license_allowed=AGPL-3,LGPL-3,OPL-1
-manifest_required_keys=license,version,author
-manifest_deprecated_keys=description,active
+valid-odoo-versions=16.0
+license-allowed=AGPL-3,LGPL-3,OPL-1
+manifest-required-keys=license,version,author
+manifest-deprecated-keys=description,active
 
 [MESSAGES CONTROL]
 disable=

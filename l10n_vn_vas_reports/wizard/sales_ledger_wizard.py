@@ -79,6 +79,9 @@ class VnSalesLedgerWizard(models.TransientModel):
     def _report_form_title(self):
         return 'SỔ CHI TIẾT BÁN HÀNG'
 
+    def _form_preparer(self):
+        return self._book_preparer()
+
     def _screen_template(self):
         return 'l10n_vn_vas_reports.sales_ledger_screen'
 
