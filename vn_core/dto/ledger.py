@@ -178,6 +178,32 @@ class LedgerDTO(NamedTuple):
     group_by: Tuple[str, ...] = ()
 
 
+class CurrencyLedgerLineDTO(NamedTuple):
+    """A ledger line with its foreign-currency amounts (S32-DN)."""
+
+    line: LedgerLineDTO
+    rate: float = 0.0
+    debit_currency: float = 0.0
+    credit_currency: float = 0.0
+    balance_currency: float = 0.0
+
+
+class CurrencyLedgerGroupDTO(NamedTuple):
+    group: LedgerGroupDTO
+    lines: Tuple[CurrencyLedgerLineDTO, ...] = ()
+    opening_currency: float = 0.0
+    debit_currency: float = 0.0
+    credit_currency: float = 0.0
+    closing_currency: float = 0.0
+
+
+class CurrencyLedgerDTO(NamedTuple):
+    """Output of ``LedgerEngine.compute_currency_ledger``."""
+
+    groups: Tuple[CurrencyLedgerGroupDTO, ...]
+    currency: CurrencyDTO
+
+
 class ExpenseLedgerLineDTO(NamedTuple):
     """One debit row of the Sổ chi phí sản xuất, kinh doanh (S36-DN).
 

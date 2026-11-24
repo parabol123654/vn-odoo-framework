@@ -72,6 +72,10 @@ class OdooTaxRepository(ITaxRepository, BaseRepository):
 
         self.cr.execute(sql, params)
         rows = self.cr.dictfetchall()
+        # Versions that keep a zero tax line would otherwise count it twice.
+        seen = {(row['move_id'], row['tax_id']) for row in rows}
+        rows += [row for row in self._zero_rate_rows(ledger_filter, direction)
+                 if (row['move_id'], row['tax_id']) not in seen]
         if not rows:
             return ()
 
@@ -97,19 +101,58 @@ class OdooTaxRepository(ITaxRepository, BaseRepository):
                 base_amount=row['base_amount'] or 0.0,
                 tax_amount=row['tax_amount'] or 0.0,
                 move_type=row['move_type'] or 'entry',
+                exempt=tax['exempt'] if tax else False,
             ))
         return tuple(result)
 
+    def _zero_rate_rows(self, ledger_filter, direction):
+        """Rows for 0% and exempt taxes, read from the base lines.
+
+        Odoo deletes tax lines whose amount is zero, so these sales would
+        otherwise be missing from the listing and from items 26, 29 and 34.
+        """
+        domain = self._build_domain(ledger_filter, direction, tax_line=False)
+        from_clause, where_clause, params = self._query_parts(domain)
+        self.cr.execute("""
+            SELECT {alias}.move_id                       AS move_id,
+                   tax.id                                AS tax_id,
+                   MIN(am.name)                          AS move_name,
+                   MIN(COALESCE(NULLIF(am.{number}, ''), am.name)) AS invoice_number,
+                   MIN(COALESCE(am.invoice_date, am.date)) AS invoice_date,
+                   MIN(am.move_type)                     AS move_type,
+                   MIN(am.partner_id)                    AS partner_id,
+                   SUM({alias}.balance)                  AS base_amount,
+                   0.0                                   AS tax_amount
+              FROM {from_clause}
+              JOIN account_move am ON am.id = {alias}.move_id
+              JOIN account_move_line_account_tax_rel rel
+                ON rel.account_move_line_id = {alias}.id
+              JOIN account_tax tax ON tax.id = rel.account_tax_id
+             WHERE {where_clause}
+               AND tax.amount_type = 'percent' AND tax.amount = 0
+               AND tax.type_tax_use = %s
+          GROUP BY {alias}.move_id, tax.id
+        """.format(alias=ALIAS, from_clause=from_clause,
+                   where_clause=where_clause,
+                   number=self._invoice_number_column),
+            params + [TAX_TYPES[direction]])
+        return self.cr.dictfetchall()
+
     # ------------------------------------------------------------------
-    def _build_domain(self, ledger_filter, direction):
+    def _build_domain(self, ledger_filter, direction, tax_line=True):
         domain = [
             ('company_id', 'in', list(ledger_filter.company_ids)),
-            ('tax_line_id', '!=', False),
             ('move_id.move_type', 'in', list(MOVE_TYPES[direction])),
         ]
-        # A percentage tax with amount_type other than 'percent' would make the
-        # rate column meaningless, so the scope is deliberately narrow.
-        domain.append(('tax_line_id.type_tax_use', '=', TAX_TYPES[direction]))
+        if tax_line:
+            # A percentage tax with amount_type other than 'percent' would
+            # make the rate column meaningless, so the scope is narrow.
+            domain += [
+                ('tax_line_id', '!=', False),
+                ('tax_line_id.type_tax_use', '=', TAX_TYPES[direction]),
+            ]
+        else:
+            domain.append(('tax_ids', '!=', False))
 
         if ledger_filter.posted_only:
             domain.append(('parent_state', '=', 'posted'))
@@ -139,7 +182,12 @@ class OdooTaxRepository(ITaxRepository, BaseRepository):
     def _tax_index(self, tax_ids):
         taxes = self.env['account.tax'].browse(
             [i for i in tax_ids if i]).exists()
-        return {t.id: {'name': t.name, 'amount': t.amount} for t in taxes}
+        # vn_vat_exempt comes from the localisation, which vn_core does not
+        # depend on.
+        exempt = 'vn_vat_exempt' in taxes._fields
+        return {t.id: {'name': t.name, 'amount': t.amount,
+                       'exempt': exempt and t.vn_vat_exempt}
+                for t in taxes}
 
     def _partner_index(self, partner_ids):
         partners = self.env['res.partner'].browse(list(partner_ids)).exists()

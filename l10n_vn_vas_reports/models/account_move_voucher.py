@@ -59,8 +59,65 @@ class AccountMove(models.Model):
         return ('l10n_vn.cash.receipt' if self.vn_voucher_type == RECEIPT
                 else 'l10n_vn.cash.payment')
 
+    def _vn_voucher_sequence(self):
+        """The company's own series, copied from the shared template once.
+
+        Each company keeps its own continuous series, so the template
+        (``company_id`` empty) is never drawn from directly.
+        """
+        self.ensure_one()
+        code = self._vn_voucher_sequence_code()
+        sequences = self.env['ir.sequence'].sudo()
+        sequence = sequences.search(
+            [('code', '=', code), ('company_id', '=', self.company_id.id)],
+            limit=1)
+        if sequence:
+            return sequence
+        template = sequences.search(
+            [('code', '=', code), ('company_id', '=', False)], limit=1)
+        if not template:
+            raise UserError(_(
+                "No sequence found for %s. Check Settings > Technical > "
+                "Sequences.") % code)
+        return template.copy({
+            'name': '%s - %s' % (template.name, self.company_id.name),
+            'company_id': self.company_id.id,
+            'prefix': (template.prefix or '').replace(
+                '%(year)s', '%(range_year)s'),
+            'use_date_range': True,
+            'implementation': 'no_gap',
+            'number_next': 1,
+        })
+
+    def _vn_voucher_open_year(self, sequence):
+        """Create the year's range, continuing numbers already issued.
+
+        Numbers issued before the series was split per company and per year
+        carry the same prefix, so the new range starts after the highest one
+        of this company to avoid issuing a number twice.
+        """
+        self.ensure_one()
+        date_range = sequence._create_date_range_seq(self.date)
+        prefix = sequence._get_prefix_suffix(
+            date=self.date, date_range=date_range.date_from)[0]
+        self.flush_model(['company_id', 'vn_voucher_type', 'vn_voucher_number'])
+        self.env.cr.execute(
+            r"""
+            SELECT MAX(SUBSTRING(vn_voucher_number FROM '(\d+)\D*$')::bigint)
+              FROM account_move
+             WHERE company_id = %s
+               AND vn_voucher_type = %s
+               AND vn_voucher_number LIKE %s
+            """,
+            (self.company_id.id, self.vn_voucher_type,
+             prefix.replace('\\', '\\\\').replace('%', r'\%')
+             .replace('_', r'\_') + '%'))
+        last = self.env.cr.fetchone()[0]
+        if last:
+            date_range.number_next = last + 1
+
     def _assign_vn_voucher_number(self):
-        """Number a voucher once, at posting.
+        """Number a voucher once, at posting, in the year of its date.
 
         Numbering a draft would leave gaps in a statutory sequence whenever an
         entry is discarded, and a gap in a cash voucher series is what an
@@ -69,14 +126,12 @@ class AccountMove(models.Model):
         for move in self:
             if not move.vn_voucher_type or move.vn_voucher_number:
                 continue
-            sequence = self.env['ir.sequence'].with_company(
-                move.company_id).next_by_code(
-                    move._vn_voucher_sequence_code())
-            if not sequence:
-                raise UserError(_(
-                    "No sequence found for %s. Check Settings > Technical > "
-                    "Sequences.") % move._vn_voucher_sequence_code())
-            move.vn_voucher_number = sequence
+            sequence = move._vn_voucher_sequence()
+            if sequence.use_date_range and not sequence.date_range_ids.filtered(
+                    lambda r, d=move.date: r.date_from <= d <= r.date_to):
+                move._vn_voucher_open_year(sequence)
+            move.vn_voucher_number = sequence.with_context(
+                ir_sequence_date=move.date).next_by_id(sequence_date=move.date)
 
     def action_post(self):
         result = super().action_post()
