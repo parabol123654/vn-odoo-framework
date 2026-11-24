@@ -114,6 +114,25 @@ ledger for exactly the accounts behind that figure.
 
 Other Odoo versions are on the branches of this repository.
 
+## Development
+
+The reporting engines in `vn_core` (`core`, `domain`, `dto`) do not depend on
+Odoo, and most of their tests are plain `unittest` cases. Odoo's test runner
+does not pick those up, so run them directly, no Odoo or database needed:
+
+```bash
+python3 tools/run_domain_tests.py        # add -v to list each test
+```
+
+Test modules that import `odoo` are skipped there; they run with
+`odoo-bin --test-enable`.
+
+CI (`.github/workflows/ci.yml`) runs both suites on every push and pull
+request to `18.0`: the domain tests on plain Python 3.12, and the Odoo tests of
+the four modules other than the asset reports (which need OCA modules) on
+Odoo 18.0 with PostgreSQL 16. It also runs the
+`.pre-commit-config.yaml` hooks on the files a change touches.
+
 ## License and support
 
 [AGPL-3.0](LICENSE). Copyright 2026 Manh Nguyen.
