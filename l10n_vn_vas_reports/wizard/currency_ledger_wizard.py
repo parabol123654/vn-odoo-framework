@@ -39,7 +39,7 @@ class VnCurrencyLedgerWizard(models.TransientModel):
         return 'SỔ CHI TIẾT THANH TOÁN VỚI NGƯỜI MUA (NGƯỜI BÁN) BẰNG NGOẠI TỆ'
 
     def _form_preparer(self):
-        return 'Người ghi sổ'
+        return self._book_preparer()
 
     def _template_values(self, report):
         values = super()._template_values(report)
