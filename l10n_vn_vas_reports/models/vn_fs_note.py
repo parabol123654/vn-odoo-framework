@@ -26,6 +26,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.vn_core.core.enums import TargetMove
+from odoo.addons.vn_core.core.utils.dates import fiscal_year_start
 from odoo.addons.vn_core.core.utils.number import is_zero, round_amount
 from odoo.addons.vn_core.domain.financial_statement.formula import (
     FormulaEvaluator,
@@ -45,6 +46,12 @@ from ..wizard.base_report_wizard import (
 #: Fields of a row a user may type into. Writing any of them outside a
 #: computation marks the row as edited by hand, so recomputing keeps it.
 VALUE_FIELDS = ('current', 'comparative', 'increase', 'decrease')
+
+
+def _fiscal_year_start(company, date):
+    """First day of ``company``'s fiscal year containing ``date``."""
+    return fiscal_year_start(date, company.fiscalyear_last_day,
+                             int(company.fiscalyear_last_month))
 
 
 class VnFsNote(models.Model):
@@ -116,12 +123,12 @@ class VnFsNote(models.Model):
             values.get('company_id')) or self.env.company
         if 'date_to' in fields_list and not values.get('date_to'):
             # The year just closed: the notes are written after year end.
-            this_year = company.compute_fiscalyear_dates(
-                fields.Date.context_today(self))
-            last_year = company.compute_fiscalyear_dates(
-                this_year['date_from'] - timedelta(days=1))
-            values['date_from'] = last_year['date_from']
-            values['date_to'] = last_year['date_to']
+            # compute_fiscalyear_dates ignores the fiscal year end before
+            # 16.0.
+            last_day = _fiscal_year_start(
+                company, fields.Date.context_today(self)) - timedelta(days=1)
+            values['date_from'] = _fiscal_year_start(company, last_day)
+            values['date_to'] = last_day
         if 'template_id' in fields_list and not values.get('template_id'):
             template = self.env['vn.fs.note.template'].search([
                 ('version', '=ilike', company.vn_accounting_circular or ''),
@@ -288,8 +295,8 @@ class VnFsNote(models.Model):
 
     def _previous_filter(self):
         last_day = self.date_from - timedelta(days=1)
-        year = self.company_id.compute_fiscalyear_dates(last_day)
-        return self._ledger_filter(year['date_from'], last_day)
+        return self._ledger_filter(
+            _fiscal_year_start(self.company_id, last_day), last_day)
 
     def action_compute(self):
         """Read the tables from the ledger and check them.

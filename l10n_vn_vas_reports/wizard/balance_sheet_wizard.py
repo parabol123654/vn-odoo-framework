@@ -7,6 +7,7 @@ from datetime import timedelta
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.vn_core.core.utils.dates import fiscal_year_start
 from odoo.addons.vn_core.services.general_ledger_service import (
     BalanceSheetService,
 )
@@ -44,8 +45,7 @@ class VnBalanceSheetWizard(models.TransientModel):
         self.ensure_one()
         if not self.comparative:
             return None
-        fiscalyear = self.company_id.compute_fiscalyear_dates(self.date_to)
-        opening_day = fiscalyear['date_from'] - timedelta(days=1)
+        opening_day = self._fiscal_year_start() - timedelta(days=1)
         return self._ledger_filter(date_from=None, date_to=opening_day)
 
     def _ledger_filter(self, **overrides):
@@ -76,7 +76,13 @@ class VnBalanceSheetWizard(models.TransientModel):
         opening balance that makes the closing figure add up.
         """
         self.ensure_one()
-        return self.company_id.compute_fiscalyear_dates(self.date_to)['date_from']
+        return self._fiscal_year_start()
+
+    def _fiscal_year_start(self):
+        # compute_fiscalyear_dates ignores the fiscal year end before 16.0.
+        company = self.company_id
+        return fiscal_year_start(self.date_to, company.fiscalyear_last_day,
+                                 int(company.fiscalyear_last_month))
 
     def _filter_summary_fields(self):
         return ('target_move', 'comparative')

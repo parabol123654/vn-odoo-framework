@@ -47,6 +47,13 @@ FORM_PREPARER = {
     'TT99': 'Người lập',
 }
 
+#: The left signature of a book (sổ kế toán): "Người ghi sổ" on TT200's and
+#: TT99's books, while TT133's books say "Người lập biểu" like its statements.
+BOOK_PREPARER = {
+    'TT200': 'Người ghi sổ',
+    'TT99': 'Người ghi sổ',
+}
+
 
 def _default_date_from(record):
     today = fields.Date.context_today(record)
@@ -146,6 +153,10 @@ class VnReportWizardMixin(models.AbstractModel):
 
     def _form_preparer(self):
         return FORM_PREPARER.get(self._circular(), 'Người lập biểu')
+
+    def _book_preparer(self):
+        """The left signature of a book, for the wizards that print one."""
+        return BOOK_PREPARER.get(self._circular(), 'Người lập biểu')
 
     def _report_form_title(self):
         """The Vietnamese heading printed on the statutory form.
