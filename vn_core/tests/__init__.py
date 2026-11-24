@@ -12,4 +12,5 @@ from . import test_vat_declaration
 from . import test_asset
 from . import test_notes
 from . import test_currency
+from . import test_period_closing
 from . import test_odoo_ledger_repository
