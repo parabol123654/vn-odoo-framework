@@ -71,8 +71,11 @@ class OdooTaxRepository(ITaxRepository, BaseRepository):
                    number=self._invoice_number_column)
 
         self.cr.execute(sql, params)
-        rows = self.cr.dictfetchall() + self._zero_rate_rows(
-            ledger_filter, direction)
+        rows = self.cr.dictfetchall()
+        # Versions that keep a zero tax line would otherwise count it twice.
+        seen = {(row['move_id'], row['tax_id']) for row in rows}
+        rows += [row for row in self._zero_rate_rows(ledger_filter, direction)
+                 if (row['move_id'], row['tax_id']) not in seen]
         if not rows:
             return ()
 
