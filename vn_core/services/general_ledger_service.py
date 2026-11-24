@@ -115,6 +115,18 @@ class PartnerLedgerService(_LedgerServiceBase):
             date_from=ledger_filter.date_from, date_to=ledger_filter.date_to)
 
 
+class CurrencyLedgerService(_LedgerServiceBase):
+    """Sổ chi tiết thanh toán bằng ngoại tệ (S32-DN)."""
+
+    name = 'currency_ledger'
+
+    def generate(self, ledger_filter):
+        engine = self._engine()
+        return self._execute(
+            lambda: engine.compute_currency_ledger(ledger_filter),
+            date_from=ledger_filter.date_from, date_to=ledger_filter.date_to)
+
+
 class _AgingServiceBase(_LedgerServiceBase):
     """Shared plumbing for the two aged-balance use cases."""
 
