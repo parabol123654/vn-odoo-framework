@@ -70,6 +70,13 @@ class VnMaterialAllocationQwebReport(models.AbstractModel):
     _wizard_model = 'vn.material.allocation.wizard'
 
 
+class VnCurrencyLedgerQwebReport(models.AbstractModel):
+    _name = 'report.l10n_vn_vas_reports.report_currency_ledger'
+    _inherit = 'report.vn.qweb.mixin'
+    _description = 'Foreign Currency Partner Ledger QWeb Report'
+    _wizard_model = 'vn.currency.ledger.wizard'
+
+
 class VnPartnerLedgerQwebReport(models.AbstractModel):
     _name = 'report.l10n_vn_vas_reports.report_partner_ledger'
     _inherit = 'report.vn.qweb.mixin'

@@ -13,12 +13,15 @@ from DTOs and leaves labels such as "All accounts" to the presentation layer, so
 the Domain needs no translation machinery.
 """
 
+from datetime import timedelta
+
 from ...core.enums import AgingBasis, AgingSide, GroupBy
 from ...core.exceptions import BusinessException, ValidationException
 from ...core.utils.number import is_zero, round_amount
 from ...dto.ledger import (
     AgingDTO, AgingGroupDTO, AllocationRowDTO, AllocationTableDTO,
-    BalanceSummaryDTO, AgingLineDTO, BalanceDTO,
+    BalanceSummaryDTO, AgingLineDTO, BalanceDTO, CurrencyLedgerDTO,
+    CurrencyLedgerGroupDTO, CurrencyLedgerLineDTO,
     ExpenseLedgerDTO, ExpenseLedgerGroupDTO, ExpenseLedgerLineDTO, LedgerDTO,
     LedgerGroupDTO, LedgerLineDTO, SalesLedgerDTO, SalesLedgerGroupDTO,
     SalesLedgerLineDTO, TrialBalanceDTO, TrialBalanceRowDTO,
@@ -109,6 +112,50 @@ class LedgerEngine:
             currency=context['currency'],
             group_by=group_by.fields,
         )
+
+    def compute_currency_ledger(self, ledger_filter):
+        """Sổ chi tiết thanh toán bằng ngoại tệ (S32-DN).
+
+        The partner ledger restricted to one foreign currency, with the
+        currency amounts beside the converted ones. The currency opening is
+        read from every earlier line: these are balance-sheet accounts, so
+        it accumulates from inception.
+        """
+        if not ledger_filter.currency_id:
+            raise ValidationException('A foreign currency is required.')
+        ledger = self.compute_ledger(ledger_filter, GroupBy.PARTNER_ACCOUNT,
+                                     with_counterpart=True)
+        opening = {}
+        if ledger_filter.date_from:
+            for line in self._repo.get_move_lines(ledger_filter.replace(
+                    date_from=None,
+                    date_to=ledger_filter.date_from - timedelta(days=1))):
+                key = (line.partner_id, line.account_id)
+                opening[key] = opening.get(key, 0.0) + line.amount_currency
+
+        groups = []
+        for group in ledger.groups:
+            balance = start = round(opening.get(group.key, 0.0), 6)
+            debit = credit = 0.0
+            lines = []
+            for line in group.lines:
+                amount = line.source.amount_currency
+                balance = round(balance + amount, 6)
+                debit += max(amount, 0.0)
+                credit += max(-amount, 0.0)
+                lines.append(CurrencyLedgerLineDTO(
+                    line=line,
+                    rate=abs(line.source.balance / amount) if amount else 0.0,
+                    debit_currency=max(amount, 0.0),
+                    credit_currency=max(-amount, 0.0),
+                    balance_currency=balance,
+                ))
+            groups.append(CurrencyLedgerGroupDTO(
+                group=group, lines=tuple(lines), opening_currency=start,
+                debit_currency=round(debit, 6), credit_currency=round(credit, 6),
+                closing_currency=balance,
+            ))
+        return CurrencyLedgerDTO(groups=tuple(groups), currency=ledger.currency)
 
     def compute_journal(self, ledger_filter):
         """Sổ Nhật ký chung — strictly chronological, ungrouped.

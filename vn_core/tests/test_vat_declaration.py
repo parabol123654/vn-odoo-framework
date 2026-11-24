@@ -112,6 +112,84 @@ class TestDeclarationArithmetic(DeclarationCase):
         self.assertEqual(self._amount(report, '36'), 200000.0 - 80000.0)
 
 
+class TestExemptAndReducedRate(DeclarationCase):
+
+    tax_rows = (
+        _row(1, 'AA/1', date(2026, 1, 5), -500.0, 0.0,
+             rate=0.0)._replace(exempt=True),
+        _row(2, 'AA/2', date(2026, 1, 6), -300.0, 0.0, rate=0.0),
+        _row(3, 'AA/3', date(2026, 1, 7), -1000.0, -80.0, rate=8.0),
+        _row(4, 'AA/4', date(2026, 1, 8), -2000.0, -200.0),
+    )
+
+    def test_exempt_sales_go_to_item_26_not_29(self):
+        report = self._compute()
+        self.assertEqual(self._amount(report, '26'), 500.0)
+        self.assertEqual(self._amount(report, '29'), 300.0)
+
+    def test_reduced_rate_is_declared_on_the_10_percent_items(self):
+        report = self._compute()
+        self.assertEqual(self._amount(report, '32'), 3000.0)
+        self.assertEqual(self._amount(report, '33'), 280.0)
+
+    def test_totals_still_add_up(self):
+        report = self._compute()
+        self.assertEqual(self._amount(report, '27'), 3300.0)
+        self.assertEqual(self._amount(report, '34'), 3800.0)
+        self.assertEqual(self._amount(report, '28'), 280.0)
+
+
+class TestTT89Items(DeclarationCase):
+    """Thông tư 89/2026 items, filed from the October 2026 period."""
+
+    tax_rows = (
+        _row(1, 'AA/1', date(2026, 10, 5), -1000.0, -100.0),
+        _row(10, 'BB/1', date(2026, 10, 6), 200.0, 20.0, move_type='in_invoice'),
+    )
+
+    def _filter(self, start=date(2026, 10, 1)):
+        return LedgerFilter(date_from=start, date_to=date(2026, 12, 31),
+                            company_ids=(1,))
+
+    def _inputs(self, **values):
+        return {'inputs': VatDeclarationInputDTO(**values)}
+
+    def test_new_items_enter_27_and_34(self):
+        report = self._compute(**self._inputs(
+            not_declared_sales=50.0, excluded_from_base=30.0,
+            out_of_scope_sales=7.0))
+        self.assertEqual(self._amount(report, '27'), 1000.0 + 50.0 - 30.0)
+        self.assertEqual(self._amount(report, '34'), 1020.0 + 7.0)
+
+    def test_handover_and_project_offset(self):
+        report = self._compute(**self._inputs(handover_vat=10.0,
+                                              project_offset=5.0))
+        self.assertEqual(self._amount(report, '40a'), 80.0 - 10.0)
+        self.assertEqual(self._amount(report, '40'), 70.0 - 5.0)
+
+    def test_imports_are_entered_by_hand_and_sections_follow_the_form(self):
+        report = self._compute(**self._inputs(imported_value=150.0,
+                                              imported_vat=15.0))
+        self.assertEqual(self._amount(report, '23a'), 150.0)
+        self.assertEqual(self._amount(report, '24a'), 15.0)
+        headings = [l.code for l in report.lines if l.level == 0]
+        self.assertEqual(headings, ['I', 'II', 'III'])
+
+    def test_offset_cannot_exceed_payable(self):
+        with self.assertRaises(ValidationException):
+            self._compute(**self._inputs(project_offset=81.0))
+
+    def test_tt80_period_has_no_tt89_items(self):
+        report = self.engine.compute(self._filter(date(2026, 4, 1)))
+        codes = {line.code for line in report.lines}
+        self.assertNotIn('32b', codes)
+        self.assertIn('32a', codes)
+        with self.assertRaises(ValidationException):
+            self.engine.compute(self._filter(date(2026, 4, 1)),
+                                inputs=VatDeclarationInputDTO(
+                                    out_of_scope_sales=1.0))
+
+
 class TestPayableOrCarriedForward(DeclarationCase):
     """Item 40a and item 41 are the two sides of one number and never both."""
 
