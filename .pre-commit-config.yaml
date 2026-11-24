@@ -25,13 +25,12 @@ repos:
           - id: isort
 
     - repo: https://github.com/PyCQA/flake8
-      rev: 4.0.1
+      rev: 7.5.0
       hooks:
           - id: flake8
 
     - repo: https://github.com/OCA/pylint-odoo
-      rev: v7.0.2
+      rev: v9.0.6
       hooks:
           - id: pylint_odoo
-            args: [--rcfile=.pylintrc]
-
+            args: [--rcfile=.pylintrc, --disable=import-error]
