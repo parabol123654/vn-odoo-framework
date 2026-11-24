@@ -26,7 +26,7 @@
                 <t t-foreach="report.groups" t-as="group">
 
                     <tr t-att-data-group="'g%s' % group_index"
-                        t-att-data-group-key="group.rate"
+                        t-att-data-group-key="group.label"
                         t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
                         <td colspan="5">
                             <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>

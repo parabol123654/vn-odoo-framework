@@ -149,9 +149,9 @@ class VnFsNoteRowConfig(models.Model):
     item_reference = fields.Char(related='template_row_id.item_id.reference',
                                  string='Item')
     item_sequence = fields.Integer(related='template_row_id.item_id.sequence',
-                                   store=True)
+                                   string='Item sequence', store=True)
     row_sequence = fields.Integer(related='template_row_id.sequence',
-                                  store=True)
+                                  string='Row sequence', store=True)
     row_name = fields.Char(related='template_row_id.name', string='Row label')
     default_expression = fields.Char(
         related='template_row_id.expression', string='Default accounts')
