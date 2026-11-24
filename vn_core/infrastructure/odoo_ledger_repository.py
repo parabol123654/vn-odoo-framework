@@ -336,6 +336,8 @@ class OdooLedgerRepository(ILedgerRepository, BaseRepository):
         ):
             if values:
                 domain.append((field, 'in', list(values)))
+        if ledger_filter.currency_id:
+            domain.append(('currency_id', '=', ledger_filter.currency_id))
 
         if ledger_filter.exclude_move_account_ids:
             domain.append(('move_id', 'not in', self._moves_touching(
