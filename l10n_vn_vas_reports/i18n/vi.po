@@ -2771,3 +2771,197 @@ msgstr "Tài khoản kết chuyển cuối năm"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_listing_wizard__display_name
 msgid "Display Name"
 msgstr "Tên hiển thị"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_account_tax__vn_vat_exempt
+msgid "VAT exempt"
+msgstr "Không chịu thuế GTGT"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_account_tax__vn_vat_exempt
+msgid ""
+"Không chịu thuế GTGT. Sales with this tax are declared on item 26 of form "
+"01/GTGT instead of the 0% item 29."
+msgstr ""
+"Không chịu thuế GTGT. Doanh thu chịu loại thuế này được kê khai ở chỉ tiêu "
+"[26] của tờ khai 01/GTGT thay vì chỉ tiêu [29] (thuế suất 0%)."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__not_declared_sales
+msgid "Sales not declared (32a)"
+msgstr "HHDV bán ra không kê khai, tính nộp thuế (32a)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__excluded_from_base
+msgid "Sales excluded from the VAT base (32b)"
+msgstr "HHDV bán ra không tính vào giá tính thuế GTGT (32b)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__out_of_scope_sales
+msgid "Sales outside the VAT law (34a)"
+msgstr "HHDV bán ra không thuộc phạm vi điều chỉnh của pháp luật thuế GTGT (34a)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__excluded_from_base
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__out_of_scope_sales
+msgid "Thông tư 89/2026 form only, from the October 2026 period."
+msgstr "Chỉ có trên mẫu theo Thông tư 89/2026, từ kỳ tháng 10/2026."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__handover_vat
+msgid "VAT received by handover (39a)"
+msgstr "Thuế GTGT nhận bàn giao được khấu trừ (39a)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__project_offset
+msgid "Investment project VAT offset (40b)"
+msgstr "Thuế GTGT dự án đầu tư bù trừ (40b)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__imported_value
+msgid "Imported goods value (23a)"
+msgstr "Trong đó: giá trị hàng hoá nhập khẩu (23a)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__imported_vat
+msgid "Imported goods VAT (24a)"
+msgstr "Trong đó: thuế GTGT hàng hoá nhập khẩu (24a)"
+
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fx_revaluation_rate__rate
+msgid "Closing rate"
+msgstr "Tỷ giá cuối kỳ"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fx_revaluation_wizard__rate_ids
+msgid "Closing rates"
+msgstr "Tỷ giá cuối kỳ"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/fx_revaluation_wizard.py:0
+msgid "Every balance is already at the closing rate."
+msgstr "Mọi số dư đã theo đúng tỷ giá cuối kỳ."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fx_revaluation_wizard__revaluation_account_id
+msgid "Exchange difference account (413)"
+msgstr "TK chênh lệch tỷ giá (413)"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/fx_revaluation_wizard.py:0
+msgid "Exchange rate revaluation %s"
+msgstr "Đánh giá lại chênh lệch tỷ giá %s"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/currency_ledger_wizard.py:0
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_currency_ledger_wizard
+#: model:ir.actions.report,name:l10n_vn_vas_reports.action_report_currency_ledger
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_currency_ledger_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_currency_ledger_wizard_form
+msgid "Foreign Currency Partner Ledger"
+msgstr "Sổ chi tiết thanh toán bằng ngoại tệ"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_report_currency_ledger
+msgid "Foreign Currency Partner Ledger (S32-DN)"
+msgstr "Sổ chi tiết thanh toán bằng ngoại tệ (S32-DN)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_fx_revaluation_wizard
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_fx_revaluation_wizard
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_fx_revaluation
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fx_revaluation_wizard_form
+msgid "Foreign Currency Revaluation"
+msgstr "Đánh giá lại ngoại tệ cuối kỳ"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_fx_revaluation_rate
+msgid "Foreign Currency Revaluation Rate"
+msgstr "Tỷ giá đánh giá lại ngoại tệ"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_currency_ledger_wizard__foreign_currency_id
+msgid "Foreign currency"
+msgstr "Loại ngoại tệ"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fx_revaluation_wizard__gain_account_id
+msgid "Gain account (515)"
+msgstr "TK lãi tỷ giá (515)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fs_note_row_config__item_sequence
+msgid "Item sequence"
+msgstr "Thứ tự mục"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fx_revaluation_wizard_form
+msgid "Load Rates"
+msgstr "Lấy tỷ giá"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/fx_revaluation_wizard.py:0
+msgid "Load the closing rates first: no rate for %s."
+msgstr "Hãy lấy tỷ giá cuối kỳ trước: chưa có tỷ giá cho %s."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fx_revaluation_wizard__loss_account_id
+msgid "Loss account (635)"
+msgstr "TK lỗ tỷ giá (635)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_fx_revaluation_wizard__account_ids
+msgid "Monetary items only: cash, bank, receivables, payables, loans."
+msgstr "Chỉ các khoản mục tiền tệ: tiền mặt, tiền gửi, phải thu, phải trả, vay."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/fx_revaluation_wizard.py:0
+msgid "Net exchange difference transferred"
+msgstr "Kết chuyển chênh lệch tỷ giá thuần"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fx_revaluation_wizard_form
+msgid "Post"
+msgstr "Ghi sổ"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/fx_revaluation_wizard.py:0
+msgid "Reversal of %s"
+msgstr "Đảo bút toán %s"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fs_note_row_config__row_sequence
+msgid "Row sequence"
+msgstr "Thứ tự dòng"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_fx_revaluation_rate__rate
+msgid ""
+"Company currency per one unit, e.g. the bank's average transfer rate on the "
+"closing date."
+msgstr ""
+"Số tiền đồng hạch toán cho một đơn vị ngoại tệ, ví dụ tỷ giá chuyển khoản "
+"trung bình của ngân hàng tại ngày đánh giá."
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fx_revaluation_wizard_form
+msgid ""
+"Load Rates takes Odoo's rate for the date, which is the last\n"
+"                    rate dated on or before it: check it against the bank's rate.\n"
+"                    Advances (a credit balance on a receivable, a debit balance on\n"
+"                    a payable) are not revalued. The entry is reversed the next\n"
+"                    day, so that payments settled afterwards are not counted\n"
+"                    twice."
+msgstr ""
+"Nút Lấy tỷ giá dùng tỷ giá của Odoo, là tỷ giá gần nhất tính đến ngày đánh\n"
+"                    giá: hãy đối chiếu với tỷ giá ngân hàng. Khoản ứng trước\n"
+"                    (số dư Có của phải thu, số dư Nợ của phải trả) không được\n"
+"                    đánh giá lại. Bút toán tự đảo vào ngày hôm sau, để khoản\n"
+"                    thanh toán sau đó không bị tính chênh lệch hai lần."

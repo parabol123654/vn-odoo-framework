@@ -40,16 +40,18 @@ class TaxEngine:
                 base_amount=round_amount(row.base_amount * factor, rounding),
                 tax_amount=round_amount(row.tax_amount * factor, rounding),
             )
-            buckets.setdefault(row.tax_rate, []).append(line)
+            buckets.setdefault((row.tax_rate, row.exempt), []).append(line)
 
         groups = []
-        for rate in sorted(buckets):
-            lines = sorted(buckets[rate],
+        # Exempt sorts first, as on the form (item 26 before item 29).
+        for rate, exempt in sorted(buckets, key=lambda k: (not k[1], k[0])):
+            lines = sorted(buckets[rate, exempt],
                            key=lambda l: (l.invoice_date, l.invoice_number,
                                           l.move_id))
             groups.append(TaxRateGroupDTO(
                 rate=rate,
-                label=self._rate_label(rate),
+                exempt=exempt,
+                label=self._rate_label(rate, exempt),
                 lines=tuple(lines),
                 base_total=round_amount(sum(l.base_amount for l in lines),
                                         rounding),
@@ -73,15 +75,14 @@ class TaxEngine:
     # Internals
     # ==================================================================
     @staticmethod
-    def _rate_label(rate):
-        """Vietnamese filings label a 0% block separately from an exempt one.
+    def _rate_label(rate, exempt=False):
+        """Vietnamese filings list exempt sales apart from 0% sales.
 
-        The ledger cannot tell them apart on rate alone — both compute to zero
-        tax — so a 0% rate is labelled as such and any finer distinction is left
-        to the tax configuration.
+        Both compute to zero tax, so the rate cannot tell them apart; the
+        repository flags exempt taxes from their configuration.
         """
-        if not rate:
-            return 'Thuế suất 0% hoặc không chịu thuế'
+        if exempt:
+            return 'Không chịu thuế GTGT'
         if float(rate).is_integer():
             return 'Thuế suất %d%%' % int(rate)
         return 'Thuế suất %s%%' % ('%.2f' % rate).rstrip('0').rstrip('.')
