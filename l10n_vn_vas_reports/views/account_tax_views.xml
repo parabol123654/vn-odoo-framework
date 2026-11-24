@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 20.0 Community Edition -->
+<odoo>
+
+    <record id="view_tax_form_vn_vat_exempt" model="ir.ui.view">
+        <field name="name">account.tax.form.vn.vat.exempt</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_tax_use']" position="after">
+                <field name="vn_vat_exempt" attrs="{'invisible': [('amount', '!=', 0)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

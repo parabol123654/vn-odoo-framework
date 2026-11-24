@@ -25,6 +25,18 @@ class VnVatDeclarationWizard(models.TransientModel):
     adjustment_decrease = fields.Monetary(string='Adjustment decrease (37)')
     adjustment_increase = fields.Monetary(string='Adjustment increase (38)')
     refund_claimed = fields.Monetary(string='Refund claimed (42)')
+    imported_value = fields.Monetary(string='Imported goods value (23a)')
+    imported_vat = fields.Monetary(string='Imported goods VAT (24a)')
+    not_declared_sales = fields.Monetary(string='Sales not declared (32a)')
+    excluded_from_base = fields.Monetary(
+        string='Sales excluded from the VAT base (32b)',
+        help='Thông tư 89/2026 form only, from the October 2026 period.')
+    out_of_scope_sales = fields.Monetary(
+        string='Sales outside the VAT law (34a)',
+        help='Thông tư 89/2026 form only, from the October 2026 period.')
+    handover_vat = fields.Monetary(string='VAT received by handover (39a)')
+    project_offset = fields.Monetary(
+        string='Investment project VAT offset (40b)')
     currency_id = fields.Many2one(
         'res.currency', related='company_id.currency_id', readonly=True)
 
@@ -35,6 +47,13 @@ class VnVatDeclarationWizard(models.TransientModel):
             adjustment_decrease=self.adjustment_decrease,
             adjustment_increase=self.adjustment_increase,
             refund_claimed=self.refund_claimed,
+            imported_value=self.imported_value,
+            imported_vat=self.imported_vat,
+            not_declared_sales=self.not_declared_sales,
+            excluded_from_base=self.excluded_from_base,
+            out_of_scope_sales=self.out_of_scope_sales,
+            handover_vat=self.handover_vat,
+            project_offset=self.project_offset,
         )
 
     def _service(self):
