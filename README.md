@@ -90,6 +90,13 @@ works with `l10n_vn` or any other chart of accounts.
   financial statement. Accounts are selected by expression (`511*`,
   `111*,112*,-1113`) and totals by formula (`10 - 11`). Formulas are parsed, not
   passed to `eval`. No account code is hard-coded in Python.
+* **Accounting → Closing → Period-End Closing**: the accounts closed to 911 are
+  expressions too, defaulted from the circular; check them, and the 511, 911
+  and 4212 accounts, the first time. Only the selected company's own entries
+  are closed, not its branches'. The income statement leaves out entries
+  touching 911 or 421, so closing does not change it. One exception by design:
+  under TT200, B02-DN item 02 is the debit of 511, so sales deductions appear
+  there only once 521 has been transferred.
 
 Clicking a line of the balance sheet or income statement opens the general
 ledger for exactly the accounts behind that figure.
