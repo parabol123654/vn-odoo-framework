@@ -107,8 +107,7 @@ class TestVatSales(TaxEngineCase):
         report = self.engine.compute_vat_listing(
             self._filter(), TaxDirection.SALE)
         self.assertEqual(self._group(report, 10.0).label, 'Thuế suất 10%')
-        self.assertEqual(self._group(report, 0.0).label,
-                         'Thuế suất 0% hoặc không chịu thuế')
+        self.assertEqual(self._group(report, 0.0).label, 'Thuế suất 0%')
 
     def test_invoice_count_is_distinct(self):
         report = self.engine.compute_vat_listing(
@@ -187,6 +186,22 @@ class TestFractionalRate(TaxEngineCase):
         report = self.engine.compute_vat_listing(
             self._filter(), TaxDirection.SALE)
         self.assertEqual(report.groups[0].label, 'Thuế suất 8.5%')
+
+
+class TestExempt(TaxEngineCase):
+
+    rows = (
+        _row(1, 'AA/1', date(2026, 1, 5), -1000.0, 0.0, rate=0.0),
+        _row(2, 'AA/2', date(2026, 1, 6), -400.0, 0.0,
+             rate=0.0)._replace(exempt=True),
+    )
+
+    def test_exempt_is_its_own_group_listed_first(self):
+        report = self.engine.compute_vat_listing(
+            self._filter(), TaxDirection.SALE)
+        self.assertEqual(
+            [(g.label, g.base_total) for g in report.groups],
+            [('Không chịu thuế GTGT', 400.0), ('Thuế suất 0%', 1000.0)])
 
 
 class TestValidation(TaxEngineCase):

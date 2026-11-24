@@ -17,7 +17,8 @@ export.
 | `l10n_vn_vas_reports` | `vn_core` | Books, financial statements, VAT returns, cash vouchers, TT99/TT200/TT133 mappings |
 | `l10n_vn_stock_reports` | `stock_account` | Inventory books |
 | `l10n_vn_mrp_reports` | `mrp`, `stock_account` | Production cost reports |
-| `l10n_vn_asset_reports` | OCA `account_asset_management` | Fixed asset books |
+| `l10n_vn_asset_reports` | `account_asset_management` | Fixed asset books |
+| `account_asset_management` | `account` | OCA asset subledger, ported from 19.0 (see below) |
 
 Install only what you need. A trading or services company does not have to
 install Inventory or Manufacturing to get the accounting books.
@@ -30,6 +31,7 @@ install Inventory or Manufacturing to get the accounting books.
 | Sổ Cái | S03b-DN | Accounting books |
 | Bảng cân đối số phát sinh / Bảng cân đối tài khoản | S06-DN · F01-DNN | Accounting books |
 | Sổ chi tiết thanh toán với người mua (người bán) | S31-DN | Detail books |
+| Sổ chi tiết thanh toán với người mua (người bán) bằng ngoại tệ | S32-DN | Detail books |
 | Sổ quỹ tiền mặt / Sổ tiền gửi ngân hàng | S07-DN / S08-DN | Detail books |
 | Sổ chi tiết bán hàng | S35-DN | Detail books |
 | Sổ chi phí sản xuất, kinh doanh | S36-DN | Detail books |
@@ -50,22 +52,24 @@ install Inventory or Manufacturing to get the accounting books.
 | Bảng tính và phân bổ khấu hao TSCĐ | 06-TSCĐ | Fixed assets |
 
 Cash receipts and payments (**Phiếu thu 01-TT / Phiếu chi 02-TT**) print
-straight from the journal entry.
+straight from the journal entry. Period-end revaluation of foreign-currency
+balances is under Accounting → Closing → Foreign Currency Revaluation.
 
 ## Installation
 
 1. Put this repository on the server and add its root folder to `addons_path`.
    Each module is a folder at the root.
-2. For `l10n_vn_asset_reports` only: also add
-   [OCA/account-financial-tools](https://github.com/OCA/account-financial-tools)
-   and [OCA/reporting-engine](https://github.com/OCA/reporting-engine), branch
-   `20.0`. Skip this module if you don't use fixed asset accounting.
+2. `account_asset_management` is OCA's asset module (Noviat, OCA, AGPL-3)
+   from [OCA/account-financial-tools](https://github.com/OCA/account-financial-tools)
+   branch 19.0, ported to 20.0 without its XLSX report. Once OCA publishes a
+   20.0 branch, delete this folder and add theirs to `addons_path` instead.
+   Skip both asset modules if you don't use fixed asset accounting.
 3. Install the modules together, so the TT200 mapping data in
    `l10n_vn_vas_reports` and the model fields in `vn_core` stay in step:
 
 ```bash
 odoo-bin -c odoo.conf -d YOURDB --stop-after-init \
-    -i vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,l10n_vn_asset_reports
+    -i vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,account_asset_management,l10n_vn_asset_reports
 ```
 
 When upgrading, pass the same list to `-u`. Upgrading `l10n_vn_vas_reports`

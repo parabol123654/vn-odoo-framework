@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 20.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_fx_revaluation_wizard_form" model="ir.ui.view">
+        <field name="name">vn.fx.revaluation.wizard.form</field>
+        <field name="model">vn.fx.revaluation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Foreign Currency Revaluation">
+                <group>
+                    <group>
+                        <field name="company_id"
+                               groups="base.group_multi_company"
+                               options="{'no_create': True}"/>
+                        <field name="date"/>
+                        <field name="journal_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="revaluation_account_id" options="{'no_create': True}"/>
+                        <field name="gain_account_id" options="{'no_create': True}"/>
+                        <field name="loss_account_id" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="account_ids" widget="many2many_tags"
+                           options="{'no_create': True}"/>
+                </group>
+                <field name="rate_ids">
+                    <list editable="bottom" create="0">
+                        <field name="currency_id" readonly="1"/>
+                        <field name="rate"/>
+                    </list>
+                </field>
+                <div class="text-muted">
+                    Load Rates takes Odoo's rate for the date, which is the last
+                    rate dated before it: check it against the bank's rate.
+                    Advances (a credit balance on a receivable, a debit balance on
+                    a payable) are not revalued. The entry is reversed the next
+                    day, so that payments settled afterwards are not counted
+                    twice.
+                </div>
+                <footer>
+                    <button name="action_load_rates" type="object"
+                            string="Load Rates" class="btn-secondary"/>
+                    <button name="action_post" type="object" string="Post"
+                            class="btn-primary" invisible="not rate_ids"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vn_fx_revaluation_wizard" model="ir.actions.act_window">
+        <field name="name">Foreign Currency Revaluation</field>
+        <field name="res_model">vn.fx.revaluation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_fx_revaluation_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_vn_fx_revaluation"
+              name="Foreign Currency Revaluation"
+              parent="account.account_closing_menu"
+              action="action_vn_fx_revaluation_wizard"
+              groups="account.group_account_manager"
+              sequence="30"/>
+
+</odoo>

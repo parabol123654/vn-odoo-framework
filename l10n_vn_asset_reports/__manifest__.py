@@ -14,9 +14,9 @@
     'images': ['static/description/banner.png'],
     # Split out because these reports need an asset subledger, and
     # Odoo 20 Community has none — the data comes from OCA
-    # account_asset_management (repo OCA/account-financial-tools, branch
-    # 20.0). A company keeping ordinary books without asset accounting has no
-    # reason to install that stack.
+    # account_asset_management (ported to 20.0 in this repository until OCA
+    # publishes its own branch). A company keeping ordinary books without
+    # asset accounting has no reason to install that stack.
     'depends': ['vn_core', 'l10n_vn_vas_reports', 'account_asset_management'],
     'data': [
         'security/vn_asset_report_groups.xml',
