@@ -22,6 +22,13 @@
                         <field name="adjustment_decrease"/>
                         <field name="adjustment_increase"/>
                         <field name="refund_claimed"/>
+                        <field name="imported_value"/>
+                        <field name="imported_vat"/>
+                        <field name="not_declared_sales"/>
+                        <field name="excluded_from_base"/>
+                        <field name="out_of_scope_sales"/>
+                        <field name="handover_vat"/>
+                        <field name="project_offset"/>
                     </group>
                 </group>
                 <div class="text-muted" colspan="2">

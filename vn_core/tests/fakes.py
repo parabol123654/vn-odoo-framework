@@ -139,4 +139,7 @@ class FakeLedgerRepository(ILedgerRepository):
             if (ledger_filter.product_ids
                     and line.product_id not in ledger_filter.product_ids):
                 continue
+            if (ledger_filter.currency_id
+                    and line.currency_id != ledger_filter.currency_id):
+                continue
             yield line
