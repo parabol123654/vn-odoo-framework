@@ -6,6 +6,9 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Added
 
+- Sổ chi tiết thanh toán với người mua (người bán) bằng ngoại tệ, mẫu S32-DN: the partner ledger in one foreign currency, with the rate and the currency and converted amounts in columns 1–10 as TT99 and TT200 print them.
+- Đánh giá lại các khoản mục tiền tệ có gốc ngoại tệ (Accounting → Closing → Foreign Currency Revaluation): restates cash, bank, receivable, payable and loan balances at the closing rate entered per currency (proposed from Odoo's rate). The difference goes through 413 with its net transferred to 515 or 635 in the same entry. Advances are not revalued. The entry is reversed the next day, because Odoo computes the realised difference of a later payment from the invoice's own rate.
+- 01/GTGT: section headings I–III numbered as on the printed form; items 23a/24a (of which imported goods), 32a, 39a, 40b and 40, and for periods from October 2026 the Thông tư 89/2026 items 32b and 34a with the new formulas of items 27 and 34. Items 40b and 42 are checked against 40a and 41.
 - Company settings for the notes (Settings → company → "Notes to the Financial Statements (B09)", accounting managers): the company's own accounts for notes rows the circular gives no account for (cost of sales by kind, cash equivalents, payroll contributions…); a list button fills in every row that can be set.
 - Related parties: a flag on the partner form. With "Compute related-party rows" on, the notes' "of which: related parties" rows are read from the ledger for those partners.
 - Overdue after N days: overdue and bad-debt rows are read from the due dates of the journal items. Loans can be split into short and long term by their due dates (TT133).
@@ -45,6 +48,9 @@ Notable changes to these modules. Format follows [Keep a Changelog](https://keep
 
 ### Fixed
 
+- VAT listings and form 01/GTGT now include 0% and exempt sales and purchases. Odoo posts no tax line for a zero tax, so these invoices were missing from the listings and from items 26, 29 and 34.
+- 01/GTGT: exempt sales (taxes flagged "VAT exempt", new field on the tax form) are declared on item 26, 0% sales on item 29. Sales at the reduced 8% rate are declared on items 32 and 33 with the 10% sales.
+- Phiếu thu / phiếu chi: each company now has its own series, numbered in the year of the entry's date and restarted every year. Before, all companies shared one series and the year in the number was the day of posting. The first voucher of a year continues after the highest number the company already issued with the same prefix.
 - Income statements no longer net to zero when the year-end transfer to 911 / 421 is posted: entries touching 911 and 421 are left out of the period's movements.
 - TT200 balance sheet: provisions on lines 122, 137 and 149 are shown as negative figures, and loans on account 341 are split between line 320 (short term) and line 338 (long term).
 - On upgrade, statement lines that still hold the old shipped values are corrected; lines you edited yourself are kept and listed in the server log.

@@ -27,6 +27,7 @@ class TaxLineDTO(NamedTuple):
     move_type: str = 'entry'
     partner_id: Optional[int] = None
     account_code: str = ''
+    exempt: bool = False            # không chịu thuế, as opposed to 0%
 
     @property
     def is_refund(self):
@@ -41,6 +42,7 @@ class TaxRateGroupDTO(NamedTuple):
     lines: Tuple[TaxLineDTO, ...] = ()
     base_total: float = 0.0
     tax_total: float = 0.0
+    exempt: bool = False
 
 
 class VatListingDTO(NamedTuple):
@@ -67,3 +69,10 @@ class VatDeclarationInputDTO(NamedTuple):
     adjustment_decrease: float = 0.0    # chỉ tiêu 37
     adjustment_increase: float = 0.0    # chỉ tiêu 38
     refund_claimed: float = 0.0         # chỉ tiêu 42
+    imported_value: float = 0.0         # chỉ tiêu 23a, part of 23
+    imported_vat: float = 0.0           # chỉ tiêu 24a, part of 24
+    not_declared_sales: float = 0.0     # chỉ tiêu 32a
+    excluded_from_base: float = 0.0     # chỉ tiêu 32b (TT89/2026)
+    out_of_scope_sales: float = 0.0     # chỉ tiêu 34a (TT89/2026)
+    handover_vat: float = 0.0           # chỉ tiêu 39a
+    project_offset: float = 0.0         # chỉ tiêu 40b

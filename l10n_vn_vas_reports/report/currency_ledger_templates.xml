@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 20.0 Community Edition -->
+<odoo>
+
+    <!--
+        S32-DN: columns A–E, 1–10 of the form. Column 2 (thời hạn được chiết
+        khấu) is left blank: Odoo keeps no discount deadline per item.
+    -->
+    <template id="currency_ledger_amount_pair">
+        <td class="o_vn_col_amount">
+            <span t-if="fx" t-out="fx"
+                  t-options="{'widget': 'monetary', 'display_currency': foreign_currency}"/>
+        </td>
+        <td class="o_vn_col_amount">
+            <span t-if="vnd" t-out="vnd"
+                  t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+        </td>
+    </template>
+
+    <template id="currency_ledger_balance">
+        <t t-call="l10n_vn_vas_reports.currency_ledger_amount_pair">
+            <t t-set="fx" t-value="max(fx_balance, 0)"/>
+            <t t-set="vnd" t-value="max(vnd_balance, 0)"/>
+        </t>
+        <t t-call="l10n_vn_vas_reports.currency_ledger_amount_pair">
+            <t t-set="fx" t-value="max(-fx_balance, 0)"/>
+            <t t-set="vnd" t-value="max(-vnd_balance, 0)"/>
+        </t>
+    </template>
+
+    <template id="currency_ledger_table">
+        <div class="o_vn_form_unit text-center">
+            Loại ngoại tệ: <span t-out="foreign_currency.name"/>
+        </div>
+        <table class="table table-sm o_vn_table o_vn_table_ledger">
+            <thead>
+                <tr>
+                    <th rowspan="3">Ngày, tháng ghi sổ</th>
+                    <th colspan="2">Chứng từ</th>
+                    <th rowspan="3">Diễn giải</th>
+                    <th rowspan="3">TK đối ứng</th>
+                    <th rowspan="3">Tỷ giá hối đoái</th>
+                    <th rowspan="3">Thời hạn được chiết khấu</th>
+                    <th colspan="4">Số phát sinh</th>
+                    <th colspan="4">Số dư</th>
+                </tr>
+                <tr>
+                    <th rowspan="2">Số hiệu</th>
+                    <th rowspan="2">Ngày, tháng</th>
+                    <th colspan="2">Nợ</th>
+                    <th colspan="2">Có</th>
+                    <th colspan="2">Nợ</th>
+                    <th colspan="2">Có</th>
+                </tr>
+                <tr>
+                    <t t-foreach="range(4)" t-as="_pair">
+                        <th>Ngoại tệ</th>
+                        <th>Quy ra VNĐ</th>
+                    </t>
+                </tr>
+                <tr class="o_vn_column_letters">
+                    <th t-foreach="['A', 'B', 'C', 'D', 'E'] + list(range(1, 11))"
+                        t-as="letter" t-out="letter"/>
+                </tr>
+            </thead>
+
+            <tbody t-if="report.groups">
+                <t t-foreach="report.groups" t-as="fx_group">
+                    <t t-set="group" t-value="fx_group.group"/>
+                    <tr t-att-data-group="'g%s' % fx_group_index"
+                        t-att-data-group-key="group.code or group.name"
+                        t-att-class="'o_vn_group_row o_vn_group_toggle' if interactive else 'o_vn_group_row'">
+                        <td colspan="15">
+                            <span t-if="interactive" class="o_vn_caret fa fa-caret-down"/>
+                            <strong t-out="group.display_name"/>
+                        </td>
+                    </tr>
+
+                    <tr class="o_vn_opening_row" t-att-data-group-child="'g%s' % fx_group_index">
+                        <td colspan="3"/>
+                        <td>Số dư đầu kỳ</td>
+                        <td colspan="7"/>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_balance">
+                            <t t-set="fx_balance" t-value="fx_group.opening_currency"/>
+                            <t t-set="vnd_balance" t-value="group.opening.balance"/>
+                        </t>
+                    </tr>
+
+                    <tr t-foreach="fx_group.lines" t-as="fx_line"
+                        class="o_vn_line"
+                        t-att-data-group-child="'g%s' % fx_group_index"
+                        t-att-data-move-id="fx_line.line.source.move_id if interactive else None">
+                        <t t-set="line" t-value="fx_line.line"/>
+                        <td t-out="line.date" t-options="{'widget': 'date'}"/>
+                        <td t-out="line.move_name"/>
+                        <td t-out="line.date" t-options="{'widget': 'date'}"/>
+                        <td t-out="line.label"/>
+                        <td t-out="line.counterpart_label"/>
+                        <td class="o_vn_col_amount">
+                            <span t-if="fx_line.rate" t-out="fx_line.rate"
+                                  t-options="{'widget': 'float', 'precision': 2}"/>
+                        </td>
+                        <td/>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_amount_pair">
+                            <t t-set="fx" t-value="fx_line.debit_currency"/>
+                            <t t-set="vnd" t-value="line.debit"/>
+                        </t>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_amount_pair">
+                            <t t-set="fx" t-value="fx_line.credit_currency"/>
+                            <t t-set="vnd" t-value="line.credit"/>
+                        </t>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_balance">
+                            <t t-set="fx_balance" t-value="fx_line.balance_currency"/>
+                            <t t-set="vnd_balance" t-value="line.running_balance"/>
+                        </t>
+                    </tr>
+
+                    <tr class="o_vn_subtotal_row" t-att-data-group-child="'g%s' % fx_group_index">
+                        <td colspan="3"/>
+                        <td>Cộng số phát sinh</td>
+                        <td>x</td><td>x</td><td>x</td>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_amount_pair">
+                            <t t-set="fx" t-value="fx_group.debit_currency"/>
+                            <t t-set="vnd" t-value="group.movement.debit"/>
+                        </t>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_amount_pair">
+                            <t t-set="fx" t-value="fx_group.credit_currency"/>
+                            <t t-set="vnd" t-value="group.movement.credit"/>
+                        </t>
+                        <td>x</td><td>x</td><td>x</td><td>x</td>
+                    </tr>
+
+                    <tr class="o_vn_closing_row" t-att-data-group-child="'g%s' % fx_group_index">
+                        <td colspan="3"/>
+                        <td>Số dư cuối kỳ</td>
+                        <td>x</td><td>x</td><td>x</td>
+                        <td>x</td><td>x</td><td>x</td><td>x</td>
+                        <t t-call="l10n_vn_vas_reports.currency_ledger_balance">
+                            <t t-set="fx_balance" t-value="fx_group.closing_currency"/>
+                            <t t-set="vnd_balance" t-value="group.closing.balance"/>
+                        </t>
+                    </tr>
+                </t>
+            </tbody>
+        </table>
+
+        <div t-if="not report.groups" class="o_vn_empty">
+            Không có số dư hay phát sinh nào bằng ngoại tệ này trong kỳ đã chọn.
+        </div>
+    </template>
+
+    <template id="currency_ledger_screen">
+        <div class="o_vn_report o_vn_report_partner">
+            <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+            <t t-call="l10n_vn_vas_reports.currency_ledger_table"/>
+        </div>
+    </template>
+
+    <template id="report_currency_ledger">
+        <t t-call="l10n_vn_vas_reports.vn_print_layout">
+            <div class="page o_vn_report o_vn_report_print">
+                <t t-call="l10n_vn_vas_reports.vn_form_header"/>
+                <t t-call="l10n_vn_vas_reports.currency_ledger_table"/>
+                <t t-call="l10n_vn_vas_reports.vn_form_signature"/>
+            </div>
+        </t>
+    </template>
+
+</odoo>
