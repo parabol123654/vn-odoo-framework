@@ -30,6 +30,7 @@ install Inventory or Manufacturing to get the accounting books.
 | Sổ Cái | S03b-DN | Accounting books |
 | Bảng cân đối số phát sinh / Bảng cân đối tài khoản | S06-DN · F01-DNN | Accounting books |
 | Sổ chi tiết thanh toán với người mua (người bán) | S31-DN | Detail books |
+| Sổ chi tiết thanh toán với người mua (người bán) bằng ngoại tệ | S32-DN | Detail books |
 | Sổ quỹ tiền mặt / Sổ tiền gửi ngân hàng | S07-DN / S08-DN | Detail books |
 | Sổ chi tiết bán hàng | S35-DN | Detail books |
 | Sổ chi phí sản xuất, kinh doanh | S36-DN | Detail books |
@@ -50,7 +51,8 @@ install Inventory or Manufacturing to get the accounting books.
 | Bảng tính và phân bổ khấu hao TSCĐ | 06-TSCĐ | Fixed assets |
 
 Cash receipts and payments (**Phiếu thu 01-TT / Phiếu chi 02-TT**) print
-straight from the journal entry.
+straight from the journal entry. Period-end revaluation of foreign-currency
+balances is under Accounting → Closing → Foreign Currency Revaluation.
 
 ## Installation
 
