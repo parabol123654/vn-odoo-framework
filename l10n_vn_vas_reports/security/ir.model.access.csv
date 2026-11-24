@@ -28,3 +28,4 @@ access_vn_fs_note_row_config_manager,vn.fs.note.row.config.manage,model_vn_fs_no
 access_vn_currency_ledger_wizard,vn.currency.ledger.wizard,model_vn_currency_ledger_wizard,l10n_vn_vas_reports.group_vn_report_partner_ledger,1,1,1,1
 access_vn_fx_revaluation_wizard,vn.fx.revaluation.wizard,model_vn_fx_revaluation_wizard,account.group_account_manager,1,1,1,1
 access_vn_fx_revaluation_rate,vn.fx.revaluation.rate,model_vn_fx_revaluation_rate,account.group_account_manager,1,1,1,1
+access_vn_period_closing_wizard,vn.period.closing.wizard,model_vn_period_closing_wizard,account.group_account_manager,1,1,1,1
