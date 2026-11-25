@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# Test conventions: unittest names (setUpClass), self-describing test
+# names, and calls to the wizards' private helpers under test.
+# pylint: disable=missing-class-docstring,missing-function-docstring
+# pylint: disable=invalid-name,protected-access
 """Period-end closing entries (kết chuyển cuối kỳ) calculator tests. No Odoo.
 
 Account ids double as VAS codes here so the expected lines read like the

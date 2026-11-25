@@ -17,8 +17,8 @@ export.
 | `l10n_vn_vas_reports` | `vn_core` | Books, financial statements, VAT returns, cash vouchers, TT99/TT200/TT133 mappings |
 | `l10n_vn_stock_reports` | `stock_account` | Inventory books |
 | `l10n_vn_mrp_reports` | `mrp`, `stock_account` | Production cost reports |
-| `l10n_vn_asset_reports` | `account_asset_management` | Fixed asset books |
-| `account_asset_management` | `account` | OCA asset subledger, ported from 19.0 (see below) |
+| `l10n_vn_asset_reports` | `vn_account_asset` | Fixed asset books |
+| `vn_account_asset` | `account` | OCA's `account_asset_management` asset subledger, ported from 19.0 (see below) |
 
 Install only what you need. A trading or services company does not have to
 install Inventory or Manufacturing to get the accounting books.
@@ -59,17 +59,22 @@ balances is under Accounting → Closing → Foreign Currency Revaluation.
 
 1. Put this repository on the server and add its root folder to `addons_path`.
    Each module is a folder at the root.
-2. `account_asset_management` is OCA's asset module (Noviat, OCA, AGPL-3)
-   from [OCA/account-financial-tools](https://github.com/OCA/account-financial-tools)
-   branch 19.0, ported to 20.0 without its XLSX report. Once OCA publishes a
-   20.0 branch, delete this folder and add theirs to `addons_path` instead.
+2. `vn_account_asset` is OCA's asset module `account_asset_management`
+   (Noviat, OCA, AGPL-3) from
+   [OCA/account-financial-tools](https://github.com/OCA/account-financial-tools)
+   branch 19.0, ported to 20.0 without its XLSX report. It is renamed because
+   the Odoo Apps Store reserves the name `account_asset_management` for OCA's
+   own module; the two cannot be installed together. The data model is the
+   same, so once OCA publishes a 20.0 branch a database can move to it, but
+   that is a migration (the module's records and XML ids have to be renamed
+   to the new module), not a swap of folders: test it on a copy first.
    Skip both asset modules if you don't use fixed asset accounting.
 3. Install the modules together, so the TT200 mapping data in
    `l10n_vn_vas_reports` and the model fields in `vn_core` stay in step:
 
 ```bash
 odoo-bin -c odoo.conf -d YOURDB --stop-after-init \
-    -i vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,account_asset_management,l10n_vn_asset_reports
+    -i vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,vn_account_asset,l10n_vn_asset_reports
 ```
 
 When upgrading, pass the same list to `-u`. Upgrading `l10n_vn_vas_reports`
@@ -143,7 +148,8 @@ Test modules that import `odoo` are skipped there; they run with
 CI (`.github/workflows/ci.yml`) runs both suites on every push and pull
 request to `20.0`: the domain tests on plain Python 3.12, and the Odoo tests of
 all six modules on Odoo 20.0 with PostgreSQL 16. It also runs the
-`.pre-commit-config.yaml` hooks on the files a change touches.
+`.pre-commit-config.yaml` hooks on the files a change adds
+(new code must pass them; existing files predate the formatter).
 
 ## License and support
 

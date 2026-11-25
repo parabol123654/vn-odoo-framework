@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+# Test conventions: unittest names (setUpClass), self-describing test
+# names, and calls to the wizards' private helpers under test.
+# pylint: disable=missing-class-docstring,missing-function-docstring
+# pylint: disable=invalid-name,protected-access
 """Fix round: the opening column of a non-calendar fiscal year, and who signs
 on the left of the books and statements.
 """

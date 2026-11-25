@@ -221,9 +221,9 @@ class VnPeriodClosingWizard(models.TransientModel):
             raise UserError(
                 _(
                     "Archived accounts still carry a balance for the year: %s; "
-                    "unarchive them to close the period."
+                    "unarchive them to close the period.",
+                    ", ".join(archived.mapped("code")),
                 )
-                % ", ".join(archived.mapped("code"))
             )
 
     def _income_mapping(self):
@@ -256,12 +256,10 @@ class VnPeriodClosingWizard(models.TransientModel):
                     "The income statement %(mapping)s does not leave out "
                     "entries on %(accounts)s, so it would read zero after "
                     "closing. Choose other accounts, or add them to the "
-                    "mapping's closing expression."
+                    "mapping's closing expression.",
+                    mapping=mapping.display_name,
+                    accounts=", ".join(missing.mapped("code")),
                 )
-                % {
-                    "mapping": mapping.display_name,
-                    "accounts": ", ".join(missing.mapped("code")),
-                }
             )
 
     def _statement_reads(self, mapping, accounts):
@@ -332,9 +330,9 @@ class VnPeriodClosingWizard(models.TransientModel):
             raise UserError(
                 _(
                     "Nothing to transfer: every revenue and expense account is "
-                    "already at zero on %s."
+                    "already at zero on %s.",
+                    self._date_label(),
                 )
-                % self._date_label()
             )
         mapping = self._income_mapping()
         self._check_excluded(mapping)
