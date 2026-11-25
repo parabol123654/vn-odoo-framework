@@ -18,7 +18,7 @@ concurrency:
 env:
   ODOO_BRANCH: "17.0"
   PYTHON_VERSION: "3.11"
-  MODULES: vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports
+  MODULES: vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports,vn_account_asset,l10n_vn_asset_reports
 
 jobs:
   domain-tests:
