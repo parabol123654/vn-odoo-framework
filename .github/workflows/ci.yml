@@ -152,16 +152,13 @@ jobs:
           retention-days: 14
 
   lint:
-    # The existing code base predates the pre-commit config and is not clean
-    # (black would reformat ~113 files), so only files changed by the push or
-    # pull request are checked: new code meets the standard without a mass
-    # reformat. The hooks install and run on Python 3.12, but the job stays
-    # advisory: hooks check whole files, so touching one line of an old,
-    # unformatted file would otherwise block the pull request.
-    name: Lint (changed files)
+    # Only the files a push or pull request adds are checked: the existing
+    # code predates the pre-commit config (black would reformat ~113
+    # files), so editing an old file must not fail the build, while new
+    # code is held to the standard.
+    name: Lint (new files)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
         with:
@@ -179,7 +176,7 @@ jobs:
       - name: Install pre-commit
         run: python -m pip install pre-commit
 
-      - name: Run pre-commit on changed files
+      - name: Run pre-commit on new files
         env:
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PUSH_BEFORE: ${{ github.event.before }}
@@ -192,7 +189,7 @@ jobs:
           if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
             base=$(git rev-parse HEAD~1)
           fi
-          echo "Checking files changed in $base...HEAD"
-          git diff --name-only "$base...HEAD"
-          pre-commit run --show-diff-on-failure --color=always \
-            --from-ref "$base" --to-ref HEAD
+          set -o pipefail
+          echo "Checking files added in $base...HEAD"
+          git diff -z --name-only --diff-filter=A "$base...HEAD" \
+            | xargs -0 -r pre-commit run --show-diff-on-failure --color=always --files
