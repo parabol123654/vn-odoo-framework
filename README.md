@@ -138,7 +138,8 @@ CI (`.github/workflows/ci.yml`) runs both suites on every push and pull
 request to `14.0`: the domain tests on plain Python 3.8, and the Odoo tests of
 the four modules other than the asset reports (which need OCA modules) on
 Odoo 14.0 with PostgreSQL 16. It also runs the
-`.pre-commit-config.yaml` hooks on the files a change touches.
+`.pre-commit-config.yaml` hooks on the files a change adds
+(new code must pass them; existing files predate the formatter).
 
 ## License and support
 

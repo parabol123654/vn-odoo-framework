@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 # Target: Odoo 20.0 Community Edition
+# Test conventions: unittest names (setUpClass), self-describing test
+# names, and calls to the wizards' private helpers under test.
+# pylint: disable=missing-class-docstring,missing-function-docstring
+# pylint: disable=invalid-name,protected-access
 """Period-end closing entries (kết chuyển cuối kỳ): 521 → 511, revenue and
 expenses → 911, 911 → 4212.
 
@@ -237,7 +241,7 @@ class TestPeriodClosing(AccountTestInvoicingCommon):
         self.assertEqual(
             sum(
                 deduction.line_ids.filtered(
-                    lambda l: l.account_id == self.acc_511
+                    lambda line: line.account_id == self.acc_511
                 ).mapped("balance")
             ),
             100.0,
