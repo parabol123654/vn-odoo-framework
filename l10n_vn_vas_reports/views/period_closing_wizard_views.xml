@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Target: Odoo 20.0 Community Edition -->
+<odoo>
+
+    <record id="view_vn_period_closing_wizard_form" model="ir.ui.view">
+        <field name="name">vn.period.closing.wizard.form</field>
+        <field name="model">vn.period.closing.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Period-End Closing">
+                <group>
+                    <group>
+                        <field name="company_id"
+                               groups="base.group_multi_company"
+                               options="{'no_create': True}"/>
+                        <field name="date"/>
+                        <field name="journal_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="sales_account_id" options="{'no_create': True}"/>
+                        <field name="result_account_id" options="{'no_create': True}"/>
+                        <field name="retained_account_id" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="revenue_expression"/>
+                    <field name="deduction_expression"/>
+                    <field name="expense_expression"/>
+                </group>
+                <div class="text-muted">
+                    Balances run from the start of the fiscal year to the date
+                    and include earlier closing entries of the year, so only
+                    what is left is transferred. Sales deductions are moved to
+                    the sales account first, then revenue and expenses to the
+                    result account, and its balance to retained earnings.
+                </div>
+                <footer>
+                    <button name="action_post" type="object" string="Post"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vn_period_closing_wizard" model="ir.actions.act_window">
+        <field name="name">Period-End Closing</field>
+        <field name="res_model">vn.period.closing.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_vn_period_closing_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_vn_period_closing"
+              name="Period-End Closing"
+              parent="account.menu_finance_entries"
+              action="action_vn_period_closing_wizard"
+              groups="account.group_account_manager"
+              sequence="20"/>
+
+</odoo>

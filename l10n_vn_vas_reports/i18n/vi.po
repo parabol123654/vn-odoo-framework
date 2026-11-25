@@ -237,6 +237,7 @@ msgstr "chi tiết"
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_income_statement_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_material_allocation_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_partner_ledger_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_period_closing_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_sales_ledger_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_trial_balance_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_vat_declaration_wizard_form
@@ -358,6 +359,7 @@ msgstr "Thu tất cả"
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_income_statement_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_material_allocation_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_partner_ledger_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_sales_ledger_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_trial_balance_wizard__company_id
 #: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_vat_declaration_wizard__company_id
@@ -607,6 +609,7 @@ msgid "Item %s is a heading or a figure the ledger cannot explain, so there is n
 msgstr "Chỉ tiêu %s là dòng tiêu đề hoặc là số liệu sổ kế toán không giải thích được, nên không có gì để mở."
 
 #. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__journal_id
 #: model:ir.model.fields.selection,name:l10n_vn_vas_reports.selection__vn_general_ledger_wizard__group_by__journal
 msgid "Journal"
 msgstr "Sổ nhật ký"
@@ -2979,6 +2982,7 @@ msgstr "Kết chuyển chênh lệch tỷ giá thuần"
 
 #. module: l10n_vn_vas_reports
 #: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_fx_revaluation_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_period_closing_wizard_form
 msgid "Post"
 msgstr "Ghi sổ"
 
@@ -3017,3 +3021,119 @@ msgstr ""
 "                    (số dư Có của phải thu, số dư Nợ của phải trả) không được\n"
 "                    đánh giá lại. Bút toán tự đảo vào ngày hôm sau, để khoản\n"
 "                    thanh toán sau đó không bị tính chênh lệch hai lần."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.actions.act_window,name:l10n_vn_vas_reports.action_vn_period_closing_wizard
+#: model:ir.model,name:l10n_vn_vas_reports.model_vn_period_closing_wizard
+#: model:ir.ui.menu,name:l10n_vn_vas_reports.menu_vn_period_closing
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_period_closing_wizard_form
+msgid "Period-End Closing"
+msgstr "Kết chuyển cuối kỳ"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/period_closing_wizard.py:0
+msgid "Closing Entries"
+msgstr "Bút toán kết chuyển"
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/period_closing_wizard.py:0
+msgid ""
+"Nothing to transfer: every revenue and expense account is already at zero on"
+" %s."
+msgstr ""
+"Không có gì để kết chuyển: mọi tài khoản doanh thu, chi phí đã có số dư bằng"
+" 0 tại ngày %s."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/period_closing_wizard.py:0
+msgid ""
+"Deprecated accounts still carry a balance for the year: %s; reactivate them "
+"to close the period."
+msgstr ""
+"Tài khoản ngưng sử dụng vẫn còn số dư trong năm: %s; hãy dùng lại chúng để "
+"kết chuyển cuối kỳ."
+
+#. module: l10n_vn_vas_reports
+#. odoo-python
+#: code:addons/l10n_vn_vas_reports/wizard/period_closing_wizard.py:0
+msgid ""
+"The income statement %(mapping)s does not leave out entries on "
+"%(accounts)s, so it would read zero after closing. Choose other accounts, "
+"or add them to the mapping's closing expression."
+msgstr ""
+"Báo cáo kết quả kinh doanh %(mapping)s không loại trừ bút toán trên "
+"%(accounts)s, nên sẽ về 0 sau khi kết chuyển. Hãy chọn tài khoản khác, "
+"hoặc thêm chúng vào biểu thức loại trừ kết chuyển của ánh xạ."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_fx_revaluation_wizard__date
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__date
+msgid "Date"
+msgstr "Ngày"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__revenue_expression
+msgid "Revenue Expression"
+msgstr "TK doanh thu, thu nhập"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_period_closing_wizard__revenue_expression
+msgid "Revenue and income accounts, e.g. 511*,515*,711*."
+msgstr "Các tài khoản doanh thu và thu nhập, ví dụ 511*,515*,711*."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__deduction_expression
+msgid "Deduction Expression"
+msgstr "TK giảm trừ doanh thu"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_period_closing_wizard__deduction_expression
+msgid ""
+"Sales deductions moved onto the sales account first. Empty under TT133, "
+"which has no account 521."
+msgstr ""
+"Các khoản giảm trừ doanh thu, được kết chuyển sang TK doanh thu trước. Để "
+"trống với TT133 vì không có TK 521."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__expense_expression
+msgid "Expense Expression"
+msgstr "TK chi phí"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,help:l10n_vn_vas_reports.field_vn_period_closing_wizard__expense_expression
+msgid "Cost and expense accounts closed to 911."
+msgstr "Các tài khoản giá vốn, chi phí kết chuyển sang 911."
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__sales_account_id
+msgid "Sales account (511)"
+msgstr "TK doanh thu bán hàng (511)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__result_account_id
+msgid "Result account (911)"
+msgstr "TK xác định kết quả kinh doanh (911)"
+
+#. module: l10n_vn_vas_reports
+#: model:ir.model.fields,field_description:l10n_vn_vas_reports.field_vn_period_closing_wizard__retained_account_id
+msgid "Retained earnings account (4212)"
+msgstr "TK lợi nhuận sau thuế chưa phân phối (4212)"
+
+#. module: l10n_vn_vas_reports
+#: model_terms:ir.ui.view,arch_db:l10n_vn_vas_reports.view_vn_period_closing_wizard_form
+msgid ""
+"Balances run from the start of the fiscal year to the date\n"
+"                    and include earlier closing entries of the year, so only\n"
+"                    what is left is transferred. Sales deductions are moved to\n"
+"                    the sales account first, then revenue and expenses to the\n"
+"                    result account, and its balance to retained earnings."
+msgstr ""
+"Số dư tính từ đầu năm tài chính đến ngày kết chuyển, gồm cả\n"
+"                    các bút toán kết chuyển trước đó trong năm, nên chỉ phần\n"
+"                    còn lại được kết chuyển. Giảm trừ doanh thu được kết chuyển\n"
+"                    sang TK doanh thu trước, rồi doanh thu, chi phí sang TK xác\n"
+"                    định kết quả, và số dư của nó sang lợi nhuận chưa phân phối."
