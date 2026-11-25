@@ -13,7 +13,9 @@ disable=
     too-few-public-methods,
     too-many-arguments,
     too-many-locals,
-    duplicate-code
+    duplicate-code,
+    protected-access,
+    consider-using-f-string
 
 [FORMAT]
 max-line-length=88
