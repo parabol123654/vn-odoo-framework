@@ -72,6 +72,9 @@ class VnPartnerLedgerWizard(models.TransientModel):
     def _report_form_title(self):
         return 'SỔ CHI TIẾT THANH TOÁN VỚI NGƯỜI MUA (NGƯỜI BÁN)'
 
+    def _form_preparer(self):
+        return self._book_preparer()
+
     def _screen_template(self):
         return 'l10n_vn_vas_reports.partner_ledger_screen'
 

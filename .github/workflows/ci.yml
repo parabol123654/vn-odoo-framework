@@ -1,0 +1,194 @@
+name: CI
+
+on:
+  push:
+    branches: ["17.0"]
+  pull_request:
+    branches: ["17.0"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  # Superseded pull request runs are cancelled; pushes to 17.0 always finish.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  ODOO_BRANCH: "17.0"
+  PYTHON_VERSION: "3.11"
+  MODULES: vn_core,l10n_vn_vas_reports,l10n_vn_stock_reports,l10n_vn_mrp_reports
+
+jobs:
+  domain-tests:
+    # Pure-Python unit tests of vn_core (domain, dto, calculators). Odoo's
+    # test runner does not collect them, so they run here, without Odoo.
+    name: Domain tests (no Odoo)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Run vn_core domain tests
+        run: python -I tools/run_domain_tests.py --verbose
+
+  odoo-tests:
+    name: Odoo tests
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          # Throwaway credentials for the CI service container only.
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U odoo"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v4
+        with:
+          path: addons
+
+      - name: Check out Odoo ${{ env.ODOO_BRANCH }}
+        uses: actions/checkout@v4
+        with:
+          repository: odoo/odoo
+          ref: ${{ env.ODOO_BRANCH }}
+          path: odoo
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: odoo/requirements.txt
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends \
+            build-essential libldap2-dev libsasl2-dev libpq-dev \
+            libxml2-dev libxslt1-dev libjpeg-dev zlib1g-dev libffi-dev \
+            postgresql-client
+
+      - name: Install Odoo requirements
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install -r odoo/requirements.txt
+
+      - name: Install modules and run their tests
+        env:
+          PGHOST: localhost
+          PGPORT: "5432"
+          PGUSER: odoo
+          PGPASSWORD: odoo
+        run: |
+          tags=$(echo "$MODULES" | sed 's/[^,]*/\/&/g')
+          set +e
+          python odoo/odoo-bin \
+            --addons-path="$GITHUB_WORKSPACE/odoo/addons,$GITHUB_WORKSPACE/addons" \
+            --db_host="$PGHOST" --db_port="$PGPORT" \
+            --db_user="$PGUSER" --db_password="$PGPASSWORD" \
+            -d ci -i "$MODULES" \
+            --test-enable --test-tags "$tags" \
+            --stop-after-init --log-level=test \
+            2>&1 | tee odoo-test.log
+          status=${PIPESTATUS[0]}
+          set -e
+
+          # Odoo 20 exits non-zero when tests fail; the log checks below are an
+          # extra safeguard (errors logged outside a test, nothing collected)
+          # and are needed on older versions, whose exit code is unreliable.
+          # The summary logger is odoo.tests.result (16.0+) or
+          # odoo.tests.runner (14.0/15.0).
+          summary='odoo\.tests\.(result|runner): '
+          failed=0
+          if [ "$status" -ne 0 ]; then
+            echo "::error::odoo-bin exited with status $status"
+            failed=1
+          fi
+          if grep -E ' (ERROR|CRITICAL) ' odoo-test.log > odoo-errors.log; then
+            echo "::error::$(wc -l < odoo-errors.log) ERROR/CRITICAL line(s) in the Odoo log"
+            cat odoo-errors.log
+            failed=1
+          fi
+          if ! grep -qE "$summary" odoo-test.log; then
+            echo "::error::No Odoo test summary line: tests did not run"
+            failed=1
+          else
+            if grep -E "$summary([1-9][0-9]* failed|[0-9]+ failed, [1-9][0-9]* error)" odoo-test.log; then
+              echo "::error::Odoo test summary reports failures or errors"
+              failed=1
+            fi
+            if grep -E "$summary.* of 0 tests" odoo-test.log; then
+              echo "::error::Odoo test summary reports 0 tests: nothing ran"
+              failed=1
+            fi
+          fi
+          grep -E "$summary" odoo-test.log || true
+          exit $failed
+
+      - name: Upload Odoo log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: odoo-test-log
+          path: odoo-test.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+  lint:
+    # Only the files a push or pull request adds are checked: the existing
+    # code predates the pre-commit config (black would reformat ~113
+    # files), so editing an old file must not fail the build, while new
+    # code is held to the standard.
+    name: Lint (new files)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-py3.12-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Install pre-commit
+        run: python -m pip install pre-commit
+
+      - name: Run pre-commit on new files
+        env:
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          base="$PR_BASE"
+          if [ -z "$base" ]; then
+            base="$PUSH_BEFORE"
+          fi
+          # New branch, force push or manual run: fall back to the parent commit.
+          if [ -z "$base" ] || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            base=$(git rev-parse HEAD~1)
+          fi
+          set -o pipefail
+          echo "Checking files added in $base...HEAD"
+          git diff -z --name-only --diff-filter=A "$base...HEAD" \
+            | xargs -0 -r pre-commit run --show-diff-on-failure --color=always --files

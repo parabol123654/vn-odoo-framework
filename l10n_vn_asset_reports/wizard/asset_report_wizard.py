@@ -102,6 +102,13 @@ class VnAssetReportWizard(models.TransientModel):
             return 'BẢNG TÍNH VÀ PHÂN BỔ KHẤU HAO TSCĐ'
         return 'SỔ TÀI SẢN CỐ ĐỊNH'
 
+    def _form_preparer(self):
+        # Only the S21-DN register is a book; the card and the allocation
+        # sheet keep the mixin's label.
+        if self.layout == 'register':
+            return self._book_preparer()
+        return super()._form_preparer()
+
     def _screen_template(self):
         if self.layout == 'card':
             return 'l10n_vn_asset_reports.asset_card_screen'

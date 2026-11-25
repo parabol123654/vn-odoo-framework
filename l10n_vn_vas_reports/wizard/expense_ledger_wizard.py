@@ -81,6 +81,9 @@ class VnExpenseLedgerWizard(models.TransientModel):
     def _report_form_title(self):
         return 'SỔ CHI PHÍ SẢN XUẤT, KINH DOANH'
 
+    def _form_preparer(self):
+        return self._book_preparer()
+
     def _screen_template(self):
         return 'l10n_vn_vas_reports.expense_ledger_screen'
 
