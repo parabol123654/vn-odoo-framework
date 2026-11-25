@@ -169,12 +169,10 @@ class AccountMove(models.Model):
             .search([("move_id", "=", self.id)])
             .mapped("asset_id")
         )
-        action = self.env.ref("account_asset_management.account_asset_action")
+        action = self.env.ref("vn_account_asset.account_asset_action")
         action_dict = action.sudo().read()[0]
         if len(assets) == 1:
-            res = self.env.ref(
-                "account_asset_management.account_asset_view_form", False
-            )
+            res = self.env.ref("vn_account_asset.account_asset_view_form", False)
             action_dict["views"] = [(res and res.id or False, "form")]
             action_dict["res_id"] = assets.id
         elif assets:

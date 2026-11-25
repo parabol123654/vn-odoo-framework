@@ -32,6 +32,19 @@ Assets Management
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
+.. note::
+
+   ``vn_account_asset`` is a port to Odoo 20.0 of OCA's
+   ``account_asset_management`` (branch 19.0), kept in
+   `vn-odoo-framework <https://github.com/parabol123654/vn-odoo-framework>`_
+   until OCA publishes its own 20.0 branch. It is renamed because the Odoo
+   Apps Store reserves the name ``account_asset_management`` for OCA's
+   module; the two cannot be installed together. The data model is the same,
+   but moving a database to OCA's module later is a migration (module and
+   XML id records must be renamed), not a swap of folders. Report problems
+   with this port in that repository, not to OCA. The badges, links and
+   history below are OCA's and refer to their module.
+
 This Module manages the assets owned by a company. It will keep track of
 depreciation's occurred on those assets. And it allows to create
 accounting entries from the depreciation lines.

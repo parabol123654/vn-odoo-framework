@@ -43,6 +43,7 @@
         'views/partner_ledger_wizard_views.xml',
         'views/currency_ledger_wizard_views.xml',
         'views/fx_revaluation_wizard_views.xml',
+        'views/period_closing_wizard_views.xml',
         'views/cash_book_wizard_views.xml',
         'views/aging_wizard_views.xml',
         'views/income_statement_wizard_views.xml',

@@ -3,7 +3,7 @@
 <odoo>
 
     <!--
-        Ba báo cáo TSCĐ trên cùng một subledger (OCA account_asset_management).
+        Ba báo cáo TSCĐ trên cùng một subledger (vn_account_asset (port of OCA account_asset_management)).
 
         Cột "Nước sản xuất" của mẫu S21-DN in trống có chủ đích: subledger
         không có dữ liệu đó, và in trống trung thực hơn là bịa. Ai cần thì
