@@ -100,6 +100,13 @@ class VnStockCardWizard(models.TransientModel):
         return ('BẢNG TỔNG HỢP CHI TIẾT VẬT LIỆU, DỤNG CỤ, '
                 'SẢN PHẨM, HÀNG HÓA')
 
+    def _form_preparer(self):
+        # Only the S10-DN ledger is a book; the card and the summary keep the
+        # mixin's label.
+        if self.layout == 'ledger':
+            return self._book_preparer()
+        return super()._form_preparer()
+
     def _screen_template(self):
         if self.layout == 'ledger':
             return 'l10n_vn_stock_reports.stock_ledger_screen'
