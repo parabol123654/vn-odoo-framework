@@ -5,19 +5,21 @@
     'version': '16.0.1.0.0',
     'category': 'Accounting/Localizations/Reporting',
     'summary': 'Vietnamese fixed asset books S21-DN and S23-DN and the '
-               'depreciation allocation sheet 06-TSCD, on OCA '
-               'account_asset_management',
+               'depreciation allocation sheet 06-TSCD, on vn_account_asset '
+               '(OCA account_asset_management, vendored)',
     'author': 'Manh Nguyen',
     'license': 'AGPL-3',
     'website': 'https://github.com/parabol123654/vn-odoo-framework',
     'support': 'parabol123654@gmail.com',
     'images': ['static/description/banner.png'],
     # Split out because these reports need an asset subledger, and
-    # Odoo 16 Community has none — the data comes from OCA
-    # account_asset_management (repo OCA/account-financial-tools, branch
-    # 16.0). A company keeping ordinary books without asset accounting has no
-    # reason to install that stack.
-    'depends': ['vn_core', 'l10n_vn_vas_reports', 'account_asset_management'],
+    # Odoo 16 Community has none — the data comes from vn_account_asset,
+    # OCA's account_asset_management (OCA/account-financial-tools, branch
+    # 16.0) vendored in this repository without its XLSX report, and renamed
+    # because the Apps Store keeps that name for OCA's module. A company
+    # keeping ordinary books without asset accounting has no reason to
+    # install that stack.
+    'depends': ['vn_core', 'l10n_vn_vas_reports', 'vn_account_asset'],
     'data': [
         'security/vn_asset_report_groups.xml',
         'security/ir.model.access.csv',

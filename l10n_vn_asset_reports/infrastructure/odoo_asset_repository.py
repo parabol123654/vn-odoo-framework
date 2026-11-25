@@ -2,7 +2,8 @@
 # Target: Odoo 16.0 Community Edition
 """Odoo implementation of ``IAssetRepository``.
 
-Reads the asset subledger of OCA ``account_asset_management``:
+Reads the asset subledger of ``vn_account_asset`` (OCA
+``account_asset_management`` vendored in this repository, same data model):
 ``account.asset``, ``account.asset.line`` and ``account.asset.profile``.
 
 Which account a depreciation was charged to is read from the **posted journal
