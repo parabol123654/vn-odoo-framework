@@ -93,6 +93,9 @@ class VnCashBookWizard(models.TransientModel):
         return self._by_circular({'TT200': 'SỔ TIỀN GỬI NGÂN HÀNG',
                                   'TT99': 'SỔ TIỀN GỬI KHÔNG KỲ HẠN'})
 
+    def _form_preparer(self):
+        return self._book_preparer()
+
     def _screen_template(self):
         return 'l10n_vn_vas_reports.cash_book_screen'
 
