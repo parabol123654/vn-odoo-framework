@@ -1,6 +1,10 @@
 default_language_version:
     python: python3
 
+# Vendored third-party code (OCA's account_asset_management as
+# vn_account_asset) keeps its upstream formatting.
+exclude: ^vn_account_asset/
+
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v4.2.0
