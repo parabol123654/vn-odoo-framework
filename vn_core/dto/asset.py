@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Fixed-asset DTOs.
 
-The asset reports read the asset subledger — OCA ``account_asset_management``
-on the Odoo side — but nothing here knows that: these are the shapes the
+The asset reports read the asset subledger — ``vn_account_asset``, OCA's
+``account_asset_management`` vendored, on the Odoo side — but nothing here
+knows that: these are the shapes the
 Engine computes with, and the fake repository in the tests is their second
 producer, same as every other domain.
 

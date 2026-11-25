@@ -3,7 +3,8 @@
 
 The asset reports read an asset **subledger** — per-asset records with their
 own depreciation schedule — not the general ledger. On the Odoo side that
-subledger is OCA ``account_asset_management``; this interface is what keeps
+subledger is ``vn_account_asset`` (OCA ``account_asset_management``,
+vendored in this repository); this interface is what keeps
 the Engine ignorant of that fact, and the in-memory fake in the tests is the
 second implementation that keeps the interface honest.
 """
