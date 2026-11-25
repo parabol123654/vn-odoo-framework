@@ -52,7 +52,7 @@ install Inventory or Manufacturing to get the accounting books.
 
 Cash receipts and payments (**Phiếu thu 01-TT / Phiếu chi 02-TT**) print
 straight from the journal entry. Period-end revaluation of foreign-currency
-balances is under Accounting → Closing → Foreign Currency Revaluation.
+balances is under Accounting → Accounting → Actions → Foreign Currency Revaluation.
 
 ## Installation
 
@@ -90,6 +90,13 @@ works with `l10n_vn` or any other chart of accounts.
   financial statement. Accounts are selected by expression (`511*`,
   `111*,112*,-1113`) and totals by formula (`10 - 11`). Formulas are parsed, not
   passed to `eval`. No account code is hard-coded in Python.
+* **Accounting → Accounting → Actions → Period-End Closing**: the accounts closed to 911 are
+  expressions too, defaulted from the circular; check them, and the 511, 911
+  and 4212 accounts, the first time. Only the selected company's own entries
+  are closed, not its branches'. The income statement leaves out entries
+  touching 911 or 421, so closing does not change it. One exception by design:
+  under TT200, B02-DN item 02 is the debit of 511, so sales deductions appear
+  there only once 521 has been transferred.
 
 Clicking a line of the balance sheet or income statement opens the general
 ledger for exactly the accounts behind that figure.
@@ -113,6 +120,26 @@ ledger for exactly the accounts behind that figure.
 | PostgreSQL | 12+ |
 
 Other Odoo versions are on the branches of this repository.
+
+## Development
+
+The reporting engines in `vn_core` (`core`, `domain`, `dto`) do not depend on
+Odoo, and most of their tests are plain `unittest` cases. Odoo's test runner
+does not pick those up, so run them directly, no Odoo or database needed:
+
+```bash
+python3 tools/run_domain_tests.py        # add -v to list each test
+```
+
+Test modules that import `odoo` are skipped there; they run with
+`odoo-bin --test-enable`.
+
+CI (`.github/workflows/ci.yml`) runs both suites on every push and pull
+request to `15.0`: the domain tests on plain Python 3.9, and the Odoo tests of
+the four modules other than the asset reports (which need OCA modules) on
+Odoo 15.0 with PostgreSQL 16. It also runs the
+`.pre-commit-config.yaml` hooks on the files a change adds
+(new code must pass them; existing files predate the formatter).
 
 ## License and support
 
